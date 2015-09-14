@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@null">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/rewardCardLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="140.0dip"
+            android:layout_gravity="center"
+            android:layout_marginRight="4.0dip"
+            android:layout_marginTop="8.0dip"
+            android:background="@drawable/reward_card_background"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="33.0dip"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4.0dip"
+                    android:gravity="center"
+                    android:text="Shoprite"
+                    android:textColor="#ff000000"
+                    android:textSize="22.0sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/rewardPhotoIcon"
+                    android:layout_width="14.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="26.0dip"
+                    android:layout_marginTop="10.0dip"
+                    android:gravity="center|right"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/picture_dark" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/barcodeImageView"
+                android:layout_width="400.0dip"
+                android:layout_height="40.0dip"
+                android:layout_gravity="center"
+                android:layout_weight="0.0"
+                android:gravity="center"
+                android:scaleType="center"
+                android:src="@null" />
+
+            <TextView
+                android:id="@+id/barcodeValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="24.0dip"
+                android:layout_gravity="center"
+                android:paddingLeft="5.0dip"
+                android:paddingTop="5.0dip"
+                android:text="1234567890"
+                android:textColor="@drawable/text_color_selector"
+                android:textSize="14.0sp" />
+
+            <TextView
+                android:id="@+id/rewardNoteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="22.0dip"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="3.0dip"
+                android:gravity="bottom|center"
+                android:text=""
+                android:textColor="#ff959595"
+                android:textSize="10.0sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="48.0dip"
+                android:layout_height="46.0dip"
+                android:layout_gravity="right"
+                android:layout_marginRight="4.0dip"
+                android:layout_marginTop="-43.0dip"
+                android:layout_weight="0.0"
+                android:gravity="bottom|center|right"
+                android:scaleType="center"
+                android:src="@drawable/reward_menu_button_states" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/couponLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="200.0dip"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8.0dip"
+            android:layout_marginLeft="8.0dip"
+            android:layout_marginRight="8.0dip"
+            android:layout_marginTop="8.0dip"
+            android:background="@drawable/coupon_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="42.0dip"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/alertSetIcon"
+                    android:layout_width="15.0dip"
+                    android:layout_height="15.0dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center|right"
+                    android:layout_marginLeft="24.0dip"
+                    android:layout_marginTop="13.0dip"
+                    android:layout_weight="0.0"
+                    android:gravity="center|right"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/alarm_notification_black" />
+
+                <TextView
+                    android:id="@+id/couponNameTextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="42.0dip"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4.0dip"
+                    android:layout_marginTop="5.0dip"
+                    android:gravity="center"
+                    android:text="Shoprite"
+                    android:textColor="#ff000000"
+                    android:textSize="22.0sp" />
+
+                <ImageView
+                    android:id="@+id/couponPhotoIcon"
+                    android:layout_width="14.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="25.0dip"
+                    android:layout_marginTop="10.0dip"
+                    android:gravity="center|right"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/picture_dark" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="fill_parent"
+                android:layout_height="2.0dip"
+                android:layout_marginLeft="32.0dip"
+                android:layout_marginRight="32.0dip"
+                android:background="@drawable/coupon_divider" />
+
+            <TextView
+                android:id="@+id/couponValueTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="42.0dip"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4.0dip"
+                android:layout_marginTop="3.0dip"
+                android:gravity="center"
+                android:text="50% OFF ANY ITEM "
+                android:textColor="#ff89a923"
+                android:textSize="22.0sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="fill_parent"
+                android:layout_height="2.0dip"
+                android:layout_marginLeft="32.0dip"
+                android:layout_marginRight="32.0dip"
+                android:background="@drawable/coupon_divider" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="32.0dip"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/couponExpiryTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24.0dip"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="4.0dip"
+                        android:layout_marginTop="16.0dip"
+                        android:background="#ffa8b1b0"
+                        android:gravity="center"
+                        android:paddingLeft="4.0dip"
+                        android:paddingRight="4.0dip"
+                        android:text="EXPIRES 9/30/2013"
+                        android:textColor="#ffdee3e6"
+                        android:textSize="12.0sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/couponNoteTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42.0dip"
+                        android:layout_gravity="center|top"
+                        android:gravity="center|top"
+                        android:text="This is a note"
+                        android:textColor="#ff323635"
+                        android:textSize="10.0sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/couponBarcodeLayout"
+                    android:layout_width="120.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="44.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/couponBarcodeImageView"
+                        android:layout_width="132.0dip"
+                        android:layout_height="40.0dip"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="16.0dip"
+                        android:layout_weight="0.0"
+                        android:gravity="left"
+                        android:scaleType="center"
+                        android:src="@null" />
+
+                    <TextView
+                        android:id="@+id/couponBarcodeValueTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24.0dip"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="#ff323635"
+                        android:textSize="12.0sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/offerCodeLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="48.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/offerCodeLabel"
+                        android:layout_width="100.0dip"
+                        android:layout_height="24.0dip"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="4.0dip"
+                        android:background="#ffa8b1b0"
+                        android:gravity="center"
+                        android:text="OFFER CODE"
+                        android:textColor="#ffdee3e6"
+                        android:textSize="12.0sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/offerCodeValueTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24.0dip"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textColor="#ff323635"
+                        android:textSize="13.0sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/couponMenuButton"
+                    android:layout_width="43.0dip"
+                    android:layout_height="43.0dip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="bottom|center|right"
+                    android:layout_marginBottom="12.0dip"
+                    android:layout_marginRight="22.0dip"
+                    android:gravity="bottom|center|right"
+                    android:scaleType="center"
+                    android:src="@drawable/reward_menu_button_states" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/giftCardLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="220.0dip"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8.0dip"
+            android:layout_marginLeft="8.0dip"
+            android:layout_marginRight="8.0dip"
+            android:layout_marginTop="8.0dip"
+            android:background="@drawable/gift_card_background"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/giftCardNameLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="43.0dip"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10.0dip"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/giftCardAlertSetIcon"
+                    android:layout_width="14.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center|right"
+                    android:layout_marginLeft="24.0dip"
+                    android:layout_marginTop="13.0dip"
+                    android:layout_weight="0.0"
+                    android:gravity="center|right"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/alarm_notification_black" />
+
+                <TextView
+                    android:id="@+id/giftCardNameTextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="43.0dip"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Shoprite"
+                    android:textColor="#ff000000"
+                    android:textSize="22.0sp" />
+
+                <ImageView
+                    android:id="@+id/giftPhotoIcon"
+                    android:layout_width="14.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="24.0dip"
+                    android:layout_marginTop="13.0dip"
+                    android:gravity="center|right"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/picture_dark" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/giftCardBarcodeImageView"
+                android:layout_width="400.0dip"
+                android:layout_height="43.0dip"
+                android:layout_below="@+id/giftCardNameLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="6.0dip"
+                android:gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/gk_barcode_grey" />
+
+            <TextView
+                android:id="@+id/giftCardBarcodeValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="34.0dip"
+                android:layout_below="@+id/giftCardBarcodeImageView"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="5.0dip"
+                android:paddingTop="5.0dip"
+                android:text="1234567890"
+                android:textColor="@drawable/text_color_selector"
+                android:textSize="14.0sp" />
+
+            <LinearLayout
+                android:id="@+id/giftCardBalanceLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="21.5dip"
+                android:layout_marginLeft="32.0dip"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/giftCardBalanceLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4.0dip"
+                    android:gravity="center"
+                    android:paddingLeft="4.0dip"
+                    android:paddingRight="4.0dip"
+                    android:text="BALANCE"
+                    android:textColor="#ff989998"
+                    android:textSize="9.0sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/giftCardBalanceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42.0dip"
+                    android:layout_gravity="center|top"
+                    android:gravity="center|top"
+                    android:text="$198.98"
+                    android:textColor="#ffffffff"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/giftCardExpiryLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="21.5dip"
+                android:layout_marginRight="32.0dip"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/giftCardExpiryLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4.0dip"
+                    android:gravity="center"
+                    android:paddingLeft="4.0dip"
+                    android:paddingRight="4.0dip"
+                    android:text="EXPIRES"
+                    android:textColor="#ff989998"
+                    android:textSize="9.0sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/giftCardExpiryTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42.0dip"
+                    android:layout_gravity="center|top"
+                    android:gravity="center|top"
+                    android:text="01/10/2014"
+                    android:textColor="#ffffffff"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/giftCardPINTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="16.0dip"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="12.5dip"
+                android:gravity="center"
+                android:paddingLeft="4.0dip"
+                android:paddingRight="4.0dip"
+                android:text="PIN# 1264"
+                android:textColor="#ff000000"
+                android:textSize="12.0sp" />
+
+            <ImageView
+                android:id="@+id/giftCardMenuButton"
+                android:layout_width="48.0dip"
+                android:layout_height="46.0dip"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="4.0dip"
+                android:layout_marginTop="-33.0dip"
+                android:layout_weight="0.0"
+                android:gravity="bottom|center|right"
+                android:scaleType="center"
+                android:src="@drawable/reward_menu_button_states" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/drag"
+        android:layout_width="48.0dip"
+        android:layout_height="46.0dip"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="right"
+        android:layout_marginRight="10.0dip"
+        android:gravity="right"
+        android:scaleType="center"
+        android:src="@drawable/ic_action_drag" />
+</RelativeLayout>

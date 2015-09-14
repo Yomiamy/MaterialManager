@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.material.management.IStatusUpdate;
 import com.material.management.MMFragment;
 import com.material.management.MainActivity;
@@ -27,6 +28,8 @@ import com.material.management.dialog.LightProgressDialog;
 import com.material.management.monitor.MonitorService;
 import com.material.management.service.CloudService;
 import com.material.management.service.IBackupRestore;
+
+
 import com.material.management.utils.Utility;
 
 public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
@@ -45,6 +48,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private int mNotifFreq;
     private String[] mFontSizeScaleTitles;
     private String[] mFontSizeScaleLeves;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -116,8 +120,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
         mSpinFontSizeChange.setAdapter(fontSizeSpinAdapter);
         mSpinFontSizeChange.setOnItemSelectedListener(this);
-        for(int i = 0, len = mFontSizeScaleTitles.length ; i < len ; i++) {
-            if(defaultScaleFact.equals(mFontSizeScaleLeves[i])) {
+        for (int i = 0, len = mFontSizeScaleTitles.length; i < len; i++) {
+            if (defaultScaleFact.equals(mFontSizeScaleLeves[i])) {
                 mSpinFontSizeChange.setSelection(i);
             }
         }
@@ -159,7 +163,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     public void onItemSelected(AdapterView<?> adapter, View selectedView, int pos, long id) {
         int vId = adapter.getId();
 
-        if(vId == R.id.spin_notification_frequency) {
+        if (vId == R.id.spin_notification_frequency) {
             mNotifFreq = Integer.parseInt(((TextView) selectedView).getText().toString().trim());
             Intent intent = new Intent();
             Utility.setIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND, mIsNotifVibrateOrSound);
@@ -171,7 +175,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
             /* if immeditly_triggered== false , it will delay one ExpireMonitorRunnable checking */
             intent.putExtra("immeditly_triggered", false);
             Utility.getContext().sendBroadcast(intent);
-        } else if(vId == R.id.spin_font_size_scale_factor) {
+        } else if (vId == R.id.spin_font_size_scale_factor) {
             Utility.setStringValueForKey(Utility.FONT_SIZE_SCALE_FACTOR, mFontSizeScaleLeves[pos]);
             sActivity.updateLayoutConfig();
             changeLayoutConfig(mLayout);
@@ -198,7 +202,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                     e.printStackTrace();
                 }
             }
-        } else if(id == R.id.cb_dropbox_enable) {
+        } else if (id == R.id.cb_dropbox_enable) {
             boolean isChecked = !mCbDropBox.isChecked();
 
             mCbDropBox.setChecked(isChecked);
@@ -278,12 +282,12 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
             if (mProgressDialog != null) {
                 sActivity.runOnUiThread(new Runnable() {
 
-                       @Override
-                       public void run() {
-                           mProgressDialog.setMessage(msg);
-                           mProgressDialog.setProgress(progress);
-                       }
-                   });
+                    @Override
+                    public void run() {
+                        mProgressDialog.setMessage(msg);
+                        mProgressDialog.setProgress(progress);
+                    }
+                });
             }
         }
 
