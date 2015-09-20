@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!--Common-->
-    <string name="version_number">2.5.11</string>
-    <integer name="version_code">44</integer>
+    <string name="version_number">2.5.13</string>
+    <integer name="version_code">47</integer>
     <string name="place_api_key">AIzaSyB_1jcVRcsziBZ5nB796flr3GUGOeUiNUw</string>
 
     <string name="title_notice_dialog">!!! Notice !!!</string>
