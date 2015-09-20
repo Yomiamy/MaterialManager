@@ -16,12 +16,15 @@
 
     <!--MainActivity-->
     <dimen name="slide_menu_item_text_size">22sp</dimen>
-    <dimen name="slide_menu_item_padding_top">20dp</dimen>
-    <dimen name="slide_menu_item_padding_bottom">20dp</dimen>
+    <dimen name="slide_menu_item_padding_top">10dp</dimen>
+    <dimen name="slide_menu_item_padding_bottom">10dp</dimen>
 
     <dimen name="slide_menu_subitem_text_size">22sp</dimen>
     <dimen name="slide_menu_subitem_icon_width_size">40dp</dimen>
-    <dimen name="slide_menu_subitem_icon_height_size">85dp</dimen>
+    <dimen name="slide_menu_subitem_icon_height_size">75dp</dimen>
+
+    <!-- fragment_login_material_layout -->
+    <dimen name="login_material_content_padding_bottom">70dp</dimen>
 
     <!--AlertDialog-->
     <dimen name="alert_dialog_text_size">25sp</dimen>

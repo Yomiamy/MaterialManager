@@ -10,6 +10,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:paddingBottom="@dimen/login_material_content_padding_bottom"
         android:background="@color/bg_grocery_login"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
