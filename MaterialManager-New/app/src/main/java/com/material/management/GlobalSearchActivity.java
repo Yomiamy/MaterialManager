@@ -265,6 +265,11 @@ public class GlobalSearchActivity extends MMActivity {
         }
 
         @Override
+        public boolean isEnabled(int position) {
+            return !mList.get(position).isHead();
+        }
+
+        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             GlobalSearchData item = mList.get(position);

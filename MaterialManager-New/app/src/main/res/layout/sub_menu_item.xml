@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/iv_menu_sub_item_img"
         android:layout_width="30dp"
-        android:layout_height="50dp"
+        android:layout_height="47dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:src="@drawable/gear_48" />

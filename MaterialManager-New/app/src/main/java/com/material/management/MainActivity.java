@@ -32,6 +32,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
@@ -70,10 +71,13 @@ public class MainActivity extends SlidingActivity {
             mLayout = mInflater.inflate(R.layout.activity_main_layout, null);
 
             setContentView(mLayout);
+            // Show status bar
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mActionBar.show();
             mActionBar.setDisplayShowTitleEnabled(true);
             mActionBar.setDisplayHomeAsUpEnabled(true);
             changeHomeAsUpIcon(R.drawable.ic_drawer);
+
             mSlideMenu.setSlidingEnabled(true);
             mLvSlideMenu.setCacheColorHint(0);
             mLvSlideMenu.setAdapter(mMenuAdapter);
@@ -136,6 +140,8 @@ public class MainActivity extends SlidingActivity {
         setBehindContentView(mLvSlideMenu);
         setContentView(R.layout.splash_screen_layout);
         mActionBar.hide();
+        // Hide status bar
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mSlideMenu.setShadowWidthRes(R.dimen.shadow_width);
         mSlideMenu.setShadowDrawable(R.drawable.shadow);

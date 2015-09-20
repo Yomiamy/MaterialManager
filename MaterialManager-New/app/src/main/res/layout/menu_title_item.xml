@@ -12,8 +12,8 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="6dip"
         android:gravity="center_vertical"
-        android:paddingBottom="12dip"
-        android:paddingTop="12dip"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
         android:textAllCaps="true"
         android:textColor="#f7f7f7"
         android:textStyle="bold" />
