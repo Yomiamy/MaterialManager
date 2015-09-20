@@ -9,10 +9,17 @@
     android:id="@+id/rl_fragment_content_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:contex=".MainActivity">
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_splash_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_splash_screen" />
 </RelativeLayout>

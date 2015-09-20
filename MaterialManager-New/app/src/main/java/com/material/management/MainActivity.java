@@ -48,6 +48,7 @@ public class MainActivity extends SlidingActivity {
     private Menu mOptionMenu;
     private ActionBar mActionBar;
     private ListView mLvSlideMenu;
+    private ImageView mImSplash;
     private SearchView mSvSearchView;
 
     private Fragment mCurFragment;
@@ -68,9 +69,9 @@ public class MainActivity extends SlidingActivity {
         @Override
         public void run() {
             mMenuAdapter = new MenuAdapter(MainActivity.this);
-            mLayout = mInflater.inflate(R.layout.activity_main_layout, null);
 
-            setContentView(mLayout);
+            mLayout.setBackgroundColor(mResources.getColor(R.color.white));
+            mImSplash.setVisibility(View.GONE);
             // Show status bar
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mActionBar.show();
@@ -91,30 +92,24 @@ public class MainActivity extends SlidingActivity {
 
             /* Check the notification's pending intent, if the notification is clicked */
             Intent intent = getIntent();
+            MenuAdapter.MenuItem item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(1);
 
             if (intent != null) {
                 mBundle = intent.getExtras();
 
                 if (mBundle != null) {
                     int bundleType = mBundle.getInt(BundleInfo.BUNDLE_KEY_BUNDLE_TYPE);
+
                     if (bundleType == BundleType.BUNDLE_TYPE_NOTIFICATION.value()) {
-                        MenuAdapter.MenuItem item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(2);
+                        item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(2);
 
-                        setFragment(item.fragmentClass, item.name);
                         mBundle = null;
+                        setIntent(null);
                     }
-                } else {
-                        /* Triggle the first sub item. */
-                    MenuAdapter.MenuItem item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(1);
-
-                    Log.d(MaterialManagerApplication.TAG, "setFragment is called...");
-                    setFragment(item.fragmentClass, item.name);
                 }
-            } else {
-                        /* Triggle the first sub item. */
-                MenuAdapter.MenuItem item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(1);
+            }
 
-                Log.d(MaterialManagerApplication.TAG, "setFragment is called...");
+            if (item != null) {
                 setFragment(item.fragmentClass, item.name);
             }
             mHandler.removeCallbacksAndMessages(null);
@@ -136,9 +131,12 @@ public class MainActivity extends SlidingActivity {
         mIsSettingPressed = false;
         mIsFirstBackKeyPress = false;
         mLvSlideMenu = (ListView) getLayoutInflater().inflate(R.layout.sliding_menu, null);
+        mLayout = getLayoutInflater().inflate(R.layout.activity_main_layout, null);
 
         setBehindContentView(mLvSlideMenu);
-        setContentView(R.layout.splash_screen_layout);
+        setContentView(mLayout);
+        mImSplash = (ImageView) findViewById(R.id.iv_splash_screen);
+
         mActionBar.hide();
         // Hide status bar
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -409,6 +407,7 @@ public class MainActivity extends SlidingActivity {
         mIsFirstBackKeyPress = false;
 
         changeHomeAsUpIcon(R.drawable.ic_drawer);
+        Log.d("randy", "setFragment " + fragmentClass.toString());
         if (!mResumed || fragmentClass == null) {
             if (tag.equals(getString(R.string.slidemenu_material_about))) {
                 AboutDialog about = new AboutDialog(this);
@@ -424,7 +423,7 @@ public class MainActivity extends SlidingActivity {
                 i.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_content, deviceInfo.getPlatformVersion(), deviceInfo.getAppVersion(), deviceInfo.getDevice()));
 
                 startActivity(Intent.createChooser(i, getString(R.string.feedback_subject)));
-            } else if(tag.equals(getString(R.string.slidemenu_material_global_search))) {
+            } else if (tag.equals(getString(R.string.slidemenu_material_global_search))) {
                 Intent intent = new Intent(this, GlobalSearchActivity.class);
 
                 startActivity(intent);
