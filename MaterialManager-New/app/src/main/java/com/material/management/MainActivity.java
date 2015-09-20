@@ -407,7 +407,6 @@ public class MainActivity extends SlidingActivity {
         mIsFirstBackKeyPress = false;
 
         changeHomeAsUpIcon(R.drawable.ic_drawer);
-        Log.d("randy", "setFragment " + fragmentClass.toString());
         if (!mResumed || fragmentClass == null) {
             if (tag.equals(getString(R.string.slidemenu_material_about))) {
                 AboutDialog about = new AboutDialog(this);
