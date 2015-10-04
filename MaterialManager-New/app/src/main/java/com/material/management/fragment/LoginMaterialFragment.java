@@ -65,7 +65,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     private static final int REQ_SELECT_PICTURE = 2;
     //    private static final String CATEGORY_IS_INITIALIZED = "category_is_initialized";
     private static final String DATEPICKER_TAG = "datepicker";
-    private static MainActivity sActivity;
     private static Pattern sMaterialNameErrorPattern = Pattern.compile(".*[\\\\/?]+.*", Pattern.DOTALL);
 
     private View mLayout;
@@ -104,8 +103,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        sActivity = (MainActivity) getActivity();
-        mImm = (InputMethodManager) sActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImm = (InputMethodManager) mOwnerActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         mLayout = inflater.inflate(R.layout.fragment_login_material_layout, container, false);
         boolean isInitialized = Utility.getBooleanValueForKey(Utility.CATEGORY_IS_INITIALIZED);
         mOptions = new Options();
@@ -156,7 +154,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3);
 
         if (isNeedDbWarnDialog != 0) {
-            AlertDialog.Builder warnDialog = new AlertDialog.Builder(sActivity, R.style.AlertDialogTheme);
+            AlertDialog.Builder warnDialog = new AlertDialog.Builder(mOwnerActivity, R.style.AlertDialogTheme);
 
             warnDialog.setTitle(getResources().getString(R.string.title_db_upgrade_dialog));
             warnDialog.setMessage(getResources().getString(R.string.title_db_upgrade_msg));
@@ -187,8 +185,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
     @Override
     public void onDestroyView() {
-        sActivity = null;
-
         Utility.releaseBitmaps(mNewestBitmap);
 
         super.onDestroyView();
@@ -217,7 +213,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         }
 
         if (mCategoryAdapter == null) {
-            mCategoryAdapter = new ArrayAdapter<String>(sActivity, R.layout.view_spinner_item_layout, spinList) {
+            mCategoryAdapter = new ArrayAdapter<String>(mOwnerActivity, R.layout.view_spinner_item_layout, spinList) {
                 public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = super.getDropDownView(position, convertView, parent);
 
@@ -251,7 +247,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
             mTextHistoryList.addAll(Arrays.asList(Utility.getStringValueForKey(Utility.INPUT_TEXT_HISTORY).split(":")));
 
-            mTextHistAdapter = new ArrayAdapter<String>(sActivity, android.R.layout.simple_dropdown_item_1line, mTextHistoryList);
+            mTextHistAdapter = new ArrayAdapter<String>(mOwnerActivity, android.R.layout.simple_dropdown_item_1line, mTextHistoryList);
         } else {
             mTextHistAdapter.clear();
             mTextHistAdapter.addAll(mTextHistoryList);
@@ -283,7 +279,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                     }
 
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(sActivity, mNewestBitmap, this);
+                        mCropImgDialog = new CropImageDialog(mOwnerActivity, mNewestBitmap, this);
 
                         mCropImgDialog.show();
                     }
@@ -313,7 +309,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
                 /* Error handling */
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(sActivity, mNewestBitmap, this);
+                        mCropImgDialog = new CropImageDialog(mOwnerActivity, mNewestBitmap, this);
 
                         mCropImgDialog.show();
                     }
@@ -372,8 +368,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
         mPurchaceDate = Calendar.getInstance();
         mValidDate = Calendar.getInstance();
-        mNewestBitmap = ((BitmapDrawable) sActivity.getResources().getDrawable(R.drawable.ic_no_image_available)).getBitmap();
-        Drawable defaultBarcodeImg = sActivity.getResources().getDrawable(R.drawable.selector_barcode);
+        mNewestBitmap = ((BitmapDrawable) mOwnerActivity.getResources().getDrawable(R.drawable.ic_no_image_available)).getBitmap();
+        Drawable defaultBarcodeImg = mOwnerActivity.getResources().getDrawable(R.drawable.selector_barcode);
         mBarcode = "";
         mBarcodeFormat = "";
 
@@ -392,28 +388,28 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     }
 
     private String isAllowSave(Material material) {
-        StringBuilder msg = new StringBuilder(sActivity.getResources().getString(R.string.msg_error_msg_title));
+        StringBuilder msg = new StringBuilder(mOwnerActivity.getResources().getString(R.string.msg_error_msg_title));
         String materialType = material.getMaterialType().trim();
         String materialName = material.getName().trim();
         boolean isAllow = true;
 
         if (materialType.isEmpty()
                 || materialType.equals(this.getResources().getString(R.string.item_spinner_del))) {
-            msg.append(sActivity.getString(R.string.msg_error_no_spercify_material_type));
+            msg.append(mOwnerActivity.getString(R.string.msg_error_no_spercify_material_type));
             isAllow = isAllow && false;
         }
         if (material.getPurchaceDate().after(material.getValidDate())) {
-            msg.append(sActivity.getString(R.string.msg_error_no_correct_valid_date));
+            msg.append(mOwnerActivity.getString(R.string.msg_error_no_correct_valid_date));
             isAllow = isAllow && false;
         }
 
         if (materialName.isEmpty()) {
-            msg.append(sActivity.getString(R.string.msg_error_no_material_name));
+            msg.append(mOwnerActivity.getString(R.string.msg_error_no_material_name));
             isAllow = isAllow && false;
         }
 
         if (sMaterialNameErrorPattern.matcher(materialName).matches()) {
-            msg.append(sActivity.getString(R.string.msg_error_special_material_naming));
+            msg.append(mOwnerActivity.getString(R.string.msg_error_special_material_naming));
             isAllow = isAllow && false;
         }
 
@@ -546,7 +542,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             }
             break;
             case R.id.iv_add_photo: {
-                mSelectPhotoDialog = new SelectPhotoDialog(sActivity, getString(R.string.title_select_photo), new String[]{
+                mSelectPhotoDialog = new SelectPhotoDialog(mOwnerActivity, getString(R.string.title_select_photo), new String[]{
                         getString(R.string.title_select_photo_from_album),
                         getString(R.string.title_select_photo_from_camera)}, this);
 
@@ -576,7 +572,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
     @Override
     public void update(Object data) {
-        if (sActivity == null) {
+        if (mOwnerActivity == null) {
             return;
         }
 
@@ -607,7 +603,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                 } else {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme);
 
-                    dialog.setTitle(sActivity.getResources().getString(R.string.msg_error_dialog_title));
+                    dialog.setTitle(mOwnerActivity.getResources().getString(R.string.msg_error_dialog_title));
                     dialog.setMessage(msg);
                     dialog.setPositiveButton(getString(R.string.title_positive_btn_label), null);
                     dialog.show();
@@ -625,15 +621,16 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             mTextHistAdapter = null;
             initAutoCompleteData();
 
-            sActivity.setMenuItemVisibility(R.id.action_search, false);
-            sActivity.setMenuItemVisibility(R.id.menu_action_add, true);
-            sActivity.setMenuItemVisibility(R.id.menu_action_cancel, true);
-            sActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
-            sActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
-            sActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
-            sActivity.setMenuItemVisibility(R.id.menu_grid_1x1, false);
-            sActivity.setMenuItemVisibility(R.id.menu_grid_2x1, false);
-            sActivity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.action_search, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, true);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, true);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_1x1, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_2x1, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
         }
         mImm.hideSoftInputFromWindow(mLayout.getApplicationWindowToken(), 0);
     }

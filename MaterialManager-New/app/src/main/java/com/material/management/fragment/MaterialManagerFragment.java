@@ -353,17 +353,17 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         if (mOwnerActivity == null) {
             return;
         }
-        MainActivity mainActivity = (MainActivity) mOwnerActivity;
 
-        mainActivity.setMenuItemVisibility(R.id.action_search, true);
-        mainActivity.setMenuItemVisibility(R.id.menu_action_add, false);
-        mainActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
-        mainActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
-        mainActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
-        mainActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
-        mainActivity.setMenuItemVisibility(R.id.menu_grid_1x1, true);
-        mainActivity.setMenuItemVisibility(R.id.menu_grid_2x1, true);
-        mainActivity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.action_search, true);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_1x1, true);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_2x1, true);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
 
         ArrayList<Material> materialInfos = DBUtility.selectMaterialInfos();
 
@@ -376,8 +376,11 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             String materialName = bundle.getString(BundleInfo.BUNDLE_KEY_MATERIAL_NAME);
 
             ListAdapter adapter = mGvMaterialType.getAdapter();
-            if (adapter instanceof StreamAdapter) {
+            if (adapter instanceof StreamAdapter
+                    && (materialType != null && !materialType.isEmpty())
+                    && (materialName != null && !materialName.isEmpty())) {
                 ((StreamAdapter) adapter).triggerSelectMaterialType(materialType, materialName);
+                mOwnerActivity.setIntent(null);
             }
         }
     }
@@ -481,7 +484,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             String materialType = materialItem.getMaterialType();
 
             if (!mTypeMaterialMap.containsKey(materialType)) {
-                materialList = new ArrayList<Material>();
+                materialList = new ArrayList<>();
                 mTypeMaterialMap.put(materialType, materialList);
             }
 

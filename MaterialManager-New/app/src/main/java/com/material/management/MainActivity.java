@@ -13,20 +13,20 @@ import com.material.management.fragment.GroceryListFragment;
 import com.material.management.fragment.LoginGroceryListFragment;
 import com.material.management.fragment.LoginMaterialFragment;
 import com.material.management.fragment.MaterialManagerFragment;
+import com.material.management.fragment.RewardCardsFragment;
 import com.material.management.fragment.SettingsFragment;
 import com.material.management.monitor.MonitorService;
 import com.material.management.utils.Utility;
-
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,9 +68,13 @@ public class MainActivity extends SlidingActivity {
         @Override
         public void run() {
             mMenuAdapter = new MenuAdapter(MainActivity.this);
+            Bitmap splishBmp = ((BitmapDrawable)mImSplash.getDrawable()).getBitmap();
 
             mLayout.setBackgroundColor(mResources.getColor(R.color.white));
             mImSplash.setVisibility(View.GONE);
+            mImSplash.setImageDrawable(null);
+            Utility.releaseBitmaps(splishBmp);
+
             // Show status bar
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mActionBar.show();
@@ -338,6 +341,12 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             break;
+            case R.id.menu_action_new: {
+                if (mCurFragment != null && mCurFragment instanceof Observer
+                        && mCurFragment instanceof RewardCardsFragment) {
+                    ((Observer) mCurFragment).update(RewardCardsFragment.ACTION_BAR_BTN_ACTION_NEW);
+                }
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -529,6 +538,7 @@ public class MainActivity extends SlidingActivity {
             mMenus.add(new MenuItem(getString(R.string.slidemenu_grocery_title)));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_gcrocery_login_list_title), R.drawable.ic_login_grocery_list, LoginGroceryListFragment.class));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_gcrocery_list_view_title), R.drawable.ic_view_grocery_list, GroceryListFragment.class));
+            mMenus.add(new MenuItem(getString(R.string.slidemenu_gcrocery_reward_cards), R.drawable.reward_card_icon , RewardCardsFragment.class));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_grocery_history), R.drawable.ic_grocery_history, GroceryHistoryFragment.class));
 
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_other)));

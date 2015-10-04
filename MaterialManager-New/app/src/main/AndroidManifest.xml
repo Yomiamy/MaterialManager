@@ -48,7 +48,8 @@
     <application
         android:name="com.material.management.MaterialManagerApplication"
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:debuggable="true">
 
         <!-- Google Analytics Version v4 needs this value for easy tracking. GoogleAnalytics.getInstance() deadlocks while trying to parse the xml tracker definition.  -->
         <!--<meta-data android:name="com.google.android.gms.analytics.globalConfigResource"-->
@@ -236,6 +237,9 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.material.management.MaterialModifyActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".RewardLoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <provider
             android:name="com.material.management.provider.MaterialProvider"

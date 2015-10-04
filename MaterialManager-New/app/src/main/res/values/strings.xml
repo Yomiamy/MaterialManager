@@ -50,6 +50,7 @@
     <string name="slidemenu_grocery_title">Grocery Monitor</string>
     <string name="slidemenu_gcrocery_login_list_title">Login Grocery List</string>
     <string name="slidemenu_gcrocery_list_view_title">View Grocery List</string>
+    <string name="slidemenu_gcrocery_reward_cards">Cards</string>
     <string name="slidemenu_grocery_history">Grocery History</string>
 
     <string name="slidemenu_material_other">Others</string>
@@ -337,6 +338,18 @@
     <string name="msg_if_or_not_import_in_expired">Do you import the item(s) into expired monitor?</string>
     <string name="msg_err_store_address">Location can not be show on map</string>
     <string name="msg_err_store_phone">Phone information is incorrect</string>
+
+    <!-- RewardCardsFragment -->
+    <string name="reengagement_notification_message1">Add your first card now and never miss another reward!</string>
+    <string name="menu_add_button">Add card</string>
+    <string name="ghost_card_title">Add your first card</string>
+
+    <!-- RewardLoginActivity -->
+    <string name="title_card_id">CARD ID</string>
+    <string name="title_card_name">CARD NAME</string>
+    <string name="title_card_note">CARD NOTE</string>
+    <string name="title_card_name_hint">Enter Card Name</string>
+    <string name="title_card_note_hint">Enter Note(optional)</string>
 
     <!--GroceryHistoryFragment-->
     <string name="title_grocery_history_date_interval">Time interval</string>

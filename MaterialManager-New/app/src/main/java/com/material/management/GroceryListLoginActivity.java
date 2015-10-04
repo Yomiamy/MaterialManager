@@ -63,8 +63,6 @@ public class GroceryListLoginActivity extends MMActivity implements TimePickerDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_grocery_login);
-//        mLayout = mInflater.inflate(R.layout.fragment_grocery_login, null);
-//        setContentView(mLayout);
         setTitle(mTitle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -97,30 +95,6 @@ public class GroceryListLoginActivity extends MMActivity implements TimePickerDi
     }
 
     private void findView() {
-//        mIvPhone = (ImageView) mLayout.findViewById(R.id.iv_phoneButton);
-//        mIvNavig = (ImageView) mLayout.findViewById(R.id.iv_navigateButton);
-//        mIvStoreAddress = (ImageView) mLayout.findViewById(R.id.iv_store_address);
-//        mEtStoreName = (EditText) mLayout.findViewById(R.id.act_store_name);
-//        mEtAddress = (EditText) mLayout.findViewById(R.id.act_addressText);
-//        mEtPhone = (EditText) mLayout.findViewById(R.id.act_phoneText);
-//        mLlGroceryListSettings = (LinearLayout) mLayout.findViewById(R.id.ll_grocery_list_settings);
-//        mActGroceryListName = (AutoCompleteTextView) mLayout.findViewById(R.id.act_grocery_list_name);
-//        mCbNearbyAlert = (CheckBox) mLayout.findViewById(R.id.cb_nearby_alert_enable);
-//        mBtnSun = (Button) mLayout.findViewById(R.id.btn_sunTimings);
-//        mBtnPMSun = (Button) mLayout.findViewById(R.id.btn_sunPMTimings);
-//        mBtnMon = (Button) mLayout.findViewById(R.id.btn_monTimings);
-//        mBtnPMMon = (Button) mLayout.findViewById(R.id.btn_monPMTimings);
-//        mBtnTue = (Button) mLayout.findViewById(R.id.btn_tueTimings);
-//        mBtnPMTue = (Button) mLayout.findViewById(R.id.btn_tuePMTimings);
-//        mBtnWed = (Button) mLayout.findViewById(R.id.btn_wedTimings);
-//        mBtnPMWed = (Button) mLayout.findViewById(R.id.btn_wedPMTimings);
-//        mBtnThu = (Button) mLayout.findViewById(R.id.btn_thuTimings);
-//        mBtnPMThu = (Button) mLayout.findViewById(R.id.btn_thuPMTimings);
-//        mBtnFri = (Button) mLayout.findViewById(R.id.btn_friTimings);
-//        mBtnPMFri = (Button) mLayout.findViewById(R.id.btn_friPMTimings);
-//        mBtnSat = (Button) mLayout.findViewById(R.id.btn_satTimings);
-//        mBtnPMSat = (Button) mLayout.findViewById(R.id.btn_satPMTimings);
-
         mIvPhone = (ImageView) findViewById(R.id.iv_phoneButton);
         mIvNavig = (ImageView) findViewById(R.id.iv_navigateButton);
         mIvStoreAddress = (ImageView) findViewById(R.id.iv_store_address);

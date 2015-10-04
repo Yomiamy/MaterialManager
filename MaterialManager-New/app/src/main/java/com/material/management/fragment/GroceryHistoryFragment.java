@@ -197,15 +197,16 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
             return;
         }
 
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.action_search, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_action_add, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_action_cancel, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_sort_by_date, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_sort_by_name, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_sort_by_place, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_grid_1x1, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_grid_2x1, false);
-        ((MainActivity) mOwnerActivity).setMenuItemVisibility(R.id.menu_clear_expired_items, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.action_search, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_1x1, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_2x1, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
     }
 
     @Override

@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:orientation="vertical">
-
         <LinearLayout
             android:id="@+id/rewardCardLayout"
             android:layout_width="fill_parent"

@@ -18,6 +18,7 @@ package com.google.zxing.client.android.share;
 
 import android.provider.ContactsContract;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.android.BrowserConstant;
 import com.google.zxing.client.android.Contents;
 import com.google.zxing.client.android.Intents;
 
@@ -140,7 +141,7 @@ public final class ShareActivity extends Activity {
       switch (requestCode) {
         case PICK_BOOKMARK:
         case PICK_APP:
-          showTextAsBarcode(intent.getStringExtra(Browser.BookmarkColumns.URL));
+          showTextAsBarcode(intent.getStringExtra(BrowserConstant.URL));
           break;
         case PICK_CONTACT:
           // Data field is content://contacts/people/984

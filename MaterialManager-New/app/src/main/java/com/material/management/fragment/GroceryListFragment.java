@@ -230,6 +230,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
         sActivity.setMenuItemVisibility(R.id.action_search, false);
         sActivity.setMenuItemVisibility(R.id.menu_action_add, false);
         sActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
+        sActivity.setMenuItemVisibility(R.id.menu_action_new, false);
         sActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
         sActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
         sActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);

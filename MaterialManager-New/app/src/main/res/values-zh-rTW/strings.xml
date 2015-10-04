@@ -35,6 +35,7 @@
     <string name="slidemenu_grocery_title">購物管理</string>
     <string name="slidemenu_gcrocery_login_list_title">登入購物清單</string>
     <string name="slidemenu_gcrocery_list_view_title">檢視購物清單列表</string>
+    <string name="slidemenu_gcrocery_reward_cards">購物優惠卡</string>
     <string name="slidemenu_grocery_history">購物歷史</string>
 
     <string name="slidemenu_material_other">其它</string>
@@ -318,6 +319,17 @@
     <string name="msg_err_store_address">位置資訊無法定位</string>
     <string name="msg_err_store_phone">電話資訊錯誤</string>
 
+    <!-- RewardCardsFragment -->
+    <string name="reengagement_notification_message1">添加第一張會員卡，再也不會錯過優惠啦</string>
+    <string name="menu_add_button">添加卡片</string>
+    <string name="ghost_card_title">添加第一張卡</string>
+
+    <!-- RewardLoginActivity -->
+    <string name="title_card_id">卡片序號</string>
+    <string name="title_card_name">卡片名稱</string>
+    <string name="title_card_note">卡片備註</string>
+    <string name="title_card_name_hint">輸入卡片名稱</string>
+    <string name="title_card_note_hint">輸入備註</string>
 
     <!--GroceryHistoryFragment-->
     <string name="title_grocery_history_date_interval">設定時間區間</string>

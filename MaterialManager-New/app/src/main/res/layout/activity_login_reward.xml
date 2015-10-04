@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_grocery_login">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_iron_ring" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="170.0dip"
+                android:layout_height="170.0dip"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_add_reward_photo"
+                    android:layout_width="170.0dip"
+                    android:layout_height="170.0dip"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/selector_add_reward_card" />
+
+                <ImageView
+                    android:layout_width="170.0dip"
+                    android:layout_height="170.0dip"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_add_photo_shadow"
+                    android:visibility="visible" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_barcode_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/title_card_id"
+                android:textColor="#ff89a923"
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_barcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:clickable="true"
+                android:drawableTop="@drawable/selector_barcode"
+                android:gravity="center"
+                android:text="x xxxxxx xxxxxx x"
+                android:textColor="@color/content_text_color"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_card_name"
+                android:textColor="#ff89a923"
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
+
+            <AutoCompleteTextView
+                android:id="@+id/act_card_name"
+                style="@style/EditTextAppTheme"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:hint="@string/title_card_name_hint"
+                android:inputType="textCapSentences"
+                android:singleLine="true"
+                android:textSize="16.0sp" />
+
+            <TextView
+                android:id="@+id/tv_item_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_card_note"
+                android:textColor="#ff89a923"
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_item_note"
+                style="@style/EditTextAppTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="left|center_vertical"
+                android:hint="@string/title_card_note_hint"
+                android:inputType="textCapSentences|textMultiLine"
+                android:lines="5"
+                android:minLines="3"
+                android:scrollbars="vertical"
+                android:singleLine="false"
+                android:textSize="16.0sp" />
+
+            <View
+                android:id="@+id/v_bottom_spacing"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/light_shadow" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="16dp" />
+    </LinearLayout>
+</ScrollView>

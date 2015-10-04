@@ -26,6 +26,9 @@
     <color name="bg_checkout">#ff414747</color>
     <color name="divider">#AAA7A7A5</color>
 
+    <!-- RewardCardsFragment -->
+    <color name="stocard_actionbar_overlay_pressed">#50000000</color>
+
     <!--GroceryListItemFragment-->
     <color name="pressed_main_theme">#cc8aa923</color>
 
@@ -46,6 +49,7 @@
 
     <!-- croper image view -->
     <color name="black_translucent">#50000000</color>
+
 
     <!-- pop window alert dialog -->
     <color name="basic_blue1">#5781a9</color>

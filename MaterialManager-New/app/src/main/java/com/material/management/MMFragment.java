@@ -27,19 +27,15 @@ import com.material.management.api.module.ViewCallbackListener;
 import com.material.management.data.DeviceInfo;
 import com.material.management.utils.Utility;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
-/**
- * Created by randyhsu on 2014/9/6.
- */
 public class MMFragment extends Fragment implements ViewCallbackListener, View.OnClickListener {
     protected Dialog mProgressDialog;
     protected Handler mHandler;
     protected Resources mResources;
-    protected Activity mOwnerActivity;
+    protected MainActivity mOwnerActivity;
     protected LayoutInflater mInflater;
     protected DisplayMetrics mMetrics;
     protected InputMethodManager mImm = null;
@@ -51,7 +47,7 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mHandler = new Handler();
         mResources = getResources();
-        mOwnerActivity = getActivity();
+        mOwnerActivity = (MainActivity) getActivity();
         mMetrics = new DisplayMetrics();
         mInflater = (LayoutInflater) mOwnerActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mImm = (InputMethodManager) mOwnerActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -117,7 +113,7 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
 
     protected void sendScreenAnalytics(String screenName) {
         //Get a Tracker (should auto-report)
-        Tracker t =  ((MaterialManagerApplication) mOwnerActivity.getApplication()).getTracker(MaterialManagerApplication.TrackerName.APP_TRACKER);
+        Tracker t = ((MaterialManagerApplication) mOwnerActivity.getApplication()).getTracker(MaterialManagerApplication.TrackerName.APP_TRACKER);
 
         t.setScreenName(screenName);
         t.send(new HitBuilders.AppViewBuilder().build());
@@ -125,7 +121,7 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
 
     protected void sendEventAnalytics(String screenName) {
         //Get a Tracker (should auto-report)
-        Tracker t =  ((MaterialManagerApplication) mOwnerActivity.getApplication()).getTracker(MaterialManagerApplication.TrackerName.APP_TRACKER);
+        Tracker t = ((MaterialManagerApplication) mOwnerActivity.getApplication()).getTracker(MaterialManagerApplication.TrackerName.APP_TRACKER);
 
         t.setScreenName(screenName);
         t.send(new HitBuilders.AppViewBuilder().build());
@@ -153,7 +149,7 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
 
     /* Change layout configuration e.g.: Font size...*/
     protected void changeLayoutConfig(View layout) {
-        if(mOrigFontSizeMap == null) {
+        if (mOrigFontSizeMap == null) {
             mOrigFontSizeMap = new HashMap<Integer, Float>();
         }
         storeViewFontSize(layout);
@@ -161,17 +157,17 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
     }
 
     protected void storeViewFontSize(View view) {
-        if(mOrigFontSizeMap == null) {
+        if (mOrigFontSizeMap == null) {
             return;
         }
 
-        if(view instanceof ViewGroup) {
+        if (view instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) view;
 
-            for(int i = 0, len = viewGroup.getChildCount() ; i < len ; i++) {
+            for (int i = 0, len = viewGroup.getChildCount(); i < len; i++) {
                 storeViewFontSize(viewGroup.getChildAt(i));
             }
-        } else if(view instanceof TextView && !mOrigFontSizeMap.containsKey(view.getId())){
+        } else if (view instanceof TextView && !mOrigFontSizeMap.containsKey(view.getId())) {
             mOrigFontSizeMap.put(view.getId(), ((TextView) view).getTextSize());
         }
     }
@@ -179,17 +175,17 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
     protected void changeFontSize(View view) {
         float adjustFontFactor = Float.parseFloat(Utility.getStringValueForKey(Utility.FONT_SIZE_SCALE_FACTOR));
 
-        if(view instanceof ViewGroup) {
+        if (view instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) view;
 
-            for(int i = 0, len = viewGroup.getChildCount() ; i < len ; i++) {
+            for (int i = 0, len = viewGroup.getChildCount(); i < len; i++) {
                 changeFontSize(viewGroup.getChildAt(i));
             }
-        } else if(view instanceof TextView){
+        } else if (view instanceof TextView) {
             TextView targetView = (TextView) view;
-            String ignoreTag = (String)targetView.getTag();
+            String ignoreTag = (String) targetView.getTag();
 
-            if(ignoreTag != null && ignoreTag.equals("font_size_change_ignore"))
+            if (ignoreTag != null && ignoreTag.equals("font_size_change_ignore"))
                 return;
 
             targetView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mOrigFontSizeMap.get(view.getId()) * adjustFontFactor);

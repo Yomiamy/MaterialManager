@@ -22,6 +22,12 @@
         android:title="@string/title_menu_item_del"/>
 
     <item
+        android:id="@+id/menu_action_new"
+        android:icon="@drawable/ic_action_add"
+        android:showAsAction="always"
+        android:title="@string/title_menu_item_add"/>
+
+    <item
         android:id="@+id/menu_sort_by_date"
         android:orderInCategory="100"
         android:showAsAction="never"
@@ -51,6 +57,7 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/menu_clear_expired_items"/>
+
     <!--<item-->
         <!--android:id="@+id/menu_settings"-->
         <!--android:orderInCategory="100"-->

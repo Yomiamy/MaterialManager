@@ -449,6 +449,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
             sActivity.setMenuItemVisibility(R.id.action_search, false);
             sActivity.setMenuItemVisibility(R.id.menu_action_add, true);
             sActivity.setMenuItemVisibility(R.id.menu_action_cancel, true);
+            sActivity.setMenuItemVisibility(R.id.menu_action_new, false);
             sActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
             sActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
             sActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);

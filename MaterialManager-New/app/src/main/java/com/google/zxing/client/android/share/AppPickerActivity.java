@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.ListView;
 
+import com.google.zxing.client.android.BrowserConstant;
+
 import java.util.List;
 
 public final class AppPickerActivity extends ListActivity {
@@ -54,7 +56,7 @@ public final class AppPickerActivity extends ListActivity {
       String packageName = ((AppInfo) adapter.getItem(position)).getPackageName();
       Intent intent = new Intent();
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-      intent.putExtra(Browser.BookmarkColumns.URL, "market://details?id=" + packageName);
+      intent.putExtra(BrowserConstant.URL, "market://details?id=" + packageName);
       setResult(RESULT_OK, intent);
     } else {
       setResult(RESULT_CANCELED);      
