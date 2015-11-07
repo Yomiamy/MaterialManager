@@ -152,6 +152,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     public void onResume() {
         int isNeedDbWarnDialog = Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_1to2);
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3);
+        isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_3to4);
+        isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5);
 
         if (isNeedDbWarnDialog != 0) {
             AlertDialog.Builder warnDialog = new AlertDialog.Builder(mOwnerActivity, R.style.AlertDialogTheme);
@@ -163,6 +165,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_1to2, 0);
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3, 0);
+            Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_3to4, 0);
+            Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5, 0);
         }
 
         sendScreenAnalytics(getString(R.string.ga_app_view_login_material_fragment));
@@ -275,7 +279,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                         mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                     if (mNewestBitmap != null) {
@@ -304,7 +308,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                     } catch (OutOfMemoryError e) {
                     /* A workaround to avoid the OOM */
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                 /* Error handling */
@@ -495,6 +499,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             if (mSelectPhotoDialog != null) {
                 mSelectPhotoDialog.setShowState(false);
 
+                Utility.forceGC(true);
                 if (which == 0) {
                     /* from album */
                     Intent albumIntent = new Intent(Intent.ACTION_PICK,

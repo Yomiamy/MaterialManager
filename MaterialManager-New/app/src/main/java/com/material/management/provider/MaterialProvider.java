@@ -2,7 +2,6 @@ package com.material.management.provider;
 
 import com.material.management.MaterialManagerApplication;
 import com.material.management.utils.Utility;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -16,7 +15,6 @@ import android.net.Uri;
 import android.util.Log;
 
 public class MaterialProvider extends ContentProvider {
-    //    public static final String DB_UPGRADE_FLAG_1to2 = "db_upgrade_flag";
     public static final String AUTHORITH = "com.materialmgr.provider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITH);
     public static final Uri URI_MATERIAL = Uri.withAppendedPath(MaterialProvider.CONTENT_URI,
@@ -31,6 +29,8 @@ public class MaterialProvider extends ContentProvider {
             UtilSQLiteOpenHelper.TB_GROCERY_ITEMS);
     public static final Uri URI_GROCERY_LIST_HISTORY = Uri.withAppendedPath(MaterialProvider.CONTENT_URI,
             UtilSQLiteOpenHelper.TB_GROCERY_LIST_HISTORY);
+    public static final Uri URI_REWARD_CARD = Uri.withAppendedPath(MaterialProvider.CONTENT_URI,
+            UtilSQLiteOpenHelper.TB_REWARD_CARD);
     public static final String SINGLE_RECORD_MIME_TYPE = "vnd.android.cursor.item/vnd.material.status";
     public static final String MULTIPLE_RECORD_MIME_TYPE = "v.android.cursor.dir/vnd.material.mstatus";
     public static final String DB_NAME = "Material.db";
@@ -164,11 +164,12 @@ public class MaterialProvider extends ContentProvider {
     }
 
     public static class UtilSQLiteOpenHelper extends SQLiteOpenHelper {
-        private static final int VERSION = 3;
+        private static final int VERSION = 5;
         public static final String TB_MATERIAL = "material";
         public static final String TB_MATERIAL_TYPE = "material_type";
         public static final String TB_MATERIAL_HISTORY = "material_history";
         public static final String TB_GROCERY_LIST = "grocery_list";
+        public static final String TB_REWARD_CARD = "reward_card";
         public static final String TB_GROCERY_ITEMS = "grocery_items";
         public static final String TB_GROCERY_LIST_HISTORY = "grocery_list_history";
 
@@ -251,6 +252,21 @@ public class MaterialProvider extends ContentProvider {
                     + " price TEXT,"
                     + " comment TEXT)";
 
+            /* Reward card information. */
+            final String TB_REWARD_CARD_STMT = "create table " + TB_REWARD_CARD
+                    + "( id INTEGER PRIMARY KEY,"
+                    + " name TEXT,"
+                    + " card_type TEXT,"
+                    + " barcode TEXT,"
+                    + " barcode_format TEXT,"
+                    + " photo_path TEXT,"
+                    + " coupon_value TEXT,"
+                    + " valid_from DATE,"
+                    + " expiry DATE,"
+                    + " notification_days INTEGER,"
+                    + " comment TEXT,"
+                    + " photo_back_path TEXT)";
+
             /* Grocery list history informations */
             final String TB_GROCERY_LIST_HISTORY_SQL_STMT = "create table " + TB_GROCERY_LIST_HISTORY
                     + "( id INTEGER PRIMARY KEY,"
@@ -268,6 +284,7 @@ public class MaterialProvider extends ContentProvider {
             db.execSQL(TB_MATERIAL_HISTORY_SQL_STMT);
             db.execSQL(TB_GROCERY_LIST_SQL_STMT);
             db.execSQL(TB_GROCERY_ITEMS_SQL_STMT);
+            db.execSQL(TB_REWARD_CARD_STMT);
             db.execSQL(TB_GROCERY_LIST_HISTORY_SQL_STMT);
         }
 
@@ -345,6 +362,33 @@ public class MaterialProvider extends ContentProvider {
                         isSuccessful = true;
                         Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3, 1);
                     }
+
+                    case 3: {
+                        db.execSQL("DROP TABLE IF EXISTS " + TB_REWARD_CARD);
+                        db.execSQL("create table " + TB_REWARD_CARD
+                                + "( id INTEGER PRIMARY KEY,"
+                                + " name TEXT,"
+                                + " card_type TEXT,"
+                                + " barcode TEXT,"
+                                + " barcode_format TEXT,"
+                                + " photo_path TEXT,"
+                                + " coupon_value TEXT,"
+                                + " valid_from DATE,"
+                                + " expiry DATE,"
+                                + " notification_days INTEGER,"
+                                + " comment TEXT)");
+
+                        oldVersion++;
+                        isSuccessful = true;
+                        Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_3to4, 1);
+                    }
+
+                    case 4: {
+                        db.execSQL("ALTER TABLE " + TB_REWARD_CARD + " ADD COLUMN photo_back_path TEXT NOT NULL DEFAULT ''");
+                        oldVersion++;
+                        isSuccessful = true;
+                        Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5, 1);
+                    }
                 }
 
                 if (isSuccessful) {
@@ -358,6 +402,7 @@ public class MaterialProvider extends ContentProvider {
                 db.execSQL("DROP TABLE IF EXISTS " + TB_GROCERY_LIST);
                 db.execSQL("DROP TABLE IF EXISTS " + TB_GROCERY_ITEMS);
                 db.execSQL("DROP TABLE IF EXISTS " + TB_GROCERY_LIST_HISTORY);
+                db.execSQL("DROP TABLE IF EXISTS " + TB_REWARD_CARD);
                 onCreate(db);
             }
         }

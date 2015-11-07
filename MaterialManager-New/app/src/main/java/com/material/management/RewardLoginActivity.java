@@ -12,37 +12,55 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.material.management.component.FlipAnimation;
+import com.material.management.data.RewardInfo;
 import com.material.management.dialog.CropImageDialog;
 import com.material.management.dialog.SelectPhotoDialog;
 import com.material.management.utils.BarCodeUtility;
+import com.material.management.utils.DBUtility;
 import com.material.management.utils.FileUtility;
 import com.material.management.utils.Utility;
+import com.picasso.Picasso;
+
+import java.io.File;
 
 public class RewardLoginActivity extends MMActivity implements DialogInterface.OnClickListener {
     private static final int REQ_CAMERA_TAKE_PIC = 1;
     private static final int REQ_SELECT_PICTURE = 2;
 
-    private ImageView mIvAddRewardPhoto;
+    private Menu mOptionMenu;
+    private RelativeLayout mRlAddRewardLayout;
+    private ImageView mIvAddRewardFrontPhoto;
+    private ImageView mIvAddRewardBackPhoto;
+    private ImageView mIvChangeRewardFace;
     private TextView mTvAddBardCode;
-    private AutoCompleteTextView nActvCardName;
-    private AutoCompleteTextView nActvCardNote;
+    private AutoCompleteTextView mActvCardName;
+    private AutoCompleteTextView mActvComment;
 
     private BitmapFactory.Options mOptions = null;
+    private FlipAnimation mFlipAnimation;
     private SelectPhotoDialog mSelectPhotoDialog;
     private CropImageDialog mCropImgDialog;
-    private Bitmap mNewestBitmap;
+    private RewardInfo mOldRewardInfo;
+    private Bitmap mNewestFrontBitmap;
+    private Bitmap mNewestBackBitmap;
     private Bitmap mBarcodeBitmap;
-    private String mBarcode;
-    private String mBarcodeFormat;
+    private String mBarcode = "";
+    private String mBarcodeFormat = "";
+    private int mCurRewardFaceResId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,33 +75,115 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
     }
 
     private void findView() {
-        mIvAddRewardPhoto = (ImageView) findViewById(R.id.iv_add_reward_photo);
+        mRlAddRewardLayout = (RelativeLayout) findViewById(R.id.rl_add_photo_layout);
+        mIvAddRewardFrontPhoto = (ImageView) findViewById(R.id.iv_add_reward_front_photo);
+        mIvAddRewardBackPhoto = (ImageView) findViewById(R.id.iv_add_reward_back_photo);
+        mIvChangeRewardFace = (ImageView) findViewById(R.id.iv_change_reward_face);
         mTvAddBardCode = (TextView) findViewById(R.id.tv_barcode);
-        nActvCardName = (AutoCompleteTextView) findViewById(R.id.act_card_name);
-        nActvCardNote = (AutoCompleteTextView) findViewById(R.id.actv_item_note);
+        mActvCardName = (AutoCompleteTextView) findViewById(R.id.act_card_name);
+        mActvComment = (AutoCompleteTextView) findViewById(R.id.actv_item_note);
     }
 
     private void initListener() {
-        mIvAddRewardPhoto.setOnClickListener(this);
+        mIvAddRewardFrontPhoto.setOnClickListener(this);
+        mIvAddRewardBackPhoto.setOnClickListener(this);
+        mIvChangeRewardFace.setOnClickListener(this);
         mTvAddBardCode.setOnClickListener(this);
     }
 
     private void init() {
         Intent intent = getIntent();
         mOptions = new BitmapFactory.Options();
+        mOldRewardInfo = intent.getParcelableExtra("reward_info");
+        mFlipAnimation = new FlipAnimation(mIvAddRewardFrontPhoto, mIvAddRewardBackPhoto);
+        mCurRewardFaceResId = R.id.iv_add_reward_front_photo;
 
-        mOptions.inDensity = Utility.getDisplayMetrics().densityDpi;
+        mOptions.inDensity = mMetrics.densityDpi;
         mOptions.inScaled = false;
         mOptions.inPurgeable = true;
         mOptions.inInputShareable = true;
 
         setTitle(intent.getStringExtra("title"));
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        initOldData();
+    }
+
+    private void initOldData() {
+        if (mOldRewardInfo == null) {
+            return;
+        }
+        mActvCardName.setText(mOldRewardInfo.getName());
+        mActvComment.setText(mOldRewardInfo.getComment());
+        setBarcodeInfo(mOldRewardInfo.getBarCodeFormat(), mOldRewardInfo.getBarCode());
+        Picasso.with(this).cancelRequest(mIvAddRewardFrontPhoto);
+        Picasso.with(this).load(new File(mOldRewardInfo.getFrontPhotoPath())).fit().into(mIvAddRewardFrontPhoto);
+        Picasso.with(this).load(new File(mOldRewardInfo.getBackPhotoPath())).fit().into(mIvAddRewardBackPhoto);
+    }
+
+    private void setBarcodeInfo(String barcodeFormat, String barcode) {
+        if (barcode == null || barcodeFormat == null || barcode.isEmpty() || barcodeFormat.isEmpty()) {
+            return;
+        }
+        try {
+                        /* Restore to default */
+            mBarcode = "";
+            Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.selector_barcode);
+
+            defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
+                    defaultBarcodeImg.getIntrinsicHeight());
+            mTvAddBardCode.setText("x xxxxxx xxxxxx x");
+            mTvAddBardCode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+            Utility.releaseBitmaps(mBarcodeBitmap);
+
+            mBarcodeBitmap = null;
+            mBarcode = barcode;
+            mBarcodeFormat = barcodeFormat;
+            mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(barcode,
+                    BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
+            Drawable barcodeDrawable = new BitmapDrawable(getResources(), mBarcodeBitmap);
+
+            barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
+                    barcodeDrawable.getIntrinsicHeight());
+            mTvAddBardCode.setText(barcode);
+            mTvAddBardCode.setCompoundDrawables(null, barcodeDrawable, null, null);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_menu, menu);
+        mOptionMenu = menu;
+
+        setMenuItemVisibility(R.id.action_search, false);
+        setMenuItemVisibility(R.id.menu_action_add, true);
+        setMenuItemVisibility(R.id.menu_action_cancel, true);
+        setMenuItemVisibility(R.id.menu_action_new, false);
+        setMenuItemVisibility(R.id.menu_sort_by_date, false);
+        setMenuItemVisibility(R.id.menu_sort_by_name, false);
+        setMenuItemVisibility(R.id.menu_sort_by_place, false);
+        setMenuItemVisibility(R.id.menu_grid_1x1, false);
+        setMenuItemVisibility(R.id.menu_grid_2x1, false);
+        setMenuItemVisibility(R.id.menu_clear_expired_items, false);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void setMenuItemVisibility(int id, boolean visible) {
+        if (mOptionMenu != null) {
+            MenuItem item = mOptionMenu.findItem(id);
+
+            if (item != null)
+                item.setVisible(visible);
+        }
     }
 
     @Override
@@ -93,23 +193,87 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                 onBackPressed();
             }
             break;
+
+            case R.id.menu_action_add: {
+                RewardInfo rewardInfo = new RewardInfo();
+
+                rewardInfo.setName(mActvCardName.getText().toString());
+                rewardInfo.setCardType(RewardInfo.RewardCardType.REWARD_CARD.type());
+                rewardInfo.setBarCode(mBarcode);
+                rewardInfo.setBarCodeFormat(mBarcodeFormat);
+                rewardInfo.setFrontRewardPhoto(mNewestFrontBitmap);
+                rewardInfo.setBackRewardPhoto(mNewestBackBitmap);
+                rewardInfo.setFrontPhotoPath(mNewestFrontBitmap != null ? "" : (mOldRewardInfo != null ? mOldRewardInfo.getFrontPhotoPath() : ""));
+                rewardInfo.setBackPhotoPath(mNewestBackBitmap != null ? "" : (mOldRewardInfo != null ? mOldRewardInfo.getBackPhotoPath() : ""));
+                rewardInfo.setComment(mActvComment.getText().toString());
+
+                if (mOldRewardInfo != null) {
+                    DBUtility.deleteRewardCard(mOldRewardInfo);
+                }
+                DBUtility.insertRewardCard(rewardInfo);
+
+                showToast(getString(R.string.data_save_success));
+                onBackPressed();
+            }
+            break;
+
+            case R.id.menu_action_cancel: {
+                clearUserData();
+                mImm.hideSoftInputFromWindow(mLayout.getApplicationWindowToken(), 0);
+            }
+            break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        Drawable drawable = mIvAddRewardPhoto.getDrawable();
-        Bitmap bitmap = drawable != null && (drawable instanceof BitmapDrawable) ? ((BitmapDrawable) drawable).getBitmap() : null;
-
-        mIvAddRewardPhoto.setImageDrawable(null);
-        Utility.releaseBitmaps(bitmap);
-        Utility.releaseBitmaps(mBarcodeBitmap);
-        Utility.releaseBitmaps(mNewestBitmap);
+    private void clearUserData() {
+        Drawable rewardFrontDrawable = mIvAddRewardFrontPhoto.getDrawable();
+        Drawable rewardBackDrawable = mIvAddRewardBackPhoto.getDrawable();
+        Drawable[] compoundDrawables = mTvAddBardCode.getCompoundDrawables();
+        Bitmap barcodeBitmap = (compoundDrawables != null && compoundDrawables.length > 0) ? ((compoundDrawables[1] instanceof BitmapDrawable) ? ((BitmapDrawable) compoundDrawables[1]).getBitmap() : null) : null;
+        Bitmap rewardFrontBitmap = rewardFrontDrawable != null && (rewardFrontDrawable instanceof BitmapDrawable) ? ((BitmapDrawable) rewardFrontDrawable).getBitmap() : null;
+        Bitmap rewardBackBitmap = rewardBackDrawable != null && (rewardBackDrawable instanceof BitmapDrawable) ? ((BitmapDrawable) rewardBackDrawable).getBitmap() : null;
+        Drawable defaultBarcodeImg = mResources.getDrawable(R.drawable.selector_barcode);
         mSelectPhotoDialog = null;
         mCropImgDialog = null;
 
+        defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(), defaultBarcodeImg.getIntrinsicHeight());
+
+        mActvCardName.setText("");
+        mActvComment.setText("");
+        mTvAddBardCode.setText("x xxxxxx xxxxxx x");
+        mTvAddBardCode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+        Utility.releaseBitmaps(rewardFrontBitmap);
+        Utility.releaseBitmaps(rewardBackBitmap);
+        Utility.releaseBitmaps(barcodeBitmap);
+        Utility.releaseBitmaps(mNewestFrontBitmap);
+        Utility.releaseBitmaps(mNewestBackBitmap);
+        Utility.forceGC(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        clearUserData();
+        mTvAddBardCode.setCompoundDrawables(null, null, null, null);
+        mIvAddRewardFrontPhoto.setImageDrawable(null);
+
         super.onBackPressed();
+    }
+
+    private void flipCard() {
+        if (mIvAddRewardFrontPhoto.getVisibility() == View.GONE || mFlipAnimation.isEqualToView(mIvAddRewardFrontPhoto)) {
+            mFlipAnimation.reverse();
+        }
+
+        if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+            mCurRewardFaceResId = R.id.iv_add_reward_back_photo;
+        } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+            mCurRewardFaceResId = R.id.iv_add_reward_front_photo;
+        }
+
+        mRlAddRewardLayout.startAnimation(mFlipAnimation);
     }
 
     @Override
@@ -119,7 +283,9 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         int id = v.getId();
 
         switch (id) {
-            case R.id.iv_add_reward_photo: {
+            case R.id.iv_add_reward_front_photo:
+            case R.id.iv_add_reward_back_photo: {
+
                 mSelectPhotoDialog = new SelectPhotoDialog(this, getString(R.string.title_select_photo), new String[]{
                         getString(R.string.title_select_photo_from_album),
                         getString(R.string.title_select_photo_from_camera)}, this);
@@ -128,45 +294,61 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             }
             break;
 
+            case R.id.iv_change_reward_face: {
+                flipCard();
+            }
+            break;
+
             case R.id.tv_barcode: {
                 IntentIntegrator integrator = new IntentIntegrator(this);
 
                 integrator.initiateScan();
             }
+            break;
         }
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
 
-        if(which < 0) {
+        if (which < 0) {
             if (AlertDialog.BUTTON_POSITIVE == which) {
-                 if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
+                if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
                     /* Recycle the original bitmap from camera intent extra. */
+                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestFrontBitmap);
 
-                    mIvAddRewardPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
+                        mNewestFrontBitmap = mCropImgDialog.getCroppedImage();
 
+                        mIvAddRewardFrontPhoto.setImageBitmap(mNewestFrontBitmap);
+                    } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestBackBitmap);
 
-                    Bitmap bitmap = mCropImgDialog.getCroppedImage();
-                    mNewestBitmap = bitmap;
+                        mNewestBackBitmap = mCropImgDialog.getCroppedImage();
 
-                     mIvAddRewardPhoto.setImageBitmap(bitmap);
+                        mIvAddRewardBackPhoto.setImageBitmap(mNewestBackBitmap);
+                    }
+
                     mCropImgDialog.setShowState(false);
                 }
             } else if (AlertDialog.BUTTON_NEGATIVE == which) {
                 if (mCropImgDialog != null) {
-                    mIvAddRewardPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
+                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestFrontBitmap);
+                    } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestBackBitmap);
+                    }
                     mCropImgDialog.setShowState(false);
                 }
             }
         } else {
             if (mSelectPhotoDialog != null) {
                 mSelectPhotoDialog.setShowState(false);
-
+                Utility.forceGC(true);
                 if (which == 0) {
                     /* from album */
                     Intent albumIntent = new Intent(Intent.ACTION_PICK,
@@ -195,21 +377,34 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 
         switch (requestCode) {
             case REQ_CAMERA_TAKE_PIC: {
+
                 if (Activity.RESULT_OK == resultCode) {
                     try {
                         /* Restore to original icon */
-                        mIvAddRewardPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                        Utility.releaseBitmaps(mNewestBitmap);
-                        mNewestBitmap = null;
+                        if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                            mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                            Utility.releaseBitmaps(mNewestFrontBitmap);
+                            mNewestFrontBitmap = null;
 
-                        mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
+                            mNewestFrontBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
+                        } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                            mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                            Utility.releaseBitmaps(mNewestBackBitmap);
+                            mNewestBackBitmap = null;
+
+                            mNewestBackBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
+                        }
                     } catch (OutOfMemoryError e) {
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
-                    if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(this, mNewestBitmap, this);
+                    if (mNewestFrontBitmap != null || mNewestBackBitmap != null) {
+                        if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
+                        } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
+                        }
 
                         mCropImgDialog.show();
                     }
@@ -220,9 +415,15 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             case REQ_SELECT_PICTURE: {
                 if (Activity.RESULT_OK == resultCode && intent != null && intent.getData() != null) {
                 /* Restore to original icon */
-                    mIvAddRewardPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
+                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestFrontBitmap);
+                        mNewestFrontBitmap = null;
+                    } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestBackBitmap);
+                        mNewestBackBitmap = null;
+                    }
 
                     Uri selectedImageUri = intent.getData();
                     String selectedImagePath = Utility.getPathFromUri(selectedImageUri);
@@ -230,18 +431,25 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                      /* FIXME: duplicate decode image */
                     try {
                         if (selectedImagePath != null) {
-                            mNewestBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
+                            if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                                mNewestFrontBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
+                            } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                                mNewestBackBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
+                            }
                         }
                     } catch (OutOfMemoryError e) {
                     /* A workaround to avoid the OOM */
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                 /* Error handling */
-                    if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(this, mNewestBitmap, this);
-
+                    if (mNewestFrontBitmap != null || mNewestBackBitmap != null) {
+                        if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
+                        } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
+                        }
                         mCropImgDialog.show();
                     }
                 }
@@ -256,33 +464,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                     String barcode = scanResult.getContents();
                     String barcodeFormat = scanResult.getFormatName();
 
-                    if (barcode != null && barcodeFormat != null) {
-                        try {
-                        /* Restore to default */
-                            mBarcode = "";
-                            Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.selector_barcode);
-
-                            defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
-                                    defaultBarcodeImg.getIntrinsicHeight());
-                            mTvAddBardCode.setText("x xxxxxx xxxxxx x");
-                            mTvAddBardCode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
-                            Utility.releaseBitmaps(mBarcodeBitmap);
-
-                            mBarcodeBitmap = null;
-                            mBarcode = barcode;
-                            mBarcodeFormat = barcodeFormat;
-                            mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(barcode,
-                                    BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
-                            Drawable barcodeDrawable = new BitmapDrawable(getResources(), mBarcodeBitmap);
-
-                            barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
-                                    barcodeDrawable.getIntrinsicHeight());
-                            mTvAddBardCode.setText(barcode);
-                            mTvAddBardCode.setCompoundDrawables(null, barcodeDrawable, null, null);
-                        } catch (WriterException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    setBarcodeInfo(barcodeFormat, barcode);
                 }
             }
             break;

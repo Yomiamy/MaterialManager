@@ -363,6 +363,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         setMenuItemVisibility(R.id.action_search, false);
         setMenuItemVisibility(R.id.menu_action_add, true);
         setMenuItemVisibility(R.id.menu_action_cancel, true);
+        setMenuItemVisibility(R.id.menu_action_new, false);
         setMenuItemVisibility(R.id.menu_sort_by_date, false);
         setMenuItemVisibility(R.id.menu_sort_by_name, false);
         setMenuItemVisibility(R.id.menu_sort_by_place, false);
@@ -539,7 +540,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                         mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                     if (mNewestBitmap != null) {
@@ -568,7 +569,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     } catch (OutOfMemoryError e) {
                     /* A workaround to avoid the OOM */
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                    /* Error handling */
@@ -696,6 +697,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             if (mSelectPhotoDialog != null) {
                 mSelectPhotoDialog.setShowState(false);
 
+                Utility.forceGC(true);
                 if (which == 0) {
                     /* from album */
                     Intent albumIntent = new Intent(Intent.ACTION_PICK,

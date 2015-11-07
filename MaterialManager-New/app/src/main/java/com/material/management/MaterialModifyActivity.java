@@ -316,6 +316,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         setMenuItemVisibility(R.id.action_search, false);
         setMenuItemVisibility(R.id.menu_action_add, true);
         setMenuItemVisibility(R.id.menu_action_cancel, true);
+        setMenuItemVisibility(R.id.menu_action_new, false);
         setMenuItemVisibility(R.id.menu_sort_by_date, false);
         setMenuItemVisibility(R.id.menu_sort_by_name, false);
         setMenuItemVisibility(R.id.menu_sort_by_place, false);
@@ -398,7 +399,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                         mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                     if (mNewestBitmap != null) {
@@ -428,7 +429,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                     } catch (OutOfMemoryError e) {
                     /* A workaround to avoid the OOM */
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                 /* Error handling */
@@ -628,6 +629,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             if (mSelectPhotoDialog != null) {
                 mSelectPhotoDialog.setShowState(false);
 
+                Utility.forceGC(true);
                 if (which == 0) {
                     /* from album */
                     Intent albumIntent = new Intent(Intent.ACTION_PICK,

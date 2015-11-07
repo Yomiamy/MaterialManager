@@ -26,6 +26,7 @@ import com.material.management.api.module.ConnectionControl;
 import com.material.management.api.module.ViewCallbackListener;
 import com.material.management.data.DeviceInfo;
 import com.material.management.utils.Utility;
+import com.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -57,6 +58,13 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
         mOwnerActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Picasso.with(mOwnerActivity).clearCache();
+        Utility.forceGC(true);
     }
 
     /* It's been pair using*/

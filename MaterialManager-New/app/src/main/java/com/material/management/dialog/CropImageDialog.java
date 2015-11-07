@@ -12,6 +12,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ public class CropImageDialog extends AlertDialog.Builder implements View.OnClick
     private TextView mBtnRotateRight;
 
     private Activity mOwnerActivity;
+    private AlertDialog mDialog = null;
     private Bitmap mSrcImage;
     private boolean mIsShown;
     private OnClickListener mListener;
@@ -111,6 +113,10 @@ public class CropImageDialog extends AlertDialog.Builder implements View.OnClick
 
     public void setShowState(boolean isShowing) {
         mIsShown = isShowing;
+
+        if(!isShowing && mDialog != null) {
+            mDialog.dismiss();
+        }
     }
 
     public Bitmap getCroppedImage() {
@@ -134,15 +140,15 @@ public class CropImageDialog extends AlertDialog.Builder implements View.OnClick
     @Override
     public AlertDialog show() {
         mIsShown = true;
-        AlertDialog dialog = super.show();
-        Window window = dialog.getWindow();
+        mDialog = super.show();
+        Window window = mDialog.getWindow();
 
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+        mDialog.setCanceledOnTouchOutside(false);
         window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         window.setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
-        return dialog;
+        return mDialog;
     }
 
     @Override

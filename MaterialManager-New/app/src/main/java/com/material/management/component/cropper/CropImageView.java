@@ -20,6 +20,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -249,8 +251,12 @@ public class CropImageView extends FrameLayout {
      * @param bitmap the Bitmap to set
      */
     public void setImageBitmap(Bitmap bitmap) {
-        mImageView.setImageBitmap(null);
+        Drawable drawable = mImageView.getDrawable();
+        Bitmap bmp = (drawable != null && drawable instanceof BitmapDrawable) ? ((BitmapDrawable) drawable).getBitmap() : null;
+
+        mImageView.setImageDrawable(null);
         Utility.releaseBitmaps(mBitmap);
+        Utility.releaseBitmaps(bmp);
 
         if (bitmap == null) {
             return;
@@ -477,7 +483,7 @@ public class CropImageView extends FrameLayout {
             rotatedBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
-            System.gc();
+            Utility.forceGC(false);
         }
 
         setImageBitmap(rotatedBitmap);

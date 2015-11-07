@@ -18,6 +18,7 @@ package com.picasso;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.material.management.utils.Utility;
 import com.picasso.*;
 import com.picasso.Utils;
 
@@ -105,6 +106,7 @@ public class LruCache implements Cache {
         map.remove(key);
         size -= Utils.getBitmapBytes(value);
         evictionCount++;
+        Utility.forceGC(false);
       }
     }
   }

@@ -2,7 +2,7 @@ package com.material.management.data;
 
 public class GlobalSearchData {
     public static enum ItemType {
-        MATERIAL_ITEM(0), GROCERY_ITEM(1), GROCERY_LIST(2), GROCERY_HISTORY_LIST(3);
+        MATERIAL_ITEM(0), GROCERY_ITEM(1), GROCERY_LIST(2), GROCERY_HISTORY_LIST(3), REWARD_CARD(4);
         private int mValue;
 
         ItemType(int value) {

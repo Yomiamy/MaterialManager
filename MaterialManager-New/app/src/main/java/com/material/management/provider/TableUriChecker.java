@@ -18,6 +18,8 @@ public class TableUriChecker {
     private static final int TB_GROCERY_ITEMS_ID = 10;
     private static final int TB_GROCERY_LIST_HISTORY = 11;
     private static final int TB_GROCERY_LIST_HISTORY_ID = 12;
+    private static final int TB_REWARD_CARD = 13;
+    private static final int TB_REWARD_CARD_ID = 14;
     private static TableUriChecker sTableUriChecker = null;
 
     private UriMatcher mUriMatcher = null;
@@ -36,6 +38,8 @@ public class TableUriChecker {
         mUriMatcher.addURI(MaterialProvider.AUTHORITH, UtilSQLiteOpenHelper.TB_GROCERY_ITEMS + "/#", TB_GROCERY_ITEMS_ID);
         mUriMatcher.addURI(MaterialProvider.AUTHORITH, UtilSQLiteOpenHelper.TB_GROCERY_LIST_HISTORY, TB_GROCERY_LIST_HISTORY);
         mUriMatcher.addURI(MaterialProvider.AUTHORITH, UtilSQLiteOpenHelper.TB_GROCERY_LIST_HISTORY + "/#", TB_GROCERY_LIST_HISTORY_ID);
+        mUriMatcher.addURI(MaterialProvider.AUTHORITH, UtilSQLiteOpenHelper.TB_REWARD_CARD, TB_REWARD_CARD);
+        mUriMatcher.addURI(MaterialProvider.AUTHORITH, UtilSQLiteOpenHelper.TB_REWARD_CARD + "/#", TB_REWARD_CARD_ID);
     }
 
     public static TableUriChecker getInstance() {
@@ -73,6 +77,10 @@ public class TableUriChecker {
             case TB_GROCERY_LIST_HISTORY:
             case TB_GROCERY_LIST_HISTORY_ID:
                 table = UtilSQLiteOpenHelper.TB_GROCERY_LIST_HISTORY;
+                break;
+            case TB_REWARD_CARD:
+            case TB_REWARD_CARD_ID:
+                table = UtilSQLiteOpenHelper.TB_REWARD_CARD;
                 break;
         }
 

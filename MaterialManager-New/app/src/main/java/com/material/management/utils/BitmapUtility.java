@@ -155,7 +155,7 @@ public class BitmapUtility {
                     bitmap.recycle();
                 }
             }
-            System.gc();
+            Utility.forceGC(false);
         }
     }
 
@@ -298,7 +298,7 @@ public class BitmapUtility {
                     } catch (OutOfMemoryError e) {
                         /* Workaround for OOM. */
                         e.printStackTrace();
-                        System.gc();
+                        Utility.forceGC(false);
                     }
 
                     if (tmpBmp != null) {
@@ -308,7 +308,7 @@ public class BitmapUtility {
                             } catch (OutOfMemoryError e) {
                                 /* Workaround for OOM. */
                                 e.printStackTrace();
-                                System.gc();
+                                Utility.forceGC(false);
                             }
                         } else {
                             bmp = tmpBmp;

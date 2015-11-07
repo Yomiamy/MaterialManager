@@ -7,6 +7,30 @@
     <dimen name="font_size_large">16sp</dimen>
     <dimen name="font_size_xlarge">18sp</dimen>
 
+    <!-- common -->
+    <dimen name="v_bottom_spacing">16dp</dimen>
+    <dimen name="iv_light_shadow_h">6dp</dimen>
+    <dimen name="iv_light_shadow_margin_bottom">6dp</dimen>
+    <dimen name="iv_light_shadow_margin_left">16dp</dimen>
+    <dimen name="iv_light_shadow_margin_right">16dp</dimen>
+    <dimen name="iv_ring_margin_top">16dp</dimen>
+    <dimen name="iv_ring_margin_left">16dp</dimen>
+    <dimen name="iv_ring_margin_right">16dp</dimen>
+    <dimen name="tv_title_margin_left">16dp</dimen>
+    <dimen name="tv_title_margin_right">16dp</dimen>
+    <dimen name="tv_title_margin_top">16dp</dimen>
+    <dimen name="act_margin_left">16dp</dimen>
+    <dimen name="act_margin_right">16dp</dimen>
+    <dimen name="act_min_h">48dp</dimen>
+    <dimen name="rl_content_margin_right">16dp</dimen>
+    <dimen name="rl_content_margin_left">16dp</dimen>
+    <dimen name="rl_content_padding_top">10dp</dimen>
+    <dimen name="ll_content_margin_right">16dp</dimen>
+    <dimen name="ll_content_margin_left">16dp</dimen>
+    <dimen name="ll_content_padding_top">10dp</dimen>
+    <dimen name="tv_barcode_margin_top">16dp</dimen>
+    <dimen name="tv_barcode_margin_left">30dp</dimen>
+
     <!-- MaterialManagerFragment -->
     <dimen name="font_size_material_rest_day">35sp</dimen>
 
@@ -27,14 +51,30 @@
     <!--AboutDialog-->
     <dimen name="dialog_about_width_size">480dp</dimen>
 
+    <!-- view_reward_card_preview -->
+    <dimen name="iv_content_image_h">200dp</dimen>
+    <dimen name="iv_content_image_w">300dp</dimen>
+    <dimen name="rl_op_btns_layout_margin_top">20dp</dimen>
+    <dimen name="iv_reward_preview_dismiss_margin_left_op_btn_h">50dp</dimen>
+    <dimen name="iv_reward_preview_dismiss_margin_left_op_btn_w">50dp</dimen>
+    <dimen name="iv_reward_preview_dismiss_margin_left">40dp</dimen>
+
+    <!-- activity_login_reward -->
+    <dimen name="ll_content_layout_margin_top">8dp</dimen>
+    <dimen name="ll_content_layout_margin_bottom">8dp</dimen>
+    <dimen name="rl_add_photo_layout_h">170dp</dimen>
+    <dimen name="rl_add_photo_layout_w">170dp</dimen>
+    <dimen name="iv_add_reward_photo_h">170dp</dimen>
+    <dimen name="iv_add_reward_photo_w">170dp</dimen>
+    <dimen name="iv_add_reward_photo_change_h">25dp</dimen>
+    <dimen name="iv_add_reward_photo_change_w">25dp</dimen>
+    <dimen name="iv_change_reward_preview_face_margint_left">10dp</dimen>
+
     <!--Slide Menu-->
     <dimen name="slidingmenu_offset">80dp</dimen>
     <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
     <integer name="num_cols">1</integer>
-
-    <!-- fragment_grocery_login.xml-->
-    <!--<dimen name="login_grocery_content_padding_bottom">50dp</dimen>-->
 
     <!--GroceryListFragment-->
     <dimen name="grocery_list_item_height_size">70dp</dimen>

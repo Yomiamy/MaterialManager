@@ -43,6 +43,8 @@ public class Utility {
     public static final String INPUT_TEXT_HISTORY = "input_text_history";
     public static final String DB_UPGRADE_FLAG_1to2 = "db_upgrade_flag_1_to_2";
     public static final String DB_UPGRADE_FLAG_2to3 = "db_upgrade_flag_2_to_3";
+    public static final String DB_UPGRADE_FLAG_3to4 = "db_upgrade_flag_3_to_4";
+    public static final String DB_UPGRADE_FLAG_4to5 = "db_upgrade_flag_4_to_5";
     public static final String CATEGORY_IS_INITIALIZED = "category_is_initialized";
     public static final String SHARE_IS_INITIALIZED = "share_is_initialized";
     public static final String SHARE_AUTO_COMPLETE_TEXT = "share_auto_complete_text";
@@ -196,8 +198,15 @@ public class Utility {
                     bitmap = null;
                 }
             }
-            System.gc();
+            forceGC(false);
         }
+    }
+
+    public static void forceGC(boolean isForce) {
+        if(isForce) {
+            System.runFinalization();
+        }
+        System.gc();
     }
 
     public static boolean isValidNumber(Class c, String numStr) {
@@ -298,7 +307,7 @@ public class Utility {
 
         if (key.equals(MATERIAL_TYPE_GRID_COLUMN_NUM)) {
             return sSpSettings.getInt(key, 2);
-        } else if(key.equals(NOTIF_FREQUENCY) || key.equals(NOTIF_FREQUENCY)) {
+        } else if (key.equals(NOTIF_FREQUENCY) || key.equals(NOTIF_FREQUENCY)) {
             return sSpSettings.getInt(key, 1);
         } else {
             return sSpSettings.getInt(key, 0);

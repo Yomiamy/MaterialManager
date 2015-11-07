@@ -7,71 +7,90 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/ll_content_layout_margin_bottom"
+        android:layout_marginTop="@dimen/ll_content_layout_margin_top"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/iv_ring_margin_left"
+            android:layout_marginRight="@dimen/iv_ring_margin_right"
+            android:layout_marginTop="@dimen/iv_ring_margin_top"
             android:background="@drawable/ic_iron_ring" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/rl_content_margin_left"
+            android:layout_marginRight="@dimen/rl_content_margin_right"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:paddingTop="@dimen/rl_content_padding_top">
 
             <RelativeLayout
-                android:layout_width="170.0dip"
-                android:layout_height="170.0dip"
-                android:layout_gravity="center">
+                android:id="@+id/rl_add_photo_layout"
+                android:layout_width="@dimen/rl_add_photo_layout_w"
+                android:layout_height="@dimen/rl_add_photo_layout_h"
+                android:layout_centerHorizontal="true">
 
                 <ImageView
-                    android:id="@+id/iv_add_reward_photo"
-                    android:layout_width="170.0dip"
-                    android:layout_height="170.0dip"
+                    android:id="@+id/iv_add_reward_front_photo"
+                    android:layout_width="@dimen/iv_add_reward_photo_w"
+                    android:layout_height="@dimen/iv_add_reward_photo_h"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/selector_add_reward_card" />
+                    android:src="@drawable/selector_add_photo_status" />
 
                 <ImageView
-                    android:layout_width="170.0dip"
-                    android:layout_height="170.0dip"
+                    android:id="@+id/iv_add_reward_back_photo"
+                    android:layout_width="@dimen/iv_add_reward_photo_w"
+                    android:layout_height="@dimen/iv_add_reward_photo_h"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    android:src="@drawable/selector_add_photo_status" />
+
+                <ImageView
+                    android:layout_width="@dimen/iv_add_reward_photo_w"
+                    android:layout_height="@dimen/iv_add_reward_photo_h"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/bg_add_photo_shadow"
                     android:visibility="visible" />
             </RelativeLayout>
-        </LinearLayout>
 
+            <ImageView
+                android:id="@+id/iv_change_reward_face"
+                android:layout_width="@dimen/iv_add_reward_photo_change_w"
+                android:layout_height="@dimen/iv_add_reward_photo_change_h"
+                android:layout_alignBottom="@id/rl_add_photo_layout"
+                android:layout_marginLeft="@dimen/iv_change_reward_preview_face_margint_left"
+                android:layout_toRightOf="@id/rl_add_photo_layout"
+                android:src="@drawable/btn_flip" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_barcode_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/ll_content_margin_right"
+            android:layout_marginRight="@dimen/ll_content_margin_left"
             android:background="@color/white"
             android:orientation="vertical"
             android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="@dimen/tv_title_margin_left"
+                android:layout_marginRight="@dimen/tv_title_margin_right"
+                android:layout_marginTop="@dimen/tv_title_margin_top"
                 android:gravity="center_vertical"
                 android:text="@string/title_card_id"
-                android:textColor="#ff89a923"
+                android:textColor="@color/GK"
                 android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
 
@@ -80,7 +99,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
+                android:layout_marginTop="@dimen/tv_barcode_margin_top"
+                android:layout_marginLeft="@dimen/tv_barcode_margin_left"
                 android:clickable="true"
                 android:drawableTop="@drawable/selector_barcode"
                 android:gravity="center"
@@ -92,19 +112,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/ll_content_margin_left"
+            android:layout_marginRight="@dimen/rl_content_margin_right"
             android:background="@color/white"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="@dimen/tv_title_margin_left"
+                android:layout_marginRight="@dimen/tv_title_margin_right"
+                android:layout_marginTop="@dimen/tv_title_margin_top"
                 android:text="@string/title_card_name"
-                android:textColor="#ff89a923"
+                android:textColor="@color/GK"
                 android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
 
@@ -112,25 +132,26 @@
                 android:id="@+id/act_card_name"
                 style="@style/EditTextAppTheme"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="@dimen/act_margin_left"
+                android:layout_marginRight="@dimen/act_margin_right"
+                android:minHeight="@dimen/act_min_h"
                 android:gravity="center_vertical"
                 android:hint="@string/title_card_name_hint"
                 android:inputType="textCapSentences"
                 android:singleLine="true"
-                android:textSize="16.0sp" />
+                android:textSize="@dimen/font_size_large" />
 
             <TextView
                 android:id="@+id/tv_item_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="@dimen/tv_title_margin_left"
+                android:layout_marginRight="@dimen/tv_title_margin_right"
+                android:layout_marginTop="@dimen/tv_title_margin_top"
                 android:text="@string/title_card_note"
-                android:textColor="#ff89a923"
+                android:textColor="@color/GK"
                 android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
 
@@ -140,8 +161,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="@dimen/act_margin_left"
+                android:layout_marginRight="@dimen/act_margin_right"
                 android:gravity="left|center_vertical"
                 android:hint="@string/title_card_note_hint"
                 android:inputType="textCapSentences|textMultiLine"
@@ -149,24 +170,24 @@
                 android:minLines="3"
                 android:scrollbars="vertical"
                 android:singleLine="false"
-                android:textSize="16.0sp" />
+                android:textSize="@dimen/font_size_large" />
 
             <View
                 android:id="@+id/v_bottom_spacing"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp" />
+                android:layout_height="@dimen/v_bottom_spacing" />
         </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_height="@dimen/iv_light_shadow_h"
+            android:layout_marginBottom="@dimen/iv_light_shadow_margin_bottom"
+            android:layout_marginLeft="@dimen/iv_light_shadow_margin_left"
+            android:layout_marginRight="@dimen/iv_light_shadow_margin_right"
             android:background="@drawable/light_shadow" />
 
         <View
             android:layout_width="wrap_content"
-            android:layout_height="16dp" />
+            android:layout_height="@dimen/v_bottom_spacing" />
     </LinearLayout>
 </ScrollView>

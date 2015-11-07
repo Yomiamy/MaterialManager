@@ -30,6 +30,7 @@ import com.material.management.data.GroceryItem;
 import com.material.management.data.GroceryListData;
 import com.material.management.data.Material;
 import com.material.management.data.BackupRestoreInfo;
+import com.material.management.data.RewardInfo;
 import com.material.management.provider.MaterialProvider;
 
 public class DBUtility {
@@ -656,7 +657,157 @@ public class DBUtility {
     }
 
 
+    /* ============================================ Reward utility ==================================== */
 
+    public synchronized static ArrayList<RewardInfo> selectRewardCard() {
+        ArrayList<RewardInfo> rewardInfos = new ArrayList<RewardInfo>();
+        Cursor c = null;
+
+        try {
+            c = sResolver.query(MaterialProvider.URI_REWARD_CARD, null, null, null, null);
+
+            while (c.moveToNext()) {
+                RewardInfo rewardInfo = new RewardInfo();
+                Calendar validFrom = Calendar.getInstance();
+                Calendar expiry = Calendar.getInstance();
+
+                validFrom.setTime(Utility.transStringToDate(c.getString(7)));
+                expiry.setTime(Utility.transStringToDate(c.getString(8)));
+
+                rewardInfo.setName(c.getString(1));
+                rewardInfo.setCardType(c.getString(2));
+                rewardInfo.setBarCode(c.getString(3));
+                rewardInfo.setBarCodeFormat(c.getString(4));
+                rewardInfo.setFrontPhotoPath(c.getString(5));
+                rewardInfo.setCouponValue(c.getString(6));
+                rewardInfo.setValidDateFrom(validFrom);
+                rewardInfo.setExpiry(expiry);
+                rewardInfo.setNotificationDays(c.getInt(9));
+                rewardInfo.setComment(c.getString(10));
+                rewardInfo.setBackPhotoPath(c.getString(11));
+
+                rewardInfos.add(rewardInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) {
+                c.close();
+                c = null;
+            }
+        }
+        return rewardInfos;
+    }
+
+    public synchronized static void insertRewardCard(RewardInfo rewardInfo) {
+        ContentValues value = new ContentValues();
+        String picPath = rewardInfo.getFrontPhotoPath();
+        String picBackPath = rewardInfo.getBackPhotoPath();
+
+        if(picPath == null || picPath.isEmpty()) {
+            picPath = FileUtility.saveMaterialPhoto(rewardInfo.getName(), rewardInfo.getFrontRewardPhoto());
+        }
+
+        if(picBackPath == null || picBackPath.isEmpty()) {
+            picBackPath = FileUtility.saveMaterialPhoto(rewardInfo.getName() + "_back", rewardInfo.getBackRewardPhoto());
+        }
+
+        try {
+            value.put("name", new String(rewardInfo.getName().getBytes(), sStringCharSet));
+            value.put("card_type", new String(rewardInfo.getCardType().getBytes(), sStringCharSet));
+            value.put("barcode", new String(rewardInfo.getBarCode().getBytes(), sStringCharSet));
+            value.put("barcode_format", new String(rewardInfo.getBarCodeFormat().getBytes(), sStringCharSet));
+            value.put("photo_path", new String(picPath.getBytes(), sStringCharSet));
+            value.put("coupon_value", new String(rewardInfo.getCouponValue().getBytes(), sStringCharSet));
+            value.put("valid_from", new String(Utility.transDateToString(rewardInfo.getValidDateFrom().getTime()).getBytes(), sStringCharSet));
+            value.put("expiry", new String(Utility.transDateToString(rewardInfo.getExpiry().getTime()).getBytes(), sStringCharSet));
+            value.put("notification_days", rewardInfo.getNotificationDays());
+            value.put("comment", new String(rewardInfo.getComment().getBytes(), sStringCharSet));
+            value.put("photo_back_path", new String(picBackPath.getBytes(), sStringCharSet));
+
+            sResolver.insert(MaterialProvider.URI_REWARD_CARD, value);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized static void updateRewardCard(RewardInfo oldRewardInfo, RewardInfo newRewardInfo) {
+        try {
+            String oldName = new String(oldRewardInfo.getName().getBytes(), sStringCharSet);
+            String oldCardType = new String(oldRewardInfo.getCardType().getBytes(), sStringCharSet);
+            String oldBarcode = new String(oldRewardInfo.getBarCode().getBytes(), sStringCharSet);
+            String oldBarcodeFormat = new String(oldRewardInfo.getBarCodeFormat().getBytes(), sStringCharSet);
+            String oldPhotoPath = new String(oldRewardInfo.getFrontPhotoPath().getBytes(), sStringCharSet);
+            String oldBackPhotoPath = new String(oldRewardInfo.getBackPhotoPath().getBytes(), sStringCharSet);
+            String oldCouponValue = new String(oldRewardInfo.getCouponValue().getBytes(), sStringCharSet);
+            String oldValidFrom = new String(Utility.transDateToString(oldRewardInfo.getValidDateFrom().getTime()).getBytes(), sStringCharSet);
+            String oldExpiry = new String(Utility.transDateToString(oldRewardInfo.getExpiry().getTime()).getBytes(), sStringCharSet);
+            int oldNotificationDays = oldRewardInfo.getNotificationDays();
+            String oldComment = new String(oldRewardInfo.getComment().getBytes(), sStringCharSet);
+
+            ContentValues value = new ContentValues();
+            String newPhotoPath = FileUtility.saveMaterialPhoto(newRewardInfo.getName(), newRewardInfo.getFrontRewardPhoto());
+            value.put("name", new String(newRewardInfo.getName().getBytes(), sStringCharSet));
+            value.put("card_type", new String(newRewardInfo.getCardType().getBytes(), sStringCharSet));
+            value.put("barcode", new String(newRewardInfo.getBarCode().getBytes(), sStringCharSet));
+            value.put("barcode_format", new String(newRewardInfo.getBarCodeFormat().getBytes(), sStringCharSet));
+            value.put("photo_path", new String(newPhotoPath.getBytes(), sStringCharSet));
+            value.put("coupon_value", new String(newRewardInfo.getCouponValue().getBytes(), sStringCharSet));
+            value.put("valid_from", new String(Utility.transDateToString(newRewardInfo.getValidDateFrom().getTime()).getBytes(), sStringCharSet));
+            value.put("expiry", new String(Utility.transDateToString(newRewardInfo.getExpiry().getTime()).getBytes(), sStringCharSet));
+            value.put("notification_days", newRewardInfo.getNotificationDays());
+            value.put("comment", new String(newRewardInfo.getComment().getBytes(), sStringCharSet));
+            value.put("photo_back_path", new String(newRewardInfo.getBackPhotoPath().getBytes(), sStringCharSet));
+
+            sResolver.update(MaterialProvider.URI_REWARD_CARD, value,
+                    "name=? "
+                            + "and card_type=? "
+                            + "and barcode=? "
+                            + "and barcode_format=? "
+                            + "and photo_path=? "
+                            + "and coupon_value=? "
+                            + "and valid_from=? "
+                            + "and expiry=? "
+                            + "and notification_days=" + oldNotificationDays + " "
+                            + "and comment=?"
+                            + "and photo_back_path=?"
+                    , new String[]{oldName, oldCardType, oldBarcode, oldBarcodeFormat, oldPhotoPath, oldCouponValue, oldValidFrom, oldExpiry, oldComment, oldBackPhotoPath});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized static void deleteRewardCard(RewardInfo rewardInfo) {
+        try {
+            /* FIXME: doesn't include bitmap path may not be */
+            String oldName = new String(rewardInfo.getName().getBytes(), sStringCharSet);
+            String oldCardType = new String(rewardInfo.getCardType().getBytes(), sStringCharSet);
+            String oldBarcode = new String(rewardInfo.getBarCode().getBytes(), sStringCharSet);
+            String oldBarcodeFormat = new String(rewardInfo.getBarCodeFormat().getBytes(), sStringCharSet);
+            String oldPhotoPath = new String(rewardInfo.getFrontPhotoPath().getBytes(), sStringCharSet);
+            String oldBackPhotoPath = new String(rewardInfo.getBackPhotoPath().getBytes(), sStringCharSet);
+            String oldCouponValue = new String(rewardInfo.getCouponValue().getBytes(), sStringCharSet);
+            String oldValidFrom = new String(Utility.transDateToString(rewardInfo.getValidDateFrom().getTime()).getBytes(), sStringCharSet);
+            String oldExpiry = new String(Utility.transDateToString(rewardInfo.getExpiry().getTime()).getBytes(), sStringCharSet);
+            int oldNotificationDays = rewardInfo.getNotificationDays();
+            String oldComment = new String(rewardInfo.getComment().getBytes(), sStringCharSet);
+
+            sResolver.delete(MaterialProvider.URI_REWARD_CARD, "(name is null or name=?) "
+                    + "and (card_type is null or card_type=?) "
+                    + "and (barcode is null or barcode=?) "
+                    + "and (barcode_format is null or barcode_format=?) "
+                    + "and (photo_path is null or photo_path=?) "
+                    + "and (coupon_value is null or coupon_value=?) "
+                    + "and (valid_from is null or valid_from=?) "
+                    + "and (expiry is null or expiry=?) "
+                    + "and notification_days=" + oldNotificationDays + " "
+                    + "and (comment is null or comment=?) "
+                    + "and (photo_back_path is null or photo_back_path=?)"
+                    , new String[]{oldName, oldCardType, oldBarcode, oldBarcodeFormat, oldPhotoPath, oldCouponValue, oldValidFrom, oldExpiry, oldComment, oldBackPhotoPath});
+        } catch (UnsupportedEncodingException e) {
+            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertMaterialInfo", e);
+        }
+    }
     /* ============================================backup utility==================================== */
 
     /* need to refactor for naming */

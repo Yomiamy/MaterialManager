@@ -236,6 +236,7 @@ public class MainActivity extends SlidingActivity {
         setMenuItemVisibility(R.id.action_search, false);
         setMenuItemVisibility(R.id.menu_action_add, false);
         setMenuItemVisibility(R.id.menu_action_cancel, false);
+        setMenuItemVisibility(R.id.menu_action_new, false);
         setMenuItemVisibility(R.id.menu_sort_by_date, false);
         setMenuItemVisibility(R.id.menu_sort_by_name, false);
         setMenuItemVisibility(R.id.menu_sort_by_place, false);
@@ -538,7 +539,7 @@ public class MainActivity extends SlidingActivity {
             mMenus.add(new MenuItem(getString(R.string.slidemenu_grocery_title)));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_gcrocery_login_list_title), R.drawable.ic_login_grocery_list, LoginGroceryListFragment.class));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_gcrocery_list_view_title), R.drawable.ic_view_grocery_list, GroceryListFragment.class));
-            mMenus.add(new MenuItem(getString(R.string.slidemenu_gcrocery_reward_cards), R.drawable.reward_card_icon , RewardCardsFragment.class));
+            mMenus.add(new MenuItem(getString(R.string.slidemenu_gcrocery_reward_cards), R.drawable.ic_reward_card, RewardCardsFragment.class));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_grocery_history), R.drawable.ic_grocery_history, GroceryHistoryFragment.class));
 
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_other)));

@@ -23,6 +23,7 @@ import com.material.management.api.module.ConnectionControl;
 import com.material.management.api.module.ViewCallbackListener;
 import com.material.management.data.DeviceInfo;
 import com.material.management.utils.Utility;
+import com.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -55,6 +56,13 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
         mDeviceInfo = Utility.getDeviceInfo();
 
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Picasso.with(this).clearCache();
+        Utility.forceGC(true);
     }
 
     /* It's been pair using*/

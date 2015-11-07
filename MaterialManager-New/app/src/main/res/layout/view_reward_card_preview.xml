@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_reward_preview_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/trans_black_cover"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <RelativeLayout
+                android:id="@+id/rl_reward_face_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/iv_reward_front_face"
+                    android:layout_width="@dimen/iv_content_image_w"
+                    android:layout_height="@dimen/iv_content_image_h"
+                    android:src="@drawable/ic_no_image_available"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/iv_reward_back_face"
+                    android:layout_width="@dimen/iv_content_image_w"
+                    android:layout_height="@dimen/iv_content_image_h"
+                    android:src="@drawable/ic_no_image_available"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_reward_face_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/rl_op_btns_layout_margin_top">
+
+                <ImageView
+                    android:id="@+id/iv_change_reward_preview_face"
+                    android:layout_width="@dimen/iv_reward_preview_dismiss_margin_left_op_btn_w"
+                    android:layout_height="@dimen/iv_reward_preview_dismiss_margin_left_op_btn_h"
+                    android:src="@drawable/btn_flip" />
+
+                <ImageView
+                    android:id="@+id/iv_reward_preview_dismiss"
+                    android:layout_width="@dimen/iv_reward_preview_dismiss_margin_left_op_btn_w"
+                    android:layout_height="@dimen/iv_reward_preview_dismiss_margin_left_op_btn_h"
+                    android:layout_marginLeft="@dimen/iv_reward_preview_dismiss_margin_left"
+                    android:layout_toRightOf="@id/iv_change_reward_preview_face"
+                    android:src="@drawable/icon_dismiss" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</io.codetail.widget.RevealFrameLayout>

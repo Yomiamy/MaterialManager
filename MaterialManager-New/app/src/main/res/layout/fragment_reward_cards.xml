@@ -3,10 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_reward_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <include
         android:id="@+id/rl_empty_data"
         layout="@layout/no_data_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/view_reward_card_preview"/>
 
 </RelativeLayout>
