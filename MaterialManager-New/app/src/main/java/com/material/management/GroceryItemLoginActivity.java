@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Gravity;
@@ -43,7 +44,6 @@ import com.material.management.utils.FileUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Callback;
 import com.picasso.Picasso;
-import com.squareup.okhttp.internal.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -124,7 +124,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         mIvAddPhoto = (ImageView) mLayout.findViewById(R.id.iv_add_photo);
         mIvQtyPlus = (ImageView) mLayout.findViewById(R.id.iv_quantity_plus);
         mIvQtyMinus = (ImageView) mLayout.findViewById(R.id.iv_quantity_minus);
-        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode);
+        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_material_barcode);
     }
 
     private void setListener() {
@@ -155,7 +155,11 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
         initSpinnerData();
 
-        setTitle(getString(R.string.title_grocery_item_login_actionbar_title));
+        mActionBar.setTitle(getString(R.string.title_grocery_item_login_actionbar_title));
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        }
 
         if(mGroceryListId < 0 && mGroceryItem != null) {
             mGroceryListId = mGroceryItem.getGroceryListId();
@@ -485,7 +489,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             }
             break;
 
-            case R.id.tv_barcode: {
+            case R.id.tv_material_barcode: {
                 IntentIntegrator integrator = new IntentIntegrator(this);
 
                 integrator.initiateScan();

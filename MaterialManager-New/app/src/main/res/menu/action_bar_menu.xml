@@ -12,19 +12,19 @@
     <item
         android:id="@+id/menu_action_add"
         android:icon="@drawable/ic_action_tick_green"
-        android:showAsAction="always"
+        android:showAsAction="always|withText"
         android:title="@string/title_menu_item_add"/>
 
     <item
         android:id="@+id/menu_action_cancel"
         android:icon="@drawable/ic_action_cancel_green"
-        android:showAsAction="always"
+        android:showAsAction="always|withText"
         android:title="@string/title_menu_item_del"/>
 
     <item
         android:id="@+id/menu_action_new"
         android:icon="@drawable/ic_action_add"
-        android:showAsAction="always"
+        android:showAsAction="always|withText"
         android:title="@string/title_menu_item_add"/>
 
     <item

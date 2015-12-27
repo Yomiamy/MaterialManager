@@ -1,7 +1,10 @@
 package com.material.management;
 
+import android.app.ActionBar;
+import android.app.Notification;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,8 +66,6 @@ public class GroceryListLoginActivity extends MMActivity implements TimePickerDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_grocery_login);
-        setTitle(mTitle);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         findView();
         init();
@@ -121,9 +122,16 @@ public class GroceryListLoginActivity extends MMActivity implements TimePickerDi
     }
 
     private void init() {
+        ActionBar actionBar = getActionBar();
         mTitle = getString(R.string.title_grocery_list_modify_actionbar_title);
         Calendar calendar = Calendar.getInstance();
         mTimePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false);
+
+        actionBar.setTitle(mTitle);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        }
     }
 
     private void setListener() {

@@ -26,7 +26,7 @@ public class NotificationOutput {
     private Notification.Builder mNotif = null;
 
     private NotificationOutput(Context context) {
-        mNotMgr = (NotificationManager) context.getSystemService("notification");
+        mNotMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mContext = context;
         mNotif = new Notification.Builder(mContext);
         mProgressNotif = new Notification.Builder(mContext);

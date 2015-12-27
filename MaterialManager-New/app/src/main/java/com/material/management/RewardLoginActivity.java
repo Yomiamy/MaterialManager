@@ -1,6 +1,7 @@
 package com.material.management;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -68,6 +71,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 
         mLayout = mInflater.inflate(R.layout.activity_login_reward, null, false);
         setContentView(mLayout);
+        changeLayoutConfig(mLayout);
 
         findView();
         initListener();
@@ -79,7 +83,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         mIvAddRewardFrontPhoto = (ImageView) findViewById(R.id.iv_add_reward_front_photo);
         mIvAddRewardBackPhoto = (ImageView) findViewById(R.id.iv_add_reward_back_photo);
         mIvChangeRewardFace = (ImageView) findViewById(R.id.iv_change_reward_face);
-        mTvAddBardCode = (TextView) findViewById(R.id.tv_barcode);
+        mTvAddBardCode = (TextView) findViewById(R.id.tv_material_barcode);
         mActvCardName = (AutoCompleteTextView) findViewById(R.id.act_card_name);
         mActvComment = (AutoCompleteTextView) findViewById(R.id.actv_item_note);
     }
@@ -97,14 +101,19 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         mOldRewardInfo = intent.getParcelableExtra("reward_info");
         mFlipAnimation = new FlipAnimation(mIvAddRewardFrontPhoto, mIvAddRewardBackPhoto);
         mCurRewardFaceResId = R.id.iv_add_reward_front_photo;
+        ActionBar actionBar = getActionBar();
 
         mOptions.inDensity = mMetrics.densityDpi;
         mOptions.inScaled = false;
         mOptions.inPurgeable = true;
         mOptions.inInputShareable = true;
 
-        setTitle(intent.getStringExtra("title"));
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(intent.getStringExtra("title"));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        }
+
         initOldData();
     }
 
@@ -152,10 +161,21 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
     }
 
     @Override
+    protected void onStart() {
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        super.onStart();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
 
+    @Override
+    protected void onStop() {
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        super.onStop();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -299,7 +319,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             }
             break;
 
-            case R.id.tv_barcode: {
+            case R.id.tv_material_barcode: {
                 IntentIntegrator integrator = new IntentIntegrator(this);
 
                 integrator.initiateScan();

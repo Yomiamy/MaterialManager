@@ -492,6 +492,38 @@ public class DBUtility {
         return groceryListInfos;
     }
 
+    public synchronized static GroceryListData selectGroceryListHistoryInfosById(int id) {
+        ArrayList<GroceryListData> groceryListInfos = new ArrayList<GroceryListData>();
+        Cursor c = null;
+
+        try {
+            c = sResolver.query(MaterialProvider.URI_GROCERY_LIST_HISTORY, null, "grocery_list_id=?", new String[]{Integer.toString(id)}, null, null);
+
+            while (c.moveToNext()) {
+                GroceryListData groceryListInfo = new GroceryListData();
+
+                groceryListInfo.setId(c.getInt(1));
+                groceryListInfo.setGroceryListName(c.getString(2));
+                groceryListInfo.setIsAlertWhenNearBy(c.getInt(3));
+                groceryListInfo.setStoreName(c.getString(4));
+                groceryListInfo.setAddress(c.getString(5));
+                groceryListInfo.setPhone(c.getString(6));
+                groceryListInfo.setServiceTime(c.getString(7));
+                groceryListInfo.setCheckOutTime(Utility.transStringToDate("yyyy-MM-dd HH:mm:ss", c.getString(8)));
+
+                groceryListInfos.add(groceryListInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) {
+                c.close();
+                c = null;
+            }
+        }
+        return (groceryListInfos.size() > 0) ? groceryListInfos.get(0) : null;
+    }
+
     public synchronized static ArrayList<GroceryListData> selectGroceryListInfos() {
         ArrayList<GroceryListData> groceryListInfos = new ArrayList<GroceryListData>();
         Cursor c = null;
@@ -523,6 +555,41 @@ public class DBUtility {
             }
         }
         return groceryListInfos;
+    }
+
+
+
+    public synchronized static GroceryListData selectGroceryListInfosById(int id) {
+        ArrayList<GroceryListData> groceryListInfos = new ArrayList<GroceryListData>();
+        Cursor c = null;
+
+        try {
+            c = sResolver.query(MaterialProvider.URI_GROCERY_LIST, null, "id=?", new String[]{Integer.toString(id)}, null);
+
+            while (c.moveToNext()) {
+                GroceryListData groceryListInfo = new GroceryListData();
+
+                groceryListInfo.setId(c.getInt(0));
+                groceryListInfo.setGroceryListName(c.getString(1));
+                groceryListInfo.setIsAlertWhenNearBy(c.getInt(2));
+                groceryListInfo.setStoreName(c.getString(3));
+                groceryListInfo.setAddress(c.getString(4));
+                groceryListInfo.setLat(c.getString(5));
+                groceryListInfo.setLong(c.getString(6));
+                groceryListInfo.setPhone(c.getString(7));
+                groceryListInfo.setServiceTime(c.getString(8));
+
+                groceryListInfos.add(groceryListInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) {
+                c.close();
+                c = null;
+            }
+        }
+        return (groceryListInfos.size() > 0) ? groceryListInfos.get(0) : null;
     }
 
     public synchronized static void insertGroceryItemInfo(GroceryItem groceryItemInfo) {

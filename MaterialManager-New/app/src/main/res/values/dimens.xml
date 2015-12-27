@@ -6,6 +6,8 @@
     <dimen name="font_size_medium">14sp</dimen>
     <dimen name="font_size_large">16sp</dimen>
     <dimen name="font_size_xlarge">18sp</dimen>
+    <dimen name="font_size_xxlarge">20sp</dimen>
+    <dimen name="font_size_xxxxlarge">22sp</dimen>
 
     <!-- common -->
     <dimen name="v_bottom_spacing">16dp</dimen>
@@ -69,6 +71,49 @@
     <dimen name="iv_add_reward_photo_change_h">25dp</dimen>
     <dimen name="iv_add_reward_photo_change_w">25dp</dimen>
     <dimen name="iv_change_reward_preview_face_margint_left">10dp</dimen>
+
+    <!-- view_search_info_dialog -->
+    <dimen name="dialog_userinfo_main_width">300dp</dimen>
+    <dimen name="dialog_userinfo_topBackground_height">130dp</dimen>
+    <dimen name="dialog_userinfo_infoHeadShotLayout_width">132dp</dimen>
+    <dimen name="dialog_userinfo_infoHeadShotLayout_height">132dp</dimen>
+    <dimen name="dialog_userinfo_infoHeadShotLayout_marginTop">30dp</dimen>
+    <dimen name="dialog_userinfo_infoName_marginTop">6dp</dimen>
+    <dimen name="dialog_userinfo_infoName2_marginTop">6dp</dimen>
+    <dimen name="dialog_userinfo_infoStatus_marginTop">6dp</dimen>
+    <dimen name="dialog_userinfo_addressBookPhone_marginTop">6dp</dimen>
+    <dimen name="dialog_userinfo_addressBookEmail_marginTop">3dp</dimen>
+    <dimen name="dialog_userinfo_infoLastSeen_marginTop">5dp</dimen>
+    <dimen name="dialog_userinfo_celeInfoName_marginTop">6dp</dimen>
+    <dimen name="dialog_userinfo_celeinfoStatus_marginTop">5dp</dimen>
+    <dimen name="dialog_userinfo_groupNum_marginBottom">16dp</dimen>
+    <dimen name="dialog_userinfo_groupNum_marginTop">6dp</dimen>
+    <dimen name="dialog_userinfo_chatButton_marginBottom">8dp</dimen>
+    <dimen name="dialog_userinfo_chatButton_marginTop">8dp</dimen>
+    <dimen name="dialog_userinfo_infoLayout_paddingTop">8dp</dimen>
+    <dimen name="dialog_userinfo_operatorTextView_marginTop">4dp</dimen>
+    <dimen name="dialog_userinfo_infoPhone_marginTop">9dp</dimen>
+    <dimen name="dialog_userinfo_celeTypeImage_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_celeTypeName_marginTop">9dp</dimen>
+    <dimen name="dialog_userinfo_celeFanceImage_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_celeFanceCount_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_deleteButton_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_blockButton_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_separationLine_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_addressBookInfoLayout_paddingTop">8dp</dimen>
+    <dimen name="dialog_userinfo_addressBookDepartmentImage_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_addressBookDepartmentInfo_marginTop">9dp</dimen>
+    <dimen name="dialog_userinfo_threeFunctionLayout_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_celebrityChatFunctionLayout_width">270dp</dimen>
+    <dimen name="dialog_userinfo_celebrityChatFunctionLayout_marginBottom">10dp</dimen>
+    <dimen name="dialog_userinfo_celebrityChatFunctionLayout_marginTop">10dp</dimen>
+    <dimen name="dialog_userinfo_group_dialog_menu_marginTop">7dp</dimen>
+    <dimen name="dialog_userinfo_unBlockLayout_width">270dp</dimen>
+    <dimen name="dialog_userinfo_unBlockLayout_marginBottom">10dp</dimen>
+    <dimen name="dialog_userinfo_unBlockLayout_marginTop">10dp</dimen>
+    <dimen name="dialog_userinfo_roundImageView_width">120dp</dimen>
+    <dimen name="dialog_userinfo_roundImageView_height">120dp</dimen>
+
 
     <!--Slide Menu-->
     <dimen name="slidingmenu_offset">80dp</dimen>

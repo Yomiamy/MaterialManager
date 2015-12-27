@@ -10,69 +10,55 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:paddingBottom="50dp"
         android:background="@color/bg_grocery_login"
-        android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
         android:orientation="vertical">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@drawable/ic_iron_ring" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:padding="15dp"
-            android:layout_weight="1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:paddingTop="15dp">
 
-                <RelativeLayout
-                    android:layout_width="170.0dip"
-                    android:layout_height="170.0dip"
-                    android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/iv_add_photo"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/selector_add_photo_status" />
 
-                    <ImageView
-                        android:id="@+id/iv_add_photo"
-                        android:layout_width="170.0dip"
-                        android:layout_height="170.0dip"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/selector_add_photo_status" />
+            <ImageView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_add_photo_shadow"
+                android:visibility="visible" />
 
-                    <ImageView
-                        android:layout_width="170.0dip"
-                        android:layout_height="170.0dip"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/bg_add_photo_shadow"
-                        android:visibility="visible" />
-                </RelativeLayout>
-            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_title_barcode"
@@ -82,11 +68,11 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_barcode"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_barcode"
+                android:id="@+id/tv_material_barcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -97,21 +83,19 @@
                 android:gravity="center"
                 android:text="x xxxxxx xxxxxx x"
                 android:textColor="@color/content_text_color"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium" />
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_material_name"
@@ -121,8 +105,8 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_material_name"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <AutoCompleteTextView
                 android:id="@+id/act_material_name"
@@ -134,20 +118,18 @@
                 android:ems="10"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_material_category"
@@ -155,10 +137,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="@string/title_tv_material_category"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spin_material_category"
@@ -172,15 +155,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_purchace_date_title"
@@ -190,50 +171,47 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_purchace_date"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/rl_purchace_date_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:clickable="true"
-                android:layout_toRightOf="@+id/tv_purchace_date_title">
+                android:layout_toRightOf="@+id/tv_purchace_date_title"
+                android:clickable="true">
+
                 <TextView
                     android:id="@+id/tv_purchace_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="7dp"
                     android:gravity="center"
                     android:text="yyyy/mm/dd"
                     android:textColor="@color/content_text_color"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/font_size_medium"/>
+                    android:textSize="@dimen/font_size_medium"
+                    android:textStyle="bold" />
 
-                <!--android:layout_alignRight="@id/tv_purchace_date"-->
-                <!--android:layout_alignLeft="@id/tv_purchace_date"-->
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_purchace_date"
-                    android:src="@drawable/spinner_background_holo_light"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/spinner_background_holo_light" />
             </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_valid_date_title"
@@ -243,16 +221,17 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_valid_date"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/rl_validate_date_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:clickable="true"
-                android:layout_toRightOf="@+id/tv_valid_date_title">
+                android:layout_toRightOf="@+id/tv_valid_date_title"
+                android:clickable="true">
+
                 <TextView
                     android:id="@+id/tv_valid_date"
                     android:layout_width="wrap_content"
@@ -262,31 +241,28 @@
                     android:gravity="center"
                     android:text="yyyy/mm/dd"
                     android:textColor="@color/content_text_color"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/font_size_medium"/>
+                    android:textSize="@dimen/font_size_medium"
+                    android:textStyle="bold" />
 
-                <!--android:layout_alignLeft="@id/tv_valid_date"-->
-                <!--android:layout_alignRight="@id/tv_valid_date"-->
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_valid_date"
-                    android:src="@drawable/spinner_background_holo_light"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/spinner_background_holo_light" />
             </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_notification_days"
@@ -296,44 +272,43 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_notification"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
-            <!-- only for number input -->
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_notification_days"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_days"
                 android:layout_toRightOf="@+id/tv_notification_days"
                 android:digits="0123456789"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:minWidth="20dp" />
 
             <TextView
+                android:id="@+id/tv_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/et_notification_days"
-                android:paddingTop="10dp"
                 android:text="@string/title_tv_notification_days"
-                android:textColor="@color/title_text_color"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textColor="@color/GK"
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_material_place"
@@ -343,8 +318,8 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_material_place"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <AutoCompleteTextView
                 android:id="@+id/act_material_place"
@@ -356,20 +331,18 @@
                 android:ems="10"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="15dip"
-            android:paddingLeft="15dip"
-            android:paddingTop="15dip"
-            android:layout_weight="1">
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/tv_comment"
@@ -379,8 +352,8 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_comment"
                 android:textColor="@color/GK"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
 
             <AutoCompleteTextView
                 android:id="@+id/act_comment"
@@ -391,7 +364,7 @@
                 android:completionThreshold="1"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium" />
         </RelativeLayout>
 
         <ImageView
@@ -399,15 +372,13 @@
             android:layout_height="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/light_shadow" />
 
-        <!--<View-->
-            <!--android:id="@+id/v_bottomSpacing"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="16.0dip"-->
-            <!--android:layout_marginLeft="3dp"-->
-            <!--android:layout_marginRight="3dp"-->
-            <!--android:background="@color/white"/>-->
+        <View
+            android:id="@+id/v_bottomSpacing"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
     </LinearLayout>
 </ScrollView>

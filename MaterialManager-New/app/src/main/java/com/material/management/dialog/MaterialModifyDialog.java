@@ -95,7 +95,7 @@ public class MaterialModifyDialog extends AlertDialog.Builder implements OnClick
         mLayout = layoutInflater.inflate(R.layout.dialog_material_modify_pop_win_layout, null);
         mRlOnLoading = (RelativeLayout) mLayout.findViewById(R.id.rl_on_loading);
         mActMaterialName = (AutoCompleteTextView) mLayout.findViewById(R.id.act_material_name);
-        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode);
+        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_material_barcode);
         mSpinMaterialCategory = (Spinner) mLayout.findViewById(R.id.spin_material_category);
         mEtNotificationDays = (EditText) mLayout.findViewById(R.id.et_notification_days);
         mImgvPicCamera = (ImageView) mLayout.findViewById(R.id.imgv_material_pic_camera);
@@ -273,7 +273,7 @@ public class MaterialModifyDialog extends AlertDialog.Builder implements OnClick
                         REQ_SELECT_PICTURE);
             }
             break;
-            case R.id.tv_barcode: {
+            case R.id.tv_material_barcode: {
                 IntentIntegrator integrator = new IntentIntegrator(mParFragment);
                 integrator.initiateScan();
             }

@@ -1089,7 +1089,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_barcode"
+                    android:id="@+id/tv_material_barcode"
                     android:layout_width="0.0dip"
                     android:layout_height="32.0dip"
                     android:layout_gravity="center_vertical"

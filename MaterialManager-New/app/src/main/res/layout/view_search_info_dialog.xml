@@ -1,0 +1,363 @@
+<?xml version="1" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/corners_bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/topBackground"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_userinfo_topBackground_height"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/image"
+            android:scaleType="fitXY"
+            android:src="@drawable/pic01" />
+
+        <RelativeLayout
+            android:id="@+id/infoHeadShotLayout"
+            android:layout_width="@dimen/dialog_userinfo_infoHeadShotLayout_width"
+            android:layout_height="@dimen/dialog_userinfo_infoHeadShotLayout_height"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dialog_userinfo_infoHeadShotLayout_marginTop"
+            android:background="@drawable/bg_headshot">
+
+            <com.material.management.component.RoundedImageView
+                android:id="@+id/riv_head"
+                android:layout_width="@dimen/dialog_userinfo_roundImageView_width"
+                android:layout_height="@dimen/dialog_userinfo_roundImageView_height"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_no_image_available"
+                app:riv_border_color="@color/circle_image"
+                app:riv_border_width="1dp"
+                app:riv_corner_radius="6dp"
+                app:riv_oval="false" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_material_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/infoHeadShotLayout"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_material_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoName_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="物品1"
+                android:textColor="@color/infoName_color"
+                android:textSize="@dimen/font_size_xxxxlarge" />
+
+            <TextView
+                android:id="@+id/tv_material_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoName2_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="食物"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_expire_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoStatus_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="100天後過期"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_material_barcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_addressBookPhone_marginTop"
+                android:drawableTop="@drawable/selector_barcode"
+                android:gravity="center"
+                android:text="x xxxxxx xxxxxx x"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_grocery_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/infoHeadShotLayout"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_grocery_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoName_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="物品1"
+                android:textColor="@color/infoName_color"
+                android:textSize="@dimen/font_size_xxxxlarge" />
+
+            <TextView
+                android:id="@+id/tv_grocery_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoStatus_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="食物"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_grocery_shop_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoName2_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="購物計畫名稱"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_grocery_shop_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoName2_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="購買日期"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_grocery_shop_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoName2_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="購買數量"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_grocery_shop_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_infoName2_marginTop"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="購買金額"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_grocery_barcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_userinfo_addressBookPhone_marginTop"
+                android:drawableTop="@drawable/selector_barcode"
+                android:gravity="center"
+                android:text="x xxxxxx xxxxxx x"
+                android:textColor="@color/infoStatus_color"
+                android:textSize="@dimen/font_size_large"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/profile_btn_close" />
+    </RelativeLayout>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/memberFunctionLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="@dimen/dialog_userinfo_threeFunctionLayout_marginTop"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="3">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/voipButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg1"-->
+            <!--android:drawableTop="@drawable/profile_icon_call"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/userInfoFreecall"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/payphoneButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg2_dividers"-->
+            <!--android:drawableTop="@drawable/profile_icon_payphone"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/mplusCall"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/addFriendButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg3"-->
+            <!--android:drawableTop="@drawable/profile_icon_addfriend"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/userInfoaddFriend"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/giftPlusButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg3"-->
+            <!--android:drawableTop="@drawable/profile_icon_gift"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/userInfoGift"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/addressbookFunctionLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:visibility="visible"-->
+        <!--android:weightSum="3">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/paysmsButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg2_dividers"-->
+            <!--android:drawableTop="@drawable/profile_icon_paysms"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/mplusPaySMS"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/emailButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg2_dividers"-->
+            <!--android:drawableTop="@drawable/contacts_icon_mail"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/addressbookEmail"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/officePhoneButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg3_nor"-->
+            <!--android:gravity="center|top"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal"-->
+            <!--android:visibility="visible" />-->
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/group_dialog_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dialog_userinfo_group_dialog_menu_marginTop"
+        android:orientation="horizontal">
+
+        <!--<Button-->
+            <!--android:id="@+id/group_dialog_bulletin_button"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg2_dividers"-->
+            <!--android:drawableTop="@drawable/profile_icon_group"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/group_member"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/group_dialog_member_button"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/profile_btn_bg2_dividers"-->
+            <!--android:drawableTop="@drawable/profile_icon_group"-->
+            <!--android:gravity="center|top"-->
+            <!--android:text="@string/group_member"-->
+            <!--android:textColor="@drawable/profile_icon_btn_text_color"-->
+            <!--android:textSize="@dimen/font_size_normal" />-->
+
+        <Button
+            android:id="@+id/group_dialog_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/profile_btn_bg3"
+            android:drawableTop="@drawable/profile_icon_edit"
+            android:gravity="center|top"
+            android:text="@string/group_dialog_edit_item"
+            android:textColor="@drawable/profile_icon_btn_text_color"
+            android:textSize="@dimen/font_size_normal" />
+    </LinearLayout>
+</LinearLayout>

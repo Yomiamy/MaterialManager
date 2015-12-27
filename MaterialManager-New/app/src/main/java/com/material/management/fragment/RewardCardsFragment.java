@@ -109,6 +109,7 @@ public class RewardCardsFragment extends MMFragment implements Observer {
     public void onResume() {
         super.onResume();
 
+        sendScreenAnalytics(getString(R.string.ga_app_view_reward_cards_fragment));
         reloadRewardList();
     }
 
@@ -269,7 +270,7 @@ public class RewardCardsFragment extends MMFragment implements Observer {
                 editRewardInfo(null);
             }
         } else {
-            mOwnerActivity.setMenuItemVisibility(R.id.action_search, true);
+            mOwnerActivity.setMenuItemVisibility(R.id.action_search, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, true);

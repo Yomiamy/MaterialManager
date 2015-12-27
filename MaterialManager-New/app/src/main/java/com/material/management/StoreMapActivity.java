@@ -1,10 +1,12 @@
 package com.material.management;
 
+import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -98,12 +100,8 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         mLayout = mInflater.inflate(R.layout.activity_pick_location_search, null);
 
         setContentView(mLayout);
-
-        Intent intent = getIntent();
-        setTitle(intent.getStringExtra("title"));
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
         changeLayoutConfig(mLayout);
+
         findView();
         init();
         setListener();
@@ -125,6 +123,16 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
 
     private void init() {
         showProgressDialog(null, getString(R.string.on_loading));
+
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("title");
+        ActionBar actionBar = getActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(title);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        }
 
         mIsLoadingFinished = false;
         mFm = getFragmentManager();

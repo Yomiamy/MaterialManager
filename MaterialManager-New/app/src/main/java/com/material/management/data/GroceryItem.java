@@ -126,24 +126,33 @@ public class GroceryItem extends GlobalSearchData implements Parcelable {
         this.groceryListId = groceryListId;
     }
 
+    public String getGroceryListName() {
+        return groceryListName;
+    }
+
+    public void setGroceryListName(String groceryListName) {
+        this.groceryListName = groceryListName;
+    }
+
     /* For global search usage. */
     protected ItemType mItemType = ItemType.GROCERY_ITEM;
 
     /* this field only for insert material display usage */
-    private String name;
-    private String groceryType;
+    private String name = "";
+    private String groceryType = "";
     private int groceryListId;
+    private String groceryListName ="";
     private Bitmap groceryPic;
-    private String groceryPicPath;
-    private String barcodeFormat;
-    private String barcode;
+    private String groceryPicPath ="";
+    private String barcodeFormat ="";
+    private String barcode = "";
     private Calendar purchaceDate;
     private Calendar validDate;
-    private String size;
-    private String sizeUnit;
+    private String size = "";
+    private String sizeUnit = "";
     private String qty = "0";
     private String price = "0";
-    private String comment;
+    private String comment = "";
 
     public static final Parcelable.Creator<GroceryItem> CREATOR
             = new Parcelable.Creator<GroceryItem>() {
@@ -167,6 +176,7 @@ public class GroceryItem extends GlobalSearchData implements Parcelable {
         dest.writeString(name);
         dest.writeString(groceryType);
         dest.writeInt(groceryListId);
+        dest.writeString(groceryListName);
         dest.writeParcelable(groceryPic, flags);
         dest.writeString(groceryPicPath);
         dest.writeString(barcodeFormat);
@@ -185,6 +195,7 @@ public class GroceryItem extends GlobalSearchData implements Parcelable {
         name = p.readString();
         groceryType = p.readString();
         groceryListId = p.readInt();
+        groceryListName = p.readString();
         groceryPic = p.readParcelable(Bitmap.class.getClassLoader());
         groceryPicPath = p.readString();
         barcodeFormat = p.readString();

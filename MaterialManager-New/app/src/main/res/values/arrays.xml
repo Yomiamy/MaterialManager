@@ -73,14 +73,28 @@
         <item>Buy 1 get x free</item>
     </string-array>
 
-    <!--SettingsFragment-->
+    <!-- GlobalSearchActivity -->
+    <integer-array name="top_backgrounds">
+        <item>@drawable/pic01</item>
+        <item>@drawable/pic02</item>
+        <item>@drawable/pic03</item>
+        <item>@drawable/pic04</item>
+        <item>@drawable/pic05</item>
+        <item>@drawable/pic06</item>
+        <item>@drawable/pic07</item>
+        <item>@drawable/pic08</item>
+        <item>@drawable/pic09</item>
+    </integer-array>
 
+
+    <!--SettingsFragment-->
     <!-- Notification frequency unit after the material is expired : hr. -->
     <string-array name="default_notification_frequency">
         <item>1</item>
         <item>3</item>
         <item>5</item>
         <item>7</item>
+        <item>silent</item>
     </string-array>
 
     <string-array name="font_size_scale_level_title">

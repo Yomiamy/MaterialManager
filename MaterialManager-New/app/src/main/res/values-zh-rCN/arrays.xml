@@ -81,6 +81,7 @@
         <item>3</item>
         <item>5</item>
         <item>7</item>
+        <item>无提醒</item>
     </string-array>
 
     <string-array name="font_size_scale_level_title">

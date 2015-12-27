@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="?android:attr/selectableItemBackground">
 
     <RelativeLayout
@@ -36,6 +36,7 @@
                 android:id="@+id/ll_material_content_layout"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_toLeftOf="@+id/iv_indicator"
                 android:visibility="gone"
                 layout="@layout/view_material_global_search"/>
 
@@ -43,6 +44,7 @@
                 android:id="@+id/ll_grocery_content_layout"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_toLeftOf="@+id/iv_indicator"
                 android:visibility="visible"
                 layout="@layout/view_grocery_global_search"/>
 

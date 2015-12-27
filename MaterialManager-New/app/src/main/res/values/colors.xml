@@ -43,6 +43,37 @@
 
     <!-- GlobalSearchActivity -->
     <color name="trans_black_cover">#cc000000</color>
+    <color name="infoName_color">#ff24b7bf</color>
+    <color name="infoStatus_color">#ff697687</color>
+    <color name="infoLastSeen_color">#ff697687</color>
+    <color name="no_text_color_nor">#ffffffff</color>
+    <color name="infoPhone_color">#ff697687</color>
+    <color name="line">#ffe6e6e6</color>
+    <color name="circle_image">#ffc0c9ce</color>
+    <color name="chat_bg_color_dis">#ffb4c5d7</color>
+    <color name="chat_shadow_color_nor">#ff1bab93</color>
+    <color name="chat_bg_color_nor">#ff1ebeae</color>
+    <color name="chat_shadow_color_prs">#ff0e9d86</color>
+    <color name="chat_bg_color_prs">#ff10b096</color>
+    <color name="no_bg_color_dis">#ffb4c5d7</color>
+    <color name="no_shadow_color_nor">#ffd14f39</color>
+    <color name="no_bg_color_nor">#ffe9573e</color>
+    <color name="no_shadow_color_prs">#ffbc2112</color>
+    <color name="no_bg_color_prs">#ffd7442b</color>
+    <color name="profile_icon_btn_bg_color_dis">#ffb4c5d7</color>
+    <color name="profile_icon_btn_shadow_color_nor">#ff1a97a2</color>
+    <color name="profile_icon_btn_bg_color_nor">#ff1eb4be</color>
+    <color name="profile_icon_btn_shadow_color_prs">#ff008490</color>
+    <color name="profile_icon_btn_bg_color_prs">#ff09a0a9</color>
+    <color name="dividers">#ffffffff</color>
+    <color name="profile_icon_btn_text_color_dis">#ffdae2eb</color>
+    <color name="profile_icon_btn_text_color_prs">#ff84d0d4</color>
+    <color name="profile_icon_btn_text_color_nor">#ffffffff</color>
+    <color name="yes_bg_color_dis">#ffb4c5d7</color>
+    <color name="yes_shadow_color_nor">#ff1ba2ab</color>
+    <color name="yes_bg_color_nor">#ff1eb4be</color>
+    <color name="yes_shadow_color_prs">#ff089098</color>
+    <color name="yes_bg_color_prs">#ff09a0a9</color>
 
     <!--SettingsFragment-->
     <color name="settings_title_black">#af000000</color>

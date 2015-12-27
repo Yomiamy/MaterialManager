@@ -54,6 +54,11 @@
     <string name="global_search_rest_days_exp">%1$s天就過期</string>
     <string name="global_search_material_qty">數量:</string>
     <string name="global_search_material_price">單價:</string>
+    <string name="global_search_shop_place">购买计画 \u0022%1$s\u0022</string>
+    <string name="global_search_checkout_date">結算日期 \u0022%1$s\u0022</string>
+    <string name="global_search_not_checkout">尚未結算</string>
+    <string name="global_search_qty">购买数量 \u0022%1$s\u0022</string>
+    <string name="global_search_price">物品单价 \u0022\uff04%1$s\u0022</string>
     <string name="material_modify_actionbar_title">其他 - 过期物品修改</string>
 
 
@@ -89,6 +94,7 @@
     <string name="title_progress_dropbox_restore_photo_successfully">回复图片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_notif_backup_restore_successfully">[备份/回复]数据库成功</string>
     <string name="title_progress_notif_backup_restore_fail">[备份/回复]数据库失败</string>
+    <string name="title_notif_silent_mode">无提醒</string>
     <string name="title_grocery_list_modify_actionbar_title">购物管理 - 列表数据修改</string>
     <string name="title_grocery_item_login_actionbar_title">购物管理 - 输入购买物品</string>
     <string name="title_grocery_item_title">物品名称</string>

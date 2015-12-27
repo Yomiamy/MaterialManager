@@ -102,6 +102,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mIsNotifVibrateOrSound = Utility.getIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND);
         /* default frequency is 1 hour */
         mNotifFreq = Utility.getIntValueForKey(Utility.NOTIF_FREQUENCY);
+        String notifFreqStr = (mNotifFreq == mResources.getInteger(R.integer.max_notif_freq)) ? mResources.getString(R.string.title_notif_silent_mode) : Integer.toString(mNotifFreq);
         ArrayAdapter<String> notifSpinAdapter = new SpinnerSettingsAdapter<String>(Utility.getContext(), R.layout.view_spinner_item_layout,
                 getResources().getStringArray(R.array.default_notification_frequency));
         ArrayAdapter<String> fontSizeSpinAdapter = new SpinnerSettingsAdapter<String>(Utility.getContext(), R.layout.view_spinner_item_layout,
@@ -127,7 +128,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         }
         mSpinNotifFrequency.setAdapter(notifSpinAdapter);
         mSpinNotifFrequency.setOnItemSelectedListener(this);
-        mSpinNotifFrequency.setSelection(notifSpinAdapter.getPosition(Integer.toString(mNotifFreq)));
+        mSpinNotifFrequency.setSelection(notifSpinAdapter.getPosition(notifFreqStr));
         mRgNotifVibrateOrSound.setOnCheckedChangeListener(this);
         mCbDropBox.setOnClickListener(this);
         mTvDbBackup.setOnClickListener(this);
@@ -164,7 +165,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         int vId = adapter.getId();
 
         if (vId == R.id.spin_notification_frequency) {
-            mNotifFreq = Integer.parseInt(((TextView) selectedView).getText().toString().trim());
+            String freqStr = ((TextView) selectedView).getText().toString().trim();
+            mNotifFreq = (freqStr.endsWith(mResources.getString(R.string.title_notif_silent_mode))) ? mResources.getInteger(R.integer.max_notif_freq) : Integer.parseInt(freqStr);
             Intent intent = new Intent();
             Utility.setIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND, mIsNotifVibrateOrSound);
             Utility.setIntValueForKey(Utility.NOTIF_FREQUENCY, mNotifFreq);

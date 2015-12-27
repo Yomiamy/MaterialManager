@@ -129,6 +129,7 @@ public class MonitorService extends BroadcastReceiver {
         sExpiredMonitorRepeatIntent = PendingIntent.getBroadcast(Utility.getContext(), MonitorType.MONITOR_TYPE_EXPIRE_NOITFICATION.value(), i, PendingIntent.FLAG_CANCEL_CURRENT);
 
         cal.add(Calendar.HOUR, notifFreq);
+//        cal.add(Calendar.SECOND, 10);
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sExpiredMonitorRepeatIntent);
     }
 }

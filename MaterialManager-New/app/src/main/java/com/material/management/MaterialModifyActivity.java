@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Gravity;
@@ -111,7 +112,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
 
     private void findView() {
         mIvAddPhoto = (ImageView) mLayout.findViewById(R.id.iv_add_photo);
-        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode);
+        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_material_barcode);
         mActMaterialName = (AutoCompleteTextView) mLayout.findViewById(R.id.act_material_name);
         mSpinMaterialCategory = (Spinner) mLayout.findViewById(R.id.spin_material_category);
         mRlPurchaceDate = (RelativeLayout) mLayout.findViewById(R.id.rl_purchace_date_layout);
@@ -155,6 +156,9 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        }
 
         initSpinnerData();
         initAutoCompleteData();
@@ -671,7 +675,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             }
             break;
 
-            case R.id.tv_barcode: {
+            case R.id.tv_material_barcode: {
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
             }

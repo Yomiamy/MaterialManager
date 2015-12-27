@@ -66,7 +66,7 @@
                 android:textSize="@dimen/textview_text_size"/>
 
             <TextView
-                android:id="@+id/tv_barcode"
+                android:id="@+id/tv_material_barcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

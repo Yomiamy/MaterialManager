@@ -106,7 +106,6 @@ public class MainActivity extends SlidingActivity {
                     if (bundleType == BundleType.BUNDLE_TYPE_NOTIFICATION.value()) {
                         item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(2);
 
-                        mBundle = null;
                         setIntent(null);
                     }
                 }
@@ -114,6 +113,8 @@ public class MainActivity extends SlidingActivity {
 
             if (item != null) {
                 setFragment(item.fragmentClass, item.name);
+
+                mBundle = null;
             }
             mHandler.removeCallbacksAndMessages(null);
         }
@@ -136,6 +137,7 @@ public class MainActivity extends SlidingActivity {
         mLvSlideMenu = (ListView) getLayoutInflater().inflate(R.layout.sliding_menu, null);
         mLayout = getLayoutInflater().inflate(R.layout.activity_main_layout, null);
 
+        mLayout.setBackgroundColor(mResources.getColor(R.color.black));
         setBehindContentView(mLvSlideMenu);
         setContentView(mLayout);
         mImSplash = (ImageView) findViewById(R.id.iv_splash_screen);

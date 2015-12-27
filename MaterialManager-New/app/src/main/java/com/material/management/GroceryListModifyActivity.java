@@ -1,7 +1,9 @@
 package com.material.management;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,7 +72,6 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
         mLayout = mInflater.inflate(R.layout.fragment_grocery_login, null);
 
         setContentView(mLayout);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
         findView();
         init();
         setListener();
@@ -117,9 +118,10 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
     private void init() {
         mTitle = getString(R.string.title_grocery_list_modify_actionbar_title);
         Calendar calendar = Calendar.getInstance();
-        mTimePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false);
+        mTimePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
         mGroceryListData = getIntent().getParcelableExtra("grocery_list_info");
         mSelectedStoreData = new StoreData();
+        ActionBar actionBar = getActionBar();
 
         mSelectedStoreData.setStoreName(mGroceryListData.getStoreName());
         mSelectedStoreData.setStoreLat(mGroceryListData.getLat());
@@ -128,7 +130,13 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
         mSelectedStoreData.setStorePhone(mGroceryListData.getPhone());
         mSelectedStoreData.setStoreServiceTime(mGroceryListData.getServiceTime());
 
-        setTitle(mTitle);
+
+        actionBar.setTitle(mTitle);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        }
+
         updateStoreInfo();
         initAutoCompleteData();
         changeLayoutConfig(mLayout);

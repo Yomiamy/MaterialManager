@@ -12,7 +12,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.material.management.MMFragment;
-import com.material.management.MainActivity;
 import com.material.management.MaterialManagerApplication;
 import com.material.management.Observer;
 import com.material.management.R;
@@ -130,7 +129,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
     private void initView(View layout) {
         mIvAddPhoto = (ImageView) layout.findViewById(R.id.iv_add_photo);
-        mTvBarcode = (TextView) layout.findViewById(R.id.tv_barcode);
+        mTvBarcode = (TextView) layout.findViewById(R.id.tv_material_barcode);
         mActMaterialName = (AutoCompleteTextView) layout.findViewById(R.id.act_material_name);
         mSpinMaterialCategory = (Spinner) layout.findViewById(R.id.spin_material_category);
         mRlPurchaceDate = (RelativeLayout) layout.findViewById(R.id.rl_purchace_date_layout);
@@ -541,7 +540,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             }
             break;
 
-            case R.id.tv_barcode: {
+            case R.id.tv_material_barcode: {
                 IntentIntegrator integrator = new IntentIntegrator(LoginMaterialFragment.this);
                 integrator.initiateScan();
             }

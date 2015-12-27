@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,8 +23,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.material.management.data.GroceryItem;
+import com.material.management.data.GroceryListData;
 import com.material.management.data.Material;
 import com.material.management.data.GlobalSearchData;
+import com.material.management.dialog.GlobalSearchResultDialog;
 import com.material.management.utils.DBUtility;
 
 import java.util.ArrayList;
@@ -83,6 +86,9 @@ public class GlobalSearchActivity extends MMActivity {
 
         actionBar.setTitle(getString(R.string.app_name));
         actionBar.setDisplayHomeAsUpEnabled(true);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        }
     }
 
     private void setListener() {
@@ -117,17 +123,9 @@ public class GlobalSearchActivity extends MMActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 GlobalSearchData searchData = (GlobalSearchData) mSearchResultAdapter.getItem(pos);
-                GlobalSearchData.ItemType type = searchData.getItemType();
-                Intent intent = new Intent();
+                GlobalSearchResultDialog searchDataDialog = new GlobalSearchResultDialog(GlobalSearchActivity.this, searchData);
 
-                if(type == GlobalSearchData.ItemType.MATERIAL_ITEM) {
-                    intent.setClass(GlobalSearchActivity.this, MaterialModifyActivity.class);
-                    intent.putExtra("material_item", searchData.getMaterial());
-                } else if (type == GlobalSearchData.ItemType.GROCERY_ITEM) {
-                    intent.setClass(GlobalSearchActivity.this, GroceryItemLoginActivity.class);
-                    intent.putExtra("grocery_item", searchData.getGroceryItem());
-                }
-                startActivity(intent);
+                searchDataDialog.show();
             }
         });
 

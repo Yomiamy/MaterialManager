@@ -2,8 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!--Common-->
-    <string name="version_number">2.5.14</string>
-    <integer name="version_code">48</integer>
     <string name="place_api_key">AIzaSyB_1jcVRcsziBZ5nB796flr3GUGOeUiNUw</string>
 
     <string name="title_notice_dialog">!!! Notice !!!</string>
@@ -26,6 +24,7 @@
     <string name="ga_app_view_grocery_list_login_fragment">登入購物清單 - LoginGroceryListFragment</string>
     <string name="ga_app_view_grocery_list_fragment">檢視購物清單列表 - GroceryListFragment</string>
     <string name="ga_app_view_grocery_history_fragment">購物歷史 - GroceryHistoryFragment</string>
+    <string name="ga_app_view_reward_cards_fragment">購物優惠卡 - RewardCardsFragment</string>
 
     <!-- MainActivity -->
     <string name="app_name">Expired Monitor</string>
@@ -84,6 +83,26 @@
     <string name="global_search_rest_days_exp">%1$s days exp.</string>
     <string name="global_search_material_qty">Qty:</string>
     <string name="global_search_material_price">Price:</string>
+    <string name="global_search_shop_place">Shopping plan \u0022%1$s\u0022</string>
+    <string name="global_search_checkout_date">Purchasing date \u0022%1$s\u0022</string>
+    <string name="global_search_not_checkout">尚未結算</string>
+    <string name="global_search_qty">Quantity \u0022%1$s\u0022</string>
+    <string name="global_search_price">Unit-price \u0022\uff04%1$s\u0022</string>
+
+    <string name="image">Image</string>
+    <string name="userInfoChat">Chat</string>
+    <string name="userInfoFreecall">Free call</string>
+    <string name="mplusCall">Call</string>
+    <string name="userInfoGift">Send Gift</string>
+    <string name="addressbookEmail">E-mail</string>
+    <string name="mplusPaySMS">SMS</string>
+    <string name="chatWithCelebrity">Chat</string>
+    <string name="userInfoAddressBook">Contacts</string>
+    <string name="group_bulletin">Bulletin</string>
+    <string name="group_member">Members</string>
+    <string name="group_dialog_edit_item">Edit</string>
+    <string name="unblock">Unblock</string>
+    <string name="userInfoaddFriend">Add Friend</string>
 
     <!-- MaterialModifyActivity -->
     <string name="material_modify_actionbar_title">Other - Material Modification</string>
@@ -123,6 +142,7 @@
 
     <string name="title_progress_notif_backup_restore_successfully">Backup/Restore is successful</string>
     <string name="title_progress_notif_backup_restore_fail">Backup/Restore is failed</string>
+    <string name="title_notif_silent_mode">silent</string>
 
     <!--Grocery Login Activity-->
     <string name="title_grocery_list_modify_actionbar_title">Grocery Monitor - Grocery List Modification</string>
