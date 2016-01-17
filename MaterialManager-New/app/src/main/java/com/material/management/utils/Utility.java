@@ -56,13 +56,10 @@ public class Utility {
     private static Activity sActivity;
     private static SharedPreferences sSpSettings = null;
     private static SimpleDateFormat sSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private static SimpleDateFormat sSimpleDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static File sSdDir = Environment.getExternalStorageDirectory();
     private static Locale sLocale = Locale.getDefault();
-    private static DisplayMetrics sScreenDimInPix = null;
     private static PowerManager.WakeLock sWakeLock;
     private static DisplayMetrics sDisplayMetrics = null;
-    private static BitmapUtility sBmpUtility;
     private static LocationUtility sLocUtility;
     private static DeviceInfo sDeviceInfo = new DeviceInfo();
 
@@ -76,7 +73,6 @@ public class Utility {
         sActivity = activity;
         BitmapUtility.init(sActivity);
 //      LocationUtility.init(sActivity);
-        sBmpUtility = BitmapUtility.getInstance();
         sLocUtility = LocationUtility.getsInstance();
         sDeviceInfo.setDevice(Build.MANUFACTURER + " " + Build.MODEL);
         sDeviceInfo.setPlatformVersion("Android " + Build.VERSION.RELEASE);

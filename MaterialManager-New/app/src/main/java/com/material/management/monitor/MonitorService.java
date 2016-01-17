@@ -5,7 +5,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
 import com.material.management.service.location.LocationTrackService;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import java.util.Calendar;
 
@@ -68,24 +71,25 @@ public class MonitorService extends BroadcastReceiver {
     }
 
     private void doGroceryListNearbyCheck(Context context, Intent intent) {
+        LogUtility.printLogD("randy", ">>> doGroceryListNearbyCheck");
         Intent locationTrackIntent = new Intent(context, LocationTrackService.class);
-        Intent i = new Intent(context, MonitorService.class);
-        Calendar cal = Calendar.getInstance();
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+//        Intent i = new Intent(context, MonitorService.class);
+//        Calendar cal = Calendar.getInstance();
+//        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         locationTrackIntent.putExtra("is_location_track_on", true);
         context.startService(locationTrackIntent);
+        LogUtility.printLogD("randy", "<<< doGroceryListNearbyCheck");
 
-        if (sLocationTrackRepeatIntent != null) {
-            am.cancel(sLocationTrackRepeatIntent);
-        }
-
-        i.putExtra("monitor_type", MonitorType.MONITOR_TYPE_LOCATION_TRACK.value());
-
-        sLocationTrackRepeatIntent = PendingIntent.getBroadcast(Utility.getContext(), MonitorType.MONITOR_TYPE_LOCATION_TRACK.value(), i, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        cal.add(Calendar.SECOND, 30);
-        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sLocationTrackRepeatIntent);
+//        if (sLocationTrackRepeatIntent != null) {
+//            am.cancel(sLocationTrackRepeatIntent);
+//        }
+//
+//        i.putExtra("monitor_type", MonitorType.MONITOR_TYPE_LOCATION_TRACK.value());
+//        sLocationTrackRepeatIntent = PendingIntent.getBroadcast(Utility.getContext(), MonitorType.MONITOR_TYPE_LOCATION_TRACK.value(), i, PendingIntent.FLAG_CANCEL_CURRENT);
+//
+//        cal.add(Calendar.SECOND, 30);
+//        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sLocationTrackRepeatIntent);
     }
 
     private void doExpireCheck(Context context, Intent intent) {

@@ -13,14 +13,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.datetimepicker.date.DatePickerDialog;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ValueFormatter;
 import com.material.management.MMFragment;
 import com.material.management.MainActivity;
 import com.material.management.Observer;
@@ -85,39 +87,49 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
         mGreceryList = new ArrayList<GroceryListData>();
         {
             /* Statistic total count for each grocery filtered by day range. */
-            mLcChart.setUnit(" $");
-            mLcChart.setDrawUnitsInChart(true);
+//            mLcChart.setUnit(" $");
+//            mLcChart.setDrawUnitsInChart(true);
             // if enabled, the chart will always start at zero on the y-axis
-            mLcChart.setStartAtZero(false);
+//            mLcChart.setStartAtZero(false);
             // disable the drawing of values into the chart
-            mLcChart.setDrawYValues(false);
-            mLcChart.setDrawBorder(true);
-            mLcChart.setBorderPositions(new BarLineChartBase.BorderPosition[]{
-                    BarLineChartBase.BorderPosition.BOTTOM
-            });
+//            mLcChart.setDrawYValues(false);
+//            mLcChart.setDrawBorder(true);
+//            mLcChart.setBorderPositions(new BarLineChartBase.BorderPosition[]{
+//                    BarLineChartBase.BorderPosition.BOTTOM
+//            });
+
+            mLcChart.setDrawGridBackground(false);
             // enable value highlighting
-            mLcChart.setHighlightEnabled(true);
+//            mLcChart.setHighlightEnabled(true);
             // enable touch gestures
             mLcChart.setTouchEnabled(true);
             // enable scaling and dragging
             mLcChart.setDragEnabled(true);
             mLcChart.setScaleEnabled(true);
-            mLcChart.setDrawVerticalGrid(true);
-            mLcChart.setDrawHorizontalGrid(true);
+//            mLcChart.setDrawVerticalGrid(true);
+//            mLcChart.setDrawHorizontalGrid(true);
             // if disabled, scaling can be done on x- and y-axis separately
             mLcChart.setPinchZoom(true);
             mLcChart.setOnChartValueSelectedListener(this);
             /* Avoid the first and last label be clipped if too long. */
-            mLcChart.getXLabels().setAvoidFirstLastClipping(true);
-            mLcChart.getYLabels().setFormatter(new ValueFormatter() {
-                @Override
-                public String getFormattedValue(float v) {
-                    return Utility.convertDecimalFormat((long) v, "#,###,###,###");
-                }
-            });
+//            mLcChart.getXLabels().setAvoidFirstLastClipping(true);
+//            mLcChart.getYLabels().setFormatter(new ValueFormatter() {
+//                @Override
+//                public String getFormattedValue(float v) {
+//                    return Utility.convertDecimalFormat((long) v, "#,###,###,###");
+//                }
+//            });
             mLcChart.setNoDataTextDescription("");
             mLcChart.setDescription("");
             mLcChart.setNoDataText("");
+
+            YAxis leftAxis = mLcChart.getAxisLeft();
+            leftAxis.setStartAtZero(true);
+            leftAxis.enableGridDashedLine(10f, 10f, 0f);
+            leftAxis.setDrawTopYLabelEntry(true);
+
+            mLcChart.getAxisRight().setEnabled(false);
+            mLcChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
         }
 
         update(null);
@@ -173,9 +185,8 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
         super.onResume();
     }
 
-
     @Override
-    public void onValueSelected(Entry entry, int i) {
+    public void onValueSelected(Entry entry, int dataSetIndex, Highlight h) {
         if (entry != null) {
             GroceryListData groceryListData = mGreceryList.get(entry.getXIndex());
             String groceryListName = groceryListData.getGroceryListName();

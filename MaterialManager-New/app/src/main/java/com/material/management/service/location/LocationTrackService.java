@@ -14,13 +14,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+
 import com.material.management.monitor.GroceryNearbyMonitorRunnable;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 public class LocationTrackService extends Service implements SensorEventListener, LocationListener {
-    public static final String DEBUG = "LocationTrackService";
+    private static final String DEBUG = "randy";
     private static final String HANDLER_THREAD_NAME = "handle_thread_name";
+    private static final int NOTIFICATION_ID = 8383939;
 
     private SensorManager mSensorManager = null;
     private LocationManager mLocationManager = null;
@@ -36,6 +38,8 @@ public class LocationTrackService extends Service implements SensorEventListener
         @Override
         public void run() {
             stopGPS();
+            Utility.release();
+            sleepAndRestart();
         }
     };
 
@@ -68,6 +72,7 @@ public class LocationTrackService extends Service implements SensorEventListener
 
             return START_NOT_STICKY;
         }
+//        startForeground(NOTIFICATION_ID, null);
         stopGPS();
         startAccelerometer();
 
@@ -82,7 +87,7 @@ public class LocationTrackService extends Service implements SensorEventListener
     @Override
     public void onDestroy() {
         LogUtility.printLogD(DEBUG, "Service.onDestroy");
-        stopGPS();
+        Utility.release();
         mHandler.removeCallbacksAndMessages(null);
     }
 
@@ -134,8 +139,13 @@ public class LocationTrackService extends Service implements SensorEventListener
         if (((1.0 * mAccelSignificantReadings) / mAccelReadings) > 0.30) {
             // Start GPS
             LogUtility.printLogD(DEBUG, "on moving...");
+            Utility.release();
+            Utility.acquire();
             startGPS();
         } else {
+            sleepAndRestart();
+            Utility.release();
+            stopGPS();
             LogUtility.printLogD(DEBUG, "on Stationary...");
         }
     }
@@ -160,6 +170,9 @@ public class LocationTrackService extends Service implements SensorEventListener
         }
 
         if (iProviders == 0) {
+            stopGPS();
+            Utility.release();
+            sleepAndRestart();
             return;
         }
 
@@ -172,28 +185,44 @@ public class LocationTrackService extends Service implements SensorEventListener
         /*
         /* So always store network/cell location, but only the first since accuracy will be quite low
          */
-        if (mCurBestLocation == null || location.getAccuracy() < mCurBestLocation.getAccuracy()) {
+        if (mCurBestLocation == null || location.getAccuracy() <= mCurBestLocation.getAccuracy()) {
             mCurBestLocation = location;
 
             LogUtility.printLogD(DEBUG, "Run location update...");
+
+            /*
+             * What's our accuracy cutoff?
+             * Keep polling if our accuracy is worse than 1 meter
+             * This should be configurable
+             */
+            if (location.getAccuracy() > 30) {
+                return;
+            }
+            LogUtility.printLogD(DEBUG, "Accuracy is " + location.getAccuracy());
             mHandler.post(new GroceryNearbyMonitorRunnable(Utility.getIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND)));
-            stopGPS();
         }
 
-
-        /*
-        /*  What's our accuracy cutoff?
-        /*  Keep polling if our accuracy is worse than 1 meter
-        /*  This should be configurable
-        */
-//        if (location.getAccuracy() > 1) {
-//            return;
-//        }
+        sleepAndRestart();
+        stopGPS();
+        Utility.release();
     }
 
     public void stopGPS() {
         mHandler.removeCallbacks(mReasonTimeoutRunnable);
         mLocationManager.removeUpdates(this);
+    }
+
+    // OTHER
+    public void sleepAndRestart() {
+        // Check desired state
+        LogUtility.printLogD(DEBUG, "sleepAndRestart");
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(LocationTrackService.this, LocationTrackService.class);
+                startService(intent);
+            }
+        }, 60000);
     }
 
     @Override

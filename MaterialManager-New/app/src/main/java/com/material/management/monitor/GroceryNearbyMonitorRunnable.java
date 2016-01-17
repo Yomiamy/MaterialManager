@@ -16,13 +16,14 @@ import com.material.management.output.NotificationOutput;
 import com.material.management.service.location.LocationTrackService;
 import com.material.management.service.location.LocationUtility;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class GroceryNearbyMonitorRunnable implements Runnable {
-    public static final String MONITOR_THREAD_NAME = "Grocery_Nearby_Monitor_Thread";
+    public static final String DEBUG = "GroceryNearbyMonitorRunnable";
     private static NotificationOutput sNotificationOutput = NotificationOutput.getInstance();
     /*
     /* Maximum  radius for nearby the grocery shop in kilo-meter. Default is 500 meters
@@ -41,9 +42,7 @@ public class GroceryNearbyMonitorRunnable implements Runnable {
 
     @Override
     public void run() {
-        if (BuildConfig.DEBUG) {
-            Log.d(LocationTrackService.DEBUG, "GroceryNearbyMonitor is running...");
-        }
+        LogUtility.printLogD(DEBUG, "GroceryNearbyMonitorRunnable.run()");
         ArrayList<GroceryListData> groceryListDatas = DBUtility.selectGroceryListInfos();
         Location curLoc = LocationUtility.getsInstance().getLocation();
 

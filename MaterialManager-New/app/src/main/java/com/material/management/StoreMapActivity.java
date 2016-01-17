@@ -143,21 +143,6 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         mStorePinBitmap = initPinBitmap(R.drawable.icon_map_pin_store, 62, 78, 1080, 1920);
         mCornerListBitmap = initPinBitmap(R.drawable.dashboard_button_map_white, 284, 378, 1080, 1920);
         mCornerMapBitmap = initPinBitmap(R.drawable.dashboard_button_map, 284, 378, 1080, 1920);
-//        mHandler = new Handler() {
-//            @Override
-//            public void handleMessage(Message msg) {
-//                LocationTrackService.LocationUpdateStatus updateStatus = LocationTrackService.LocationUpdateStatus.values()[msg.what];
-//
-//                switch (updateStatus) {
-//                    case MSG_UPDATE_TRACK_LOCATION: {
-//                        showProgressDialog(null, getString(R.string.store_map_msg_location_updating));
-//                        doSearch(mEtStoreSearch.getText().toString());
-//                    }
-//                    break;
-//                }
-//            }
-//        };
-//        mMessenger = new Messenger(mHandler);
 
         mSbNearbyDist.setProgress(0);
         mTvNearbyDist.setText(Integer.toString(mSbNearbyDist.getProgress() + 2));
@@ -261,33 +246,9 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-//        if(mFlMapContainer.getVisibility() == View.VISIBLE) {
-//            Intent locationTrackIntent = new  Intent(StoreMapActivity.this, LocationTrackService.class);
-//
-//            locationTrackIntent.putExtra("ui_update_messenger", mMessenger);
-//            locationTrackIntent.putExtra("is_location_track_on", true);
-//            startService(locationTrackIntent);
-//        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        stopService(new Intent(StoreMapActivity.this, LocationTrackService.class));
-    }
-
-
-    @Override
     protected void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
