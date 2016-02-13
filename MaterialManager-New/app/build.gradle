@@ -18,7 +18,7 @@ android {
         applicationId "com.material.management"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 52
+        versionCode 53
         versionName "2.5.18"
     }
     buildTypes {
