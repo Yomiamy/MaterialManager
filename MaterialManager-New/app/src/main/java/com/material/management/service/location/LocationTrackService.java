@@ -20,9 +20,9 @@ import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 public class LocationTrackService extends Service implements SensorEventListener, LocationListener {
-    private static final String DEBUG = "randy";
+    private static final String TAG = "randy";
     private static final String HANDLER_THREAD_NAME = "handle_thread_name";
-    private static final int NOTIFICATION_ID = 8383939;
+    private static final int WORST_ACCEPT_ACCURICY = 100;
 
     private SensorManager mSensorManager = null;
     private LocationManager mLocationManager = null;
@@ -46,13 +46,13 @@ public class LocationTrackService extends Service implements SensorEventListener
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtility.printLogD(DEBUG, "Service.onCreate");
+        LogUtility.printLogD(TAG, "Service.onCreate");
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtility.printLogD(DEBUG, "Service.onStartCommand");
+        LogUtility.printLogD(TAG, "Service.onStartCommand");
 
         if (mHandlerThread == null) {
             mHandlerThread = new HandlerThread(HANDLER_THREAD_NAME);
@@ -67,7 +67,7 @@ public class LocationTrackService extends Service implements SensorEventListener
         mIsTrackOn = intent.getBooleanExtra("is_location_track_on", true);
 
         if (!mIsTrackOn) {
-            LogUtility.printLogD(DEBUG, "Tracking has been toggled off. Not scheduling any more wakeup alarms");
+            LogUtility.printLogD(TAG, "Tracking has been toggled off. Not scheduling any more wakeup alarms");
             stopSelf();
 
             return START_NOT_STICKY;
@@ -86,7 +86,7 @@ public class LocationTrackService extends Service implements SensorEventListener
 
     @Override
     public void onDestroy() {
-        LogUtility.printLogD(DEBUG, "Service.onDestroy");
+        LogUtility.printLogD(TAG, "Service.onDestroy");
         Utility.release();
         mHandler.removeCallbacksAndMessages(null);
     }
@@ -113,7 +113,7 @@ public class LocationTrackService extends Service implements SensorEventListener
             return;
         }
 
-        LogUtility.printLogD(DEBUG, "onSensorChanged");
+        LogUtility.printLogD(TAG, "onSensorChanged");
         mAccelReadings++;
         double x = event.values[0];
         double y = event.values[1];
@@ -138,7 +138,7 @@ public class LocationTrackService extends Service implements SensorEventListener
         */
         if (((1.0 * mAccelSignificantReadings) / mAccelReadings) > 0.30) {
             // Start GPS
-            LogUtility.printLogD(DEBUG, "on moving...");
+            LogUtility.printLogD(TAG, "on moving...");
             Utility.release();
             Utility.acquire();
             startGPS();
@@ -146,7 +146,7 @@ public class LocationTrackService extends Service implements SensorEventListener
             sleepAndRestart();
             Utility.release();
             stopGPS();
-            LogUtility.printLogD(DEBUG, "on Stationary...");
+            LogUtility.printLogD(TAG, "on Stationary...");
         }
     }
 
@@ -188,17 +188,17 @@ public class LocationTrackService extends Service implements SensorEventListener
         if (mCurBestLocation == null || location.getAccuracy() <= mCurBestLocation.getAccuracy()) {
             mCurBestLocation = location;
 
-            LogUtility.printLogD(DEBUG, "Run location update...");
+            LogUtility.printLogD(TAG, "Run location update...");
 
             /*
              * What's our accuracy cutoff?
-             * Keep polling if our accuracy is worse than 1 meter
+             * Keep polling if our accuracy is worse than 30 meter
              * This should be configurable
              */
-            if (location.getAccuracy() > 30) {
+            LogUtility.printLogD(TAG, "Accuracy is " + location.getAccuracy());
+            if (location.getAccuracy() > WORST_ACCEPT_ACCURICY) {
                 return;
             }
-            LogUtility.printLogD(DEBUG, "Accuracy is " + location.getAccuracy());
             mHandler.post(new GroceryNearbyMonitorRunnable(Utility.getIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND)));
         }
 
@@ -215,7 +215,7 @@ public class LocationTrackService extends Service implements SensorEventListener
     // OTHER
     public void sleepAndRestart() {
         // Check desired state
-        LogUtility.printLogD(DEBUG, "sleepAndRestart");
+        LogUtility.printLogD(TAG, "sleepAndRestart");
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

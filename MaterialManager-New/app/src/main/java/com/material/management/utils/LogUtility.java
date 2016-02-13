@@ -22,4 +22,10 @@ public class LogUtility {
             e.printStackTrace();
         }
     }
+
+    public static void printError(Error e) {
+        if(BuildConfig.DEBUG) {
+            e.printStackTrace();
+        }
+    }
 }

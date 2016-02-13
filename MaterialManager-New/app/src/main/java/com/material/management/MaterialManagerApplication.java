@@ -1,8 +1,11 @@
 package com.material.management;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.material.management.output.NotificationOutput;
+import com.material.management.utils.FabricUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Picasso;
 
@@ -15,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
+import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.util.HashMap;
 
@@ -40,12 +44,12 @@ public class MaterialManagerApplication extends Application {
 
     @Override
     public void onCreate() {
-        Log.d(TAG, "MaterialManage is initializing...");
-        init();
         super.onCreate();
+        init();
     }
 
     private void init() {
+        FabricUtility.connectFabric(this);
         /* Iinit context for Utility */
         Utility.setApplicationContext(this.getApplicationContext());
         /* Init Notification Utility */
@@ -61,22 +65,6 @@ public class MaterialManagerApplication extends Application {
         if(!photoDir.exists()) {
             photoDir.mkdir();
         }
-
-//        /* Release the memory cache of Picasso when app is in background. */
-//        registerComponentCallbacks(new ComponentCallbacks2() {
-//            @Override
-//            public void onTrimMemory(int level) {
-//                if(level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-//                    Picasso.with(MaterialManagerApplication.this).clearCache();
-//                }
-//            }
-//
-//            @Override
-//            public void onConfigurationChanged(Configuration newConfig) {}
-//
-//            @Override
-//            public void onLowMemory() {}
-//        });
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -128,7 +116,7 @@ public class MaterialManagerApplication extends Application {
             }
             return mTrackers.get(trackerId);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
         }
         return null;
     }

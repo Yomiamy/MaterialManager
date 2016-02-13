@@ -36,6 +36,7 @@ import com.material.management.R;
 import com.material.management.component.cropper.cropwindow.CropOverlayView;
 import com.material.management.component.cropper.cropwindow.edge.Edge;
 import com.material.management.component.cropper.util.ImageViewUtil;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 /**
@@ -482,7 +483,7 @@ public class CropImageView extends FrameLayout {
         try {
             rotatedBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
         } catch (OutOfMemoryError e) {
-            e.printStackTrace();
+            LogUtility.printError(e);
             Utility.forceGC(false);
         }
 

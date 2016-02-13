@@ -269,7 +269,7 @@
     <!-- LoginGroceryListFragment -->
     <string name="title_grocery_name">清單名稱 : </string>
     <string name="title_store_address_hint">點擊以選擇一個地點(非必要)</string>
-    <string name="title_nearby_alert">臨近地點時通知我(500公尺內)</string>
+    <string name="title_nearby_alert">臨近地點時通知我(1公里內)</string>
     <string name="title_address">地址 : </string>
     <string name="title_phone">電話 : </string>
     <string name="title_service_time">營業時間</string>
@@ -278,6 +278,8 @@
     <string name="title_map_loading">地圖載入中...</string>
     <string name="title_service_time_default">設定</string>
     <string name="title_service_time_default_in_db">N/A</string>
+    <string name="title_notif_action_nav_to_store">導航</string>
+    <string name="title_notif_action_go_grocery_list">前往購物清單</string>
 
     <string name="title_store_name_label_hint">新增店家名稱</string>
     <string name="title_store_name_label">店家名稱</string>

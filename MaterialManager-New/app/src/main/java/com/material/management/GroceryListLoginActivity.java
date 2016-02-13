@@ -22,6 +22,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.loopj.android.http.RequestParams;
 import com.material.management.api.module.ConnectionControl;
 import com.material.management.data.StoreData;
+import com.material.management.utils.LogUtility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -362,7 +363,7 @@ public class GroceryListLoginActivity extends MMActivity implements TimePickerDi
                 closeProgressDialog();
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
         }
     }
 

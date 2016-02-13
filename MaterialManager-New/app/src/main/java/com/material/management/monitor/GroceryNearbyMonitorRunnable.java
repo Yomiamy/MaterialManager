@@ -4,16 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
-import android.util.Log;
+import android.os.Bundle;
 
-import com.material.management.BuildConfig;
-import com.material.management.MaterialManagerApplication;
 import com.material.management.R;
+import com.material.management.data.BundleInfo;
 import com.material.management.data.GroceryListData;
-import com.material.management.data.Material;
 import com.material.management.output.NotificationOutput;
-import com.material.management.service.location.LocationTrackService;
 import com.material.management.service.location.LocationUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.LogUtility;
@@ -23,12 +19,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class GroceryNearbyMonitorRunnable implements Runnable {
-    public static final String DEBUG = "GroceryNearbyMonitorRunnable";
+    public static final String TAG = "GroceryNearbyMonitorRunnable";
     private static NotificationOutput sNotificationOutput = NotificationOutput.getInstance();
     /*
-    /* Maximum  radius for nearby the grocery shop in kilo-meter. Default is 500 meters
+    /* Maximum  radius for nearby the grocery shop in kilo-meter. Default is 1000 meters
      */
-    public static final double MAX_NEARBY_RADIUS = 500;
+    public static final double MAX_NEARBY_RADIUS = 1000;
 
     private DecimalFormat mKmFormat = new DecimalFormat("#.##");
     private DecimalFormat mMeterFormat = new DecimalFormat("###");
@@ -42,7 +38,6 @@ public class GroceryNearbyMonitorRunnable implements Runnable {
 
     @Override
     public void run() {
-        LogUtility.printLogD(DEBUG, "GroceryNearbyMonitorRunnable.run()");
         ArrayList<GroceryListData> groceryListDatas = DBUtility.selectGroceryListInfos();
         Location curLoc = LocationUtility.getsInstance().getLocation();
 
@@ -57,18 +52,18 @@ public class GroceryNearbyMonitorRunnable implements Runnable {
             }
 
             double dist = Utility.getDist(curLoc.getLatitude(), curLoc.getLongitude(), Double.parseDouble(groceryListData.getLat()), Double.parseDouble(groceryListData.getLong()));
-            String distStr = (dist >= 1000) ? mContext.getString(R.string.format_dist_kilometer, mKmFormat.format(dist / 1000)): mContext.getString(R.string.format_dist_meter, mMeterFormat.format(dist));
             boolean isNearby = (dist >= MAX_NEARBY_RADIUS) ? false : true ;
+            String distStr = (dist >= 1000) ? mContext.getString(R.string.format_dist_kilometer, mKmFormat.format(dist / 1000)): mContext.getString(R.string.format_dist_meter, mMeterFormat.format(dist));
 
-            if (BuildConfig.DEBUG) {
-                Log.d(MaterialManagerApplication.TAG, "Distance to " + storeName + " is " + dist + " meters.");
-            }
-
+            LogUtility.printLogD(TAG, "Distance to " + storeName + " is " + dist + " meters.");
             if(isNearby) {
                 String address = groceryListData.getAddress();
                 String uri = String.format("geo:%s,%s?q=%s,%s(%s)", lat, lng, lat, lng, address);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                sNotificationOutput.outNotif(groceryListData.hashCode(), intent, mContext.getString(R.string.format_nearby_store, storeName, distStr), mNotifType);
+                Bundle bundle = new Bundle();
+
+                bundle.putInt(BundleInfo.BUNDLE_KEY_BUNDLE_TYPE, BundleInfo.BundleType.BUNDLE_TYPE_GROCERY_LIST_NOTIFICATION.value());
+                bundle.putString(BundleInfo.BUNDLE_KEY_GROCERY_STORE_GEO_URI_STR, uri);
+                sNotificationOutput.outNotif(NotificationOutput.NOTIF_CAT_WITH_GROCERY_LIST_ACTIONS, groceryListData.hashCode(), mContext.getString(R.string.format_nearby_store, storeName, distStr), mNotifType, bundle);
             }
         }
     }

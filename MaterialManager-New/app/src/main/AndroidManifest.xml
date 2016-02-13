@@ -55,6 +55,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9f46a54bfc4906fb913c2da3dbcab6fc91d1b079" />
+
         <uses-library android:name="com.google.android.maps"/>
 
         <activity

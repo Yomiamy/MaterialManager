@@ -24,6 +24,7 @@ import com.material.management.api.module.ConnectionControl;
 import com.material.management.data.GroceryListData;
 import com.material.management.data.StoreData;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -521,7 +522,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
                 closeProgressDialog();
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
         }
     }
 

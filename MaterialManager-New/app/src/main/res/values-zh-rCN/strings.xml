@@ -235,7 +235,7 @@
     <string name="msg_confirm_del_dialog">确认是否删除？</string>
     <string name="title_grocery_name">清单名称 :</string>
     <string name="title_store_address_hint">点击以选择一个地点(非必要)</string>
-    <string name="title_nearby_alert">临近地点时通知我(500公尺內)</string>
+    <string name="title_nearby_alert">临近地点时通知我(1公里內)</string>
     <string name="title_address">地址 :</string>
     <string name="title_phone">电话 :</string>
     <string name="title_service_time">营业时间</string>
@@ -244,6 +244,9 @@
     <string name="title_map_loading">地图载入中...</string>
     <string name="title_service_time_default">设定</string>
     <string name="title_service_time_default_in_db">N/A</string>
+    <string name="title_notif_action_nav_to_store">导航</string>
+    <string name="title_notif_action_go_grocery_list">前往購物清單</string>
+
     <string name="title_store_name_label_hint">新增店家名称</string>
     <string name="title_store_name_label">店家名称</string>
     <string name="title_address_label">地址</string>

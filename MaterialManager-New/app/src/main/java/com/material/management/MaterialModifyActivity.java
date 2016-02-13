@@ -45,6 +45,7 @@ import com.material.management.dialog.SelectPhotoDialog;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.FileUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Picasso;
 
@@ -206,9 +207,9 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                 mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
             }
         } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
         } catch (WriterException e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -402,7 +403,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
 
                         mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
-                        e.printStackTrace();
+                        LogUtility.printError(e);
                         Utility.forceGC(false);
                     }
 
@@ -432,7 +433,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                         }
                     } catch (OutOfMemoryError e) {
                     /* A workaround to avoid the OOM */
-                        e.printStackTrace();
+                        LogUtility.printError(e);
                         Utility.forceGC(false);
                     }
 
@@ -478,7 +479,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                             mTvBarcode.setText(barcode);
                             mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
                         } catch (WriterException e) {
-                            e.printStackTrace();
+                            LogUtility.printStackTrace(e);
                         }
                     }
                 }

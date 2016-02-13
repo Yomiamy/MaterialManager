@@ -35,6 +35,7 @@ import com.material.management.dialog.SelectPhotoDialog;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.FileUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Picasso;
 
@@ -156,7 +157,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             mTvAddBardCode.setText(barcode);
             mTvAddBardCode.setCompoundDrawables(null, barcodeDrawable, null, null);
         } catch (WriterException e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -415,7 +416,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                             mNewestBackBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                         }
                     } catch (OutOfMemoryError e) {
-                        e.printStackTrace();
+                        LogUtility.printError(e);
                         Utility.forceGC(false);
                     }
 
@@ -459,7 +460,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                         }
                     } catch (OutOfMemoryError e) {
                     /* A workaround to avoid the OOM */
-                        e.printStackTrace();
+                        LogUtility.printError(e);
                         Utility.forceGC(false);
                     }
 

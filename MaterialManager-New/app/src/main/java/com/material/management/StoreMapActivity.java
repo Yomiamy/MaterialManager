@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.loopj.android.http.RequestParams;
 import com.material.management.api.module.ConnectionControl;
 import com.material.management.data.StoreData;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.material.management.service.location.LocationTrackService;
 import com.picasso.Callback;
@@ -564,7 +565,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                     showAlertDialog(null, getString(R.string.store_map_msg_err_retry), getString(R.string.title_positive_btn_label), null, null, null);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                LogUtility.printStackTrace(e);
             }
         } else if (req.equals(REQ_PLACE_DETAIL)) {
             try {
@@ -605,7 +606,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                 }
                 closeProgressDialog();
             } catch (JSONException e) {
-                e.printStackTrace();
+                LogUtility.printStackTrace(e);
             }
         }
 

@@ -302,7 +302,7 @@
     <!-- LoginGroceryListFragment -->
     <string name="title_grocery_name">Grocery Name:</string>
     <string name="title_store_address_hint">Tap to pick a location(Optional)</string>
-    <string name="title_nearby_alert">Alert me when nearby(500 meters)</string>
+    <string name="title_nearby_alert">Alert me when nearby(1 kilo-meter)</string>
     <string name="title_address">Address : </string>
     <string name="title_phone">Phone : </string>
     <string name="title_service_time">Store Timings</string>
@@ -311,6 +311,8 @@
     <string name="title_map_loading">Map loading...</string>
     <string name="title_service_time_default">Set</string>
     <string name="title_service_time_default_in_db">N/A</string>
+    <string name="title_notif_action_nav_to_store">Navigation</string>
+    <string name="title_notif_action_go_grocery_list">Go grocery list</string>
 
     <string name="title_store_name_label_hint">(Add a store name)</string>
     <string name="title_store_name_label">Store Name</string>

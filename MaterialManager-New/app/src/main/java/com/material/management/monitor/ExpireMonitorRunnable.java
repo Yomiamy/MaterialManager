@@ -36,12 +36,12 @@ public class ExpireMonitorRunnable implements Runnable {
             String validateDateStr = Utility.transDateToString(validateDate.getTime());
 
             if (validateDate.getTimeInMillis() < todayTimeInMillis) {
-                sNotificationOutput.outNotif(material.hashCode(), mContext.getString(R.string.format_expired_msg, material.getName(), validateDateStr), mNotifType, createNotificationBundle(material));
+                sNotificationOutput.outNotif(NotificationOutput.NOTIF_CAT_COMMON, material.hashCode(), mContext.getString(R.string.format_expired_msg, material.getName(), validateDateStr), mNotifType, createNotificationBundle(material));
             } else {
                 validateDate.add(Calendar.DAY_OF_MONTH, notificationDays * -1);
 
                 if (validateDate.getTimeInMillis() <= todayTimeInMillis) {
-                    sNotificationOutput.outNotif(material.hashCode(), mContext.getString(R.string.format_before_expired_msg, material.getName(), validateDateStr), mNotifType, createNotificationBundle(material));
+                    sNotificationOutput.outNotif(NotificationOutput.NOTIF_CAT_COMMON, material.hashCode(), mContext.getString(R.string.format_before_expired_msg, material.getName(), validateDateStr), mNotifType, createNotificationBundle(material));
                 }
             }
         }
@@ -50,7 +50,7 @@ public class ExpireMonitorRunnable implements Runnable {
     private Bundle createNotificationBundle(Material material) {
         Bundle bundle = new Bundle();
 
-        bundle.putInt(BundleInfo.BUNDLE_KEY_BUNDLE_TYPE, BundleInfo.BundleType.BUNDLE_TYPE_NOTIFICATION.value());
+        bundle.putInt(BundleInfo.BUNDLE_KEY_BUNDLE_TYPE, BundleInfo.BundleType.BUNDLE_TYPE_EXPIRE_NOTIFICATION.value());
         bundle.putString(BundleInfo.BUNDLE_KEY_MATERIAL_TYPE, material.getMaterialType());
         bundle.putString(BundleInfo.BUNDLE_KEY_MATERIAL_NAME, material.getName());
 

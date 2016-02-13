@@ -3,6 +3,7 @@ package com.material.management.api.module;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.material.management.utils.LogUtility;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.ssl.SSLSocketFactory;
@@ -78,24 +79,8 @@ public class ConnectionControl {
                 // TODO: 允許所有主機的驗證
                 sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
                 dataHttpClient.setSSLSocketFactory(sf);
-            } catch (KeyStoreException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (CertificateException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (UnrecoverableKeyException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (Exception e) {
+                LogUtility.printStackTrace(e);
             }
         }
         return dataHttpClient;
@@ -165,8 +150,7 @@ public class ConnectionControl {
 
                     callback.callbackFromController(jsonObject, arg0, arg1);
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    LogUtility.printStackTrace(e);
                 }
             }
 

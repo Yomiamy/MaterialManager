@@ -16,6 +16,7 @@ import com.material.management.fragment.MaterialManagerFragment;
 import com.material.management.fragment.RewardCardsFragment;
 import com.material.management.fragment.SettingsFragment;
 import com.material.management.monitor.MonitorService;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -103,8 +104,12 @@ public class MainActivity extends SlidingActivity {
                 if (mBundle != null) {
                     int bundleType = mBundle.getInt(BundleInfo.BUNDLE_KEY_BUNDLE_TYPE);
 
-                    if (bundleType == BundleType.BUNDLE_TYPE_NOTIFICATION.value()) {
+                    if (bundleType == BundleType.BUNDLE_TYPE_EXPIRE_NOTIFICATION.value()) {
                         item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(2);
+
+                        setIntent(null);
+                    } else if(bundleType == BundleType.BUNDLE_TYPE_GROCERY_LIST_NOTIFICATION.value()) {
+                        item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(5);
 
                         setIntent(null);
                     }
@@ -490,7 +495,7 @@ public class MainActivity extends SlidingActivity {
                 mSlideMenu.setOnScrollListener((SlidingMenu.OnScrollListener) mCurFragment);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
         }
 
         ft.replace(R.id.fragment_container, mCurFragment, mCurrFragmentTag);
