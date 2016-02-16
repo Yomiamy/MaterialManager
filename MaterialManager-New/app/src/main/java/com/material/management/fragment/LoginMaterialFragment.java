@@ -203,8 +203,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             return;
         }
 
-        for (String type : mMaterialTypes)
-            DBUtility.insertMaterialTypeInfo(type);
+        DBUtility.insertMaterialTypeInfo(mMaterialTypes.toArray(new String[0]));
 
         ArrayList<String> spinList = DBUtility.selectMaterialTypeInfo();
 

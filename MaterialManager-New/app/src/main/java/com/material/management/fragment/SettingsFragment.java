@@ -30,6 +30,7 @@ import com.material.management.service.CloudService;
 import com.material.management.service.IBackupRestore;
 
 
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
@@ -188,7 +189,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         int id = view.getId();
 
         if ((id == R.id.tv_database_backup) || (id == R.id.tv_database_restore)) {
-            if (mService != null) {
+            if (mService != null && !sActivity.isFinishing()) {
                 mProgressDialog = LightProgressDialog.getInstance(sActivity);
 
                 mProgressDialog.setMessage(sActivity.getString(R.string.title_progress_startup));
@@ -201,7 +202,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                         mService.startRestore(mStatusUpdate);
                     }
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    LogUtility.printStackTrace(e);
                 }
             }
         } else if (id == R.id.cb_dropbox_enable) {

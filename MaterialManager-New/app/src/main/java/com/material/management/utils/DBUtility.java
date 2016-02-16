@@ -340,18 +340,26 @@ public class DBUtility {
     /*
      * ==================================================================================================================
      */
-    public synchronized static void insertMaterialTypeInfo(String materialType) {
-        ContentValues value = new ContentValues();
-        ArrayList<String> materialTypeInfo = selectMaterialTypeInfo();
+    public synchronized static void insertMaterialTypeInfo(String... materialTypes) {
+        ArrayList<String> oldMaterialTypes = selectMaterialTypeInfo();
+        ArrayList<ContentValues> typeContentValues = new ArrayList<>();
 
         try {
-            if (materialTypeInfo.contains(materialType))
-                return;
+            for (String newMaterialType : materialTypes) {
+                if (oldMaterialTypes.contains(newMaterialType))
+                    continue;
 
-            value.put("name", new String(materialType.getBytes(), sStringCharSet));
-            sResolver.insert(MaterialProvider.URI_MATERIAL_TYPE, value);
+                ContentValues value = new ContentValues();
+
+                value.put("name", new String(newMaterialType.getBytes(), sStringCharSet));
+                typeContentValues.add(value);
+            }
+
+            if(typeContentValues.size() > 0) {
+                sResolver.bulkInsert(MaterialProvider.URI_MATERIAL_TYPE, typeContentValues.toArray(new ContentValues[0]));
+            }
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertMaterialTypeInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
