@@ -20,7 +20,6 @@ import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 public class LocationTrackService extends Service implements SensorEventListener, LocationListener {
-    private static final String TAG = "randy";
     private static final String HANDLER_THREAD_NAME = "handle_thread_name";
     private static final int WORST_ACCEPT_ACCURICY = 100;
 
@@ -46,14 +45,11 @@ public class LocationTrackService extends Service implements SensorEventListener
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtility.printLogD(TAG, "Service.onCreate");
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtility.printLogD(TAG, "Service.onStartCommand");
-
         if (mHandlerThread == null) {
             mHandlerThread = new HandlerThread(HANDLER_THREAD_NAME);
 
@@ -67,7 +63,6 @@ public class LocationTrackService extends Service implements SensorEventListener
         mIsTrackOn = intent.getBooleanExtra("is_location_track_on", true);
 
         if (!mIsTrackOn) {
-            LogUtility.printLogD(TAG, "Tracking has been toggled off. Not scheduling any more wakeup alarms");
             stopSelf();
 
             return START_NOT_STICKY;
@@ -86,7 +81,6 @@ public class LocationTrackService extends Service implements SensorEventListener
 
     @Override
     public void onDestroy() {
-        LogUtility.printLogD(TAG, "Service.onDestroy");
         Utility.release();
         mHandler.removeCallbacksAndMessages(null);
     }
@@ -113,7 +107,6 @@ public class LocationTrackService extends Service implements SensorEventListener
             return;
         }
 
-        LogUtility.printLogD(TAG, "onSensorChanged");
         mAccelReadings++;
         double x = event.values[0];
         double y = event.values[1];
@@ -138,7 +131,6 @@ public class LocationTrackService extends Service implements SensorEventListener
         */
         if (((1.0 * mAccelSignificantReadings) / mAccelReadings) > 0.30) {
             // Start GPS
-            LogUtility.printLogD(TAG, "on moving...");
             Utility.release();
             Utility.acquire();
             startGPS();
@@ -146,7 +138,6 @@ public class LocationTrackService extends Service implements SensorEventListener
             sleepAndRestart();
             Utility.release();
             stopGPS();
-            LogUtility.printLogD(TAG, "on Stationary...");
         }
     }
 
@@ -188,14 +179,11 @@ public class LocationTrackService extends Service implements SensorEventListener
         if (mCurBestLocation == null || location.getAccuracy() <= mCurBestLocation.getAccuracy()) {
             mCurBestLocation = location;
 
-            LogUtility.printLogD(TAG, "Run location update...");
-
             /*
              * What's our accuracy cutoff?
              * Keep polling if our accuracy is worse than 30 meter
              * This should be configurable
              */
-            LogUtility.printLogD(TAG, "Accuracy is " + location.getAccuracy());
             if (location.getAccuracy() > WORST_ACCEPT_ACCURICY) {
                 return;
             }
@@ -215,7 +203,6 @@ public class LocationTrackService extends Service implements SensorEventListener
     // OTHER
     public void sleepAndRestart() {
         // Check desired state
-        LogUtility.printLogD(TAG, "sleepAndRestart");
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

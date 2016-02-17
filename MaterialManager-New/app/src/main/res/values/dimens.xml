@@ -53,6 +53,13 @@
     <!--AboutDialog-->
     <dimen name="dialog_about_width_size">480dp</dimen>
 
+    <!-- dialog_crop_image_layout -->
+    <dimen name="iv_turn_left_h">40dp</dimen>
+    <dimen name="iv_turn_left_w">40dp</dimen>
+    <dimen name="iv_turn_right_h">40dp</dimen>
+    <dimen name="iv_turn_right_w">40dp</dimen>
+    <dimen name="iv_turn_right_margin_left">20dp</dimen>
+
     <!-- view_reward_card_preview -->
     <dimen name="iv_content_image_h">200dp</dimen>
     <dimen name="iv_content_image_w">300dp</dimen>

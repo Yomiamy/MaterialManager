@@ -27,6 +27,8 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.material.management.BuildConfig;
@@ -250,8 +252,12 @@ public class Utility {
 
     public static DisplayMetrics getDisplayMetrics() {
         if (sDisplayMetrics == null) {
-            sDisplayMetrics = new DisplayMetrics();
-            sActivity.getWindowManager().getDefaultDisplay().getMetrics(sDisplayMetrics);
+            Display display = ((WindowManager) sApplicationContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            DisplayMetrics metrics = new DisplayMetrics();
+            display.getMetrics(metrics);
+            sDisplayMetrics = metrics;
+
+            LogUtility.printLogD("randy", "w = " + sDisplayMetrics.widthPixels + ", h = " + sDisplayMetrics.heightPixels + ", densityDpi = " + sDisplayMetrics.densityDpi);
         }
 
         return sDisplayMetrics;

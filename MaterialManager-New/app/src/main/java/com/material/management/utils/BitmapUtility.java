@@ -238,7 +238,7 @@ public class BitmapUtility {
         private BitmapCallBack mBmpCallBack = null;
         private Object mOrigTag = null;
 
-        /* Default settings */ {
+            /* Default settings */ {
             mMetrics = Utility.getDisplayMetrics();
             /* We use the 1/4 width and height as a default scaling factor if user doesn't specify. */
             mImgScaledWidth = mMetrics.widthPixels / 4;

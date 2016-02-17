@@ -12,14 +12,14 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion '23.0.0 rc3'
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
         applicationId "com.material.management"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 53
-        versionName "2.5.18"
+        versionCode 54
+        versionName "2.5.19"
     }
     buildTypes {
         release {

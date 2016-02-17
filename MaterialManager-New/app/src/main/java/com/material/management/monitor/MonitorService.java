@@ -71,7 +71,6 @@ public class MonitorService extends BroadcastReceiver {
     }
 
     private void doGroceryListNearbyCheck(Context context, Intent intent) {
-        LogUtility.printLogD("randy", ">>> doGroceryListNearbyCheck");
         Intent locationTrackIntent = new Intent(context, LocationTrackService.class);
 //        Intent i = new Intent(context, MonitorService.class);
 //        Calendar cal = Calendar.getInstance();
@@ -79,7 +78,6 @@ public class MonitorService extends BroadcastReceiver {
 
         locationTrackIntent.putExtra("is_location_track_on", true);
         context.startService(locationTrackIntent);
-        LogUtility.printLogD("randy", "<<< doGroceryListNearbyCheck");
 
 //        if (sLocationTrackRepeatIntent != null) {
 //            am.cancel(sLocationTrackRepeatIntent);

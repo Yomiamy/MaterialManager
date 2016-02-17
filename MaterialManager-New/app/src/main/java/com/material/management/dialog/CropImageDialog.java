@@ -10,17 +10,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class CropImageDialog extends AlertDialog.Builder implements View.OnClickListener {
     // Static final constants
@@ -31,9 +29,8 @@ public class CropImageDialog extends AlertDialog.Builder implements View.OnClick
     private View mLayout;
     private RelativeLayout mRlCropImg;
     private CropImageView mCivSourceImage;
-    // private ImageView mIvTargetImage;
-    private TextView mBtnRotateLeft;
-    private TextView mBtnRotateRight;
+    private ImageView mIvTurnLeft;
+    private ImageView mIvTurnRight;
 
     private Activity mOwnerActivity;
     private AlertDialog mDialog = null;
@@ -93,13 +90,13 @@ public class CropImageDialog extends AlertDialog.Builder implements View.OnClick
         mRlCropImg = (RelativeLayout) mLayout.findViewById(R.id.rl_crop_img);
         mCivSourceImage = (CropImageView) mLayout.findViewById(R.id.civ_source_image);
         // Sets the rotate button
-        mBtnRotateLeft = (TextView) mLayout.findViewById(R.id.btn_rotate_right);
-        mBtnRotateRight = (TextView) mLayout.findViewById(R.id.btn_rotate_left);
+        mIvTurnLeft = (ImageView) mLayout.findViewById(R.id.iv_turn_left);
+        mIvTurnRight = (ImageView) mLayout.findViewById(R.id.iv_turn_right);
 
         mCivSourceImage.setMinimumWidth(mScaleW);
         mCivSourceImage.setMinimumHeight(mScaleH);
-        mBtnRotateLeft.setOnClickListener(this);
-        mBtnRotateRight.setOnClickListener(this);
+        mIvTurnLeft.setOnClickListener(this);
+        mIvTurnRight.setOnClickListener(this);
         // Sets initial aspect ratio to 10/10, for demonstration purposes
         mCivSourceImage.setImageBitmap(targetImage);
         mCivSourceImage.setGuidelines(1);
@@ -156,11 +153,11 @@ public class CropImageDialog extends AlertDialog.Builder implements View.OnClick
         int id = view.getId();
 
         switch (id) {
-            case R.id.btn_rotate_left: {
+            case R.id.iv_turn_left: {
                 mCivSourceImage.rotateImage(ROTATE_NEGATIVE_NINETY_DEGREES);
             }
             break;
-            case R.id.btn_rotate_right: {
+            case R.id.iv_turn_right: {
                 mCivSourceImage.rotateImage(ROTATE_POSITIVE_NINETY_DEGREES);
             }
             break;
