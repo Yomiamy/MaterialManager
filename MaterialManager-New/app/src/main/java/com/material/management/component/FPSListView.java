@@ -7,8 +7,10 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.material.management.utils.LogUtility;
+
 public class FPSListView extends ListView {
-    private static final String DEBUG = "FPSListView";
+    private static final String DEBUG_LOG_TAG = "FPSListView";
 
     private Toast fpsToast;
     private long mFpsStartTime = -1;
@@ -41,7 +43,7 @@ public class FPSListView extends ListView {
                 float fps = (float) mFpsNumFrames * 1000 / totalTime;
                 mFpsStartTime = nowTime;
                 mFpsNumFrames = 0;
-                Log.d(DEBUG, "FPS = " + fps);
+                LogUtility.printLogD(DEBUG_LOG_TAG, "FPS = " + fps);
                 fpsToast.setText("FPS: " + fps);
                 fpsToast.show();
             }

@@ -9,8 +9,8 @@
 
     <string name="on_loading">資料載入中...</string>
     <string name="data_progressing">資料處理中...</string>
-    <string name="data_save_success">!!資料儲存成功!!</string>
-    <string name="data_save_fail">!!資料儲存失敗!!</string>
+    <string name="data_save_success">!資料儲存成功!</string>
+    <string name="data_save_fail">!資料儲存失敗!</string>
 
     <!-- MainActivity -->
     <string name="app_name">過期物品管家</string>
@@ -38,7 +38,7 @@
     <string name="slidemenu_gcrocery_reward_cards">購物優惠卡</string>
     <string name="slidemenu_grocery_history">購物歷史</string>
 
-    <string name="slidemenu_material_other">其它</string>
+    <string name="slidemenu_material_other">其他</string>
     <string name="slidemenu_material_global_search">全域搜尋</string>
     <string name="slidemenu_material_settings">設定</string>
     <string name="slidemenu_material_about">關於</string>

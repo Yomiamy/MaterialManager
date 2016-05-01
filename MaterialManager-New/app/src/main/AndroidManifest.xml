@@ -43,7 +43,7 @@
         android:name="com.material.management.MaterialManagerApplication"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme"
-        android:debuggable="false">
+        android:debuggable="true">
 
         <!-- Google Analytics Version v4 needs this value for easy tracking. GoogleAnalytics.getInstance() deadlocks while trying to parse the xml tracker definition.  -->
         <!--<meta-data android:name="com.google.android.gms.analytics.globalConfigResource"-->
@@ -61,11 +61,10 @@
 
         <uses-library android:name="com.google.android.maps"/>
 
-        <activity
-            android:name="com.material.management.MainActivity"
+        <activity android:name="com.material.management.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -73,6 +72,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.material.management.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"

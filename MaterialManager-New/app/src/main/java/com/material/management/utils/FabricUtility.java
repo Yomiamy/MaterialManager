@@ -3,6 +3,7 @@ package com.material.management.utils;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -39,5 +40,14 @@ public class FabricUtility {
     public static void logUserInfo(String userName, String identify) {
         Crashlytics.setUserName(userName);
         Crashlytics.setUserIdentifier(identify);
+    }
+
+    /**
+     * Used to upload the non-fetal exception/error.
+     *
+     * @param e The non-fetal exception/error object.
+     */
+    public static void logException(Throwable e) {
+       Crashlytics.logException(e);
     }
 }

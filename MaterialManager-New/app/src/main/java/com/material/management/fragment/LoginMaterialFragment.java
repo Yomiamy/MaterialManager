@@ -23,6 +23,7 @@ import com.material.management.data.Material;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.FileUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 import android.app.Activity;
@@ -58,6 +59,8 @@ import android.widget.TextView;
 
 public class LoginMaterialFragment extends MMFragment implements Observer, OnItemSelectedListener,
         DialogInterface.OnClickListener, DatePickerDialog.OnDateSetListener {
+
+    public static final String DEBUG_LOG_TAG = "LoginMaterialFragment";
     public static final String ACTION_BAR_BTN_ACTION_ADD = "add_material";
     public static final String ACTION_BAR_BTN_ACTION_CLEAR = "clear_user_input";
     private static final int REQ_CAMERA_TAKE_PIC = 1;
@@ -122,8 +125,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         initView(mLayout);
         update(null);
         changeLayoutConfig(mLayout);
+        LogUtility.printLogD(DEBUG_LOG_TAG, "onCretatView()...");
 
-        Log.d(MaterialManagerApplication.TAG, "LoginMaterianFragment onCretatView()...");
         return mLayout;
     }
 
@@ -169,7 +172,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         }
 
         sendScreenAnalytics(getString(R.string.ga_app_view_login_material_fragment));
-        Log.d(MaterialManagerApplication.TAG, "LoginMaterianFragment onResume()...");
+        LogUtility.printLogD(DEBUG_LOG_TAG, "onResume()...");
         super.onResume();
     }
 

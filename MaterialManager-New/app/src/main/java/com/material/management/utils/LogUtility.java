@@ -18,12 +18,16 @@ public class LogUtility {
     }
 
     public static void printStackTrace(Exception e) {
+        FabricUtility.logException(e);
+
         if(BuildConfig.DEBUG) {
             e.printStackTrace();
         }
     }
 
     public static void printError(Error e) {
+        FabricUtility.logException(e);
+
         if(BuildConfig.DEBUG) {
             e.printStackTrace();
         }

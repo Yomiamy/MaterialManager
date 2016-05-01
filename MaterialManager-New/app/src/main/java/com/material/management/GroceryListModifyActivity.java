@@ -124,12 +124,14 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
         mSelectedStoreData = new StoreData();
         ActionBar actionBar = getActionBar();
 
-        mSelectedStoreData.setStoreName(mGroceryListData.getStoreName());
-        mSelectedStoreData.setStoreLat(mGroceryListData.getLat());
-        mSelectedStoreData.setStoreLong(mGroceryListData.getLong());
-        mSelectedStoreData.setStoreAddress(mGroceryListData.getAddress());
-        mSelectedStoreData.setStorePhone(mGroceryListData.getPhone());
-        mSelectedStoreData.setStoreServiceTime(mGroceryListData.getServiceTime());
+        if (mGroceryListData != null) {
+            mSelectedStoreData.setStoreName(mGroceryListData.getStoreName());
+            mSelectedStoreData.setStoreLat(mGroceryListData.getLat());
+            mSelectedStoreData.setStoreLong(mGroceryListData.getLong());
+            mSelectedStoreData.setStoreAddress(mGroceryListData.getAddress());
+            mSelectedStoreData.setStorePhone(mGroceryListData.getPhone());
+            mSelectedStoreData.setStoreServiceTime(mGroceryListData.getServiceTime());
+        }
 
 
         actionBar.setTitle(mTitle);

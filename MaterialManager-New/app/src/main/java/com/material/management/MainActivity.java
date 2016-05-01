@@ -1,6 +1,7 @@
 package com.material.management;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.material.management.component.slidemenu.SlidingActivity;
 import com.material.management.component.slidemenu.SlidingMenu;
@@ -23,8 +24,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,7 +32,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -43,12 +41,9 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 public class MainActivity extends SlidingActivity {
-    private static long SPLASH_DISPLAY_LENGTH = 5000;
-
     private Menu mOptionMenu;
     private ActionBar mActionBar;
     private ListView mLvSlideMenu;
-    private ImageView mImSplash;
     private SearchView mSvSearchView;
 
     private Fragment mCurFragment;
@@ -65,115 +60,73 @@ public class MainActivity extends SlidingActivity {
     /* If user press the back key two times in same fragment, then it will leave the app. */
     private boolean mIsFirstBackKeyPress;
     private int mCurHomeUpIconResId;
-    private Runnable mSplashScreenRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mMenuAdapter = new MenuAdapter(MainActivity.this);
-            Bitmap splishBmp = ((BitmapDrawable)mImSplash.getDrawable()).getBitmap();
-
-            mLayout.setBackgroundColor(mResources.getColor(R.color.white));
-            mImSplash.setVisibility(View.GONE);
-            mImSplash.setImageDrawable(null);
-            Utility.releaseBitmaps(splishBmp);
-
-            // Show status bar
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            mActionBar.show();
-            mActionBar.setDisplayShowTitleEnabled(true);
-            mActionBar.setDisplayHomeAsUpEnabled(true);
-            changeHomeAsUpIcon(R.drawable.ic_drawer);
-
-            mSlideMenu.setSlidingEnabled(true);
-            mLvSlideMenu.setCacheColorHint(0);
-            mLvSlideMenu.setAdapter(mMenuAdapter);
-            mLvSlideMenu.setOnItemClickListener(mMenuAdapter);
-            mSlideMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
-                @Override
-                public void onOpened() {
-                    mImm.hideSoftInputFromWindow(mLayout.getApplicationWindowToken(), 0);
-                }
-            });
-
-            /* Check the notification's pending intent, if the notification is clicked */
-            Intent intent = getIntent();
-            MenuAdapter.MenuItem item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(1);
-
-            if (intent != null) {
-                mBundle = intent.getExtras();
-
-                if (mBundle != null) {
-                    int bundleType = mBundle.getInt(BundleInfo.BUNDLE_KEY_BUNDLE_TYPE);
-
-                    if (bundleType == BundleType.BUNDLE_TYPE_EXPIRE_NOTIFICATION.value()) {
-                        item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(2);
-
-                        setIntent(null);
-                    } else if(bundleType == BundleType.BUNDLE_TYPE_GROCERY_LIST_NOTIFICATION.value()) {
-                        item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(5);
-
-                        setIntent(null);
-                    }
-                }
-            }
-
-            if (item != null) {
-                setFragment(item.fragmentClass, item.name);
-
-                mBundle = null;
-            }
-            mHandler.removeCallbacksAndMessages(null);
-        }
-    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Get a Tracker (should auto-report)
-        ((MaterialManagerApplication) getApplication()).getTracker(MaterialManagerApplication.TrackerName.APP_TRACKER);
-        getWindow().setBackgroundDrawable(null);
-        Utility.setMainActivity(this);
+        mLayout = getLayoutInflater().inflate(R.layout.activity_main_layout, null);
+        setContentView(mLayout);
 
-        mActionBar = getActionBar();
-        Intent i = new Intent(this, MonitorService.class);
+        initView();
+        initListener();
+        init();
+    }
+
+    private void initView() {
         mSlideMenu = getSlidingMenu();
+        mLvSlideMenu = (ListView) mInflater.inflate(R.layout.sliding_menu, null);
+    }
+
+    private void initListener() {
+        mSlideMenu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
+            public void onClosed() {
+                changeFragmentImpl();
+            }
+        });
+        mSlideMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
+            @Override
+            public void onOpened() {
+                hideKeyboard(mLayout);
+            }
+        });
+    }
+
+    private void init() {
+        Intent i = new Intent(this, MonitorService.class);
+        mActionBar = getActionBar();
+        mMenuAdapter = new MenuAdapter(MainActivity.this);
         mIsSettingPressed = false;
         mIsFirstBackKeyPress = false;
-        mLvSlideMenu = (ListView) getLayoutInflater().inflate(R.layout.sliding_menu, null);
-        mLayout = getLayoutInflater().inflate(R.layout.activity_main_layout, null);
 
-        mLayout.setBackgroundColor(mResources.getColor(R.color.black));
+        mActionBar.show();
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        changeHomeAsUpIcon(R.drawable.ic_drawer);
+
         setBehindContentView(mLvSlideMenu);
-        setContentView(mLayout);
-        mImSplash = (ImageView) findViewById(R.id.iv_splash_screen);
-
-        mActionBar.hide();
-        // Hide status bar
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         mSlideMenu.setShadowWidthRes(R.dimen.shadow_width);
         mSlideMenu.setShadowDrawable(R.drawable.shadow);
         mSlideMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         mSlideMenu.setFadeDegree(0.35f);
         mSlideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         mSlideMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        mSlideMenu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
-            public void onClosed() {
-                changeFragmentImpl();
-            }
-        });
-        mSlideMenu.setSlidingEnabled(false);
+        mSlideMenu.setSlidingEnabled(true);
+        mLvSlideMenu.setCacheColorHint(0);
+        mLvSlideMenu.setAdapter(mMenuAdapter);
+        mLvSlideMenu.setOnItemClickListener(mMenuAdapter);
+
+        ((MaterialManagerApplication) getApplication()).getTracker(MaterialManagerApplication.TrackerName.APP_TRACKER);
+        Utility.setMainActivity(this);
         /*
-        /* if immeditly_triggered== false ,
-        /* it will delay one ExpireMonitorRunnable checking
+         * if immeditly_triggered== false ,
+         * it will delay one ExpireMonitorRunnable checking
          */
         i.putExtra("monitor_type", MonitorService.MonitorType.MONITOR_TYPE_ALL.value());
         i.putExtra("immeditly_triggered", false);
         sendBroadcast(i);
-
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler.postDelayed(mSplashScreenRunnable, SPLASH_DISPLAY_LENGTH);
     }
+
 
     @Override
     protected void onStart() {
@@ -184,7 +137,7 @@ public class MainActivity extends SlidingActivity {
     protected void onResume() {
         mResumed = true;
 
-        if (mCurrFragmentClass == null && mMenuAdapter != null) {
+        if (mOptionMenu != null && mCurrFragmentClass == null && mMenuAdapter != null) {
             setFragment(mMenuAdapter.getDefaultFragment(), mMenuAdapter.getDefaultTag());
         }
         super.onResume();
@@ -250,6 +203,34 @@ public class MainActivity extends SlidingActivity {
         setMenuItemVisibility(R.id.menu_grid_1x1, false);
         setMenuItemVisibility(R.id.menu_grid_2x1, false);
         setMenuItemVisibility(R.id.menu_clear_expired_items, false);
+
+        /* Check the notification's pending intent, if the notification is clicked */
+        Intent intent = getIntent();
+        MenuAdapter.MenuItem item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(1);
+
+        if (intent != null) {
+            mBundle = intent.getExtras();
+
+            if (mBundle != null) {
+                int bundleType = mBundle.getInt(BundleInfo.BUNDLE_KEY_BUNDLE_TYPE);
+
+                if (bundleType == BundleType.BUNDLE_TYPE_EXPIRE_NOTIFICATION.value()) {
+                    item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(2);
+
+                    setIntent(null);
+                } else if(bundleType == BundleType.BUNDLE_TYPE_GROCERY_LIST_NOTIFICATION.value()) {
+                    item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(5);
+
+                    setIntent(null);
+                }
+            }
+        }
+
+        if (item != null) {
+            setFragment(item.fragmentClass, item.name);
+
+            mBundle = null;
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -370,7 +351,13 @@ public class MainActivity extends SlidingActivity {
 
     /* For updating the sliding menu text. */
     public void updateLayoutConfig() {
-        mOrigFontSizeMap.clear();
+        /* To avoid the trim memory issue. */
+        if(mOrigFontSizeMap != null) {
+            mOrigFontSizeMap.clear();
+        } else {
+            mOrigFontSizeMap = new HashMap<>();
+        }
+
         mMenuAdapter = new MenuAdapter(MainActivity.this);
 
         mLvSlideMenu.setAdapter(mMenuAdapter);
@@ -443,6 +430,10 @@ public class MainActivity extends SlidingActivity {
                 Intent intent = new Intent(this, GlobalSearchActivity.class);
 
                 startActivity(intent);
+            }
+
+            if(mSlideMenu.isMenuShowing()) {
+                mSlideMenu.toggle(true);
             }
 
             return;

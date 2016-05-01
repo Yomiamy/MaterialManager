@@ -13,6 +13,7 @@ import com.material.management.data.BackupRestoreInfo;
 import com.material.management.output.NotificationOutput;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.FileUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import android.app.Service;
 import android.content.Intent;
@@ -127,7 +128,7 @@ public class CloudService extends Service {
                         return true;
                     } catch (IllegalStateException e) {
                         Utility.showToast("Couldn't authenticate with Dropbox:" + e.getLocalizedMessage());
-                        Log.i(MaterialManagerApplication.TAG, "Error authenticating", e);
+                        LogUtility.printStackTrace(e);
                     }
                 }
 

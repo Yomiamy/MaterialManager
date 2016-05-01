@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.material.management.utils.LogUtility;
+
 public class BestLocationProvider {
 
 	public enum LocationType {
@@ -17,7 +19,7 @@ public class BestLocationProvider {
 		UNKNOWN
 	}
 
-	private static final String TAG = "BestLocationProvider";
+	private static final String DEBUG_LOG_TAG = "BestLocationProvider";
 	private static final int TOO_OLD_LOCATION_DELTA = 1000 * 60 * 2;
 
 	private Context mContext;
@@ -173,7 +175,7 @@ public class BestLocationProvider {
 	private void initLocationListener(){
 		mLocationListener = new LocationListener() {
 		    public void onLocationChanged(Location location) {
-		      Log.i(TAG, "onLocationChanged: " + locationToString(location));
+			  LogUtility.printLogD(DEBUG_LOG_TAG, "onLocationChanged: " + locationToString(location));
 
 		      if(isBetterLocation(location, mLocation)){
 		    	  updateLocation(location, providerToLocationType(location.getProvider()), true);
@@ -190,7 +192,7 @@ public class BestLocationProvider {
 		    		  }
 		    	  }
 
-		    	  Log.d(TAG, "onLocationChanged NEW BEST LOCATION: " + locationToString(mLocation));
+				  LogUtility.printLogD(DEBUG_LOG_TAG, "onLocationChanged NEW BEST LOCATION: " + locationToString(mLocation));
 		      }
 		    }
 
@@ -214,7 +216,7 @@ public class BestLocationProvider {
 		} else if(provider.equals("network")){
 			return LocationType.CELL;
 		} else {
-			Log.w(TAG, "providerToLocationType Unknown Provider: " + provider);
+			LogUtility.printLogD(DEBUG_LOG_TAG, "providerToLocationType Unknown Provider: " + provider);
 			return LocationType.UNKNOWN;
 		}
 	}
@@ -318,11 +320,11 @@ public class BestLocationProvider {
 			resetTimeout();
 
 			try {
-				while(new Date().getTime() < mStartTime + mTimeout){
+				while (new Date().getTime() < mStartTime + mTimeout) {
 					Thread.sleep(1000);
 				}
-	        	} catch (InterruptedException e) {
-				Log.e(TAG, "Timeout: Exception in doInBackground: " + e.getMessage());
+			} catch (InterruptedException e) {
+				LogUtility.printStackTrace(e);
 			}
 			return null;
 		}

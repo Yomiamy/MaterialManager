@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class MemoryCache {
 
-    private static final String TAG = "MemoryCache";
+    private static final String DEBUG_LOG_TAG = "MemoryCache";
     /* Last argument true for LRU ordering */
     private Map<String, Bitmap> cache=Collections.synchronizedMap(
             new LinkedHashMap<String, Bitmap>(10,1.5f,true));
@@ -26,7 +26,7 @@ public class MemoryCache {
     
     public void setLimit(long new_limit){
         limit=new_limit;
-        Log.i(TAG, "MemoryCache will use up to "+limit/1024./1024.+"MB");
+        Log.i(DEBUG_LOG_TAG, "MemoryCache will use up to "+limit/1024./1024.+"MB");
     }
 
     public Bitmap get(String id){
@@ -54,7 +54,7 @@ public class MemoryCache {
     }
     
     private void checkSize() {
-        Log.i(TAG, "cache size="+size+" length="+cache.size());
+        Log.i(DEBUG_LOG_TAG, "cache size="+size+" length="+cache.size());
         if(size>limit){
             Iterator<Entry<String, Bitmap>> iter=cache.entrySet().iterator();
             /* least recently accessed item will be the first one iterated */
@@ -65,7 +65,7 @@ public class MemoryCache {
                 if(size<=limit)
                     break;
             }
-            Log.i(TAG, "Clean cache. New size "+cache.size());
+            Log.i(DEBUG_LOG_TAG, "Clean cache. New size "+cache.size());
         }
     }
 

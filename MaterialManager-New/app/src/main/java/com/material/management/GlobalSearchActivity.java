@@ -2,7 +2,6 @@ package com.material.management;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,10 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.material.management.data.GroceryItem;
-import com.material.management.data.GroceryListData;
 import com.material.management.data.Material;
 import com.material.management.data.GlobalSearchData;
 import com.material.management.dialog.GlobalSearchResultDialog;
@@ -45,7 +42,9 @@ public class GlobalSearchActivity extends MMActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.global_search_activity);
+
+        mLayout = getLayoutInflater().inflate(R.layout.global_search_activity, null);
+        setContentView(mLayout);
 
         findView();
         setListener();
@@ -66,6 +65,12 @@ public class GlobalSearchActivity extends MMActivity {
             mGlobalDataLoaderTask.execute();
         }
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        hideKeyboard(mLayout);
+        super.onPause();
     }
 
     @Override

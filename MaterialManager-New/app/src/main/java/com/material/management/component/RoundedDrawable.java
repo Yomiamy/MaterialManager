@@ -10,6 +10,8 @@ import android.graphics.drawable.TransitionDrawable;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
+import com.material.management.utils.LogUtility;
+
 public class RoundedDrawable extends Drawable {
     public static final String TAG = "RoundedDrawable";
 
@@ -290,7 +292,7 @@ public class RoundedDrawable extends Drawable {
             if (bm != null) {
                 return new RoundedDrawable(bm, radius, border, borderColor, isOval);
             } else {
-                Log.w(TAG, "Failed to create bitmap from drawable!");
+                LogUtility.printLogD(TAG, "Failed to create bitmap from drawable!");
             }
         }
         return drawable;

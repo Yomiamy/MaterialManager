@@ -80,6 +80,11 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
     }
@@ -166,7 +171,16 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         int vId = adapter.getId();
 
         if (vId == R.id.spin_notification_frequency) {
-            String freqStr = ((TextView) selectedView).getText().toString().trim();
+            TextView tvFreq = (TextView) selectedView;
+            String freqStr = null;
+
+            /* To avoid the trim memory issue. */
+            if(tvFreq != null) {
+                freqStr = tvFreq.getText().toString().trim();
+            } else {
+                freqStr = Integer.toString(Utility.getIntValueForKey(Utility.NOTIF_FREQUENCY));
+            }
+
             mNotifFreq = (freqStr.endsWith(mResources.getString(R.string.title_notif_silent_mode))) ? mResources.getInteger(R.integer.max_notif_freq) : Integer.parseInt(freqStr);
             Intent intent = new Intent();
             Utility.setIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND, mIsNotifVibrateOrSound);

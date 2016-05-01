@@ -1,6 +1,7 @@
 package com.material.management.provider;
 
 import com.material.management.MaterialManagerApplication;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -15,6 +16,7 @@ import android.net.Uri;
 import android.util.Log;
 
 public class MaterialProvider extends ContentProvider {
+    public static final String DEBUG_LOG_TAG = "MaterialProvider";
     public static final String AUTHORITH = "com.materialmgr.provider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITH);
     public static final Uri URI_MATERIAL = Uri.withAppendedPath(MaterialProvider.CONTENT_URI,
@@ -69,7 +71,7 @@ public class MaterialProvider extends ContentProvider {
             }
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.w(MaterialManagerApplication.TAG, e.getMessage(), e);
+            LogUtility.printStackTrace(e);
         } finally {
             db.endTransaction();
         }
@@ -106,8 +108,7 @@ public class MaterialProvider extends ContentProvider {
                 return newUri;
             }
         } catch (SQLException e) {
-            Log.e(MaterialManagerApplication.TAG, e.getMessage(), e);
-
+            LogUtility.printStackTrace(e);
         }
         return null;
     }

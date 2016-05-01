@@ -256,8 +256,6 @@ public class Utility {
             DisplayMetrics metrics = new DisplayMetrics();
             display.getMetrics(metrics);
             sDisplayMetrics = metrics;
-
-            LogUtility.printLogD("randy", "w = " + sDisplayMetrics.widthPixels + ", h = " + sDisplayMetrics.heightPixels + ", densityDpi = " + sDisplayMetrics.densityDpi);
         }
 
         return sDisplayMetrics;

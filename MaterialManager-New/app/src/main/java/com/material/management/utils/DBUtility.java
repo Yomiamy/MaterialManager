@@ -238,7 +238,7 @@ public class DBUtility {
 
             sResolver.delete(MaterialProvider.URI_MATERIAL, "material_type=?", new String[]{materialType});
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertMaterialInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -263,7 +263,7 @@ public class DBUtility {
                     + "and (comment is null or comment=?)"
                     , new String[]{name, barcode, barcodeFormat, materialType, materialPlace, purchaceDate, validDate, comment});
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertMaterialInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -373,7 +373,7 @@ public class DBUtility {
             /* Also delete all material informaion belong to the specific type */
             deleteMaterialInfoByType(materialType);
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility delMaterialTypeInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -446,7 +446,7 @@ public class DBUtility {
 
             sResolver.insert(MaterialProvider.URI_GROCERY_LIST, value);
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertGroceryListInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -464,7 +464,7 @@ public class DBUtility {
 
             sResolver.insert(MaterialProvider.URI_GROCERY_LIST_HISTORY, value);
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertGroceryListHistoryInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -621,7 +621,7 @@ public class DBUtility {
 
             sResolver.insert(MaterialProvider.URI_GROCERY_ITEMS, value);
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertGroceryItemInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -719,7 +719,7 @@ public class DBUtility {
 
             sResolver.delete(MaterialProvider.URI_GROCERY_ITEMS, "name=? and grocery_list_id =? and barcode_format=? and barcode=? and photo_path=?", new String[]{name, groceryListId, barcodeFormat, barcode, photoPath});
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility deleteGroceryItem", e);
+            LogUtility.printStackTrace(e);
         }
     }
 
@@ -880,7 +880,7 @@ public class DBUtility {
                     + "and (photo_back_path is null or photo_back_path=?)"
                     , new String[]{oldName, oldCardType, oldBarcode, oldBarcodeFormat, oldPhotoPath, oldCouponValue, oldValidFrom, oldExpiry, oldComment, oldBackPhotoPath});
         } catch (UnsupportedEncodingException e) {
-            Log.d(MaterialManagerApplication.TAG, "In DBUtility insertMaterialInfo", e);
+            LogUtility.printStackTrace(e);
         }
     }
     /* ============================================backup utility==================================== */
