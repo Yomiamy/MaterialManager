@@ -84,6 +84,8 @@ public class RewardCardsFragment extends MMFragment implements Observer {
     private void initListener() {
         mIvChangePreviewFace.setOnClickListener(this);
         mIvRewardPreviewDismiss.setOnClickListener(this);
+        /* To consume the click event, so that the child won't display popup menu. */
+        mRlRewardPreview.setOnClickListener(this);
     }
 
     @Override

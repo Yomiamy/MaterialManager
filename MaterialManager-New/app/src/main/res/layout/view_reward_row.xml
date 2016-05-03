@@ -48,8 +48,8 @@
 
                 <ImageView
                     android:id="@+id/rewardPhotoIcon"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center|right"
                     android:layout_marginRight="26dp"
@@ -155,8 +155,8 @@
 
                 <ImageView
                     android:id="@+id/couponPhotoIcon"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center|right"
                     android:layout_marginRight="25dp"
@@ -372,8 +372,8 @@
 
                 <ImageView
                     android:id="@+id/giftPhotoIcon"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center|right"
                     android:layout_marginRight="24dp"

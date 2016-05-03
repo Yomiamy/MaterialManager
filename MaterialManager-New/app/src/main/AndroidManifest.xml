@@ -42,9 +42,9 @@
     <application
         android:name="com.material.management.MaterialManagerApplication"
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/AppTheme"
-        android:debuggable="true">
+        android:theme="@style/AppTheme">
 
+        <!--android:debuggable="false"-->
         <!-- Google Analytics Version v4 needs this value for easy tracking. GoogleAnalytics.getInstance() deadlocks while trying to parse the xml tracker definition.  -->
         <!--<meta-data android:name="com.google.android.gms.analytics.globalConfigResource"-->
         <!--android:resource="@xml/global_tracker" />-->
@@ -228,10 +228,6 @@
             android:stateNotNeeded="true" />
         <activity
             android:name="com.material.management.StoreMapActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity
-            android:name="com.material.management.GroceryListLoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
         <activity

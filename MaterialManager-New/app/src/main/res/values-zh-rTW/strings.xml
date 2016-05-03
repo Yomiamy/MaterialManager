@@ -9,8 +9,8 @@
 
     <string name="on_loading">資料載入中...</string>
     <string name="data_progressing">資料處理中...</string>
-    <string name="data_save_success">!資料儲存成功!</string>
-    <string name="data_save_fail">!資料儲存失敗!</string>
+    <string name="data_save_success">資料儲存成功</string>
+    <string name="data_save_fail">資料儲存失敗</string>
 
     <!-- MainActivity -->
     <string name="app_name">過期物品管家</string>

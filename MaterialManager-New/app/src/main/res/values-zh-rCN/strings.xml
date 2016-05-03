@@ -7,8 +7,8 @@
     <string name="title_neutral_btn_import_in_expired">纳入过期管理</string>
     <string name="on_loading">数据加载中...</string>
     <string name="data_progressing">数据处理中...</string>
-    <string name="data_save_success">!数据储存成功!</string>
-    <string name="data_save_fail">!数据储存失败!</string>
+    <string name="data_save_success">数据储存成功</string>
+    <string name="data_save_fail">数据储存失败</string>
     <string name="app_name">过期物品管家</string>
     <string name="title_login_material">登入物品</string>
     <string name="title_view_material">检视物品</string>
