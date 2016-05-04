@@ -178,7 +178,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar_menu, menu);
+        inflater.inflate(R.menu.fragment_action_bar_menu, menu);
         mOptionMenu = menu;
 
         setMenuItemVisibility(R.id.action_search, false);

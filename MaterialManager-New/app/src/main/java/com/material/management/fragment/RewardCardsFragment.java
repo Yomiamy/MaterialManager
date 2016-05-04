@@ -45,7 +45,6 @@ import java.util.List;
 
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
-import io.codetail.widget.RevealFrameLayout;
 
 public class RewardCardsFragment extends MMFragment implements Observer {
     private static final int MESSAGE_RELOAD_REWARD = 0;
@@ -571,7 +570,7 @@ public class RewardCardsFragment extends MMFragment implements Observer {
                             }
                         });
 
-                        popup.getMenuInflater().inflate(R.menu.reward_list_popup_menu, popup.getMenu());
+                        popup.getMenuInflater().inflate(R.menu.fragment_reward_list_popup_menu, popup.getMenu());
                         popup.show();
                     }
                     break;

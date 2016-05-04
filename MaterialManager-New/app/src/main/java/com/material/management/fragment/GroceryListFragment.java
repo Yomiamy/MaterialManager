@@ -490,7 +490,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
                             return false;
                         }
                     });
-                    popup.getMenuInflater().inflate(R.menu.grocery_list_popup_menu, popup.getMenu());
+                    popup.getMenuInflater().inflate(R.menu.fragment_grocery_list_popup_menu, popup.getMenu());
                     popup.show();
                 }
             });

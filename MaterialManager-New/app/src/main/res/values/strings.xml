@@ -281,6 +281,7 @@
     <string name="title_menu_item_as_type_photo">Set as a cover</string>
     <string name="title_menu_item_barcode">View barcode</string>
     <string name="title_menu_item_set_up_valid_date">Set valid date</string>
+    <string name="title_menu_item_reloacate_and_search">Relocate and search</string>
     <string name="title_empty_data">(--No items--)</string>
     <string name="exp_unit">days expired</string>
     <string name="format_material_type_count">Remain:%1$s item(s)</string>

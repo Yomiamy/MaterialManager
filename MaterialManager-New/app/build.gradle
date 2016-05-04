@@ -18,8 +18,8 @@ android {
         applicationId "com.material.management"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 54
-        versionName "2.5.19"
+        versionCode 55
+        versionName "2.5.20"
     }
     buildTypes {
         release {
@@ -43,6 +43,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:+'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'org.greenrobot:eventbus:+'
     compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }

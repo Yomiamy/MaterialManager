@@ -7,8 +7,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-
 import com.material.management.utils.LogUtility;
 
 public class BestLocationProvider {
@@ -23,8 +21,7 @@ public class BestLocationProvider {
 	private static final int TOO_OLD_LOCATION_DELTA = 1000 * 60 * 2;
 
 	private Context mContext;
-	private LocationManager mLocationMgrCell;
-	private LocationManager mLocationMgrGPS;
+	private LocationManager mLocMgr;
 	private LocationListener mLocationListener;
 	private Location mLocation;
 
@@ -44,6 +41,7 @@ public class BestLocationProvider {
 	public BestLocationProvider(Context context, boolean useGPSLocation, boolean useCellLocation,
 			long maxGPSLocationUpdateTimespan, long maxCellLocationUpdateTimespan, long minTime, float minDistance){
 		this.mContext = context;
+		this.mLocMgr = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 		this.mUseGPSLocation = useGPSLocation;
 		this.mUseCellLocation = useCellLocation;
 		this.mMaxGPSLocationUpdateTimespan = maxGPSLocationUpdateTimespan;
@@ -52,40 +50,35 @@ public class BestLocationProvider {
 		this.mMinDistance = minDistance;
 
 		initLocationListener();
-		initLocationManager();
 	}
 
 	public void startLocationUpdatesWithListener(BestLocationListener listener){
 		this.mListener = listener;
-
 		Location lastKnownLocationCell = null;
 		Location lastKnownLocationGPS = null;
 
-		if(mLocationMgrCell != null){
-			mLocationMgrCell.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, mMinTime, mMinDistance, mLocationListener);
+		mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, mMinTime, mMinDistance, mLocationListener);
 
-			if(this.mMaxCellLocationUpdateTimespan > 0){
-				mCellTimeout = new Timeout();
-				mCellTimeout.setTimeout(this.mMaxCellLocationUpdateTimespan);
-				mCellTimeout.setLocationType(LocationType.CELL);
-				mCellTimeout.execute();
-			}
-
-			lastKnownLocationCell = mLocationMgrCell.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		if (this.mMaxCellLocationUpdateTimespan > 0) {
+			mCellTimeout = new Timeout();
+			mCellTimeout.setTimeout(this.mMaxCellLocationUpdateTimespan);
+			mCellTimeout.setLocationType(LocationType.CELL);
+			mCellTimeout.execute();
 		}
 
-		if(mLocationMgrGPS != null){
-			mLocationMgrGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER, mMinTime, mMinDistance, mLocationListener);
+		lastKnownLocationCell = mLocMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-			if(this.mMaxGPSLocationUpdateTimespan > 0){
-				mGPSTimeout = new Timeout();
-				mGPSTimeout.setTimeout(this.mMaxGPSLocationUpdateTimespan);
-				mGPSTimeout.setLocationType(LocationType.GPS);
-				mGPSTimeout.execute();
-			}
 
-			lastKnownLocationGPS = mLocationMgrGPS.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, mMinTime, mMinDistance, mLocationListener);
+
+		if (this.mMaxGPSLocationUpdateTimespan > 0) {
+			mGPSTimeout = new Timeout();
+			mGPSTimeout.setTimeout(this.mMaxGPSLocationUpdateTimespan);
+			mGPSTimeout.setLocationType(LocationType.GPS);
+			mGPSTimeout.execute();
 		}
+
+		lastKnownLocationGPS = mLocMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 		if(lastKnownLocationCell != null && isBetterLocation(lastKnownLocationCell, mLocation)){
 			updateLocation(lastKnownLocationCell, LocationType.CELL, false);
@@ -97,13 +90,7 @@ public class BestLocationProvider {
 	}
 
 	public void stopLocationUpdates(){
-		if(mLocationMgrCell != null){
-			mLocationMgrCell.removeUpdates(mLocationListener);
-		}
-
-		if(mLocationMgrGPS != null){
-			mLocationMgrGPS.removeUpdates(mLocationListener);
-		}
+		mLocMgr.removeUpdates(mLocationListener);
 
 		//remove timeout threads
 		if(mGPSTimeout != null){
@@ -149,27 +136,8 @@ public class BestLocationProvider {
 		mListener.onLocationUpdate(location, type, isFresh);
 	}
 
-	public void initLocationManager(){
-		if(mUseCellLocation){
-			mLocationMgrCell = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-			if(!mLocationMgrCell.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-				mLocationMgrCell = null;
-			}
-		}
-
-		if(mUseGPSLocation){
-			mLocationMgrGPS = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-			if(!mLocationMgrGPS.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-				mLocationMgrGPS = null;
-			}
-		}
-	}
-
     public boolean isLocationEnabled() {
-        mLocationMgrCell = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        mLocationMgrGPS = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-
-        return mLocationMgrCell.isProviderEnabled(LocationManager.NETWORK_PROVIDER) || mLocationMgrGPS.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return mLocMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER) || mLocMgr.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
 	private void initLocationListener(){
@@ -320,6 +288,7 @@ public class BestLocationProvider {
 			resetTimeout();
 
 			try {
+                LogUtility.printLogD(DEBUG_LOG_TAG, "mLocationType = " + mLocationType.name());
 				while (new Date().getTime() < mStartTime + mTimeout) {
 					Thread.sleep(1000);
 				}

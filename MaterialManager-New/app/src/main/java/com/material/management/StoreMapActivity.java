@@ -8,10 +8,10 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +37,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.wearable.MessageEvent;
 import com.loopj.android.http.RequestParams;
 import com.material.management.api.module.ConnectionControl;
+import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.data.StoreData;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
@@ -46,6 +48,9 @@ import com.material.management.service.location.LocationTrackService;
 import com.picasso.Callback;
 import com.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,8 +90,8 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     private HashMap<Marker, StoreData> mMarkerStoreMap = null;
     private StoreResultAdapter mStoreResultAdapter = null;
     private StoreData mSelectedStoreData = null;
-    private Location mCurLocation;
-    //    private Messenger mMessenger;
+    private Location mCurLocation = null;
+    private String mCurSearchWord = null;
     /* TODO: It maybe need to be refactor. */
     private Bitmap mUserPinBitmap;
     private Bitmap mStorePinBitmap;
@@ -128,6 +133,15 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         ActionBar actionBar = getActionBar();
+        mIsLoadingFinished = false;
+        mFm = getFragmentManager();
+        mMapFragment = MapFragment.newInstance();
+        mRefStoreDataMap = new LinkedHashMap<>();
+        mMarkerStoreMap = new HashMap<>();
+        mUserPinBitmap = initPinBitmap(R.drawable.icon_map_pin_user, 62, 78, 1080, 1920);
+        mStorePinBitmap = initPinBitmap(R.drawable.icon_map_pin_store, 62, 78, 1080, 1920);
+        mCornerListBitmap = initPinBitmap(R.drawable.dashboard_button_map_white, 284, 378, 1080, 1920);
+        mCornerMapBitmap = initPinBitmap(R.drawable.dashboard_button_map, 284, 378, 1080, 1920);
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(title);
@@ -135,15 +149,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
         }
 
-        mIsLoadingFinished = false;
-        mFm = getFragmentManager();
-        mMapFragment = MapFragment.newInstance();
-        mRefStoreDataMap = new LinkedHashMap<String, StoreData>();
-        mMarkerStoreMap = new HashMap<Marker, StoreData>();
-        mUserPinBitmap = initPinBitmap(R.drawable.icon_map_pin_user, 62, 78, 1080, 1920);
-        mStorePinBitmap = initPinBitmap(R.drawable.icon_map_pin_store, 62, 78, 1080, 1920);
-        mCornerListBitmap = initPinBitmap(R.drawable.dashboard_button_map_white, 284, 378, 1080, 1920);
-        mCornerMapBitmap = initPinBitmap(R.drawable.dashboard_button_map, 284, 378, 1080, 1920);
+        EventBus.getDefault().register(this);
 
         mSbNearbyDist.setProgress(0);
         mTvNearbyDist.setText(Integer.toString(mSbNearbyDist.getProgress() + 2));
@@ -185,7 +191,6 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
 
         if (tmpBmp != bmp) {
             Utility.releaseBitmaps(tmpBmp);
-            tmpBmp = null;
         }
 
         return bmp;
@@ -230,8 +235,23 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+
+        menuInflater.inflate(R.menu.activity_store_map_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_action_relocate_and_search: {
+                showProgressDialog(null, getString(R.string.on_loading));
+                doSearch(mCurSearchWord, null);
+            }
+            break;
+
             case android.R.id.home: {
                 finish();
             }
@@ -250,6 +270,12 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     protected void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -272,13 +298,21 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     @Override
     public void onBackStackChanged() {
         /* Only searching in initial stage. */
-        doSearch("");
+        doSearch("", null);
     }
 
-    private void doSearch(String keyword) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BroadCastEvent event) {
+        if(event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE__LOC_UPDATE) {
+            doSearch(mCurSearchWord, (Location) event.getData());
+        }
+    }
+
+    private void doSearch(String keyword, Location loc) {
+        mCurSearchWord = (TextUtils.isEmpty(keyword)) ? "" : keyword;
+
         mLvNearbyStore.setVisibility(View.GONE);
         mRlEmpty.setVisibility(View.GONE);
-
         if (Utility.isNetworkConnected(mContext)) {
             mRlNoNetwork.setVisibility(View.GONE);
         } else {
@@ -292,9 +326,11 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
             showAlertDialog(null, getString(R.string.store_map_msg_err_location_disabled), getString(R.string.title_positive_btn_label), null, null, null);
         }
 
-        RequestParams params = new RequestParams();
         /* When press search, update current position again. */
-        mCurLocation = Utility.getLocation();
+        mRlOnLoading.setVisibility(View.VISIBLE);
+
+        mCurLocation = (loc == null) ? Utility.getLocation() : loc;
+        RequestParams params = new RequestParams();
 
         params.put("key", getString(R.string.place_api_key));
         params.put("location", mCurLocation.getLatitude() + "," + mCurLocation.getLongitude());
@@ -303,8 +339,6 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         params.put("keyword", keyword.replace(' ', ','));
         params.put("language", mDeviceInfo.getLanguage() + "-" + mDeviceInfo.getLocale());
         mControl.getData(ConnectionControl.PLACE_NEARBY_SEARCH, this, params, REQ_PLACE_SEARCH);
-
-        mRlOnLoading.setVisibility(View.VISIBLE);
     }
 
     private void initMapMarker() {
@@ -545,7 +579,6 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                         mLvNearbyStore.setVisibility(View.VISIBLE);
                         mRlOnLoading.setVisibility(View.GONE);
                         initMapMarker();
-                        closeProgressDialog();
 
                         if (mStoreResultAdapter.getCount() == 0) {
                             mRlEmpty.setVisibility(View.VISIBLE);
@@ -604,7 +637,6 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                 } else {
                     showAlertDialog(null, getString(R.string.store_map_msg_err_retry), getString(R.string.title_positive_btn_label), null, null, null);
                 }
-                closeProgressDialog();
             } catch (JSONException e) {
                 LogUtility.printStackTrace(e);
             }
@@ -623,7 +655,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         switch (id) {
             case R.id.btn_search: {
                 v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press_bounce));
-                doSearch(mEtStoreSearch.getText().toString());
+                doSearch(mEtStoreSearch.getText().toString(), mCurLocation);
             }
             break;
 

@@ -7,6 +7,10 @@ import android.location.Location;
 
 import android.os.Bundle;
 
+import com.material.management.broadcast.BroadCastEvent;
+
+import org.greenrobot.eventbus.EventBus;
+
 
 public class LocationUtility extends BestLocationListener {
     private static Context sContext;
@@ -25,7 +29,7 @@ public class LocationUtility extends BestLocationListener {
     public static LocationUtility getsInstance() {
         if(sInstance == null) {
             sInstance = new LocationUtility();
-            sInstance.mBestLocationProvider = new BestLocationProvider(sContext, true, true, 0, 100, 2, 0);
+            sInstance.mBestLocationProvider = new BestLocationProvider(sContext, true, true, 2000, 2000, 2, 0);
         }
         return sInstance;
     }
@@ -40,16 +44,8 @@ public class LocationUtility extends BestLocationListener {
 
     public Location getLocation() {
         mLastKnowLocation = mBestLocationProvider.getLastKnowLocation();
-        mBestLocationProvider.initLocationManager();
+
         mBestLocationProvider.startLocationUpdatesWithListener(sInstance);
-
-        /* TODO: Use fake location if we can't retrieve any address, then we give it taipei station location*/
-        if (mLastKnowLocation == null) {
-            mLastKnowLocation = new Location("");
-
-            mLastKnowLocation.setLatitude(25.048346);
-            mLastKnowLocation.setLongitude(121.516396);
-        }
 
         return mLastKnowLocation;
     }
@@ -57,11 +53,13 @@ public class LocationUtility extends BestLocationListener {
     @Override
     public void onLocationUpdate(Location location, BestLocationProvider.LocationType type, boolean isFresh) {
         mLastKnowLocation = location;
+        BroadCastEvent broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE__LOC_UPDATE, mLastKnowLocation);
         /*
         * If we get a new location, then we stop update.
         * Either the location is from GPS or Network.
         * */
         mBestLocationProvider.stopLocationUpdates();
+        EventBus.getDefault().post(broadCastEvent);
     }
 
     @Override

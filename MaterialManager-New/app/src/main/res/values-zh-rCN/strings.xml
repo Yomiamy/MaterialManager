@@ -218,6 +218,7 @@
     <string name="title_menu_item_as_type_photo">设定为封面</string>
     <string name="title_menu_item_barcode">显示物品条形码</string>
     <string name="title_menu_item_set_up_valid_date">设定有效日期</string>
+    <string name="title_menu_item_reloacate_and_search">重新定位搜寻</string>
     <string name="title_empty_data">(--资料为空--)</string>
     <string name="format_material_type_count">尚有:%1$s件</string>
     <string name="format_material_barcode">条形码 :</string>

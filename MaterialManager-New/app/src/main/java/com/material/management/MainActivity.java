@@ -179,7 +179,7 @@ public class MainActivity extends SlidingActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar_menu, menu);
+        inflater.inflate(R.menu.fragment_action_bar_menu, menu);
 
         mOptionMenu = menu;
         /* the search view is disabled by default */

@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_action_relocate_and_search"
+        android:icon="@drawable/ic_action_location_update"
+        android:showAsAction="always"
+        android:title="@string/title_menu_item_reloacate_and_search"/>
+</menu>

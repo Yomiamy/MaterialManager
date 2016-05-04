@@ -193,7 +193,6 @@ public class Utility {
             for (Bitmap bitmap : bitmaps) {
                 if (bitmap != null && !bitmap.isRecycled()) {
                     bitmap.recycle();
-                    bitmap = null;
                 }
             }
             forceGC(false);
