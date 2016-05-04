@@ -301,7 +301,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
 
         if (serviceTime != null && !serviceTime.isEmpty()) {
             String[] daysHours = serviceTime.split("\\|");
-            Pattern patt = Pattern.compile("(\\d+)#(\\d+),(\\d+)");
+            Pattern patt = Pattern.compile("(\\d+)#(\\-?\\d+),(\\-?\\d+)");
 
 
             for (String dayHour : daysHours) {
@@ -311,6 +311,8 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                     int day = Integer.parseInt(match.group(1));
                     String startTime = match.group(2);
                     String endTime = match.group(3);
+                    startTime = (Integer.parseInt(startTime) < 0) ? getString(R.string.title_service_time_default) : startTime;
+                    endTime = (Integer.parseInt(endTime) < 0) ? getString(R.string.title_service_time_default) : endTime;
 
                     switch (day) {
                         case 0:

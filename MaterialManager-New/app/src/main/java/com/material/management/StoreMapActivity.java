@@ -617,12 +617,14 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
 
                             for (int i = 0, len = daysJsonAry.length(); i < len; i++) {
                                 JSONObject dayJsonObj = daysJsonAry.getJSONObject(i);
-                                /* TODO: I assume it is pair-exist*/
-                                JSONObject openJsonObj = dayJsonObj.getJSONObject("open");
-                                JSONObject closeJsonObj = dayJsonObj.getJSONObject("close");
+                                JSONObject openJsonObj = dayJsonObj.has("open") ? dayJsonObj.getJSONObject("open") : null;
+                                JSONObject closeJsonObj = dayJsonObj.has("close") ? dayJsonObj.getJSONObject("close") : null;
+                                String openTime = (openJsonObj == null) ? Integer.toString(-1) : openJsonObj.getString("time");
+                                String closeTime = (closeJsonObj == null) ? Integer.toString(-1): closeJsonObj.getString("time");
+
                                 /* FORMAT : [DAY1]#[open-time],[close-time]|[DAY2]#[open-time],[close-time]...*/
                                 String day = openJsonObj.getString("day") + "#";
-                                String hourTimes = openJsonObj.getString("time") + "," + closeJsonObj.getString("time");
+                                String hourTimes = openTime + "," + closeTime;
 
                                 openDaysHours.append(day + hourTimes + "|");
                             }
