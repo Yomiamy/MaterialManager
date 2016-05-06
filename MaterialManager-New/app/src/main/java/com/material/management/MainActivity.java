@@ -75,7 +75,8 @@ public class MainActivity extends SlidingActivity {
 
     private void initView() {
         mSlideMenu = getSlidingMenu();
-        mLvSlideMenu = (ListView) mInflater.inflate(R.layout.sliding_menu, null);
+        View slideMenuLayout =  mInflater.inflate(R.layout.sliding_menu, null);
+        mLvSlideMenu = (ListView) slideMenuLayout.findViewById(R.id.lv_slide_menu_list);
     }
 
     private void initListener() {

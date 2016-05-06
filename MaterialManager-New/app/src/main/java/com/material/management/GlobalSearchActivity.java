@@ -2,10 +2,12 @@ package com.material.management;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,6 +27,7 @@ import com.material.management.data.Material;
 import com.material.management.data.GlobalSearchData;
 import com.material.management.dialog.GlobalSearchResultDialog;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,7 +62,11 @@ public class GlobalSearchActivity extends MMActivity {
 
     @Override
     protected void onResume() {
-        if(mKeyword != null && !mKeyword.isEmpty()) {
+        if (!TextUtils.isEmpty(mKeyword)) {
+            if (mGlobalDataLoaderTask != null && !mGlobalDataLoaderTask.isCancelled()) {
+                mGlobalDataLoaderTask.cancel(true);
+            }
+
             mGlobalDataLoaderTask = new GlobalDataLoaderTask(mKeyword);
 
             mGlobalDataLoaderTask.execute();
@@ -110,10 +117,14 @@ public class GlobalSearchActivity extends MMActivity {
 
                 mKeyword = s.toString();
 
-                if(mKeyword.isEmpty()) {
+                if (TextUtils.isEmpty(mKeyword) && mSearchResultAdapter != null) {
                     mSearchResultAdapter.clear();
                     mSearchResultAdapter.notifyDataSetChanged();
                 } else {
+                    if (mGlobalDataLoaderTask != null && !mGlobalDataLoaderTask.isCancelled()) {
+                        mGlobalDataLoaderTask.cancel(true);
+                    }
+
                     mGlobalDataLoaderTask = new GlobalDataLoaderTask(mKeyword);
 
                     mGlobalDataLoaderTask.execute();

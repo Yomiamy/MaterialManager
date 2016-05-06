@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,19 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
         mDeviceInfo = Utility.getDeviceInfo();
 
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+    }
+
+    @Override
+    protected void onResume() {
+        if (!Utility.isApplicationInitialized()) {
+            Intent intent = new Intent(this, MainActivity.class);
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+
+        super.onResume();
     }
 
     @Override

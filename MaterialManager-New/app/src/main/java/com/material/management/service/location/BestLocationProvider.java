@@ -293,7 +293,7 @@ public class BestLocationProvider {
 					Thread.sleep(1000);
 				}
 			} catch (InterruptedException e) {
-				LogUtility.printStackTrace(e);
+				LogUtility.printLogD(DEBUG_LOG_TAG, "Thread.sleep interrupted in BestLocationProvider.Timeout task.");
 			}
 			return null;
 		}

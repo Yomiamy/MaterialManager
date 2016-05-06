@@ -86,6 +86,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     @Override
     public void onResume() {
         sendScreenAnalytics(getString(R.string.ga_app_view_grocery_list_login_fragment));
+
         super.onResume();
     }
 
@@ -117,7 +118,9 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
 
     private void init() {
         mOwnerActivity = getActivity();
-        mTitle = mOwnerActivity.getActionBar().getTitle().toString();
+        CharSequence actionBarTitle = mOwnerActivity.getActionBar().getTitle();
+        /* A workaround to avoid the NullPointerException for actionbar title. */
+        mTitle = (actionBarTitle != null) ? actionBarTitle.toString() : "";
         Calendar calendar = Calendar.getInstance();
         mTimePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
 

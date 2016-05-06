@@ -67,20 +67,30 @@ public class Utility {
 
     public static void setApplicationContext(Context context) {
         sApplicationContext = context;
-        LocationUtility.init(context);
     }
 
     /* Must be initialize before using the Utility */
     public static void setMainActivity(Activity activity) {
         sActivity = activity;
+
         BitmapUtility.init(sActivity);
-//      LocationUtility.init(sActivity);
+        LocationUtility.init(sActivity);
         sLocUtility = LocationUtility.getsInstance();
         sDeviceInfo.setDevice(Build.MANUFACTURER + " " + Build.MODEL);
         sDeviceInfo.setPlatformVersion("Android " + Build.VERSION.RELEASE);
         sDeviceInfo.setAppVersion(BuildConfig.VERSION_NAME);
         sDeviceInfo.setLanguage(Locale.getDefault().getLanguage());
         sDeviceInfo.setLocale(Locale.getDefault().getCountry());
+    }
+
+    /**
+     *  Used to detect whether or not the memory of application is cleared.
+     *  These static variables should be keeped when process alive.
+     *
+     *  @return True indicate the memory is clear; Otherwise, is False.
+     * */
+    public static boolean isApplicationInitialized() {
+        return sActivity != null && sLocUtility != null && sDeviceInfo != null;
     }
 
     public static MainActivity getMainActivity() {

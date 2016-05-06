@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,24 +36,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.wearable.MessageEvent;
 import com.loopj.android.http.RequestParams;
 import com.material.management.api.module.ConnectionControl;
 import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.data.StoreData;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
-import com.material.management.service.location.LocationTrackService;
 import com.picasso.Callback;
 import com.picasso.Picasso;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -267,6 +262,11 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
@@ -309,6 +309,10 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     }
 
     private void doSearch(String keyword, Location loc) {
+        /* To avoid the NullPointerException when the memory of application is cleared */
+        if (!Utility.isApplicationInitialized()) {
+            return;
+        }
         mCurSearchWord = (TextUtils.isEmpty(keyword)) ? "" : keyword;
 
         mLvNearbyStore.setVisibility(View.GONE);

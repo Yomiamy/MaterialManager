@@ -1,11 +1,14 @@
 package com.material.management;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
-public class SplashActivity extends MMActivity {
+public class SplashActivity extends Activity {
 
     private long mSplashDispDuration = 5000;
+    private Handler mHandler = new Handler();
     private Runnable mSplashScreenRunnable = new Runnable() {
         @Override
         public void run() {

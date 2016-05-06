@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,6 +59,19 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
         mOwnerActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        if (!Utility.isApplicationInitialized()) {
+            Intent intent = new Intent(mOwnerActivity, MainActivity.class);
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+        }
+
+        super.onResume();
     }
 
     @Override
