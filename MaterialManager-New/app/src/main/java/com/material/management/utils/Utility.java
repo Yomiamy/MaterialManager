@@ -67,6 +67,7 @@ public class Utility {
 
     public static void setApplicationContext(Context context) {
         sApplicationContext = context;
+        LocationUtility.init(sApplicationContext);
     }
 
     /* Must be initialize before using the Utility */
@@ -74,7 +75,7 @@ public class Utility {
         sActivity = activity;
 
         BitmapUtility.init(sActivity);
-        LocationUtility.init(sActivity);
+//      LocationUtility.init(sActivity);
         sLocUtility = LocationUtility.getsInstance();
         sDeviceInfo.setDevice(Build.MANUFACTURER + " " + Build.MODEL);
         sDeviceInfo.setPlatformVersion("Android " + Build.VERSION.RELEASE);
