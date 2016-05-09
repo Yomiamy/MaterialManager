@@ -126,21 +126,21 @@
             style="@style/profile_about_section_title"
             android:text="@string/title_cloud_backup_restore" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/card_bg"
-            android:orientation="vertical">
-
-            <CheckedTextView
-                android:id="@+id/cb_dropbox_enable"
-                style="@style/section_item_checkbox"
-                android:layout_height="wrap_content"
-                android:background="@drawable/touch_clear_bg"
-                android:text="@string/title_dropbox_enable" />
-        </LinearLayout>
+            android:background="@drawable/card_bg">
+            <ImageView
+                android:id="@+id/iv_dropbox_enable"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_dropbox_login"/>
+        </RelativeLayout>
 
         <TextView
             style="@style/profile_about_section_title"

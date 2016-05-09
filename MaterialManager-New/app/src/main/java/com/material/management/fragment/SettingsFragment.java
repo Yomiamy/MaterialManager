@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -37,13 +38,13 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     /* Android widgets */
     private static MainActivity sActivity = null;
 
+    private View mLayout;
     private TextView mTvDbRestore;
     private TextView mTvDbBackup;
     private RadioGroup mRgNotifVibrateOrSound;
     private Spinner mSpinNotifFrequency;
     private Spinner mSpinFontSizeChange;
-    private View mLayout;
-    private CheckedTextView mCbDropBox;
+    private ImageView mIvBtnDropbox;
 
     private int mIsNotifVibrateOrSound;
     private int mNotifFreq;
@@ -68,12 +69,13 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     public void onResume() {
         try {
             if (mService != null && mService.isLinked()) {
-                mCbDropBox.setChecked(true);
-            } else
-                mCbDropBox.setChecked(false);
+                mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login_press);
+            } else {
+                mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+            }
         } catch (RemoteException e) {
-            e.printStackTrace();
-            mCbDropBox.setChecked(false);
+            LogUtility.printStackTrace(e);
+            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
         }
         sendScreenAnalytics(getString(R.string.ga_app_view_settings_fragment));
         super.onResume();
@@ -101,7 +103,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mSpinFontSizeChange = (Spinner) mLayout.findViewById(R.id.spin_font_size_scale_factor);
         RadioButton rbNotifVibrate = (RadioButton) mLayout.findViewById(R.id.rb_notif_type_vibrate);
         RadioButton rbNotifSound = (RadioButton) mLayout.findViewById(R.id.rb_notif_type_sound);
-        mCbDropBox = (CheckedTextView) mLayout.findViewById(R.id.cb_dropbox_enable);
+//        mCbDropBox = (CheckedTextView) mLayout.findViewById(R.id.cb_dropbox_enable);
+        mIvBtnDropbox = (ImageView) mLayout.findViewById(R.id.iv_dropbox_enable);
         mTvDbBackup = (TextView) mLayout.findViewById(R.id.tv_database_backup);
         mTvDbRestore = (TextView) mLayout.findViewById(R.id.tv_database_restore);
         /* default is vibrate */
@@ -136,7 +139,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mSpinNotifFrequency.setOnItemSelectedListener(this);
         mSpinNotifFrequency.setSelection(notifSpinAdapter.getPosition(notifFreqStr));
         mRgNotifVibrateOrSound.setOnCheckedChangeListener(this);
-        mCbDropBox.setOnClickListener(this);
+        mIvBtnDropbox.setOnClickListener(this);
         mTvDbBackup.setOnClickListener(this);
         mTvDbRestore.setOnClickListener(this);
     }
@@ -219,18 +222,18 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                     LogUtility.printStackTrace(e);
                 }
             }
-        } else if (id == R.id.cb_dropbox_enable) {
-            boolean isChecked = !mCbDropBox.isChecked();
-
-            mCbDropBox.setChecked(isChecked);
+        } else if (id == R.id.iv_dropbox_enable) {
             try {
-                if (mService != null && (isChecked && !mService.isLinked()))
+                if (mService != null && !mService.isLinked()) {
                     mService.connect();
-                else if (mService != null && (!isChecked && mService.isLinked()))
+                    mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login_press);
+                } else if (mService != null && mService.isLinked()) {
                     mService.disConnect();
+                    mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                }
             } catch (RemoteException e) {
-                e.printStackTrace();
-                mCbDropBox.setChecked(false);
+                LogUtility.printStackTrace(e);
+                mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
             }
         }
     }
