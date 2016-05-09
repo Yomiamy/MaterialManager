@@ -65,7 +65,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     public static final String ACTION_BAR_BTN_ACTION_CLEAR = "clear_user_input";
     private static final int REQ_CAMERA_TAKE_PIC = 1;
     private static final int REQ_SELECT_PICTURE = 2;
-    //    private static final String CATEGORY_IS_INITIALIZED = "category_is_initialized";
     private static final String DATEPICKER_TAG = "datepicker";
     private static Pattern sMaterialNameErrorPattern = Pattern.compile(".*[\\\\/?]+.*", Pattern.DOTALL);
 
