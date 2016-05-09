@@ -8,6 +8,12 @@
     <string name="title_neutral_btn_import_in_expired">納入過期管理</string>
 
     <string name="on_loading">資料載入中...</string>
+    <string name="no_network_view_message1">本項功能須連線網路使用</string>
+    <string name="no_network_view_message2">• 請確認您已開啟網路連線服務，且並未處於＂飛航模式＂中。</string>
+    <string name="no_network_view_message3">• 若您已開啟 Wi-Fi 服務，請確認連線網路為有效之無線服務。</string>
+    <string name="no_network_view_message4">• 若您正以 3G 服務連線中，請考慮移動至收訊較佳之位置。</string>
+    <string name="no_gps_view_message1">本項功能須使用GPS定位</string>
+    <string name="no_gps_view_message2">• 請確認您的定位功能已開啟。</string>
     <string name="data_progressing">資料處理中...</string>
     <string name="data_save_success">資料儲存成功</string>
     <string name="data_save_fail">資料儲存失敗</string>
@@ -57,6 +63,7 @@
     <string name="title_marker_dist_info_kilo_meter">距離%1$s公里</string>
     <string name="title_marker_dist_info_meter">距離%1$s公尺</string>
     <string name="store_map_msg_err_location_disabled">定位功能尚未開啟，當前資料可能不準確，請重新開啟定位功能並重試</string>
+    <string name="store_map_msg_err_location_useless">無可用的位置資訊，請手動點選定位按鈕重新整理並等候結果回應</string>
     <string name="store_map_msg_err_retry">暫無相關資料，請稍後再試</string>
     <string name="store_map_msg_location_updating">位置更新中，請稍後...</string>
 

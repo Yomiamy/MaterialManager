@@ -14,6 +14,8 @@
     <string name="no_network_view_message2">• 請確認您已開啟網路連線服務，且並未處於＂飛航模式＂中。</string>
     <string name="no_network_view_message3">• 若您已開啟 Wi-Fi 服務，請確認連線網路為有效之無線服務。</string>
     <string name="no_network_view_message4">• 若您正以 3G 服務連線中，請考慮移動至收訊較佳之位置。</string>
+    <string name="no_gps_view_message1">本項功能須使用GPS定位</string>
+    <string name="no_gps_view_message2">• 請確認您的定位功能已開啟。</string>
     <string name="data_progressing">Data handling...</string>
     <string name="data_save_success">Data saved successfully</string>
     <string name="data_save_fail">Data saved fail</string>
@@ -71,6 +73,7 @@
     <string name="title_marker_dist_info_kilo_meter">Distance: %1$s km</string>
     <string name="title_marker_dist_info_meter">Distance: %1$s m</string>
     <string name="store_map_msg_err_location_disabled">Location provider is not enabled, please turn on your GPS/mobile network provider and retry again</string>
+    <string name="store_map_msg_err_location_useless">Location information can not be retrieved, please retry by manually pressing the locating button in the top right corner and waiting a moment</string>
     <string name="store_map_msg_err_retry">Can not retrieve data，please re-try it later...</string>
     <string name="store_map_msg_location_updating">Location updating，please wait a moment...</string>
 

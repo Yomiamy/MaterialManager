@@ -68,6 +68,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     private RelativeLayout mRlEmpty;
     private RelativeLayout mRlOnLoading;
     private RelativeLayout mRlNoNetwork;
+    private RelativeLayout mRlNoGps;
     private RelativeLayout mRlSearchStoreLayout;
     private FrameLayout mFlMapContainer;
     private SeekBar mSbNearbyDist;
@@ -112,6 +113,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         mRlEmpty = (RelativeLayout) findViewById(R.id.rl_empty_data);
         mRlOnLoading = (RelativeLayout) findViewById(R.id.rl_on_loading);
         mRlNoNetwork = (RelativeLayout) findViewById(R.id.rl_no_network);
+        mRlNoGps = (RelativeLayout) findViewById(R.id.rl_no_gps);
         mFlMapContainer = (FrameLayout) findViewById(R.id.fl_store_map_container);
         mRlSearchStoreLayout = (RelativeLayout) findViewById(R.id.rl_search_store_layout);
         mSbNearbyDist = (SeekBar) findViewById(R.id.sb_nearby_dist);
@@ -123,8 +125,6 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     }
 
     private void init() {
-        showProgressDialog(null, getString(R.string.on_loading));
-
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         ActionBar actionBar = getActionBar();
@@ -201,7 +201,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                 RequestParams params = new RequestParams();
 
                 params.put("key", getString(R.string.place_api_key));
-                params.put("reference", mSelectedStoreData.getStoreRef());
+                params.put("placeid", mSelectedStoreData.getStorePlaceId());
                 params.put("sensor", Boolean.toString(true));
                 params.put("language", mDeviceInfo.getLanguage() + "-" + mDeviceInfo.getLocale());
 
@@ -242,7 +242,6 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_action_relocate_and_search: {
-                showProgressDialog(null, getString(R.string.on_loading));
                 doSearch(mCurSearchWord, null);
             }
             break;
@@ -317,9 +316,10 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
 
         mLvNearbyStore.setVisibility(View.GONE);
         mRlEmpty.setVisibility(View.GONE);
-        if (Utility.isNetworkConnected(mContext)) {
-            mRlNoNetwork.setVisibility(View.GONE);
-        } else {
+        mRlNoGps.setVisibility(View.GONE);
+        mRlNoNetwork.setVisibility(View.GONE);
+
+        if (!Utility.isNetworkConnected(mContext)) {
             mRlNoNetwork.setVisibility(View.VISIBLE);
             closeProgressDialog();
 
@@ -327,13 +327,20 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         }
 
         if (!Utility.isLocationEnabled()) {
-            showAlertDialog(null, getString(R.string.store_map_msg_err_location_disabled), getString(R.string.title_positive_btn_label), null, null, null);
+            mRlNoGps.setVisibility(View.VISIBLE);
+            closeProgressDialog();
+            return;
         }
-
         /* When press search, update current position again. */
         mRlOnLoading.setVisibility(View.VISIBLE);
-
         mCurLocation = (loc == null) ? Utility.getLocation() : loc;
+
+        if(mCurLocation == null) {
+            closeProgressDialog();
+            showAlertDialog(null, getString(R.string.store_map_msg_err_location_useless), getString(R.string.title_positive_btn_label), null, null, null);
+            return;
+        }
+
         RequestParams params = new RequestParams();
 
         params.put("key", getString(R.string.place_api_key));
@@ -395,7 +402,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                 RequestParams params = new RequestParams();
 
                 params.put("key", getString(R.string.place_api_key));
-                params.put("reference", mSelectedStoreData.getStoreRef());
+                params.put("placeid", mSelectedStoreData.getStorePlaceId());
                 params.put("sensor", Boolean.toString(true));
                 params.put("language", mDeviceInfo.getLanguage() + "-" + mDeviceInfo.getLocale());
 
@@ -552,6 +559,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                             StoreData storeData = new StoreData();
 
                             storeData.setStoreName(resultJson.has("name") ? resultJson.getString("name") : "N/A");
+                            storeData.setStorePlaceId(resultJson.has("place_id") ? resultJson.getString("place_id") : "N/A");
                             storeData.setStoreRef(resultJson.has("reference") ? resultJson.getString("reference") : "N/A");
                             storeData.setStoreLat(geoJsonObj.has("lat") ? geoJsonObj.getString("lat") : "N/A");
                             storeData.setStoreLong(geoJsonObj.has("lng") ? geoJsonObj.getString("lng") : "N/A");

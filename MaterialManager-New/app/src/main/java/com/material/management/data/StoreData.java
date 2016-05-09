@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class StoreData implements Parcelable {
     private String mStoreName;
+    private String mStorePlaceId;
     private String mStoreRef;
     private String mStoreLat;
     private String mStoreLong;
@@ -89,6 +90,14 @@ public class StoreData implements Parcelable {
         this.mStoreRef = mStoreRef;
     }
 
+    public String getStorePlaceId() {
+        return mStorePlaceId;
+    }
+
+    public void setStorePlaceId(String mStorePlaceId) {
+        this.mStorePlaceId = mStorePlaceId;
+    }
+
     public String getStoreAddress() {
         return mStoreAddress;
     }
@@ -110,6 +119,7 @@ public class StoreData implements Parcelable {
             StoreData storeData = new StoreData();
 
             storeData.setStoreName(p.readString());
+            storeData.setStorePlaceId(p.readString());
             storeData.setStoreRef(p.readString());
             storeData.setStoreLat(p.readString());
             storeData.setStoreLong(p.readString());
@@ -135,6 +145,7 @@ public class StoreData implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mStoreName);
+        dest.writeString(mStorePlaceId);
         dest.writeString(mStoreRef);
         dest.writeString(mStoreLat);
         dest.writeString(mStoreLong);

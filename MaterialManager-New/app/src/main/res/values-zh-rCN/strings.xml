@@ -6,6 +6,12 @@
     <string name="title_negative_btn_label">取消</string>
     <string name="title_neutral_btn_import_in_expired">纳入过期管理</string>
     <string name="on_loading">数据加载中...</string>
+    <string name="no_network_view_message1">本项功能须连线网路使用</string>
+    <string name="no_network_view_message2">• 请确认您已开启网路连线服务，且并未处於＂飞航模式＂中。</string>
+    <string name="no_network_view_message3">• 若您已开启 Wi-Fi 服务，请确认连线网路为有效之无线服务。</string>
+    <string name="no_network_view_message4">• 若您正以 3G 服务连线中，请考虑移动至收讯较佳之位置。</string>
+    <string name="no_gps_view_message1">本项功能须使用GPS定位</string>
+    <string name="no_gps_view_message2">• 请确认您的定位功能已开启。</string>
     <string name="data_progressing">数据处理中...</string>
     <string name="data_save_success">数据储存成功</string>
     <string name="data_save_fail">数据储存失败</string>
@@ -46,6 +52,7 @@
     <string name="title_marker_dist_info_kilo_meter">距离%1$s公里</string>
     <string name="title_marker_dist_info_meter">距离%1$s公尺</string>
     <string name="store_map_msg_err_location_disabled">定位功能尚未开启，当前数据可能不准确，请重新开启定位功能并重试</string>
+    <string name="store_map_msg_err_location_useless">无可用的位置资讯，请手动点选定位按钮重新整理并等候结果回应</string>
     <string name="store_map_msg_err_retry">暂无相关资料，请稍后再试</string>
     <string name="store_map_msg_location_updating">位置更新中，请稍后...</string>
     <string name="global_search">全域搜寻</string>
