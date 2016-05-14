@@ -1,42 +1,55 @@
 package com.material.management.fragment;
 
+import android.accounts.AccountManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.AccountPicker;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 import com.material.management.IStatusUpdate;
 import com.material.management.MMFragment;
-import com.material.management.MainActivity;
 import com.material.management.Observer;
 import com.material.management.R;
+import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.dialog.LightProgressDialog;
 import com.material.management.monitor.MonitorService;
-import com.material.management.service.CloudService;
+import com.material.management.service.DropboxCloudService;
 import com.material.management.service.IBackupRestore;
-
-
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
-public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
-    /* Android widgets */
-    private static MainActivity sActivity = null;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    private static final int CLOUD_SERVICE_TYPE_DROPBOX = 0;
+    private static final int CLOUD_SERVICE_TYPE_GOOGLE_DRIVER = 1;
+
+    public static final int REQUEST_CODE_RESOLVE_CONNECTION = 0;
+    public static final int REQUEST_CODE_ACCPICK = 1;
 
     private View mLayout;
     private TextView mTvDbRestore;
@@ -45,22 +58,66 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private Spinner mSpinNotifFrequency;
     private Spinner mSpinFontSizeChange;
     private ImageView mIvBtnDropbox;
+    private ImageView mIvBtnGoogleDriver;
 
-    private int mIsNotifVibrateOrSound;
-    private int mNotifFreq;
+    private LightProgressDialog mProgressDialog = null;
+    private IBackupRestore mDropboxService;
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            // Log.d(MaterialManagerApplication.TAG, "onServiceConnected");
+            mDropboxService = IBackupRestore.Stub.asInterface((IBinder) service);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            // Log.d(MaterialManagerApplication.TAG, "onServiceDisconnected");
+            mDropboxService = null;
+        }
+    };
+    private IStatusUpdate.Stub mStatusUpdate = new IStatusUpdate.Stub() {
+
+        @Override
+        public void updateProgress(final String msg, final int progress) throws RemoteException {
+            if (mProgressDialog != null) {
+                mHandler.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mProgressDialog.setMessage(msg);
+                        mProgressDialog.setProgress(progress);
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void finishBackupOrRestore(final String msg) throws RemoteException {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    showToast(msg);
+                    mProgressDialog.setShowState(false);
+                    mProgressDialog.dismiss();
+                    mProgressDialog = null;
+                }
+            });
+        }
+    };
+    private GoogleApiClient mGoogleApiClient;
     private String[] mFontSizeScaleTitles;
     private String[] mFontSizeScaleLeves;
+    private int mIsNotifVibrateOrSound;
+    private int mNotifFreq;
+    private int mCurReqCloudService = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        sActivity = (sActivity == null) ? (MainActivity) getActivity() : sActivity;
         mLayout = inflater.inflate(R.layout.fragment_setting_layout, container, false);
 
         update(null);
         initView();
-        Utility.getContext().bindService(new Intent(sActivity, CloudService.class), mConnection, Context.BIND_AUTO_CREATE);
+        init();
 
         return mLayout;
     }
@@ -68,14 +125,17 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     @Override
     public void onResume() {
         try {
-            if (mService != null && mService.isLinked()) {
+            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+            mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+            if (mCurReqCloudService == CLOUD_SERVICE_TYPE_DROPBOX && mDropboxService != null && mDropboxService.isLinked()) {
                 mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login_press);
-            } else {
-                mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+            } else if (mCurReqCloudService == CLOUD_SERVICE_TYPE_GOOGLE_DRIVER && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login_press);
             }
         } catch (RemoteException e) {
             LogUtility.printStackTrace(e);
             mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+            mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
         }
         sendScreenAnalytics(getString(R.string.ga_app_view_settings_fragment));
         super.onResume();
@@ -93,7 +153,20 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     @Override
     public void onDestroyView() {
-        Utility.getContext().unbindService(mConnection);
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+
+        try {
+            if (mDropboxService.isLinked()) {
+                mDropboxService.disConnect();
+            }
+        } catch (RemoteException e) {
+            LogUtility.printStackTrace(e);
+        }
+
+        EventBus.getDefault().unregister(this);
+        mOwnerActivity.unbindService(mConnection);
         super.onDestroyView();
     }
 
@@ -103,8 +176,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mSpinFontSizeChange = (Spinner) mLayout.findViewById(R.id.spin_font_size_scale_factor);
         RadioButton rbNotifVibrate = (RadioButton) mLayout.findViewById(R.id.rb_notif_type_vibrate);
         RadioButton rbNotifSound = (RadioButton) mLayout.findViewById(R.id.rb_notif_type_sound);
-//        mCbDropBox = (CheckedTextView) mLayout.findViewById(R.id.cb_dropbox_enable);
         mIvBtnDropbox = (ImageView) mLayout.findViewById(R.id.iv_dropbox_enable);
+        mIvBtnGoogleDriver = (ImageView) mLayout.findViewById(R.id.iv_googledriver_enable);
         mTvDbBackup = (TextView) mLayout.findViewById(R.id.tv_database_backup);
         mTvDbRestore = (TextView) mLayout.findViewById(R.id.tv_database_restore);
         /* default is vibrate */
@@ -140,8 +213,21 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mSpinNotifFrequency.setSelection(notifSpinAdapter.getPosition(notifFreqStr));
         mRgNotifVibrateOrSound.setOnCheckedChangeListener(this);
         mIvBtnDropbox.setOnClickListener(this);
+        mIvBtnGoogleDriver.setOnClickListener(this);
         mTvDbBackup.setOnClickListener(this);
         mTvDbRestore.setOnClickListener(this);
+    }
+
+    private void init() {
+//        mGoogleApiClient = new GoogleApiClient.Builder(mOwnerActivity)
+//                .addApi(Drive.API)
+//                .addScope(Drive.SCOPE_APPFOLDER)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .build();
+
+        EventBus.getDefault().register(this);
+        mOwnerActivity.bindService(new Intent(mOwnerActivity, DropboxCloudService.class), mConnection, Context.BIND_AUTO_CREATE);
     }
 
     /* Radio Button */
@@ -178,7 +264,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
             String freqStr = null;
 
             /* To avoid the trim memory issue. */
-            if(tvFreq != null) {
+            if (tvFreq != null) {
                 freqStr = tvFreq.getText().toString().trim();
             } else {
                 freqStr = Integer.toString(Utility.getIntValueForKey(Utility.NOTIF_FREQUENCY));
@@ -197,64 +283,166 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
             Utility.getContext().sendBroadcast(intent);
         } else if (vId == R.id.spin_font_size_scale_factor) {
             Utility.setStringValueForKey(Utility.FONT_SIZE_SCALE_FACTOR, mFontSizeScaleLeves[pos]);
-            sActivity.updateLayoutConfig();
+            mOwnerActivity.updateLayoutConfig();
             changeLayoutConfig(mLayout);
         }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     public void onClick(View view) {
         int id = view.getId();
 
         if ((id == R.id.tv_database_backup) || (id == R.id.tv_database_restore)) {
-            if (mService != null && !sActivity.isFinishing()) {
-                mProgressDialog = LightProgressDialog.getInstance(sActivity);
+            if (mDropboxService != null && !mOwnerActivity.isFinishing()) {
+                mProgressDialog = LightProgressDialog.getInstance(mOwnerActivity);
 
-                mProgressDialog.setMessage(sActivity.getString(R.string.title_progress_startup));
+                mProgressDialog.setMessage(getString(R.string.title_progress_startup));
                 mProgressDialog.show();
 
                 try {
                     if (id == R.id.tv_database_backup) {
-                        mService.startBackup(mStatusUpdate);
+                        mDropboxService.startBackup(mStatusUpdate);
                     } else if (id == R.id.tv_database_restore) {
-                        mService.startRestore(mStatusUpdate);
+                        mDropboxService.startRestore(mStatusUpdate);
                     }
                 } catch (RemoteException e) {
                     LogUtility.printStackTrace(e);
                 }
             }
-        } else if (id == R.id.iv_dropbox_enable) {
+        } else if (id == R.id.iv_dropbox_enable || id == R.id.iv_googledriver_enable) {
             try {
-                if (mService != null && !mService.isLinked()) {
-                    mService.connect();
-                    mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login_press);
-                } else if (mService != null && mService.isLinked()) {
-                    mService.disConnect();
-                    mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+
+                /* TODO: Need to refactor the button status for duplicate codes. */
+                if (id == R.id.iv_dropbox_enable) {
+                    mCurReqCloudService = CLOUD_SERVICE_TYPE_DROPBOX;
+
+                    if (mDropboxService == null) {
+                        return;
+                    }
+
+                    if (mDropboxService.isLinked()) {
+                        mDropboxService.disConnect();
+                        mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                    } else {
+                        mDropboxService.connect();
+
+                        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                            mGoogleApiClient.disconnect();
+                            mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+
+                            mGoogleApiClient = null;
+                        }
+                    }
+                } else if (id == R.id.iv_googledriver_enable) {
+                    mCurReqCloudService = CLOUD_SERVICE_TYPE_GOOGLE_DRIVER;
+
+                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                        mGoogleApiClient.disconnect();
+                        mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+
+                        mGoogleApiClient = null;
+                    } else {
+                        if (mDropboxService.isLinked()) {
+                            mDropboxService.disConnect();
+                            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                        }
+
+                        startActivityForResult(AccountPicker.newChooseAccountIntent(
+                                null, null, new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, true, getString(R.string.title_account_pick_description), null, null, null), REQUEST_CODE_ACCPICK);
+                    }
                 }
             } catch (RemoteException e) {
                 LogUtility.printStackTrace(e);
                 mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
             }
         }
     }
 
     @Override
     public void update(Object data) {
-        if (sActivity == null) {
+        if (mOwnerActivity == null) {
             return;
         }
 
-        sActivity.setMenuItemVisibility(R.id.action_search, false);
-        sActivity.setMenuItemVisibility(R.id.menu_action_add, false);
-        sActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
-        sActivity.setMenuItemVisibility(R.id.menu_action_new, false);
-        sActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
-        sActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
-        sActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
-        sActivity.setMenuItemVisibility(R.id.menu_grid_1x1, false);
-        sActivity.setMenuItemVisibility(R.id.menu_grid_2x1, false);
-        sActivity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.action_search, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_1x1, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_grid_2x1, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BroadCastEvent event) {
+        if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_ACCPICK: {
+                if (data != null) {
+                    String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+
+                    if (TextUtils.isEmpty(account)) {
+                        return;
+                    }
+
+                    mGoogleApiClient = new GoogleApiClient.Builder(mOwnerActivity)
+                            .addApi(Drive.API)
+                            .addScope(Drive.SCOPE_APPFOLDER)
+                            .setAccountName(account)
+                            .addConnectionCallbacks(this)
+                            .addOnConnectionFailedListener(this)
+                            .build();
+
+                    mGoogleApiClient.connect();
+                }
+
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        LogUtility.printLogD("randy", "onConnected");
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login_press);
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        LogUtility.printLogD("randy", "onConnectionSuspended");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        LogUtility.printLogD("randy", "onConnectionFailed");
+        if (connectionResult.hasResolution()) {
+            try {
+                connectionResult.startResolutionForResult(mOwnerActivity, REQUEST_CODE_RESOLVE_CONNECTION);
+            } catch (IntentSender.SendIntentException e) {
+                LogUtility.printStackTrace(e);
+            }
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), mOwnerActivity, 0).show();
+        }
     }
 
     private class SpinnerSettingsAdapter<String> extends ArrayAdapter<String> {
@@ -280,53 +468,5 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
             return v;
         }
-    }
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            // Log.d(MaterialManagerApplication.TAG, "onServiceConnected");
-            mService = IBackupRestore.Stub.asInterface((IBinder) service);
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            // Log.d(MaterialManagerApplication.TAG, "onServiceDisconnected");
-            mService = null;
-        }
-    };
-
-    private LightProgressDialog mProgressDialog = null;
-    private IBackupRestore mService;
-    private IStatusUpdate.Stub mStatusUpdate = new IStatusUpdate.Stub() {
-
-        @Override
-        public void updateProgress(final String msg, final int progress) throws RemoteException {
-            if (mProgressDialog != null) {
-                sActivity.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        mProgressDialog.setMessage(msg);
-                        mProgressDialog.setProgress(progress);
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void finishBackupOrRestore(final String msg) throws RemoteException {
-            Utility.getMainActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    showToast(msg);
-                    mProgressDialog.setShowState(false);
-                    mProgressDialog.dismiss();
-                    mProgressDialog = null;
-                }
-            });
-        }
-    };
-
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
     }
 }

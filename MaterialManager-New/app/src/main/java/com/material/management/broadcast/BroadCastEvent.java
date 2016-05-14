@@ -2,7 +2,8 @@ package com.material.management.broadcast;
 
 public class BroadCastEvent {
 
-    public static final int BROADCAST_EVENT_TYPE__LOC_UPDATE = 0;
+    public static final int BROADCAST_EVENT_TYPE_LOC_UPDATE = 0;
+    public static final int BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST = 1;
 
     private int mEventType;
     private Object mData;

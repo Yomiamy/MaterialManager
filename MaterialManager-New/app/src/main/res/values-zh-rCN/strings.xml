@@ -319,6 +319,7 @@
     <string name="msg_error_start_date_not_set">开始日期尚未设定</string>
     <string name="msg_error_end_date_not_set">结束日期尚未设定</string>
     <string name="msg_error_end_date_before_start_date">结束日期不能早于开始日期</string>
+    <string name="title_account_pick_description">请选择用于备份过期物品管家资料的帐号</string>
     <string name="title_barcode_dialog">"条形码显示"</string>
     <string name="title_no_barcode_msg">无条形码资料 !!!</string>
     <string name="title_app_about">关于</string>

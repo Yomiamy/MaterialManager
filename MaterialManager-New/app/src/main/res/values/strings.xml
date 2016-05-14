@@ -393,6 +393,9 @@
     <string name="msg_error_end_date_not_set">End date not be assigned!</string>
     <string name="msg_error_end_date_before_start_date">End date can not be before start date!</string>
 
+    <!-- SettingsFragment -->
+    <string name="title_account_pick_description">Please select a gmail account used for data backup</string>
+
     <!-- Barcode Dialog -->
     <string name="title_barcode_dialog">"Display barcode"</string>
     <string name="title_no_barcode_msg">No barcode information !!!</string>

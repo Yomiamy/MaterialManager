@@ -302,7 +302,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BroadCastEvent event) {
-        if(event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE__LOC_UPDATE) {
+        if(event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_LOC_UPDATE) {
             doSearch(mCurSearchWord, (Location) event.getData());
         }
     }

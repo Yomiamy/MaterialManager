@@ -42,8 +42,9 @@
     <application
         android:name="com.material.management.MaterialManagerApplication"
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/AppTheme">
-        <!--android:debuggable="true"-->
+        android:theme="@style/AppTheme"
+        android:debuggable="true">
+        <!---->
         <!-- Google Analytics Version v4 needs this value for easy tracking. GoogleAnalytics.getInstance() deadlocks while trying to parse the xml tracker definition.  -->
         <!--<meta-data android:name="com.google.android.gms.analytics.globalConfigResource"-->
         <!--android:resource="@xml/global_tracker" />-->
@@ -275,7 +276,7 @@
         </service>
 
         <service
-            android:name="com.material.management.service.CloudService"
+            android:name=".service.DropboxCloudService"
             android:exported="false"
             android:process=":remote" >
         </service>

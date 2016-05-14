@@ -3,6 +3,7 @@ package com.material.management;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.component.slidemenu.SlidingActivity;
 import com.material.management.component.slidemenu.SlidingMenu;
 import com.material.management.data.BundleInfo;
@@ -39,6 +40,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends SlidingActivity {
     private Menu mOptionMenu;
@@ -175,6 +178,19 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SettingsFragment.REQUEST_CODE_RESOLVE_CONNECTION:
+                if (resultCode == RESULT_OK) {
+                    BroadCastEvent broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST, null);
+
+                    EventBus.getDefault().post(broadCastEvent);
+                }
+                break;
+        }
     }
 
     @Override

@@ -53,7 +53,7 @@ public class LocationUtility extends BestLocationListener {
     @Override
     public void onLocationUpdate(Location location, BestLocationProvider.LocationType type, boolean isFresh) {
         mLastKnowLocation = location;
-        BroadCastEvent broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE__LOC_UPDATE, mLastKnowLocation);
+        BroadCastEvent broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE_LOC_UPDATE, mLastKnowLocation);
         /*
         * If we get a new location, then we stop update.
         * Either the location is from GPS or Network.

@@ -364,6 +364,9 @@
     <string name="msg_error_end_date_not_set">結束日期尚未設定</string>
     <string name="msg_error_end_date_before_start_date">結束日期不能早於開始日期</string>
 
+    <!-- SettingsFragment -->
+    <string name="title_account_pick_description">請選擇用於備份過期物品管家資料的帳號</string>
+
     <!-- Barcode Dialog -->
     <string name="title_barcode_dialog">"條碼顯示"</string>
     <string name="title_no_barcode_msg">無條碼資料 !!!</string>

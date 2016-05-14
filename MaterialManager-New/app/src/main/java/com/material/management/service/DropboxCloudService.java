@@ -29,7 +29,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class CloudService extends Service {
+public class DropboxCloudService extends Service {
     /* You don't need to change these, leave them alone. */
     private static final String ACCOUNT_PREFS_NAME = "dropbox_user_name";
     private static final String ACCESS_KEY_NAME = "ACCESS_KEY";
@@ -139,7 +139,7 @@ public class CloudService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        // Log.d(MaterialManagerApplication.TAG, "onUnbind service in CloudService...");
+        // Log.d(MaterialManagerApplication.TAG, "onUnbind service in DropboxCloudService...");
         sStatusUpdate = null;
         sIsServiceUnbinded = true;
 
@@ -150,7 +150,7 @@ public class CloudService extends Service {
 
     @Override
     public void onDestroy() {
-        // Log.d(MaterialManagerApplication.TAG, "onDestroy service in CloudService...");
+        // Log.d(MaterialManagerApplication.TAG, "onDestroy service in DropboxCloudService...");
         super.onDestroy();
     }
 
