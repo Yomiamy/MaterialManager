@@ -60,7 +60,9 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private Spinner mSpinNotifFrequency;
     private Spinner mSpinFontSizeChange;
     private ImageView mIvBtnDropbox;
-    private ImageView mIvBtnGoogleDriver;
+    private ImageView mIvDropboxEnableStatus;
+    private ImageView mIvBtnGoogleDrive;
+    private ImageView mIvGoogleDriveEnableStatus;
 
     private LightProgressDialog mProgressDialog = null;
     private IBackupRestore mDropboxService;
@@ -99,13 +101,13 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                     if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                         mGoogleApiClient.clearDefaultAccountAndReconnect();
                         mGoogleApiClient.disconnect();
-                        mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+                        mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                     }
 
                     try {
                         if (mDropboxService != null && mDropboxService.isLinked()) {
                             mDropboxService.disConnect();
-                            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                            mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                         }
                     } catch (RemoteException e) {
                         LogUtility.printStackTrace(e);
@@ -142,17 +144,17 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     @Override
     public void onResume() {
         try {
-            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
-            mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+            mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
+            mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
             if (mCurReqCloudService == CLOUD_SERVICE_TYPE_DROPBOX && mDropboxService != null && mDropboxService.isLinked()) {
-                mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login_press);
+                mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_selected);
             } else if (mCurReqCloudService == CLOUD_SERVICE_TYPE_GOOGLE_DRIVER && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login_press);
+                mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_selected);
             }
         } catch (RemoteException e) {
             LogUtility.printStackTrace(e);
-            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
-            mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+            mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
+            mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
         }
         sendScreenAnalytics(getString(R.string.ga_app_view_settings_fragment));
         super.onResume();
@@ -194,7 +196,9 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         RadioButton rbNotifVibrate = (RadioButton) mLayout.findViewById(R.id.rb_notif_type_vibrate);
         RadioButton rbNotifSound = (RadioButton) mLayout.findViewById(R.id.rb_notif_type_sound);
         mIvBtnDropbox = (ImageView) mLayout.findViewById(R.id.iv_dropbox_enable);
-        mIvBtnGoogleDriver = (ImageView) mLayout.findViewById(R.id.iv_googledriver_enable);
+        mIvDropboxEnableStatus = (ImageView) mLayout.findViewById(R.id.iv_dropbox_enable_status);
+        mIvBtnGoogleDrive = (ImageView) mLayout.findViewById(R.id.iv_googledriver_enable);
+        mIvGoogleDriveEnableStatus = (ImageView) mLayout.findViewById(R.id.iv_googledriver_enable_status);
         mTvDbBackup = (TextView) mLayout.findViewById(R.id.tv_database_backup);
         mTvDbRestore = (TextView) mLayout.findViewById(R.id.tv_database_restore);
         /* default is vibrate */
@@ -230,7 +234,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mSpinNotifFrequency.setSelection(notifSpinAdapter.getPosition(notifFreqStr));
         mRgNotifVibrateOrSound.setOnCheckedChangeListener(this);
         mIvBtnDropbox.setOnClickListener(this);
-        mIvBtnGoogleDriver.setOnClickListener(this);
+        mIvBtnGoogleDrive.setOnClickListener(this);
         mTvDbBackup.setOnClickListener(this);
         mTvDbRestore.setOnClickListener(this);
     }
@@ -348,14 +352,14 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
                     if (mDropboxService.isLinked()) {
                         mDropboxService.disConnect();
-                        mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                        mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                     } else {
                         mDropboxService.connect();
 
                         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                             mGoogleApiClient.clearDefaultAccountAndReconnect();
                             mGoogleApiClient.disconnect();
-                            mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+                            mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                         }
                     }
                 } else if (id == R.id.iv_googledriver_enable) {
@@ -364,11 +368,11 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                     if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                         mGoogleApiClient.clearDefaultAccountAndReconnect();
                         mGoogleApiClient.disconnect();
-                        mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+                        mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                     } else {
                         if (mDropboxService != null && mDropboxService.isLinked()) {
                             mDropboxService.disConnect();
-                            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                            mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                         }
 
                         startActivityForResult(AccountPicker.newChooseAccountIntent(
@@ -377,8 +381,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                 }
             } catch (RemoteException e) {
                 LogUtility.printStackTrace(e);
-                mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
-                mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+                mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
+                mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
             }
         }
     }
@@ -457,7 +461,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login_press);
+                mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_selected);
             }
         });
     }
