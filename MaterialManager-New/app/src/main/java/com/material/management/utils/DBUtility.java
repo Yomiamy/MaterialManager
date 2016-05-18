@@ -1,9 +1,14 @@
 package com.material.management.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -19,10 +24,28 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Environment;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveApi;
+import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFile;
+import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.DriveResource;
+import com.google.android.gms.drive.Metadata;
+import com.google.android.gms.drive.MetadataBuffer;
+import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 import com.material.management.MaterialManagerApplication;
 import com.material.management.Observer;
 import com.material.management.R;
@@ -257,10 +280,10 @@ public class DBUtility {
             String comment = new String(materialInfo.getComment().getBytes(), sStringCharSet);
 
             sResolver.delete(MaterialProvider.URI_MATERIAL, "(name is null or name=?) and (barcode is null or barcode=?) "
-                    + "and (barcode_format is null or barcode_format=?) and (material_type is null or material_type=?) "
-                    + "and is_as_photo_type=" + isAsPhotoType + " and is_valid_date_setup=" + isValidDateSetup + " and (material_place is null or material_place=?) "
-                    + "and (purchase_date is null or purchase_date=?) and (valid_date is null or valid_date=?) "
-                    + "and (comment is null or comment=?)"
+                            + "and (barcode_format is null or barcode_format=?) and (material_type is null or material_type=?) "
+                            + "and is_as_photo_type=" + isAsPhotoType + " and is_valid_date_setup=" + isValidDateSetup + " and (material_place is null or material_place=?) "
+                            + "and (purchase_date is null or purchase_date=?) and (valid_date is null or valid_date=?) "
+                            + "and (comment is null or comment=?)"
                     , new String[]{name, barcode, barcodeFormat, materialType, materialPlace, purchaceDate, validDate, comment});
         } catch (UnsupportedEncodingException e) {
             LogUtility.printStackTrace(e);
@@ -355,7 +378,7 @@ public class DBUtility {
                 typeContentValues.add(value);
             }
 
-            if(typeContentValues.size() > 0) {
+            if (typeContentValues.size() > 0) {
                 sResolver.bulkInsert(MaterialProvider.URI_MATERIAL_TYPE, typeContentValues.toArray(new ContentValues[0]));
             }
         } catch (UnsupportedEncodingException e) {
@@ -564,7 +587,6 @@ public class DBUtility {
         }
         return groceryListInfos;
     }
-
 
 
     public synchronized static GroceryListData selectGroceryListInfosById(int id) {
@@ -779,11 +801,11 @@ public class DBUtility {
         String picPath = rewardInfo.getFrontPhotoPath();
         String picBackPath = rewardInfo.getBackPhotoPath();
 
-        if(picPath == null || picPath.isEmpty()) {
+        if (picPath == null || picPath.isEmpty()) {
             picPath = FileUtility.saveMaterialPhoto(rewardInfo.getName(), rewardInfo.getFrontRewardPhoto());
         }
 
-        if(picBackPath == null || picBackPath.isEmpty()) {
+        if (picBackPath == null || picBackPath.isEmpty()) {
             picBackPath = FileUtility.saveMaterialPhoto(rewardInfo.getName() + "_back", rewardInfo.getBackRewardPhoto());
         }
 
@@ -868,16 +890,16 @@ public class DBUtility {
             String oldComment = new String(rewardInfo.getComment().getBytes(), sStringCharSet);
 
             sResolver.delete(MaterialProvider.URI_REWARD_CARD, "(name is null or name=?) "
-                    + "and (card_type is null or card_type=?) "
-                    + "and (barcode is null or barcode=?) "
-                    + "and (barcode_format is null or barcode_format=?) "
-                    + "and (photo_path is null or photo_path=?) "
-                    + "and (coupon_value is null or coupon_value=?) "
-                    + "and (valid_from is null or valid_from=?) "
-                    + "and (expiry is null or expiry=?) "
-                    + "and notification_days=" + oldNotificationDays + " "
-                    + "and (comment is null or comment=?) "
-                    + "and (photo_back_path is null or photo_back_path=?)"
+                            + "and (card_type is null or card_type=?) "
+                            + "and (barcode is null or barcode=?) "
+                            + "and (barcode_format is null or barcode_format=?) "
+                            + "and (photo_path is null or photo_path=?) "
+                            + "and (coupon_value is null or coupon_value=?) "
+                            + "and (valid_from is null or valid_from=?) "
+                            + "and (expiry is null or expiry=?) "
+                            + "and notification_days=" + oldNotificationDays + " "
+                            + "and (comment is null or comment=?) "
+                            + "and (photo_back_path is null or photo_back_path=?)"
                     , new String[]{oldName, oldCardType, oldBarcode, oldBarcodeFormat, oldPhotoPath, oldCouponValue, oldValidFrom, oldExpiry, oldComment, oldBackPhotoPath});
         } catch (UnsupportedEncodingException e) {
             LogUtility.printStackTrace(e);
@@ -903,6 +925,156 @@ public class DBUtility {
 
         return msg.toString();
     }
+
+    /* need to refactor for naming */
+    public synchronized static String importDB(GoogleApiClient apiClient, Observer observ) {
+        StringBuilder msg = new StringBuilder(sContext.getString(R.string.title_db_restore));
+
+        msg.append(importDBFromDrive(apiClient, observ));
+        msg.append(importDBFromLocal(observ));
+
+        return msg.toString();
+    }
+
+    public synchronized static String exportDB(GoogleApiClient apiClient, Observer observ) {
+        StringBuilder msg = new StringBuilder(sContext.getString(R.string.title_db_backup));
+
+        msg.append(exportDBToLocal(observ));
+        msg.append(exportDBToDrive(apiClient, observ));
+
+        return msg.toString();
+    }
+
+    private static String importDBFromDrive(GoogleApiClient apiClient, Observer observ) {
+        if (apiClient == null || !apiClient.isConnected()) {
+            return sContext.getString(R.string.title_googledrive_restore_fail);
+        }
+
+
+        byte[] buf = new byte[4096];
+        Query query = new Query.Builder()
+                .addFilter(Filters.eq(SearchableField.TITLE, MaterialProvider.DB_NAME))
+                .build();
+
+        DriveApi.MetadataBufferResult mbr = Drive.DriveApi.query(apiClient, query).await();
+        MetadataBuffer mb = mbr.getMetadataBuffer();
+
+        if (mbr == null || !mbr.getStatus().isSuccess() || mb.getCount() <= 0) {
+            return sContext.getString(R.string.title_googledrive_restore_fail);
+        }
+
+        DriveFile dbDriveFile = mb.get(0).getDriveId().asDriveFile();
+        DriveApi.DriveContentsResult dbDcr = dbDriveFile.open(apiClient, DriveFile.MODE_READ_ONLY, null).await();
+        DriveContents dbDc = dbDcr.getDriveContents();
+        InputStream is = null;
+        BufferedOutputStream bos = null;
+
+        try {
+            is = dbDc.getInputStream();
+            bos = new BufferedOutputStream(new FileOutputStream(new File(Utility.getExternalStorageDir(), "/" + MaterialManagerApplication.DB_DIR_NAME + "/" + MaterialProvider.DB_NAME)));
+            int c;
+
+            while ((c = is.read(buf)) > 0) {
+                bos.write(buf, 0, c);
+                bos.flush();
+            }
+        } catch (Exception e) {
+            LogUtility.printStackTrace(e);
+            return sContext.getString(R.string.title_googledrive_restore_fail);
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+
+                if (bos != null) {
+                    bos.close();
+                }
+            } catch (IOException e) {
+                LogUtility.printStackTrace(e);
+            }
+        }
+
+        if (observ != null) {
+            BackupRestoreInfo pi = new BackupRestoreInfo();
+            pi.setMsg(sContext.getString(R.string.title_progress_googledrive_restore_successfully));
+            pi.setProgress(100);
+            observ.update(pi);
+        }
+
+        return sContext.getString(R.string.title_googledrive_restore_successfully);
+    }
+
+    private static String exportDBToDrive(final GoogleApiClient apiClient, Observer observ) {
+        if (apiClient == null || !apiClient.isConnected()) {
+            return sContext.getString(R.string.title_googledrive_backup_fail);
+        }
+
+        DriveFolder appFolder = Drive.DriveApi.getAppFolder(apiClient);
+
+        /* Create new drive content for writing the db file. */
+        DriveApi.DriveContentsResult dcr = Drive.DriveApi.newDriveContents(apiClient).await();
+
+        if (dcr == null || !dcr.getStatus().isSuccess()) {
+            return sContext.getString(R.string.title_googledrive_backup_fail);
+        }
+
+                /* Get the outputstream for writing the db file. */
+        DriveContents dc = dcr.getDriveContents();
+        OutputStream os = dc.getOutputStream();
+
+        if (os == null) {
+            return sContext.getString(R.string.title_googledrive_backup_fail);
+        }
+
+        byte[] buf = new byte[4096];
+        BufferedInputStream bis = null;
+
+        try {
+            bis = new BufferedInputStream(new FileInputStream(sContext.getDatabasePath(MaterialProvider.DB_NAME)), buf.length);
+            int c;
+            while ((c = bis.read(buf)) > 0) {
+                os.write(buf, 0, c);
+                os.flush();
+            }
+        } catch (Exception e) {
+            LogUtility.printStackTrace(e);
+            return sContext.getString(R.string.title_googledrive_backup_fail);
+        } finally {
+            try {
+                if (bis != null) {
+                    bis.close();
+                }
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                LogUtility.printStackTrace(e);
+            }
+        }
+
+            /* Create drive file and upload it. */
+        MetadataChangeSet meta = new MetadataChangeSet
+                .Builder()
+                .setTitle(MaterialProvider.DB_NAME)
+                .setMimeType("application/x-sqlite3")
+                .build();
+        DriveFolder.DriveFileResult dfr = appFolder.createFile(apiClient, meta, dc).await();
+
+        if (dfr == null || !dfr.getStatus().isSuccess()) {
+            return sContext.getString(R.string.title_googledrive_backup_fail);
+        }
+
+        /* Update the notification's progress for backup progress completely.*/
+        BackupRestoreInfo bri = new BackupRestoreInfo();
+
+        bri.setMsg(sContext.getString(R.string.title_progress_googledrive_backup_successfully));
+        bri.setProgress(100);
+        observ.update(bri);
+
+        return sContext.getString(R.string.title_googledrive_backup_successfully);
+    }
+
 
     @SuppressWarnings("resource")
     private static String exportDBToLocal(Observer observ) {
@@ -932,14 +1104,21 @@ public class DBUtility {
 
                 return sContext.getString(R.string.title_local_backup_successfully);
             }
+
             return sContext.getString(R.string.title_local_backup_fail);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
+
             return sContext.getString(R.string.title_local_backup_fail);
         }
     }
 
     private static String exportDBToDropBox(DropboxAPI<?> api, Observer observ) {
+        if (api == null || !api.getSession().isLinked()) {
+            return sContext.getString(R.string.title_dropbox_backup_fail);
+
+        }
+
         UploadRequest request = null;
         FileInputStream fis = null;
         BackupRestoreInfo pi;
@@ -963,7 +1142,7 @@ public class DBUtility {
             if (request != null)
                 request.abort();
 
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
 
             return sContext.getString(R.string.title_dropbox_backup_fail);
         } finally {
@@ -975,7 +1154,7 @@ public class DBUtility {
                 if (fis != null)
                     fis.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtility.printStackTrace(e);
             }
         }
     }
@@ -1033,6 +1212,11 @@ public class DBUtility {
 
     private static String importDBFromDropBox(DropboxAPI<?> api, Observer observ) {
         try {
+            if (api == null || !api.getSession().isLinked()) {
+                return sContext.getString(R.string.title_dropbox_restore_fail);
+
+            }
+
             Entry dirEntry = api.metadata(MaterialManagerApplication.DB_DROPBOX_PATH, 1000, null, true, null);
             Entry db = null;
 
@@ -1063,11 +1247,12 @@ public class DBUtility {
                         + MaterialManagerApplication.DB_DIR_NAME + "/" + MaterialProvider.DB_NAME);
                 api.getFile(path, null, fos, null);
 
-                pi = new BackupRestoreInfo();
-
-                pi.setMsg(sContext.getString(R.string.title_progress_dropbox_restore_successfully));
-                pi.setProgress(100);
-                observ.update(pi);
+                if (observ != null) {
+                    pi = new BackupRestoreInfo();
+                    pi.setMsg(sContext.getString(R.string.title_progress_dropbox_restore_successfully));
+                    pi.setProgress(100);
+                    observ.update(pi);
+                }
 
                 return sContext.getString(R.string.title_dropbox_restore_successfully);
             } catch (Exception e) {

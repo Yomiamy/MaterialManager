@@ -33,9 +33,11 @@ import com.material.management.MMFragment;
 import com.material.management.Observer;
 import com.material.management.R;
 import com.material.management.broadcast.BroadCastEvent;
+import com.material.management.data.BackupRestoreInfo;
 import com.material.management.dialog.LightProgressDialog;
 import com.material.management.monitor.MonitorService;
 import com.material.management.service.DropboxCloudService;
+import com.material.management.service.GoogleDriveCloudService;
 import com.material.management.service.IBackupRestore;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
@@ -94,6 +96,21 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
+                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                        mGoogleApiClient.clearDefaultAccountAndReconnect();
+                        mGoogleApiClient.disconnect();
+                        mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
+                    }
+
+                    try {
+                        if (mDropboxService != null && mDropboxService.isLinked()) {
+                            mDropboxService.disConnect();
+                            mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
+                        }
+                    } catch (RemoteException e) {
+                        LogUtility.printStackTrace(e);
+                    }
+
                     showToast(msg);
                     mProgressDialog.setShowState(false);
                     mProgressDialog.dismiss();
@@ -158,7 +175,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         }
 
         try {
-            if (mDropboxService.isLinked()) {
+            if (mDropboxService != null && mDropboxService.isLinked()) {
                 mDropboxService.disConnect();
             }
         } catch (RemoteException e) {
@@ -219,13 +236,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     }
 
     private void init() {
-//        mGoogleApiClient = new GoogleApiClient.Builder(mOwnerActivity)
-//                .addApi(Drive.API)
-//                .addScope(Drive.SCOPE_APPFOLDER)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .build();
-
+        mCurReqCloudService = CLOUD_SERVICE_TYPE_DROPBOX;
         EventBus.getDefault().register(this);
         mOwnerActivity.bindService(new Intent(mOwnerActivity, DropboxCloudService.class), mConnection, Context.BIND_AUTO_CREATE);
     }
@@ -304,9 +315,21 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
                 try {
                     if (id == R.id.tv_database_backup) {
-                        mDropboxService.startBackup(mStatusUpdate);
+                        if (mCurReqCloudService == CLOUD_SERVICE_TYPE_DROPBOX) {
+                            mDropboxService.startBackup(mStatusUpdate);
+                        } else if (mCurReqCloudService == CLOUD_SERVICE_TYPE_GOOGLE_DRIVER) {
+                            GoogleDriveCloudService driveCloudService = new GoogleDriveCloudService(mGoogleApiClient);
+
+                            driveCloudService.startBakupRestoreTask(GoogleDriveCloudService.Mode.BACKUP_MODE);
+                        }
                     } else if (id == R.id.tv_database_restore) {
-                        mDropboxService.startRestore(mStatusUpdate);
+                        if (mCurReqCloudService == CLOUD_SERVICE_TYPE_DROPBOX) {
+                            mDropboxService.startRestore(mStatusUpdate);
+                        } else if (mCurReqCloudService == CLOUD_SERVICE_TYPE_GOOGLE_DRIVER) {
+                            GoogleDriveCloudService driveCloudService = new GoogleDriveCloudService(mGoogleApiClient);
+
+                            driveCloudService.startBakupRestoreTask(GoogleDriveCloudService.Mode.RESTORE_MODE);
+                        }
                     }
                 } catch (RemoteException e) {
                     LogUtility.printStackTrace(e);
@@ -330,22 +353,20 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                         mDropboxService.connect();
 
                         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                            mGoogleApiClient.clearDefaultAccountAndReconnect();
                             mGoogleApiClient.disconnect();
                             mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
-
-                            mGoogleApiClient = null;
                         }
                     }
                 } else if (id == R.id.iv_googledriver_enable) {
                     mCurReqCloudService = CLOUD_SERVICE_TYPE_GOOGLE_DRIVER;
 
                     if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                        mGoogleApiClient.clearDefaultAccountAndReconnect();
                         mGoogleApiClient.disconnect();
                         mIvBtnGoogleDriver.setBackgroundResource(R.drawable.ic_googledriver_login);
-
-                        mGoogleApiClient = null;
                     } else {
-                        if (mDropboxService.isLinked()) {
+                        if (mDropboxService != null && mDropboxService.isLinked()) {
                             mDropboxService.disConnect();
                             mIvBtnDropbox.setBackgroundResource(R.drawable.ic_dropbox_login);
                         }
@@ -385,6 +406,21 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     public void onEventMainThread(BroadCastEvent event) {
         if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST) {
             mGoogleApiClient.connect();
+        } else if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_BACKUP_RESTORE_PROGRESS_UPDATE) {
+            try {
+                BackupRestoreInfo bri = (BackupRestoreInfo) event.getData();
+                mStatusUpdate.updateProgress(bri.getMsg(), bri.getProgress());
+            } catch (RemoteException e) {
+                LogUtility.printStackTrace(e);
+            }
+        } else if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_BACKUP_RESTORE_FINISHED) {
+            try {
+                String finishMsg = (String) event.getData();
+
+                mStatusUpdate.finishBackupOrRestore(finishMsg);
+            } catch (RemoteException e) {
+                LogUtility.printStackTrace(e);
+            }
         }
     }
 
@@ -401,6 +437,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
                     mGoogleApiClient = new GoogleApiClient.Builder(mOwnerActivity)
                             .addApi(Drive.API)
+                            .addScope(Drive.SCOPE_FILE)
                             .addScope(Drive.SCOPE_APPFOLDER)
                             .setAccountName(account)
                             .addConnectionCallbacks(this)
@@ -417,7 +454,6 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     @Override
     public void onConnected(Bundle bundle) {
-        LogUtility.printLogD("randy", "onConnected");
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -428,12 +464,10 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     @Override
     public void onConnectionSuspended(int i) {
-        LogUtility.printLogD("randy", "onConnectionSuspended");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        LogUtility.printLogD("randy", "onConnectionFailed");
         if (connectionResult.hasResolution()) {
             try {
                 connectionResult.startResolutionForResult(mOwnerActivity, REQUEST_CODE_RESOLVE_CONNECTION);

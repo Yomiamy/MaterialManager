@@ -29,6 +29,9 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 public class DropboxCloudService extends Service {
     /* You don't need to change these, leave them alone. */
     private static final String ACCOUNT_PREFS_NAME = "dropbox_user_name";
@@ -49,10 +52,10 @@ public class DropboxCloudService extends Service {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case R.id.tv_database_restore:
-                    new BackupRestoreTask().execute(R.id.tv_database_restore);
+                    new BackupRestoreTask().executeOnExecutor(Executors.newCachedThreadPool(), R.id.tv_database_restore);
                     break;
                 case R.id.tv_database_backup:
-                    new BackupRestoreTask().execute(R.id.tv_database_backup);
+                    new BackupRestoreTask().executeOnExecutor(Executors.newCachedThreadPool(), R.id.tv_database_backup);
                     break;
             }
             return false;
@@ -321,7 +324,7 @@ public class DropboxCloudService extends Service {
             } catch (RemoteException e) {
                 mNotifOutput.outProgress(
                         Utility.getContext().getString(R.string.title_progress_notif_backup_restore_fail), 0, 0);
-                e.printStackTrace();
+                LogUtility.printStackTrace(e);
             }
         }
 
@@ -329,8 +332,7 @@ public class DropboxCloudService extends Service {
             try {
                 sIsBakOrRestoreRunn = false;
 
-                mNotifOutput
-                        .outProgress(
+                mNotifOutput.outProgress(
                                 Utility.getContext().getString(
                                         R.string.title_progress_notif_backup_restore_successfully), 0, 0);
 
@@ -343,7 +345,7 @@ public class DropboxCloudService extends Service {
             } catch (RemoteException e) {
                 mNotifOutput.outProgress(
                         Utility.getContext().getString(R.string.title_progress_notif_backup_restore_fail), 0, 0);
-                e.printStackTrace();
+                LogUtility.printStackTrace(e);
             }
         }
     }

@@ -16,13 +16,14 @@ import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.util.HashMap;
 
-public class MaterialManagerApplication extends Application {
+public class MaterialManagerApplication extends MultiDexApplication {
 
     // The following line should be changed to include the correct property id.
     private static final String PROPERTY_ID = "UA-55274552-2";

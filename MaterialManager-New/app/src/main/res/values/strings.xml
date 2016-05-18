@@ -125,23 +125,27 @@
     <string name="title_spin_notification_frequnecy_first_label">per</string>
     <string name="title_spin_notification_frequnecy_sec_label">hour(s) to ring a notification</string>
     <string name="title_cloud_backup_restore">Cloud backup/resoruce source</string>
-    <string name="title_dropbox_enable">Dropbox backup/restore</string>
-    <string name="title_dropbox_backup_successfully">    -Backup successfully in DropBox.\n</string>
-    <string name="title_dropbox_backup_fail">    -Backup fail in DropBox.\n</string>
-    <string name="title_dropbox_restore_successfully">    -Restore successfully in DropBox.\n</string>
-    <string name="title_dropbox_restore_fail">    -Restore fail in DropBox.\n</string>
+    <string name="title_dropbox_backup_successfully">    -Backup successfully in DropBox\n</string>
+    <string name="title_dropbox_backup_fail">    -Backup fail in DropBox\n</string>
+    <string name="title_dropbox_restore_successfully">    -Restore successfully in DropBox\n</string>
+    <string name="title_dropbox_restore_fail">    -Restore fail in DropBox\n</string>
+    <string name="title_googledrive_backup_successfully">    -Backup successfully in GoogleDrive\n</string>
+    <string name="title_googledrive_backup_fail">    -Backup fail in GoogleDrive\n\n</string>
+    <string name="title_googledrive_restore_successfully">    -Restore successfully in GoogleDrive\n</string>
+    <string name="title_googledrive_restore_fail">    -Restore fail in GoogleDrive\n</string>
     <string name="title_local_backup_successfully">    -Backup successfully in local.\n</string>
     <string name="title_local_backup_fail"> -Backup fail in local.\n</string>
     <string name="title_local_restore_successfully">    -Restore successfully in local.\n</string>
     <string name="title_local_restore_fail">    -Restore fail in local.\n</string>
-
     <string name="title_progress_startup">Start to [Backup/Restore] operations...</string>
     <string name="title_progress_local_backup_successfully">DB backup successfully in Local...\n(1/1)</string>
     <string name="title_progress_local_restore_successfully">DB restore successfully in Local...\n(1/1)</string>
     <string name="title_progress_dropbox_backup_successfully">DB backup successfully in DropBox...\n(1/1)</string>
     <string name="title_progress_dropbox_restore_successfully">DB restore successfully in DropBox...\n(1/1)</string>
-    <string name="title_progress_dropbox_backup_photo_successfully">Backup photo:\n%1$s\n(%2$s/100)</string>
-    <string name="title_progress_dropbox_restore_photo_successfully">Restore photo:\n%1$s\n(%2$s/100)</string>
+    <string name="title_progress_googledrive_backup_successfully">DB backup successfully in GoogleDrive...\n(1/1)</string>
+    <string name="title_progress_googledrive_restore_successfully">DB restore successfully in GoogleDrive...\n(1/1)</string>
+    <string name="title_progress_backup_photo_successfully">Backup photo:\n%1$s\n(%2$s/100)</string>
+    <string name="title_progress_restore_photo_successfully">Restore photo:\n%1$s\n(%2$s/100)</string>
 
     <string name="title_progress_notif_backup_restore_successfully">Backup/Restore is successful</string>
     <string name="title_progress_notif_backup_restore_fail">Backup/Restore is failed</string>
