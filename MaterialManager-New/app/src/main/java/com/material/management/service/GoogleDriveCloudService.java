@@ -44,7 +44,7 @@ public class GoogleDriveCloudService {
 
             switch (mode) {
                 case BACKUP_MODE: {
-                    FileUtility.clearAppDriveData(mGoogleApiClient);
+                    FileUtility.clearAppDriveData(mGoogleApiClient, this);
                     msg.append(DBUtility.exportDB(mGoogleApiClient, this));
                     msg.append(FileUtility.exportPhoto(mGoogleApiClient, this));
                 }

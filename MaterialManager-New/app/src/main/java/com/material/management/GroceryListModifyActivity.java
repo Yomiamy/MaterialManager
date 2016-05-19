@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -26,9 +27,11 @@ import com.material.management.data.StoreData;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -136,11 +139,11 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
 
         actionBar.setTitle(mTitle);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
         }
 
-        updateStoreInfo();
+        updateStoreInfo(true);
         initAutoCompleteData();
         changeLayoutConfig(mLayout);
     }
@@ -226,8 +229,8 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
                 int index;
                 int len = serviceTimeDefault.length();
 
-                while((index = serviceTimeStr.indexOf(serviceTimeDefault)) != -1) {
-                    serviceTimeStr.replace(index, index + len , serviceTimeDefaultInDb);
+                while ((index = serviceTimeStr.indexOf(serviceTimeDefault)) != -1) {
+                    serviceTimeStr.replace(index, index + len, serviceTimeDefaultInDb);
                 }
                 groceryListData.setServiceTime(serviceTimeStr.toString());
                 groceryListData.setLat((mSelectedStoreData != null) ? mSelectedStoreData.getStoreLat() : "");
@@ -239,8 +242,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
 //                DBUtility.deleteGroceryList(groceryListData.getId());
 //                DBUtility.insertGroceryListInfo(groceryListData);
                 showToast(getString(R.string.data_save_success));
-                clearUserData();
-                mImm.hideSoftInputFromWindow(mLayout.getApplicationWindowToken(), 0);
+                finish();
             }
             break;
             case R.id.menu_action_cancel: {
@@ -286,7 +288,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
             }
         }
 
-        for(String text : mTextHistoryList) {
+        for (String text : mTextHistoryList) {
             textHistory.append(text);
             textHistory.append(":");
         }
@@ -329,7 +331,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
             case R.id.iv_phoneButton: {
                 String phone = Uri.encode(mActPhone.getText().toString());
 
-                if(phone.isEmpty()) {
+                if (phone.isEmpty()) {
                     showToast(getString(R.string.grocery_login_err_empty_phone));
                 } else {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -343,7 +345,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
             case R.id.iv_navigateButton: {
                 mCurModifiedAddress = mActAddress.getText().toString();
 
-                if(mCurModifiedAddress.isEmpty()) {
+                if (mCurModifiedAddress.isEmpty()) {
                     showToast(getString(R.string.grocery_login_err_empty_store_address));
                 } else {
                     RequestParams reqParams = new RequestParams();
@@ -390,7 +392,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data == null) {
+        if (data == null) {
             mActStoreName.setText("");
             mActPhone.setText("");
             mActAddress.setText("");
@@ -399,10 +401,10 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
 
         mSelectedStoreData = data.getParcelableExtra("store_data");
 
-        updateStoreInfo();
+        updateStoreInfo(false);
     }
 
-    private void updateStoreInfo() {
+    private void updateStoreInfo(boolean isFromDb) {
         mActGroceryListName.setText(mGroceryListData.getGroceryListName());
         mActStoreName.setText(mSelectedStoreData.getStoreName());
         mActAddress.setText(mSelectedStoreData.getStoreAddress());
@@ -411,6 +413,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
 
         String serviceTime = mSelectedStoreData.getStoreServiceTime();
         String defaultStr = getString(R.string.title_service_time_default);
+        String defaultStrInDb = getString(R.string.title_service_time_default_in_db);
 
         mBtnSun.setText(defaultStr);
         mBtnPMSun.setText(defaultStr);
@@ -427,18 +430,27 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
         mBtnSat.setText(defaultStr);
         mBtnPMSat.setText(defaultStr);
 
-        if(serviceTime != null && !serviceTime.isEmpty()) {
+        if (serviceTime != null && !serviceTime.isEmpty()) {
             String[] daysHours = serviceTime.split("\\|");
-            Pattern patt = Pattern.compile("(\\d+)#(\\d+),(\\d+)");
+//            Pattern patt = Pattern.compile("(\\d+)#(\\d+),(\\d+)");
+            Pattern patt = isFromDb ? Pattern.compile("(\\d+):(\\-?\\d+)~(\\-?\\d+)") : Pattern.compile("(\\d+)#(\\d+),(\\d+)");
 
-
-            for(String dayHour : daysHours) {
+            for (String dayHour : daysHours) {
                 Matcher match = patt.matcher(dayHour);
 
                 if (match.matches()) {
                     int day = Integer.parseInt(match.group(1));
+                    day = isFromDb ? day - 1 : day;
                     String startTime = match.group(2);
                     String endTime = match.group(3);
+
+                    if (isFromDb) {
+                        startTime = startTime.equals(defaultStrInDb) ? defaultStr : startTime;
+                        endTime = endTime.equals(defaultStrInDb) ? defaultStr : endTime;
+                    } else {
+                        startTime = (Integer.parseInt(startTime) < 0) ? defaultStr : startTime;
+                        endTime = (Integer.parseInt(endTime) < 0) ? defaultStr : endTime;
+                    }
 
                     switch (day) {
                         case 0:
@@ -475,7 +487,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
         }
     }
 
-    private String fixTime(int c){
+    private String fixTime(int c) {
         if (c >= 10)
             return String.valueOf(c);
         else
@@ -497,11 +509,11 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
                 if (status.equals("OK")) {
                     JSONArray resultAry = jsonObj.getJSONArray("results");
 
-                    for(int i = 0 ,len = resultAry.length() ; i < len ; i++) {
+                    for (int i = 0, len = resultAry.length(); i < len; i++) {
                         JSONObject geoJsonObject = resultAry.getJSONObject(i);
                         String formattedAddress = geoJsonObject.getString("formatted_address");
 
-                        if(formattedAddress.contains(mCurModifiedAddress)) {
+                        if (formattedAddress.contains(mCurModifiedAddress)) {
                             JSONObject locJsonObject = geoJsonObject.getJSONObject("geometry").getJSONObject("location");
                             String lat = locJsonObject.getString("lat");
                             String lng = locJsonObject.getString("lng");

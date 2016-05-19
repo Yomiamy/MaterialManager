@@ -118,7 +118,7 @@ public class FileUtility {
         return msg.toString();
     }
 
-    public static void clearAppDriveData(GoogleApiClient apiClient) {
+    public static void clearAppDriveData(GoogleApiClient apiClient, Observer observ) {
         DriveFolder appFolder = Drive.DriveApi.getAppFolder(apiClient);
         /* Clear all app data for avoiding the duplicate when uploading files.*/
         DriveApi.MetadataBufferResult mbr = appFolder.listChildren(apiClient).await();
@@ -133,6 +133,12 @@ public class FileUtility {
                 LogUtility.printLogD("randy", "delete " + childMetaData.getTitle() + " success.");
             } else {
                 LogUtility.printLogD("randy", "delete " + childMetaData.getTitle() + " fail.");
+            }
+            if (observ != null) {
+                BackupRestoreInfo pi = new BackupRestoreInfo();
+                pi.setMsg(sContext.getString(R.string.title_progress_adjust_drive_space_successfully,  ((i + 1) * 100) / len));
+                pi.setProgress(((i + 1) * 100) / len);
+                observ.update(pi);
             }
         }
     }
@@ -149,7 +155,6 @@ public class FileUtility {
                 return file.getName().endsWith(".jpg");
             }
         });
-        BackupRestoreInfo pi = new BackupRestoreInfo();
         DriveFolder appFolder = Drive.DriveApi.getAppFolder(apiClient);
 
         for (int i = 0, total = photoFileAry.length; i < total; i++) {
@@ -201,9 +206,13 @@ public class FileUtility {
             if (dfr == null || !dfr.getStatus().isSuccess()) {
                 return sContext.getString(R.string.title_googledrive_backup_fail);
             }
-            pi.setMsg(sContext.getString(R.string.title_progress_backup_photo_successfully, photoFile.getName(), ((i + 1) * 100) / total));
-            pi.setProgress(((i + 1) * 100) / total);
-            observ.update(pi);
+
+            if (observ != null) {
+                BackupRestoreInfo pi = new BackupRestoreInfo();
+                pi.setMsg(sContext.getString(R.string.title_progress_backup_photo_successfully, photoFile.getName(), ((i + 1) * 100) / total));
+                pi.setProgress(((i + 1) * 100) / total);
+                observ.update(pi);
+            }
         }
 
         return sContext.getString(R.string.title_googledrive_backup_successfully);

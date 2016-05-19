@@ -104,6 +104,7 @@
     <string name="title_progress_googledrive_restore_successfully">GoogleDrive数据库回复成功...\n(1/1)</string>
     <string name="title_progress_backup_photo_successfully">备份图片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_restore_photo_successfully">回复图片:\n%1$s\n(%2$s/100)</string>
+    <string name="title_progress_adjust_drive_space_successfully">调整GoogleDrive空间...\n(%1$s/100)</string>
     <string name="title_progress_notif_backup_restore_successfully">[备份/回复]数据库成功</string>
     <string name="title_progress_notif_backup_restore_fail">[备份/回复]数据库失败</string>
     <string name="title_notif_silent_mode">无提醒</string>

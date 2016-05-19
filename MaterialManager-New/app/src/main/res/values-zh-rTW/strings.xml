@@ -120,6 +120,7 @@
     <string name="title_progress_googledrive_restore_successfully">GoogleDrive資料庫回復成功...\n(1/1)</string>
     <string name="title_progress_backup_photo_successfully">備份圖片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_restore_photo_successfully">回復圖片:\n%1$s\n(%2$s/100)</string>
+    <string name="title_progress_adjust_drive_space_successfully">調整GoogleDrive空間...\n(%1$s/100)</string>
     <string name="title_progress_notif_backup_restore_successfully">[備份/回復]資料庫成功</string>
     <string name="title_progress_notif_backup_restore_fail">[備份/回復]資料庫失敗</string>
     <string name="title_notif_silent_mode">無提醒</string>

@@ -30,7 +30,8 @@
                 <RadioButton
                     android:id="@+id/rb_notif_type_vibrate"
                     style="@style/section_item_radiobutton"
-                    android:layout_height="90dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="90dp"
                     android:checked="true"
                     android:text="@string/title_tv_notification_vibrate"
                     android:textSize="@dimen/textview_text_size" />
@@ -40,7 +41,8 @@
                 <RadioButton
                     android:id="@+id/rb_notif_type_sound"
                     style="@style/section_item_radiobutton"
-                    android:layout_height="90dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="90dp"
                     android:text="@string/title_tv_notification_sound"
                     android:textSize="@dimen/textview_text_size" />
             </RadioGroup>
@@ -54,7 +56,8 @@
         <LinearLayout
             style="@style/section_item_checkbox"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
+            android:minHeight="90dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/card_bg"
@@ -96,7 +99,8 @@
         <LinearLayout
             style="@style/section_item_checkbox"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
+            android:minHeight="90dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/card_bg"

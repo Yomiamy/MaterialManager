@@ -314,8 +314,8 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                     int day = Integer.parseInt(match.group(1));
                     String startTime = match.group(2);
                     String endTime = match.group(3);
-                    startTime = (Integer.parseInt(startTime) < 0) ? getString(R.string.title_service_time_default) : startTime;
-                    endTime = (Integer.parseInt(endTime) < 0) ? getString(R.string.title_service_time_default) : endTime;
+                    startTime = (Integer.parseInt(startTime) < 0) ? defaultStr : startTime;
+                    endTime = (Integer.parseInt(endTime) < 0) ? defaultStr : endTime;
 
                     switch (day) {
                         case 0:

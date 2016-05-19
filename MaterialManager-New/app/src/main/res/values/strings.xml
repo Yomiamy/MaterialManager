@@ -146,6 +146,7 @@
     <string name="title_progress_googledrive_restore_successfully">DB restore successfully in GoogleDrive...\n(1/1)</string>
     <string name="title_progress_backup_photo_successfully">Backup photo:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_restore_photo_successfully">Restore photo:\n%1$s\n(%2$s/100)</string>
+    <string name="title_progress_adjust_drive_space_successfully">Adjust the google drive space...\n(%1$s/100)</string>
 
     <string name="title_progress_notif_backup_restore_successfully">Backup/Restore is successful</string>
     <string name="title_progress_notif_backup_restore_fail">Backup/Restore is failed</string>
