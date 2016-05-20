@@ -2,7 +2,8 @@ package com.material.management;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import com.material.management.fragment.MaterialManagerFragment;
+import com.material.management.fragment.MaterialManagerFragment.MaterialSortMode;
 import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.component.slidemenu.SlidingActivity;
 import com.material.management.component.slidemenu.SlidingMenu;
@@ -14,7 +15,6 @@ import com.material.management.fragment.GroceryHistoryFragment;
 import com.material.management.fragment.GroceryListFragment;
 import com.material.management.fragment.LoginGroceryListFragment;
 import com.material.management.fragment.LoginMaterialFragment;
-import com.material.management.fragment.MaterialManagerFragment;
 import com.material.management.fragment.RewardCardsFragment;
 import com.material.management.fragment.SettingsFragment;
 import com.material.management.monitor.MonitorService;
@@ -304,20 +304,20 @@ public class MainActivity extends SlidingActivity {
             case R.id.menu_sort_by_date: {
                 if (mCurFragment != null && mCurFragment instanceof Observer
                         && mCurFragment instanceof MaterialManagerFragment) {
-                    ((MaterialManagerFragment) mCurFragment).sortMaterial(R.id.menu_sort_by_date);
+                    ((MaterialManagerFragment) mCurFragment).sortMaterial(MaterialSortMode.BY_DATE);
                 }
             }
             break;
             case R.id.menu_sort_by_name: {
                 if (mCurFragment != null && mCurFragment instanceof Observer
                         && mCurFragment instanceof MaterialManagerFragment) {
-                    ((MaterialManagerFragment) mCurFragment).sortMaterial(R.id.menu_sort_by_name);
+                    ((MaterialManagerFragment) mCurFragment).sortMaterial(MaterialSortMode.BY_NAME);
                 }
             }
             case R.id.menu_sort_by_place: {
                 if (mCurFragment != null && mCurFragment instanceof Observer
                         && mCurFragment instanceof MaterialManagerFragment) {
-                    ((MaterialManagerFragment) mCurFragment).sortMaterial(R.id.menu_sort_by_place);
+                    ((MaterialManagerFragment) mCurFragment).sortMaterial(MaterialSortMode.BY_PLACE);
                 }
             }
             break;

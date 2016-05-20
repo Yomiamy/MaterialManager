@@ -53,6 +53,7 @@ public class Utility {
     public static final String MATERIAL_TYPE_GRID_COLUMN_NUM = "grid_column_num";
     public static final String NOTIF_IS_VIBRATE_SOUND = "is_notif_vibrate_sound";
     public static final String NOTIF_FREQUENCY = "notif_freq";
+    public static final String SHARE_PREF_KEY_MATERIAL_SORT_MODE = "share_pref_key_material_sort_mode";
 
     private static Context sApplicationContext;
     private static Activity sActivity;

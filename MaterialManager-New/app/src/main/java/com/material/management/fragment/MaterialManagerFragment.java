@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -53,6 +54,10 @@ import com.picasso.Picasso;
 public class MaterialManagerFragment extends MMFragment implements Observer, SearchView.OnQueryTextListener,
         OnItemClickListener, DialogInterface.OnClickListener, DatePickerDialog.OnDateSetListener {
     private static final String DATEPICKER_TAG = "datepicker";
+
+    public enum MaterialSortMode {
+        BY_NAME, BY_DATE, BY_PLACE
+    }
 
     private View mLayout;
     private GridView mGvMaterialType;
@@ -338,7 +343,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         Utility.setIntValueForKey(Utility.MATERIAL_TYPE_GRID_COLUMN_NUM, num);
     }
 
-    public void sortMaterial(int mode) {
+    public void sortMaterial(MaterialSortMode mode) {
         mMaterialTypeAdapter.sortMaterial(mode);
     }
 
@@ -420,7 +425,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             mScaledSize = totalSize / mMaterialTypGridNum;
         }
 
-        public void sortMaterial(int mode) {
+        public void sortMaterial(MaterialSortMode mode) {
             mMaterialAdapter.sort(mode);
         }
 
@@ -550,7 +555,9 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         }
 
         public void triggerSelectMaterialType(String materialType, String searchString) {
-            MainActivity activity = (MainActivity) mOwnerActivity;
+            MainActivity activity = mOwnerActivity;
+            String defSortModeStr = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_MATERIAL_SORT_MODE);
+            MaterialSortMode defSortMode = (TextUtils.isEmpty(defSortModeStr)) ? MaterialSortMode.BY_DATE : MaterialSortMode.valueOf(defSortModeStr);
 
             /* use 1 x 1 grid view to display material items */
             // setMaterialTypeGridColumnNum(1);
@@ -559,6 +566,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             mMaterialAdapter.clear();
             mMaterialAdapter.addAll(mTypeMaterialMap.get(materialType));
             mGvMaterialType.setAdapter(mMaterialAdapter);
+            mMaterialAdapter.sort(defSortMode);
             mMaterialAdapter.refreshSearch(searchString);
             activity.changeHomeAsUpIcon(R.drawable.ic_ab_back_holo_dark_am);
 
@@ -573,7 +581,6 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 activity.setMenuItemVisibility(R.id.menu_grid_2x1, false);
                 activity.setMenuItemVisibility(R.id.menu_clear_expired_items, false);
             }
-            mMaterialAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -609,17 +616,18 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
     }
 
     private class MaterialAdapter extends ArrayAdapter<Material> implements ISearchUpdate {
-        private final LayoutInflater mInflater;
         private ArrayList<Material> mSearchedItem;
         private ArrayList<Material> mTotalItem;
         private String mSearchStr;
         private int mScaledSize;
+        private MaterialSortMode mSortMode;
 
         public MaterialAdapter() {
-            super(getActivity(), 0);
-            mInflater = LayoutInflater.from(getActivity());
-            mSearchedItem = new ArrayList<Material>();
-            mTotalItem = new ArrayList<Material>();
+            super(mOwnerActivity, 0);
+
+            mSortMode = MaterialSortMode.BY_DATE;
+            mSearchedItem = new ArrayList<>();
+            mTotalItem = new ArrayList<>();
             mSearchStr = null;
             float h = mMetrics.heightPixels / mMetrics.density;
 
@@ -630,9 +638,9 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             }
         }
 
-        public void sort(int mode) {
+        public void sort(MaterialSortMode mode) {
             switch (mode) {
-                case R.id.menu_sort_by_date:
+                case BY_DATE:
                     Collections.sort(mSearchedItem, new Comparator<Material>() {
 
                         @Override
@@ -650,7 +658,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                         }
                     });
                     break;
-                case R.id.menu_sort_by_name:
+                case BY_NAME:
                     Collections.sort(mSearchedItem, new Comparator<Material>() {
 
                         @Override
@@ -662,7 +670,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                         }
                     });
                     break;
-                case R.id.menu_sort_by_place:
+                case BY_PLACE:
                     Collections.sort(mSearchedItem, new Comparator<Material>() {
 
                         @Override
@@ -676,6 +684,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                     break;
             }
 
+            mSortMode = mode;
+            Utility.setStringValueForKey(Utility.SHARE_PREF_KEY_MATERIAL_SORT_MODE, mode.name());
             notifyDataSetChanged();
         }
 
@@ -877,8 +887,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         @Override
         public void refreshSearch(String searchStr) {
             mSearchStr = searchStr;
-            mSearchedItem.clear();
 
+            mSearchedItem.clear();
             if (searchStr == null || searchStr.isEmpty()) {
                 for (Material item : mTotalItem) {
                     /* Calculate the diff days , FIXME: Check the memory and performance... */
@@ -933,7 +943,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                         mSearchedItem.add(item);
                 }
             }
-            notifyDataSetChanged();
+            sort(mSortMode);
         }
 
         @Override
