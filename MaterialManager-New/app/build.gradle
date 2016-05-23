@@ -12,14 +12,14 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "com.material.management"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 57
-        versionName "2.6.1"
+        versionName "2.6.2"
         multiDexEnabled true
     }
     buildTypes {
@@ -27,6 +27,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "6g"
     }
 }
 
