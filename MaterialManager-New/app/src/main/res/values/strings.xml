@@ -383,7 +383,7 @@
     <string name="title_card_note_hint">Enter Note(optional)</string>
 
     <!--GroceryHistoryFragment-->
-    <string name="title_grocery_history_date_interval">Time interval</string>
+    <string name="title_grocery_history_date_interval">Date interval</string>
     <string name="title_grocery_history_line_chart">Grocery history(By day)</string>
     <string name="title_grocery_history_line_chart_desc">Grocery history</string>
     <string name="title_grocery_history_detail">Grocery detail items</string>

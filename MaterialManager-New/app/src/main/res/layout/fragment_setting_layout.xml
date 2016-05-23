@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:fillViewport="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/ll_setting_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/ll_setting_common_item_layout_margin_right"
             android:background="@drawable/card_bg"
             android:orientation="vertical">
 
@@ -32,8 +33,6 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="@string/title_tv_notification_vibrate" />
-
-                <View style="@style/section_item_divider" />
 
                 <RadioButton
                     android:id="@+id/rb_notif_type_sound"
@@ -51,8 +50,8 @@
             style="@style/section_item_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/ll_setting_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/ll_setting_common_item_layout_margin_right"
             android:background="@drawable/card_bg"
             android:orientation="horizontal">
 
@@ -61,16 +60,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_spin_notification_frequnecy_first_label"
-                android:textColor="#af000000"
-                android:textSize="14dp"
+                android:textColor="@color/settings_title_black"
+                android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spin_notification_frequency"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/spin_setting_notif_frequency_w"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="@dimen/spin_setting_notif_frequency_margin_left"
+                android:layout_marginRight="@dimen/spin_setting_notif_frequency_margin_right"
                 android:gravity="center"
                 android:popupBackground="@color/spinner_background" />
 
@@ -79,8 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_spin_notification_frequnecy_sec_label"
-                android:textColor="#af000000"
-                android:textSize="14dp"
+                android:textColor="@color/settings_title_black"
+                android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -92,8 +91,8 @@
             style="@style/section_item_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/ll_setting_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/ll_setting_common_item_layout_margin_right"
             android:background="@drawable/card_bg"
             android:orientation="horizontal">
 
@@ -103,15 +102,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_tv_font_size_scale_first_label"
                 android:textColor="@color/settings_title_black"
-                android:textSize="14dp"
+                android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spin_font_size_scale_factor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="@dimen/spin_setting_font_size_scale_factor_margin_left"
+                android:layout_marginRight="@dimen/spin_setting_font_size_scale_factor_margin_right"
                 android:gravity="center"
                 android:popupBackground="@color/spinner_background" />
 
@@ -121,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_tv_font_size_scale_sec_label"
                 android:textColor="@color/settings_title_black"
-                android:textSize="14dp"
+                android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -133,58 +132,53 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/ll_setting_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/ll_setting_common_item_layout_margin_right"
             android:background="@drawable/card_bg">
 
             <RelativeLayout
                 android:id="@+id/rl_dropbox_service_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginBottom="@dimen/rl_setting_dropbox_service_layout_margin_bottom"
+                android:layout_marginLeft="@dimen/rl_setting_dropbox_service_layout_margin_left"
+                android:layout_marginRight="@dimen/rl_setting_dropbox_service_layout_margin_right"
+                android:layout_marginTop="@dimen/rl_setting_dropbox_service_layout_margin_top">
 
                 <ImageView
                     android:id="@+id/iv_dropbox_enable"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/iv_setting_common_cloud_service_btn_w"
+                    android:layout_height="@dimen/iv_setting_common_cloud_service_btn_h"
                     android:background="@drawable/ic_dropbox_login" />
 
                 <ImageView
                     android:id="@+id/iv_dropbox_enable_status"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/iv_setting_common_cloud_select_status_w"
+                    android:layout_height="@dimen/iv_setting_common_cloud_select_status_h"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/ic_cloud_service_unselected" />
             </RelativeLayout>
-
-            <View
-                android:id="@+id/v_cloud_service_layout_divider"
-                style="@style/section_item_divider"
-                android:layout_below="@id/rl_dropbox_service_layout" />
 
             <RelativeLayout
                 android:id="@+id/rl_googledrive_service_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/v_cloud_service_layout_divider"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp">
+                android:layout_below="@id/rl_dropbox_service_layout"
+                android:layout_marginBottom="@dimen/rl_setting_drive_service_layout_margin_bottom"
+                android:layout_marginLeft="@dimen/rl_setting_drive_service_layout_margin_left"
+                android:layout_marginRight="@dimen/rl_setting_drive_service_layout_margin_right"
+                android:layout_marginTop="@dimen/rl_setting_drive_service_layout_margin_top">
 
                 <ImageView
                     android:id="@+id/iv_googledriver_enable"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/iv_setting_common_cloud_service_btn_w"
+                    android:layout_height="@dimen/iv_setting_common_cloud_service_btn_h"
                     android:background="@drawable/ic_googledriver_login" />
 
                 <ImageView
                     android:id="@+id/iv_googledriver_enable_status"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/iv_setting_common_cloud_select_status_w"
+                    android:layout_height="@dimen/iv_setting_common_cloud_select_status_h"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/ic_cloud_service_unselected" />
             </RelativeLayout>
@@ -197,9 +191,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginBottom="@dimen/ll_setting_common_item_layout_margin_bottom"
+            android:layout_marginLeft="@dimen/ll_setting_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/ll_setting_common_item_layout_margin_right"
             android:background="@drawable/card_bg"
             android:gravity="center"
             android:orientation="horizontal">
@@ -208,34 +202,34 @@
                 android:id="@+id/tv_database_backup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="@dimen/tv_setting_database_backup_margin_left"
+                android:layout_marginRight="@dimen/tv_setting_database_backup_margin_right"
                 android:clickable="true"
                 android:gravity="center"
+                android:minHeight="@dimen/tv_setting_common_bak_restore_btn_min_h"
                 android:text="@string/title_tv_backup_database"
-                android:textColor="#af000000"
-                android:textSize="14dp"
+                android:textColor="@color/settings_title_black"
+                android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="1dp"
-                android:layout_height="40dip"
-                android:background="@android:color/darker_gray" />
+                android:layout_width="@dimen/tv_setting_common_vertical_gap_w"
+                android:layout_height="@dimen/tv_setting_common_vertical_gap_h"
+                android:background="@color/dark_gray" />
 
             <TextView
                 android:id="@+id/tv_database_restore"
+                style="@style/section_item_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="@dimen/tv_setting_database_restore_margin_left"
+                android:layout_marginRight="@dimen/tv_setting_database_restore_margin_right"
                 android:clickable="true"
                 android:gravity="center"
+                android:minHeight="@dimen/tv_setting_common_bak_restore_btn_min_h"
                 android:text="@string/title_tv_restore_database"
-                android:textColor="#af000000"
-                android:textSize="14dp"
-                style="@style/section_item_checkbox"
+                android:textColor="@color/settings_title_black"
+                android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

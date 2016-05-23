@@ -7,59 +7,61 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="@dimen/rl_grocery_history_full_date_interval_layout_h"
+        android:layout_marginRight="@dimen/rl_grocery_history_full_date_interval_layout_margin_right"
         android:layout_weight="0.15">
         <TextView
             android:id="@+id/tv_date_interval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/tv_grocery_history_date_interval_margin_top"
+            android:layout_marginLeft="@dimen/tv_grocery_history_common_title_margin_left"
             android:text="@string/title_grocery_history_date_interval"
             android:textColor="@color/GK"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="@dimen/font_size_medium"/>
 
         <LinearLayout
             android:id="@+id/ll_month_btns"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_date_interval"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/ll_grocery_history_month_btns_margin_top"
+            android:layout_marginLeft="@dimen/ll_grocery_history_month_btns_margin_left"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/btn_start_month"
-                android:layout_width="0.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="@dimen/btn_grocery_history_common_date_select_w"
+                android:layout_height="@dimen/btn_grocery_history_common_date_select_h"
                 android:layout_gravity="center"
                 android:layout_weight="0.4"
                 android:background="@drawable/gray_rounded_button_shape"
                 android:gravity="center"
                 android:text="@string/title_service_time_default"
-                android:textColor="#ff000000"
-                android:textSize="13.0sp" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_medium" />
 
             <TextView
-                android:layout_width="5.0dip"
+                android:layout_width="@dimen/tv_grocery_history_common_date_divider_w"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.05"
                 android:gravity="center"
                 android:text="~"
-                android:textColor="#ff000000"
-                android:textSize="13.0sp" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_medium" />
 
             <Button
                 android:id="@+id/btn_end_month"
-                android:layout_width="0.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="@dimen/btn_grocery_history_common_date_select_w"
+                android:layout_height="@dimen/btn_grocery_history_common_date_select_h"
                 android:layout_gravity="center"
                 android:layout_weight="0.4"
                 android:background="@drawable/gray_rounded_button_shape"
                 android:gravity="center"
                 android:text="@string/title_service_time_default"
-                android:textColor="#ff000000"
-                android:textSize="13.0sp" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_medium" />
 
             <ImageView
                 android:id="@+id/iv_grocery_list_history_filter"
@@ -75,31 +77,32 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/tv_grocery_history_common_dash_divider_h"
+        android:layout_margin="@dimen/tv_grocery_history_common_dash_divider_margin"
         android:background="@drawable/dash_line_divider"
         android:layerType="software" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/rl_grocery_history_full_chart_layout_h"
         android:layout_weight="0.4">
 
         <TextView
             android:id="@+id/tv_grocery_history_chart_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/tv_grocery_history_common_title_margin_left"
             android:text="@string/title_grocery_history_line_chart"
             android:textColor="@color/GK"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="@dimen/font_size_medium"/>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lc_chart"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/lc_grocery_history_chart_h"
             android:layout_below="@id/tv_grocery_history_chart_title"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="@dimen/lc_grocery_history_chart_margin_top"/>
 
         <TextView
             android:id="@+id/tv_no_chart_data_upper"
@@ -108,34 +111,35 @@
             android:layout_centerInParent="true"
             android:text="@string/title_no_chart_data_available"
             android:textColor="@color/dark_gray"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/font_size_large"/>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/tv_grocery_history_common_dash_divider_h"
+        android:layout_margin="@dimen/tv_grocery_history_common_dash_divider_margin"
         android:background="@drawable/dash_line_divider"
         android:layerType="software" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/rl_grocery_history_full_detail_layout_h"
         android:layout_weight="0.6">
         <TextView
             android:id="@+id/tv_grocery_history_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/tv_grocery_history_common_title_margin_left"
             android:text="@string/title_grocery_history_detail"
             android:textColor="@color/GK"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="@dimen/font_size_medium"/>
 
         <LinearLayout
             android:id="@+id/ll_item_detail_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/ll_grocery_history_item_detail_title_layout_margin_top"
             android:layout_below="@id/tv_grocery_history_detail"
             android:orientation="horizontal">
             <TextView
@@ -145,7 +149,8 @@
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@string/title_grocery_detail_list_item_name"/>
+                android:text="@string/title_grocery_detail_list_item_name"
+                android:textSize="@dimen/font_size_medium"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -154,7 +159,8 @@
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@string/title_grocery_detail_list_item_price"/>
+                android:text="@string/title_grocery_detail_list_item_price"
+                android:textSize="@dimen/font_size_medium"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -163,7 +169,8 @@
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@string/title_grocery_detail_list_item_qty"/>
+                android:text="@string/title_grocery_detail_list_item_qty"
+                android:textSize="@dimen/font_size_medium"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -172,7 +179,8 @@
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@string/title_grocery_detail_list_item_total_coast"/>
+                android:text="@string/title_grocery_detail_list_item_total_coast"
+                android:textSize="@dimen/font_size_medium"/>
         </LinearLayout>
 
         <ListView
@@ -180,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_item_detail_title"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="@dimen/lv_grocery_history_item_details_margin_top" />
 
         <TextView
             android:id="@+id/tv_no_chart_data_bottom"
@@ -189,6 +197,6 @@
             android:layout_centerInParent="true"
             android:text="@string/title_no_chart_data_available"
             android:textColor="@color/dark_gray"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/font_size_large"/>
     </RelativeLayout>
 </LinearLayout>

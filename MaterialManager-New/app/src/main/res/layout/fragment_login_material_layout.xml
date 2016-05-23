@@ -7,32 +7,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/ll_login_material_full_layout_margin_left"
+        android:layout_marginRight="@dimen/ll_login_material_full_layout_margin_right"
+        android:layout_marginTop="@dimen/ll_login_material_full_layout_margin_top"
         android:background="@color/bg_grocery_login"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
             android:background="@drawable/ic_iron_ring" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
             android:background="@color/white"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/iv_add_photo"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_marginTop="15dp"
+                android:layout_width="@dimen/iv_login_material_add_photo_w"
+                android:layout_height="@dimen/iv_login_material_add_photo_h"
+                android:layout_marginTop="@dimen/iv_login_material_add_photo_margin_top"
                 android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
                 android:clickable="true"
@@ -40,9 +40,9 @@
                 android:src="@drawable/selector_add_photo_status" />
 
             <ImageView
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_marginTop="15dp"
+                android:layout_width="@dimen/iv_login_material_add_photo_w"
+                android:layout_height="@dimen/iv_login_material_add_photo_h"
+                android:layout_marginTop="@dimen/iv_login_material_add_photo_margin_top"
                 android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
@@ -54,12 +54,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_title_barcode"
@@ -72,12 +72,13 @@
                 android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
 
+            <!--改到此-->
             <TextView
                 android:id="@+id/tv_material_barcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/tv_login_material_material_barcode_margin_left"
                 android:layout_toRightOf="@+id/tv_title_barcode"
                 android:clickable="true"
                 android:drawableTop="@drawable/selector_barcode"
@@ -91,12 +92,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_right"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_material_name"
@@ -125,12 +126,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_right"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_material_category"
@@ -157,12 +158,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_right"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_purchace_date_title"
@@ -179,7 +180,7 @@
                 android:id="@+id/rl_purchace_date_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/rl_login_material_purchace_date_layout_margin_left"
                 android:layout_toRightOf="@+id/tv_purchace_date_title"
                 android:clickable="true">
 
@@ -188,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginLeft="@dimen/tv_login_material_purchace_date_margin_left"
                     android:gravity="center"
                     android:text="yyyy/mm/dd"
                     android:textColor="@color/content_text_color"
@@ -196,7 +197,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="100dp"
+                    android:layout_width="@dimen/iv_login_material_common_spinner_ic_w"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_purchace_date"
                     android:scaleType="fitXY"
@@ -207,12 +208,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_right"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_valid_date_title"
@@ -229,7 +230,7 @@
                 android:id="@+id/rl_validate_date_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/rl_login_material_validate_date_layout_margin_left"
                 android:layout_toRightOf="@+id/tv_valid_date_title"
                 android:clickable="true">
 
@@ -238,7 +239,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginLeft="@dimen/tv_login_material_validate_date_margin_left"
                     android:gravity="center"
                     android:text="yyyy/mm/dd"
                     android:textColor="@color/content_text_color"
@@ -246,7 +247,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="100dp"
+                    android:layout_width="@dimen/iv_login_material_common_spinner_ic_w"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_valid_date"
                     android:scaleType="fitXY"
@@ -257,13 +258,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_right"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingRight="@dimen/rl_login_material_common_item_layout_padding_right"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_notification_days"
@@ -304,12 +305,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_right"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_material_place"
@@ -338,12 +339,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_right"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp">
+            android:paddingLeft="@dimen/rl_login_material_common_item_layout_padding_left"
+            android:paddingTop="@dimen/rl_login_material_common_item_layout_padding_top">
 
             <TextView
                 android:id="@+id/tv_comment"
@@ -370,16 +371,14 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="@dimen/iv_login_material_bottom_shadow_h"
+            android:layout_marginLeft="@dimen/iv_login_material_bottom_shadow_margin_left"
+            android:layout_marginRight="@dimen/iv_login_material_bottom_shadow_margin_right"
             android:background="@drawable/light_shadow" />
 
         <View
             android:id="@+id/v_bottomSpacing"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp" />
+            android:layout_height="@dimen/v_login_material_bottomSpacing_h"/>
     </LinearLayout>
 </ScrollView>

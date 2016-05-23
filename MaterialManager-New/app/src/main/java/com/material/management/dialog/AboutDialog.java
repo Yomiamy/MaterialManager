@@ -34,8 +34,8 @@ public class AboutDialog extends Dialog{
         setContentView(R.layout.dialog_about_layout);
         setTitle(R.string.title_app_about);
 
-        setHtmlTextView((TextView) findViewById(R.id.legal_text), mContext.getString(R.string.about_legal));
-        setHtmlTextView((TextView)findViewById(R.id.info_text), mContext.getString(R.string.about_info, deviceInfo.getAppVersion()));
+        setHtmlTextView((TextView) findViewById(R.id.tv_legal_text), mContext.getString(R.string.about_legal));
+        setHtmlTextView((TextView)findViewById(R.id.tv_info_text), mContext.getString(R.string.about_info, deviceInfo.getAppVersion()));
         window.setLayout((int)dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
     }
     

@@ -3,5 +3,7 @@
     android:id="@+id/lv_slide_menu_list"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:fadeScrollbars="true"
 	android:drawSelectorOnTop="true"
+	android:scrollbarAlwaysDrawVerticalTrack="true"
     android:background="@color/bg_grocery_login"/>

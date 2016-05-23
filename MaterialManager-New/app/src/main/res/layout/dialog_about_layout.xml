@@ -7,31 +7,32 @@
     <TableRow>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/iv_about_app_icon_w"
+            android:layout_height="@dimen/iv_about_app_icon_h"
             android:layout_gravity="right|center_vertical"
             android:src="@drawable/about_icon" />
 
         <TextView
-            android:id="@+id/info_text"
+            android:id="@+id/tv_info_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="left|center_vertical"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textSize="@dimen/tv_about_info_text_size"/>
     </TableRow>
 
     <TableRow>
 
         <TextView
-            android:id="@+id/legal_text"
+            android:id="@+id/tv_legal_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="8dip"
+            android:layout_margin="@dimen/tv_about_legal_text_margin"
             android:layout_span="2"
             android:gravity="center"
-            android:textColor="#cccccc"
-            android:textSize="10dip"
+            android:textColor="@color/silver"
+            android:textSize="@dimen/tv_about_legal_text_size"
             android:textStyle="italic" />
     </TableRow>
 

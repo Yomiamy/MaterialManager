@@ -8,6 +8,8 @@
     <dimen name="font_size_xlarge">18sp</dimen>
     <dimen name="font_size_xxlarge">20sp</dimen>
     <dimen name="font_size_xxxxlarge">22sp</dimen>
+    <!-- material_item_layout -->
+    <dimen name="font_size_material_rest_day">35sp</dimen>
 
     <!-- common -->
     <dimen name="v_bottom_spacing">16dp</dimen>
@@ -33,8 +35,131 @@
     <dimen name="tv_barcode_margin_top">16dp</dimen>
     <dimen name="tv_barcode_margin_left">30dp</dimen>
 
-    <!-- MaterialManagerFragment -->
-    <dimen name="font_size_material_rest_day">35sp</dimen>
+    <!-- fragment_login_material_layout -->
+    <dimen name="ll_login_material_full_layout_margin_left">10dp</dimen>
+    <dimen name="ll_login_material_full_layout_margin_right">10dp</dimen>
+    <dimen name="ll_login_material_full_layout_margin_top">10dp</dimen>
+    <dimen name="rl_login_material_common_item_layout_margin_left">3dp</dimen>
+    <dimen name="rl_login_material_common_item_layout_margin_right">3dp</dimen>
+    <dimen name="rl_login_material_common_item_layout_padding_left">15dp</dimen>
+    <dimen name="rl_login_material_common_item_layout_padding_right">15dp</dimen>
+    <dimen name="rl_login_material_common_item_layout_padding_top">15dp</dimen>
+    <dimen name="iv_login_material_common_spinner_ic_w">100dp</dimen>
+    <dimen name="iv_login_material_add_photo_h">170dp</dimen>
+    <dimen name="iv_login_material_add_photo_w">170dp</dimen>
+    <dimen name="iv_login_material_add_photo_margin_top">15dp</dimen>
+    <dimen name="tv_login_material_material_barcode_margin_left">10dp</dimen>
+    <dimen name="rl_login_material_purchace_date_layout_margin_left">10dp</dimen>
+    <dimen name="tv_login_material_purchace_date_margin_left">7dp</dimen>
+    <dimen name="rl_login_material_validate_date_layout_margin_left">10dp</dimen>
+    <dimen name="tv_login_material_validate_date_margin_left">7dp</dimen>
+    <dimen name="iv_login_material_bottom_shadow_h">10dp</dimen>
+    <dimen name="iv_login_material_bottom_shadow_margin_left">5dp</dimen>
+    <dimen name="iv_login_material_bottom_shadow_margin_right">5dp</dimen>
+    <dimen name="v_login_material_bottomSpacing_h">70dp</dimen>
+
+    <!-- fragment_material_manager_layout-->
+    <dimen name="gv_material_manager_material_grid_margin">2dp</dimen>
+    <dimen name="gv_material_manager_material_grid_column_w">120dp</dimen>
+    <dimen name="gv_material_manager_material_grid_horizontal_space">2dp</dimen>
+    <dimen name="gv_material_manager_material_grid_vertical_space">2dp</dimen>
+
+    <!-- fragment_grocery_login -->
+    <dimen name="ll_grocery_login_common_item_layout_margin_left">10dp</dimen>
+    <dimen name="ll_grocery_login_common_item_layout_margin_right">10dp</dimen>
+    <dimen name="ll_grocery_login_common_item_layout_margin_top">16dp</dimen>
+    <dimen name="rl_grocery_login_common_subitem_layout_margin_left">15dp</dimen>
+    <dimen name="rl_grocery_login_common_subitem_layout_margin_top">15dp</dimen>
+    <dimen name="tv_grocery_login_common_label_margin_left">16dp</dimen>
+    <dimen name="tv_grocery_login_common_label_margin_right">16dp</dimen>
+    <dimen name="act_grocery_login_common_input_margin_left">16dp</dimen>
+    <dimen name="act_grocery_login_common_input_margin_right">16dp</dimen>
+    <dimen name="iv_grocery_login_common_ic_btn_h">48dp</dimen>
+    <dimen name="iv_grocery_login_common_ic_btn_margin_right">16dp</dimen>
+    <dimen name="ll_grocery_login_common_timeings_layout_margin_top">10dp</dimen>
+    <dimen name="ll_grocery_login_common_timeings_layout_margin_left">16dp</dimen>
+    <dimen name="ll_grocery_login_common_timeings_layout_margin_right">16dp</dimen>
+    <dimen name="tv_grocery_login_common_timings_title_h">36dp</dimen>
+    <dimen name="tv_grocery_login_common_timings_title_margin_top">2dp</dimen>
+    <dimen name="tv_grocery_login_common_timings_title_margin_bottom">2dp</dimen>
+    <dimen name="tv_grocery_login_common_timings_label_w">90dp</dimen>
+    <dimen name="btn_grocery_login_common_timings_select_w">0dp</dimen>
+    <dimen name="btn_grocery_login_common_timings_select_h">36dp</dimen>
+    <dimen name="btn_grocery_login_common_timings_select_margin_bottom">2dp</dimen>
+    <dimen name="btn_grocery_login_common_timings_select_margin_top">2dp</dimen>
+    <dimen name="tv_grocery_login_common_timings_divider_w">5dp</dimen>
+    <dimen name="tv_grocery_login_common_timings_divider_margin_left">3dp</dimen>
+    <dimen name="tv_grocery_login_common_timings_divider_margin_right">3dp</dimen>
+
+    <dimen name="ll_grocery_login_grocery_list_settings_margin_top">10dp</dimen>
+    <dimen name="iv_grocery_login_shadow_h">10dp</dimen>
+    <dimen name="ll_grocery_login_timeings_label_layout_h">42dp</dimen>
+    <dimen name="tv_grocery_login_timingsLabel_w">90dp</dimen>
+    <dimen name="ll_grocery_login_sunLayout_padding_bottom">16dp</dimen>
+    <dimen name="v_grocery_login_bottomSpacing_h">70dp</dimen>
+
+    <!-- fragment_grocery_history -->
+    <dimen name="btn_grocery_history_common_date_select_w">0dp</dimen>
+    <dimen name="btn_grocery_history_common_date_select_h">36dp</dimen>
+    <dimen name="tv_grocery_history_common_date_divider_w">5dp</dimen>
+    <dimen name="tv_grocery_history_common_dash_divider_h">2dp</dimen>
+    <dimen name="tv_grocery_history_common_dash_divider_margin">10dp</dimen>
+    <dimen name="tv_grocery_history_common_title_margin_left">10dp</dimen>
+
+    <dimen name="rl_grocery_history_full_date_interval_layout_h">0dp</dimen>
+    <dimen name="rl_grocery_history_full_date_interval_layout_margin_right">10dp</dimen>
+    <dimen name="tv_grocery_history_date_interval_margin_top">10dp</dimen>
+    <dimen name="ll_grocery_history_month_btns_margin_top">5dp</dimen>
+    <dimen name="ll_grocery_history_month_btns_margin_left">10dp</dimen>
+    <dimen name="rl_grocery_history_full_chart_layout_h">0dp</dimen>
+    <dimen name="tv_grocery_history_chart_title_margin_left">10dp</dimen>
+    <dimen name="lc_grocery_history_chart_h">200dp</dimen>
+    <dimen name="lc_grocery_history_chart_margin_top">10dp</dimen>
+    <dimen name="rl_grocery_history_full_detail_layout_h">0dp</dimen>
+    <dimen name="ll_grocery_history_item_detail_title_layout_margin_top">5dp</dimen>
+    <dimen name="lv_grocery_history_item_details_margin_top">5dp</dimen>
+
+    <!-- fragment_setting_layout -->
+    <dimen name="ll_setting_common_item_layout_margin_left">10dp</dimen>
+    <dimen name="ll_setting_common_item_layout_margin_right">10dp</dimen>
+    <dimen name="ll_setting_common_item_layout_margin_bottom">10dp</dimen>
+    <dimen name="iv_setting_common_cloud_service_btn_w">200dp</dimen>
+    <dimen name="iv_setting_common_cloud_service_btn_h">40dp</dimen>
+    <dimen name="iv_setting_common_cloud_select_status_w">40dp</dimen>
+    <dimen name="iv_setting_common_cloud_select_status_h">40dp</dimen>
+    <dimen name="tv_setting_common_bak_restore_btn_min_h">50dp</dimen>
+    <dimen name="tv_setting_common_vertical_gap_w">1dp</dimen>
+    <dimen name="tv_setting_common_vertical_gap_h">40dp</dimen>
+
+    <dimen name="spin_setting_notif_frequency_w">100dp</dimen>
+    <dimen name="spin_setting_notif_frequency_margin_left">5dp</dimen>
+    <dimen name="spin_setting_notif_frequency_margin_right">5dp</dimen>
+    <dimen name="spin_setting_font_size_scale_factor_margin_left">5dp</dimen>
+    <dimen name="spin_setting_font_size_scale_factor_margin_right">5dp</dimen>
+    <dimen name="rl_setting_dropbox_service_layout_margin_left">10dp</dimen>
+    <dimen name="rl_setting_dropbox_service_layout_margin_right">10dp</dimen>
+    <dimen name="rl_setting_dropbox_service_layout_margin_top">10dp</dimen>
+    <dimen name="rl_setting_dropbox_service_layout_margin_bottom">5dp</dimen>
+    <dimen name="rl_setting_drive_service_layout_margin_left">10dp</dimen>
+    <dimen name="rl_setting_drive_service_layout_margin_right">10dp</dimen>
+    <dimen name="rl_setting_drive_service_layout_margin_top">5dp</dimen>
+    <dimen name="rl_setting_drive_service_layout_margin_bottom">10dp</dimen>
+    <dimen name="tv_setting_database_backup_margin_left">10dp</dimen>
+    <dimen name="tv_setting_database_backup_margin_right">20dp</dimen>
+    <dimen name="tv_setting_database_restore_margin_left">20dp</dimen>
+    <dimen name="tv_setting_database_restore_margin_right">10dp</dimen>
+
+    <!-- dialog_about_layout -->
+    <dimen name="dialog_about_width_size">320dp</dimen>
+    <dimen name="iv_about_app_icon_w">100dp</dimen>
+    <dimen name="iv_about_app_icon_h">100dp</dimen>
+    <dimen name="tv_about_legal_text_margin">8dp</dimen>
+    <dimen name="tv_about_info_text_size">@dimen/font_size_small</dimen>
+    <dimen name="tv_about_legal_text_size">@dimen/font_size_small</dimen>
+
+    <!-- view_grocery_list_item_layout -->
+    <dimen name="grocery_list_item_height_size">70dp</dimen>
+
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -49,9 +174,6 @@
 
     <!--AlertDialog-->
     <dimen name="alert_dialog_text_size">16sp</dimen>
-
-    <!--AboutDialog-->
-    <dimen name="dialog_about_width_size">480dp</dimen>
 
     <!-- dialog_crop_image_layout -->
     <dimen name="iv_turn_left_h">40dp</dimen>
@@ -127,11 +249,5 @@
     <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
     <integer name="num_cols">1</integer>
-
-    <!--GroceryListFragment-->
-    <dimen name="grocery_list_item_height_size">70dp</dimen>
-
-    <!--GroceryHistoryFragment-->
-    <integer name="grocery_history_no_date_searched_size">50</integer>
 
 </resources>

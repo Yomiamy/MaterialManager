@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -562,6 +563,7 @@ public class MainActivity extends SlidingActivity {
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_settings), R.drawable.ic_setting, SettingsFragment.class));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_feedback), R.drawable.ic_spanner, null));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_about), R.drawable.ic_about, null));
+            mMenus.add(new MenuItem(null, -1, null));
         }
 
         @Override
@@ -617,16 +619,22 @@ public class MainActivity extends SlidingActivity {
                     holder.img = (ImageView) convertView.findViewById(R.id.iv_menu_sub_item_img);
                 }
 
-                changeLayoutConfig((ViewGroup) convertView);
+                changeLayoutConfig(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.text.setText(item.name);
+            if(TextUtils.isEmpty(item.name)) {
+                /* Add a bottom space view for enabling the scrolling of listview*/
+                convertView.setVisibility(View.INVISIBLE);
+            } else {
+                convertView.setVisibility(View.VISIBLE);
+                holder.text.setText(item.name);
 
-            if (!item.isSeperator) {
-                holder.img.setImageResource(item.resourceId);
+                if (!item.isSeperator) {
+                    holder.img.setImageResource(item.resourceId);
+                }
             }
 
             return convertView;

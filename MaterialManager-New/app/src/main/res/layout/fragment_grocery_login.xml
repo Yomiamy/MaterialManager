@@ -17,9 +17,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="@dimen/ll_grocery_login_common_item_layout_margin_left"
+                android:layout_marginRight="@dimen/ll_grocery_login_common_item_layout_margin_right"
+                android:layout_marginTop="@dimen/ll_grocery_login_grocery_list_settings_margin_top"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -32,8 +32,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginLeft="@dimen/rl_grocery_login_common_subitem_layout_margin_left"
+                    android:layout_marginTop="@dimen/rl_grocery_login_common_subitem_layout_margin_top">
 
                     <TextView
                         android:id="@+id/tv_grocery_list_name"
@@ -62,8 +62,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="15dp">
+                    android:layout_marginTop="@dimen/rl_grocery_login_common_subitem_layout_margin_top"
+                    android:layout_marginLeft="@dimen/rl_grocery_login_common_subitem_layout_margin_left">
 
                     <RelativeLayout
                         android:id="@+id/rl_pick_address"
@@ -94,8 +94,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/rl_pick_address"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp">
+                        android:layout_marginTop="@dimen/rl_grocery_login_common_subitem_layout_margin_top"
+                        android:layout_marginBottom="@dimen/rl_grocery_login_common_subitem_layout_margin_left">
 
                         <CheckBox
                             android:id="@+id/cb_nearby_alert_enable"
@@ -121,17 +121,17 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="@dimen/iv_grocery_login_shadow_h"
+                android:layout_marginLeft="@dimen/ll_grocery_login_common_item_layout_margin_left"
+                android:layout_marginRight="@dimen/ll_grocery_login_common_item_layout_margin_right"
                 android:background="@drawable/light_shadow" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="@dimen/ll_grocery_login_common_item_layout_margin_left"
+                android:layout_marginRight="@dimen/ll_grocery_login_common_item_layout_margin_right"
+                android:layout_marginTop="@dimen/ll_grocery_login_common_item_layout_margin_top"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -144,7 +144,7 @@
                     android:id="@+id/ll_locationDetailsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/ll_grocery_login_common_item_layout_margin_top"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -157,8 +157,8 @@
                             android:id="@+id/tv_store_name_label"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginLeft="@dimen/tv_grocery_login_common_label_margin_left"
+                            android:layout_marginRight="@dimen/tv_grocery_login_common_label_margin_right"
                             android:text="@string/title_store_name_label"
                             android:textColor="@color/GK"
                             android:textSize="@dimen/font_size_medium"
@@ -168,8 +168,8 @@
                             android:id="@+id/act_store_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginLeft="@dimen/act_grocery_login_common_input_margin_left"
+                            android:layout_marginRight="@dimen/act_grocery_login_common_input_margin_right"
                             android:clickable="true"
                             android:gravity="center_vertical"
                             android:hint="@string/title_store_name_label_hint"
@@ -188,8 +188,8 @@
                             android:id="@+id/tv_addressLabel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginLeft="@dimen/tv_grocery_login_common_label_margin_left"
+                            android:layout_marginRight="@dimen/tv_grocery_login_common_label_margin_right"
                             android:layout_marginTop="9dp"
                             android:text="@string/title_address_label"
                             android:textColor="@color/GK"
@@ -206,8 +206,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="16dp"
+                                android:layout_marginLeft="@dimen/act_grocery_login_common_input_margin_left"
+                                android:layout_marginRight="@dimen/act_grocery_login_common_input_margin_right"
                                 android:layout_weight="1.0"
                                 android:clickable="true"
                                 android:gravity="center_vertical"
@@ -219,9 +219,9 @@
                             <ImageView
                                 android:id="@+id/iv_navigateButton"
                                 android:layout_width="wrap_content"
-                                android:layout_height="48dp"
+                                android:layout_height="@dimen/iv_grocery_login_common_ic_btn_h"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginRight="16dp"
+                                android:layout_marginRight="@dimen/iv_grocery_login_common_ic_btn_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center_vertical"
                                 android:scaleType="fitCenter"
@@ -239,8 +239,8 @@
                             android:id="@+id/tv_phoneLabel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginLeft="@dimen/tv_grocery_login_common_label_margin_left"
+                            android:layout_marginRight="@dimen/tv_grocery_login_common_label_margin_right"
                             android:text="@string/title_address_phone_label"
                             android:textColor="@color/GK"
                             android:textSize="@dimen/font_size_medium"
@@ -256,8 +256,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="16dp"
+                                android:layout_marginLeft="@dimen/act_grocery_login_common_input_margin_left"
+                                android:layout_marginRight="@dimen/act_grocery_login_common_input_margin_right"
                                 android:layout_weight="1.0"
                                 android:clickable="true"
                                 android:gravity="center_vertical"
@@ -270,9 +270,9 @@
                             <ImageView
                                 android:id="@+id/iv_phoneButton"
                                 android:layout_width="wrap_content"
-                                android:layout_height="48dp"
+                                android:layout_height="@dimen/iv_grocery_login_common_ic_btn_h"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginRight="16dp"
+                                android:layout_marginRight="@dimen/iv_grocery_login_common_ic_btn_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center_vertical"
                                 android:scaleType="fitCenter"
@@ -288,14 +288,14 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_height="@dimen/ll_grocery_login_timeings_label_layout_h"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_timingsLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_timingsLabel_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
@@ -307,10 +307,10 @@
                             <TextView
                                 android:id="@+id/tv_opensAt"
                                 android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_height="@dimen/tv_grocery_login_common_timings_title_h"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="@dimen/tv_grocery_login_common_timings_title_margin_bottom"
+                                android:layout_marginTop="@dimen/tv_grocery_login_common_timings_title_margin_top"
                                 android:layout_weight="1.0"
                                 android:gravity="center"
                                 android:text="@string/title_store_open_time"
@@ -319,25 +319,25 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="11sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/tv_closesBy"
                                 android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_height="@dimen/tv_grocery_login_common_timings_title_h"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="@dimen/tv_grocery_login_common_timings_title_margin_bottom"
+                                android:layout_marginTop="@dimen/tv_grocery_login_common_timings_title_margin_top"
                                 android:layout_weight="1.0"
                                 android:gravity="center"
                                 android:text="@string/title_store_close_time"
@@ -350,395 +350,395 @@
                             android:id="@+id/ll_monLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
+                            android:layout_marginTop="@dimen/ll_grocery_login_common_timeings_layout_margin_top"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_monLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_label_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
                                 android:text="@string/title_mon"
                                 android:textColor="@color/GK"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btn_monTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <Button
                                 android:id="@+id/btn_monPMTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/ll_tueLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
+                            android:layout_marginTop="@dimen/ll_grocery_login_common_timeings_layout_margin_top"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_tueLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_label_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
                                 android:text="@string/title_tue"
                                 android:textColor="@color/GK"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btn_tueTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <Button
                                 android:id="@+id/btn_tuePMTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/ll_wedLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
+                            android:layout_marginTop="@dimen/ll_grocery_login_common_timeings_layout_margin_top"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_wedLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_label_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
                                 android:text="@string/title_wed"
                                 android:textColor="@color/GK"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btn_wedTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <Button
                                 android:id="@+id/btn_wedPMTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/ll_thuLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
+                            android:layout_marginTop="@dimen/ll_grocery_login_common_timeings_layout_margin_top"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_thuLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_label_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
                                 android:text="@string/title_thu"
                                 android:textColor="@color/GK"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btn_thuTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <Button
                                 android:id="@+id/btn_thuPMTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/ll_friLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
+                            android:layout_marginTop="@dimen/ll_grocery_login_common_timeings_layout_margin_top"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_friLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_label_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
                                 android:text="@string/title_fri"
                                 android:textColor="@color/GK"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btn_friTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <Button
                                 android:id="@+id/btn_friPMTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/ll_satLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
+                            android:layout_marginTop="@dimen/ll_grocery_login_common_timeings_layout_margin_top"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_satLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_label_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
                                 android:text="@string/title_sat"
                                 android:textColor="@color/GK"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btn_satTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <Button
                                 android:id="@+id/btn_satPMTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/ll_sunLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:paddingBottom="16dp"
+                            android:layout_marginLeft="@dimen/ll_grocery_login_common_timeings_layout_margin_left"
+                            android:layout_marginRight="@dimen/ll_grocery_login_common_timeings_layout_margin_right"
+                            android:layout_marginTop="@dimen/ll_grocery_login_common_timeings_layout_margin_top"
+                            android:paddingBottom="@dimen/ll_grocery_login_sunLayout_padding_bottom"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_sunLabel"
-                                android:layout_width="90dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_label_w"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|center"
                                 android:gravity="left|center"
                                 android:text="@string/title_sun"
                                 android:textColor="@color/GK"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/font_size_medium"
                                 android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btn_sunTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
@@ -747,30 +747,30 @@
                                 android:textSize="13sp" />
 
                             <TextView
-                                android:layout_width="5dp"
+                                android:layout_width="@dimen/tv_grocery_login_common_timings_divider_w"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="3dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="@dimen/tv_grocery_login_common_timings_divider_margin_left"
+                                android:layout_marginRight="@dimen/tv_grocery_login_common_timings_divider_margin_right"
                                 android:layout_weight="0.0"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
 
                             <Button
                                 android:id="@+id/btn_sunPMTimings"
-                                android:layout_width="0dp"
-                                android:layout_height="36dp"
+                                android:layout_width="@dimen/btn_grocery_login_common_timings_select_w"
+                                android:layout_height="@dimen/btn_grocery_login_common_timings_select_h"
+                                android:layout_marginBottom="@dimen/btn_grocery_login_common_timings_select_margin_bottom"
+                                android:layout_marginTop="@dimen/btn_grocery_login_common_timings_select_margin_top"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
                                 android:layout_weight="1.0"
                                 android:background="@drawable/gray_rounded_button_shape"
                                 android:gravity="center"
                                 android:text="@string/title_service_time_default"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/font_size_medium" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -778,17 +778,15 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="@dimen/iv_grocery_login_shadow_h"
+                android:layout_marginLeft="@dimen/ll_grocery_login_common_item_layout_margin_left"
+                android:layout_marginRight="@dimen/ll_grocery_login_common_item_layout_margin_right"
                 android:background="@drawable/light_shadow" />
 
             <View
                 android:id="@+id/v_bottomSpacing"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_height="@dimen/v_grocery_login_bottomSpacing_h"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
