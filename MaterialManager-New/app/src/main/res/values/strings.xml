@@ -6,6 +6,7 @@
 
     <string name="title_notice_dialog">!!! Notice !!!</string>
     <string name="title_positive_btn_label">Ok</string>
+    <string name="title_positive_go_setting_btn_label">Setting</string>
     <string name="title_negative_btn_label">Cancel</string>
     <string name="title_neutral_btn_import_in_expired">Import in expired</string>
 
@@ -27,6 +28,11 @@
     <string name="ga_app_view_grocery_list_fragment">檢視購物清單列表 - GroceryListFragment</string>
     <string name="ga_app_view_grocery_history_fragment">購物歷史 - GroceryHistoryFragment</string>
     <string name="ga_app_view_reward_cards_fragment">購物優惠卡 - RewardCardsFragment</string>
+
+    <string name="perm_rationale_write_ext_storage">The functionality need a permission for writing data to external storage to permanently keep it. Please give the permission and retry again</string>
+    <string name="perm_rationale_read_ext_storage">The functionality need a permission for reading and applying the related data from external storage. Please give the permission and retry again</string>
+    <string name="perm_rationale_camera">The functionality need a permission for using the camera to scan the input data. Please give the permission and retry again</string>
+    <string name="perm_rationale_location">The functionality need a permission for accessing the location information so that it can find out the stores that close to you and related distance. Please give the permission and retry again</string>
 
     <!-- MainActivity -->
     <string name="app_name">Expired Monitor</string>
@@ -366,7 +372,7 @@
     <string name="title_popup_phone">PHONE</string>
 
     <string name="title_grocery_comment_content">%1$s, Price:%2$s, Quantity:%3$s</string>
-    <string name="msg_if_or_not_import_in_expired">Do you import the item(s) into expired monitor?</string>
+    <string name="msg_if_or_not_import_in_expired">Do you want to import the item(s) into expired monitor?</string>
     <string name="msg_err_store_address">Location can not be show on map</string>
     <string name="msg_err_store_phone">Phone information is incorrect</string>
 

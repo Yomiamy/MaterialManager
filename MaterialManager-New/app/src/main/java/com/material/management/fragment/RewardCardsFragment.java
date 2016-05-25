@@ -1,9 +1,11 @@
 package com.material.management.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Message;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
+import com.material.management.MMActivity;
 import com.material.management.RewardLoginActivity;
 import com.material.management.MMFragment;
 import com.material.management.Observer;
@@ -195,6 +198,11 @@ public class RewardCardsFragment extends MMFragment implements Observer {
     }
 
     private void displayRewardPreviewStatus(int cx, int cy, RewardInfo rewardInfo) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_READ_EXT_STORAGE, getString(R.string.perm_rationale_read_ext_storage), Manifest.permission.READ_EXTERNAL_STORAGE);
+            return;
+        }
+
         int prevVisibility = mRlRewardPreview.getVisibility();
 
         if (prevVisibility == View.GONE) {

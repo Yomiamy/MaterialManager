@@ -1,6 +1,7 @@
 package com.material.management;
 
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -342,6 +343,11 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             break;
 
             case R.id.menu_action_add: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    requestPermissions(PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    return super.onOptionsItemSelected(item);
+                }
+
                 Material material = new Material();
                 String notificationDays = mEtNotificationDays.getText().toString().trim();
 

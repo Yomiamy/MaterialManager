@@ -2,6 +2,7 @@ package com.material.management;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import com.material.management.fragment.MaterialManagerFragment;
 import com.material.management.fragment.MaterialManagerFragment.MaterialSortMode;
 import com.material.management.broadcast.BroadCastEvent;
@@ -20,6 +21,8 @@ import com.material.management.fragment.SettingsFragment;
 import com.material.management.monitor.MonitorService;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
+
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -84,17 +87,14 @@ public class MainActivity extends SlidingActivity {
     }
 
     private void initListener() {
-        mSlideMenu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
-            public void onClosed() {
+        mSlideMenu.setOnClosedListener(() -> {
                 changeFragmentImpl();
-            }
         });
-        mSlideMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
-            @Override
-            public void onOpened() {
+
+        mSlideMenu.setOnOpenedListener(() -> {
                 hideKeyboard(mLayout);
             }
-        });
+        );
     }
 
     private void init() {
@@ -140,12 +140,13 @@ public class MainActivity extends SlidingActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
+
         mResumed = true;
 
         if (mOptionMenu != null && mCurrFragmentClass == null && mMenuAdapter != null) {
             setFragment(mMenuAdapter.getDefaultFragment(), mMenuAdapter.getDefaultTag());
         }
-        super.onResume();
     }
 
     @Override
@@ -274,7 +275,9 @@ public class MainActivity extends SlidingActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        int itemId = item.getItemId();
+
+        switch (itemId) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home: {
                 if (mCurFragment != null && mCurFragment instanceof Observer
@@ -330,6 +333,11 @@ public class MainActivity extends SlidingActivity {
             }
             break;
             case R.id.menu_action_add: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    requestPermissions(PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    return super.onOptionsItemSelected(item);
+                }
+
                 if (mCurFragment != null && mCurFragment instanceof Observer) {
                     if (mCurFragment instanceof LoginMaterialFragment) {
                         ((Observer) mCurFragment).update(LoginMaterialFragment.ACTION_BAR_BTN_ACTION_ADD);
@@ -339,6 +347,14 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             break;
+
+            case R.id.menu_action_new: {
+                if (mCurFragment != null && mCurFragment instanceof Observer && mCurFragment instanceof RewardCardsFragment) {
+                    ((Observer) mCurFragment).update(RewardCardsFragment.ACTION_BAR_BTN_ACTION_NEW);
+                }
+            }
+            break;
+
             case R.id.menu_action_cancel: {
                 if (mCurFragment != null && mCurFragment instanceof Observer
                         && mCurFragment instanceof LoginMaterialFragment) {
@@ -348,12 +364,6 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             break;
-            case R.id.menu_action_new: {
-                if (mCurFragment != null && mCurFragment instanceof Observer
-                        && mCurFragment instanceof RewardCardsFragment) {
-                    ((Observer) mCurFragment).update(RewardCardsFragment.ACTION_BAR_BTN_ACTION_NEW);
-                }
-            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -445,6 +455,11 @@ public class MainActivity extends SlidingActivity {
 
                 startActivity(Intent.createChooser(i, getString(R.string.feedback_subject)));
             } else if (tag.equals(getString(R.string.slidemenu_material_global_search))) {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    requestPermissions(PERM_REQ_READ_EXT_STORAGE, getString(R.string.perm_rationale_read_ext_storage), Manifest.permission.READ_EXTERNAL_STORAGE);
+                    return;
+                }
+
                 Intent intent = new Intent(this, GlobalSearchActivity.class);
 
                 startActivity(intent);
@@ -491,6 +506,15 @@ public class MainActivity extends SlidingActivity {
 
         mCurrFragmentClass = mNewFragmentClass;
         mCurrFragmentTag = mNewFragmentTag;
+
+        if((mCurrFragmentClass == MaterialManagerFragment.class
+                || mCurrFragmentClass == GroceryListFragment.class)
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && !isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            requestPermissions(MMActivity.PERM_REQ_READ_EXT_STORAGE, getString(R.string.perm_rationale_read_ext_storage), Manifest.permission.READ_EXTERNAL_STORAGE);
+            mCurrFragmentClass = mMenuAdapter.getDefaultFragment();
+            mCurrFragmentTag = mMenuAdapter.getDefaultTag();
+        }
 
         mActionBar.setTitle(mMenuAdapter.getCategoryTitle(mCurrFragmentTag) + " - " + mCurrFragmentTag);
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

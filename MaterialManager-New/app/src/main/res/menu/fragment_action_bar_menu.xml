@@ -5,7 +5,7 @@
         android:id="@+id/action_search"
         android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/search_view"
-        android:showAsAction="always"
+        android:showAsAction="always|withText"
         android:title="@string/title_material_search"/>
 
     <!-- for material add or cancel -->

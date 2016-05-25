@@ -3,6 +3,7 @@ package com.material.management;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.karumi.dexter.Dexter;
 import com.material.management.output.NotificationOutput;
 import com.material.management.utils.FabricUtility;
 import com.material.management.utils.LogUtility;
@@ -14,6 +15,7 @@ import android.app.Application;
 import android.content.ComponentCallbacks;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
@@ -50,6 +52,10 @@ public class MaterialManagerApplication extends MultiDexApplication {
     }
 
     private void init() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Dexter.initialize(this);
+        }
+
         FabricUtility.connectFabric(this);
         /* Iinit context for Utility */
         Utility.setApplicationContext(this.getApplicationContext());

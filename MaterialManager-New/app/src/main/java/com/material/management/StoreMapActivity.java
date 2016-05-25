@@ -337,7 +337,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
 
         if(mCurLocation == null) {
             closeProgressDialog();
-            showAlertDialog(null, getString(R.string.store_map_msg_err_location_useless), getString(R.string.title_positive_btn_label), null, null, null);
+            showAlertDialog(null, getString(R.string.store_map_msg_err_location_useless), getString(R.string.title_positive_btn_label), null, null, null, null);
             return;
         }
 
@@ -607,7 +607,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                     mRlOnLoading.setVisibility(View.GONE);
                     mRlEmpty.setVisibility(View.VISIBLE);
 
-                    showAlertDialog(null, getString(R.string.store_map_msg_err_retry), getString(R.string.title_positive_btn_label), null, null, null);
+                    showAlertDialog(null, getString(R.string.store_map_msg_err_retry), getString(R.string.title_positive_btn_label), null, null, null, null);
                 }
             } catch (JSONException e) {
                 LogUtility.printStackTrace(e);
@@ -649,7 +649,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                     setResult(0, resultIntent);
                     finish();
                 } else {
-                    showAlertDialog(null, getString(R.string.store_map_msg_err_retry), getString(R.string.title_positive_btn_label), null, null, null);
+                    showAlertDialog(null, getString(R.string.store_map_msg_err_retry), getString(R.string.title_positive_btn_label), null, null, null, null);
                 }
             } catch (JSONException e) {
                 LogUtility.printStackTrace(e);

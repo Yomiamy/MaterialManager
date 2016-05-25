@@ -1,8 +1,9 @@
 package com.material.management.fragment;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 import com.loopj.android.http.RequestParams;
+import com.material.management.MMActivity;
 import com.material.management.MMFragment;
 import com.material.management.MainActivity;
 import com.material.management.Observer;
@@ -61,7 +63,6 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     private Button mBtnSat, mBtnPMSat;
     private Button mBtnCurTimeSetting;
 
-    private Activity mOwnerActivity = null;
     private TimePickerDialog mTimePickerDialog = null;
     private ArrayAdapter<String> mTextHistAdapter = null;
     private ArrayList<String> mTextHistoryList;
@@ -117,7 +118,6 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     }
 
     private void init() {
-        mOwnerActivity = getActivity();
         CharSequence actionBarTitle = mOwnerActivity.getActionBar().getTitle();
         /* A workaround to avoid the NullPointerException for actionbar title. */
         mTitle = (actionBarTitle != null) ? actionBarTitle.toString() : "";
@@ -194,7 +194,13 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {}
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (buttonView.getId() == R.id.cb_nearby_alert_enable && isChecked && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_ACCESS_FINE_LOCATION, getString(R.string.perm_rationale_location), Manifest.permission.ACCESS_FINE_LOCATION);
+            buttonView.setChecked(false);
+            return;
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -238,6 +244,11 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
             break;
 
             case R.id.iv_store_address: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_ACCESS_FINE_LOCATION, getString(R.string.perm_rationale_location), Manifest.permission.ACCESS_FINE_LOCATION);
+                    return;
+                }
+
                 Intent intent = new Intent(sActivity, StoreMapActivity.class);
 
                 intent.putExtra("title", mTitle);

@@ -1,5 +1,6 @@
 package com.material.management;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
@@ -318,7 +319,11 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        if (buttonView.getId() == R.id.cb_nearby_alert_enable && isChecked && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            requestPermissions(MMActivity.PERM_REQ_ACCESS_FINE_LOCATION, getString(R.string.perm_rationale_location), Manifest.permission.ACCESS_FINE_LOCATION);
+            buttonView.setChecked(false);
+            return;
+        }
     }
 
     @Override
@@ -362,6 +367,11 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
             break;
 
             case R.id.iv_store_address: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    requestPermissions(MMActivity.PERM_REQ_ACCESS_FINE_LOCATION, getString(R.string.perm_rationale_location), Manifest.permission.ACCESS_FINE_LOCATION);
+                    return;
+                }
+
                 Intent intent = new Intent(GroceryListModifyActivity.this, StoreMapActivity.class);
 
                 intent.putExtra("title", mTitle);
@@ -530,7 +540,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
 //                "OVER_QUERY_LIMIT" 表示您超過配額了。
 //                "REQUEST_DENIED" 表示您的要求已遭拒絕，通常是因為缺少 sensor 參數。
 //                "INVALID_REQUEST" 一般表示查詢 (address 或 latlng) 遺失了。
-                    showAlertDialog(null, getString(R.string.grocery_login_err_dialog_msg), getString(R.string.title_positive_btn_label), null, null, null);
+                    showAlertDialog(null, getString(R.string.grocery_login_err_dialog_msg), getString(R.string.title_positive_btn_label), null, null, null, null);
 
                 }
                 closeProgressDialog();

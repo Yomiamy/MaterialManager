@@ -1,14 +1,18 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+
     }
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
@@ -33,6 +37,11 @@ android {
         incremental true
         javaMaxHeapSize "6g"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -51,6 +60,7 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'org.greenrobot:eventbus:+'
     compile 'com.android.support:multidex:1.0.0'
+    compile 'com.karumi:dexter:+'
     compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }

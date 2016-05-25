@@ -1,5 +1,7 @@
 package com.material.management;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,9 +9,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -20,17 +26,28 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 import com.material.management.api.module.ConnectionControl;
 import com.material.management.api.module.ViewCallbackListener;
 import com.material.management.data.DeviceInfo;
 import com.material.management.utils.Utility;
+import com.material.management.utils.permission.MultiPermissionsListener;
 import com.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class MMActivity extends Activity implements ViewCallbackListener, View.OnClickListener {
+    public static final String PERM_REQ_READ_EXT_STORAGE = "PERM_REQ_READ_EXT_STORAGE";
+    public static final String PERM_REQ_WRITE_EXT_STORAGE = "PERM_REQ_WRITE_EXT_STORAGE";
+    public static final String PERM_REQ_CAMERA = "PERM_REQ_CAMERA";
+    public static final String PERM_REQ_ACCESS_FINE_LOCATION = "PERM_REQ_ACCESS_FINE_LOCATION";
+
     protected View mLayout = null;
     protected Dialog mProgressDialog;
     protected Handler mHandler;
@@ -111,23 +128,25 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
 
     public void showAlertDialog(final String title, final String msg,
                                 final String btnPositText, final String btnNegatText,
-                                final DialogInterface.OnClickListener positListener, final DialogInterface.OnClickListener negatListener) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MMActivity.this);
+                                final DialogInterface.OnClickListener positListener, final DialogInterface.OnClickListener negatListener,
+                                final DialogInterface.OnDismissListener dismissListener) {
+        runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MMActivity.this);
 
-                builder.setTitle(title);
-                builder.setMessage(msg);
-                builder.setPositiveButton(btnPositText, positListener);
-                builder.setNegativeButton(btnNegatText, negatListener);
-
-                Dialog dialog = builder.show();
-                /* Use the id inside framework to get the message TextView*/
-                TextView tvMsgText = (TextView) dialog.findViewById(android.R.id.message);
-
-                tvMsgText.setGravity(Gravity.CENTER);
+            builder.setTitle(title);
+            builder.setMessage(msg);
+            builder.setPositiveButton(btnPositText, positListener);
+            builder.setNegativeButton(btnNegatText, negatListener);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                builder.setOnDismissListener(dismissListener);
             }
+
+            Dialog dialog = builder.show();
+                /* Use the id inside framework to get the message TextView*/
+            TextView tvMsgText = (TextView) dialog.findViewById(android.R.id.message);
+
+            tvMsgText.setGravity(Gravity.CENTER);
+
         });
     }
 
@@ -196,5 +215,77 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
 
             targetView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mOrigFontSizeMap.get(view.getId()) * adjustFontFactor);
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    protected void startPermsSetting() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+
+        intent.setData(uri);
+        startActivityForResult(intent, 0);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean isPermissionGranted(String perm) {
+        return checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void requestPermissions(String tag, String permissionRationalMsg, String... permissions) {
+        MultiPermissionsListener multiPermsListener = new MultiPermissionsListener(this, permissionRationalMsg, tag);
+
+        if (Dexter.isRequestOngoing()) {
+            return;
+        }
+        Dexter.checkPermissions(multiPermsListener, permissions);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void showPermissionGranted(String permission, String tag) {
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void showPermissionDenied(String permission, boolean isPermanentlyDenied, String tag) {
+        if(isPermanentlyDenied) {
+            String permRationale = "";
+
+            if(tag.equals(PERM_REQ_WRITE_EXT_STORAGE)) {
+                permRationale = getString(R.string.perm_rationale_write_ext_storage);
+            } else if(tag.equals(PERM_REQ_READ_EXT_STORAGE)) {
+                permRationale = getString(R.string.perm_rationale_read_ext_storage);
+            } else if(tag.equals(PERM_REQ_CAMERA)) {
+                permRationale = getString(R.string.perm_rationale_camera);
+            } else if(tag.equals(PERM_REQ_ACCESS_FINE_LOCATION)) {
+                permRationale = getString(R.string.perm_rationale_location);
+            }
+
+            showAlertDialog(null
+                    , permRationale
+                    , getString(R.string.title_positive_go_setting_btn_label)
+                    , getString(R.string.title_negative_btn_label)
+                    , (dialog, which) -> {
+                        dialog.dismiss();
+                        startPermsSetting();
+                    }
+                    , null
+                    , null);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void showPermissionRationale(final PermissionToken token, final String permRationale) {
+        showAlertDialog(null, permRationale
+                , getString(R.string.title_positive_btn_label)
+                , getString(R.string.title_negative_btn_label)
+                , (dialog, which) -> {
+                    dialog.dismiss();
+                    token.continuePermissionRequest();
+                }, (dialog, which) -> {
+                    dialog.dismiss();
+                    token.cancelPermissionRequest();
+                }, (dialog) -> {
+                    token.cancelPermissionRequest();
+                });
     }
 }

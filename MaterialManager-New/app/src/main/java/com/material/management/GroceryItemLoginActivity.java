@@ -1,5 +1,6 @@
 package com.material.management;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -389,6 +390,11 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             break;
 
             case R.id.menu_action_add: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    requestPermissions(PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    return super.onOptionsItemSelected(item);
+                }
+
                 if(mGroceryListId < 0) {
                     showToast(getString(R.string.data_save_fail));
                 }
@@ -482,6 +488,11 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
         switch (id) {
             case R.id.iv_add_photo: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    requestPermissions(MMActivity.PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    return;
+                }
+
                 mSelectPhotoDialog = new SelectPhotoDialog(this, getString(R.string.title_select_photo), new String[] {
                         getString(R.string.title_select_photo_from_album),
                         getString(R.string.title_select_photo_from_camera) }, this);
@@ -491,6 +502,11 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             break;
 
             case R.id.tv_material_barcode: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
+                    requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
+                    return;
+                }
+
                 IntentIntegrator integrator = new IntentIntegrator(this);
 
                 integrator.initiateScan();

@@ -11,6 +11,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.material.management.MMActivity;
 import com.material.management.MMFragment;
 import com.material.management.MaterialManagerApplication;
 import com.material.management.Observer;
@@ -26,6 +27,7 @@ import com.material.management.utils.FileUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -38,6 +40,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -542,11 +545,21 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             break;
 
             case R.id.tv_material_barcode: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
+                    mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
+                    return;
+                }
+
                 IntentIntegrator integrator = new IntentIntegrator(LoginMaterialFragment.this);
                 integrator.initiateScan();
             }
             break;
             case R.id.iv_add_photo: {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    return;
+                }
+
                 mSelectPhotoDialog = new SelectPhotoDialog(mOwnerActivity, getString(R.string.title_select_photo), new String[]{
                         getString(R.string.title_select_photo_from_album),
                         getString(R.string.title_select_photo_from_camera)}, this);

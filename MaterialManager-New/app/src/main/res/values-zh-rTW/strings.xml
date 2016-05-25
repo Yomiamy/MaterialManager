@@ -4,6 +4,7 @@
     <!--Common-->
     <string name="title_notice_dialog">!!! 注意 !!!</string>
     <string name="title_positive_btn_label">確定</string>
+    <string name="title_positive_go_setting_btn_label">設定</string>
     <string name="title_negative_btn_label">取消</string>
     <string name="title_neutral_btn_import_in_expired">納入過期管理</string>
 
@@ -17,6 +18,11 @@
     <string name="data_progressing">資料處理中...</string>
     <string name="data_save_success">資料儲存成功</string>
     <string name="data_save_fail">資料儲存失敗</string>
+
+    <string name="perm_rationale_write_ext_storage">此功能需要寫資料到外部儲存空間的權限以便維持資料永久性，請授與權限並再使用此功能</string>
+    <string name="perm_rationale_read_ext_storage">此功能需要從外部儲存空間讀取資料的權限以便套用資料至頁面上，請授與權限並再使用此功能</string>
+    <string name="perm_rationale_camera">此功能需要具有相機權限以便掃描相關資料，請授與權限並再使用此功能</string>
+    <string name="perm_rationale_location">此功能需要具有存取地理位置權限以便搜尋附近環境資料或識別地點相鄰性，請授與權限並再使用此功能</string>
 
     <!-- MainActivity -->
     <string name="app_name">過期物品管家</string>

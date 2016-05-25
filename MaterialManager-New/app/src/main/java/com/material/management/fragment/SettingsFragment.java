@@ -1,11 +1,13 @@
 package com.material.management.fragment;
 
+import android.Manifest;
 import android.accounts.AccountManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -29,6 +31,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
 import com.material.management.IStatusUpdate;
+import com.material.management.MMActivity;
 import com.material.management.MMFragment;
 import com.material.management.Observer;
 import com.material.management.R;
@@ -341,6 +344,11 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
             }
         } else if (id == R.id.iv_dropbox_enable || id == R.id.iv_googledriver_enable) {
             try {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    return;
+                }
 
                 /* TODO: Need to refactor the button status for duplicate codes. */
                 if (id == R.id.iv_dropbox_enable) {
