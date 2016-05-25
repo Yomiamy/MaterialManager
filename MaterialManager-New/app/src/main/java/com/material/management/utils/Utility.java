@@ -11,6 +11,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -28,7 +29,10 @@ import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.material.management.BuildConfig;
@@ -194,6 +198,46 @@ public class Utility {
 
     public static void showToast(String msg) {
         Toast.makeText(sApplicationContext, msg, Toast.LENGTH_LONG).show();
+    }
+
+    public static void changeHomeAsUp(Activity activity, int resId) {
+        ImageView res = null;
+        View decorView = activity.getWindow().getDecorView();
+
+        if (Build.VERSION.SDK_INT < 21) {
+            int upId = Resources.getSystem().getIdentifier("up", "id", "android");
+            if (upId > 0) {
+                res = (ImageView) decorView.findViewById(upId);
+
+                res.setImageResource(resId);
+            } else {
+
+                if (android.os.Build.VERSION.SDK_INT <= 10) {
+                    ViewGroup acbOverlay = (ViewGroup) ((ViewGroup) decorView).getChildAt(0);
+                    ViewGroup abcFrame = (ViewGroup) acbOverlay.getChildAt(0);
+                    ViewGroup actionBar = (ViewGroup) abcFrame.getChildAt(0);
+                    ViewGroup abLL = (ViewGroup) actionBar.getChildAt(0);
+                    ViewGroup abLL2 = (ViewGroup) abLL.getChildAt(1);
+                    res = (ImageView) abLL2.getChildAt(0);
+                } else if (android.os.Build.VERSION.SDK_INT > 10 && android.os.Build.VERSION.SDK_INT < 16) {
+                    ViewGroup acbOverlay = (ViewGroup) ((ViewGroup) decorView).getChildAt(0);
+                    ViewGroup abcFrame = (ViewGroup) acbOverlay.getChildAt(0);
+                    ViewGroup actionBar = (ViewGroup) abcFrame.getChildAt(0);
+                    ViewGroup abLL = (ViewGroup) actionBar.getChildAt(1);
+                    res = (ImageView) abLL.getChildAt(0);
+                } else {
+                    ViewGroup acbOverlay = (ViewGroup) ((ViewGroup) decorView).getChildAt(0);
+                    ViewGroup abcFrame = (ViewGroup) acbOverlay.getChildAt(1);
+                    ViewGroup actionBar = (ViewGroup) abcFrame.getChildAt(0);
+                    ViewGroup abLL = (ViewGroup) actionBar.getChildAt(0);
+                    ViewGroup abF = (ViewGroup) abLL.getChildAt(0);
+                    res = (ImageView) abF.getChildAt(0);
+                }
+                res.setImageResource(resId);
+            }
+        } else {
+            activity.getActionBar().setHomeAsUpIndicator(resId);
+        }
     }
 
     public static DeviceInfo getDeviceInfo() {

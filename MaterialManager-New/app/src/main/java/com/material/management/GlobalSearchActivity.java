@@ -96,6 +96,7 @@ public class GlobalSearchActivity extends MMActivity {
     private void init() {
         ActionBar actionBar = getActionBar();
 
+        Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         actionBar.setTitle(getString(R.string.app_name));
         actionBar.setDisplayHomeAsUpEnabled(true);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {

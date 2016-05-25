@@ -138,6 +138,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         mCornerListBitmap = initPinBitmap(R.drawable.dashboard_button_map_white, 284, 378, 1080, 1920);
         mCornerMapBitmap = initPinBitmap(R.drawable.dashboard_button_map, 284, 378, 1080, 1920);
 
+        Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(title);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {

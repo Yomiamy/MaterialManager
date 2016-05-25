@@ -392,46 +392,8 @@ public class MainActivity extends SlidingActivity {
     }
 
     public void changeHomeAsUpIcon(int resId) {
-        ImageView res = null;
-        View decorView = getWindow().getDecorView();
         mCurHomeUpIconResId = resId;
-
-
-        if (Build.VERSION.SDK_INT < 21) {
-            int upId = Resources.getSystem().getIdentifier("up", "id", "android");
-            if (upId > 0) {
-                res = (ImageView) decorView.findViewById(upId);
-
-                res.setImageResource(resId);
-            } else {
-
-                if (android.os.Build.VERSION.SDK_INT <= 10) {
-                    ViewGroup acbOverlay = (ViewGroup) ((ViewGroup) decorView).getChildAt(0);
-                    ViewGroup abcFrame = (ViewGroup) acbOverlay.getChildAt(0);
-                    ViewGroup actionBar = (ViewGroup) abcFrame.getChildAt(0);
-                    ViewGroup abLL = (ViewGroup) actionBar.getChildAt(0);
-                    ViewGroup abLL2 = (ViewGroup) abLL.getChildAt(1);
-                    res = (ImageView) abLL2.getChildAt(0);
-                } else if (android.os.Build.VERSION.SDK_INT > 10 && android.os.Build.VERSION.SDK_INT < 16) {
-                    ViewGroup acbOverlay = (ViewGroup) ((ViewGroup) decorView).getChildAt(0);
-                    ViewGroup abcFrame = (ViewGroup) acbOverlay.getChildAt(0);
-                    ViewGroup actionBar = (ViewGroup) abcFrame.getChildAt(0);
-                    ViewGroup abLL = (ViewGroup) actionBar.getChildAt(1);
-                    res = (ImageView) abLL.getChildAt(0);
-                } else {
-                    ViewGroup acbOverlay = (ViewGroup) ((ViewGroup) decorView).getChildAt(0);
-                    ViewGroup abcFrame = (ViewGroup) acbOverlay.getChildAt(1);
-                    ViewGroup actionBar = (ViewGroup) abcFrame.getChildAt(0);
-                    ViewGroup abLL = (ViewGroup) actionBar.getChildAt(0);
-                    ViewGroup abF = (ViewGroup) abLL.getChildAt(0);
-                    res = (ImageView) abF.getChildAt(0);
-                }
-                res.setImageResource(resId);
-            }
-        } else {
-            mActionBar.setHomeAsUpIndicator(resId);
-        }
-
+        Utility.changeHomeAsUp(this, resId);
     }
 
     public void setFragment(Class<? extends Fragment> fragmentClass, String tag) {

@@ -137,7 +137,7 @@ public class GroceryListModifyActivity extends MMActivity implements TimePickerD
             mSelectedStoreData.setStoreServiceTime(mGroceryListData.getServiceTime());
         }
 
-
+        Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         actionBar.setTitle(mTitle);
         actionBar.setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {

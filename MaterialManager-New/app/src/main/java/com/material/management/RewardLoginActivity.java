@@ -110,6 +110,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         mOptions.inPurgeable = true;
         mOptions.inInputShareable = true;
 
+        Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         actionBar.setTitle(intent.getStringExtra("title"));
         actionBar.setDisplayHomeAsUpEnabled(true);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {

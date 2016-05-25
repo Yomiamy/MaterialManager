@@ -158,6 +158,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
+        Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
         }
