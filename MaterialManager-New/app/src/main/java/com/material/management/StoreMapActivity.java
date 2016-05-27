@@ -40,6 +40,7 @@ import com.loopj.android.http.RequestParams;
 import com.material.management.api.module.ConnectionControl;
 import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.data.StoreData;
+import com.material.management.service.location.LocationUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Callback;
@@ -304,7 +305,14 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BroadCastEvent event) {
         if(event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_LOC_UPDATE) {
-            doSearch(mCurSearchWord, (Location) event.getData());
+            Location loc = (Location) event.getData();
+
+            if(loc != null) {
+                doSearch(mCurSearchWord, loc);
+            } else {
+                closeProgressDialog();
+                showAlertDialog(null, getString(R.string.store_map_msg_err_location_useless), getString(R.string.title_positive_btn_label), null, null, null, null);
+            }
         }
     }
 
@@ -334,7 +342,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         }
         /* When press search, update current position again. */
         mRlOnLoading.setVisibility(View.VISIBLE);
-        mCurLocation = (loc == null) ? Utility.getLocation() : loc;
+        mCurLocation = (loc == null) ? LocationUtility.getsInstance().getLocation() : loc;
 
         if(mCurLocation == null) {
             closeProgressDialog();

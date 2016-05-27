@@ -279,10 +279,6 @@ public class Utility {
         return true;
     }
 
-    public static Location getLocation() {
-        return sLocUtility.getLocation();
-    }
-
     public static boolean isLocationEnabled() {
         return sLocUtility.isLocationEnabled();
     }

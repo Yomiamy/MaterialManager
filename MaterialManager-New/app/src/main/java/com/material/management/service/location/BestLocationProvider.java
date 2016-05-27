@@ -1,11 +1,15 @@
 package com.material.management.service.location;
 
 import java.util.Date;
+
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import com.material.management.utils.LogUtility;
 
@@ -53,6 +57,11 @@ public class BestLocationProvider {
 	}
 
 	public void startLocationUpdatesWithListener(BestLocationListener listener){
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && mContext.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+			listener.onLocationUpdate(null, null, false);
+			return;
+		}
+
 		this.mListener = listener;
 		Location lastKnownLocationCell = null;
 		Location lastKnownLocationGPS = null;
@@ -90,7 +99,10 @@ public class BestLocationProvider {
 	}
 
 	public void stopLocationUpdates(){
-		mLocMgr.removeUpdates(mLocationListener);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+				|| (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && mContext.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+			mLocMgr.removeUpdates(mLocationListener);
+		}
 
 		//remove timeout threads
 		if(mGPSTimeout != null){

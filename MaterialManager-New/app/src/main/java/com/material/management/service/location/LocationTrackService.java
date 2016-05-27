@@ -1,8 +1,10 @@
 package com.material.management.service.location;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,11 +12,13 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 
+import com.material.management.R;
 import com.material.management.monitor.GroceryNearbyMonitorRunnable;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
@@ -60,7 +64,7 @@ public class LocationTrackService extends Service implements SensorEventListener
 
         mLocationManager = (mLocationManager == null) ? (LocationManager) getSystemService(Context.LOCATION_SERVICE) : mLocationManager;
         /* Default we track the location */
-        mIsTrackOn = intent.getBooleanExtra("is_location_track_on", true);
+        mIsTrackOn = (intent != null) ? intent.getBooleanExtra("is_location_track_on", true) : true;
 
         if (!mIsTrackOn) {
             stopSelf();
@@ -71,7 +75,7 @@ public class LocationTrackService extends Service implements SensorEventListener
         stopGPS();
         startAccelerometer();
 
-        return START_REDELIVER_INTENT;
+        return START_STICKY;
     }
 
     @Override
@@ -150,14 +154,17 @@ public class LocationTrackService extends Service implements SensorEventListener
         int iProviders = 0;
         mCurBestLocation = null;
 
-        // Make sure at least one provider is available
-        if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
-            iProviders++;
-        }
-        if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0, this);
-            iProviders++;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            // Make sure at least one provider is available
+            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
+                iProviders++;
+            }
+            if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0, this);
+                iProviders++;
+            }
         }
 
         if (iProviders == 0) {
@@ -197,6 +204,11 @@ public class LocationTrackService extends Service implements SensorEventListener
 
     public void stopGPS() {
         mHandler.removeCallbacks(mReasonTimeoutRunnable);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            return;
+        }
+
         mLocationManager.removeUpdates(this);
     }
 
@@ -222,6 +234,11 @@ public class LocationTrackService extends Service implements SensorEventListener
             // Not currently interested
             return;
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            return;
+        }
+
         // If it's a provider we care about, and we're listening, listen!
         if (provider == LocationManager.GPS_PROVIDER || provider == LocationManager.NETWORK_PROVIDER) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
@@ -234,6 +251,12 @@ public class LocationTrackService extends Service implements SensorEventListener
             // Not currently interested
             return;
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            return;
+        }
+
+
         // If it's a provider we care about, and we're listening, listen!
         if (provider == LocationManager.GPS_PROVIDER && mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0, this);

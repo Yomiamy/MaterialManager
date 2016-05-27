@@ -41,14 +41,18 @@ public class GroceryNearbyMonitorRunnable implements Runnable {
         ArrayList<GroceryListData> groceryListDatas = DBUtility.selectGroceryListInfos();
         Location curLoc = LocationUtility.getsInstance().getLocation();
 
+        if(curLoc == null) {
+            return;
+        }
+
         for (GroceryListData groceryListData : groceryListDatas) {
             String storeName = groceryListData.getStoreName();
             String lat = groceryListData.getLat();
             String lng = groceryListData.getLong();
-            boolean isNeedCheckNearby = (groceryListData.getIsAlertWhenNearBy() == 1) ? true : false;
+            boolean isNeedCheckNearby = (groceryListData.getIsAlertWhenNearBy() == 1);
 
             if(!isNeedCheckNearby || lat == null || lng == null || !Utility.isValidNumber(Double.class, lat) || !Utility.isValidNumber(Double.class, lng)) {
-                return;
+                continue;
             }
 
             double dist = Utility.getDist(curLoc.getLatitude(), curLoc.getLongitude(), Double.parseDouble(groceryListData.getLat()), Double.parseDouble(groceryListData.getLong()));
