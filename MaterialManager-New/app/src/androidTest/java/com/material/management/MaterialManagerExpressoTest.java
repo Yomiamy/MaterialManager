@@ -2,6 +2,7 @@ package com.material.management;
 
 import android.os.SystemClock;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -21,6 +22,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
@@ -37,7 +40,7 @@ import static org.hamcrest.Matchers.endsWith;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MaterialManagerExpressoTest {
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
+    public IntentsTestRule<MainActivity> mActivityRule = new IntentsTestRule<>(
             MainActivity.class);
 
     @Test
@@ -70,5 +73,10 @@ public class MaterialManagerExpressoTest {
 
         })).inAdapterView(withId(R.id.gv_material_grid)).atPosition(0).check(matches(isDisplayed()));
         SystemClock.sleep(2000);
+    }
+
+    @Test
+    public void triggleTest3IntentTest() {
+        intended(toPackage("com.android.contacts"));
     }
 }
