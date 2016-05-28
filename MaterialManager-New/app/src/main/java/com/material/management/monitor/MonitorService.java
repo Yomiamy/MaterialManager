@@ -34,6 +34,7 @@ public class MonitorService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         /* Default  is to triggler the all functionality include notification, location tracking.*/
+        LogUtility.printLogD("randy", "intent = " + intent);
         int monitorTypeIndex = intent.getIntExtra("monitor_type", MonitorType.MONITOR_TYPE_ALL.value());
         String action = intent.getAction();
 
