@@ -512,6 +512,11 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                             Intent.createChooser(albumIntent, getString(R.string.title_image_chooser_title)),
                             REQ_SELECT_PICTURE);
                 } else if (which == 1) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
+                        mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
+                        return;
+                    }
+
                     /* from camera */
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
