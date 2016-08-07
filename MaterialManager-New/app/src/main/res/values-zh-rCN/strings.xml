@@ -113,6 +113,8 @@
     <string name="title_progress_adjust_drive_space_successfully">调整GoogleDrive空间...\n(%1$s/100)</string>
     <string name="title_progress_notif_backup_restore_successfully">[备份/回复]数据库成功</string>
     <string name="title_progress_notif_backup_restore_fail">[备份/回复]数据库失败</string>
+    <string name="title_progress_waiting_connect">云端服务连接中，请稍候...</string>
+
     <string name="title_notif_silent_mode">无提醒</string>
     <string name="title_grocery_list_modify_actionbar_title">购物管理 - 列表数据修改</string>
     <string name="title_grocery_item_login_actionbar_title">购物管理 - 输入购买物品</string>

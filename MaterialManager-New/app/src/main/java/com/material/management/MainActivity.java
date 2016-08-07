@@ -82,18 +82,18 @@ public class MainActivity extends SlidingActivity {
 
     private void initView() {
         mSlideMenu = getSlidingMenu();
-        View slideMenuLayout =  mInflater.inflate(R.layout.sliding_menu, null);
+        View slideMenuLayout = mInflater.inflate(R.layout.sliding_menu, null);
         mLvSlideMenu = (ListView) slideMenuLayout.findViewById(R.id.lv_slide_menu_list);
     }
 
     private void initListener() {
         mSlideMenu.setOnClosedListener(() -> {
-                changeFragmentImpl();
+            changeFragmentImpl();
         });
 
         mSlideMenu.setOnOpenedListener(() -> {
-                hideKeyboard(mLayout);
-            }
+                    hideKeyboard(mLayout);
+                }
         );
     }
 
@@ -186,11 +186,16 @@ public class MainActivity extends SlidingActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case SettingsFragment.REQUEST_CODE_RESOLVE_CONNECTION:
-                if (resultCode == RESULT_OK) {
-                    BroadCastEvent broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST, null);
+                BroadCastEvent broadCastEvent = null;
 
-                    EventBus.getDefault().post(broadCastEvent);
+                if (resultCode == RESULT_OK) {
+                    broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST, null);
+                } else {
+                    broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CANCEL_CONNECTION_REQUEST, null);
                 }
+
+                EventBus.getDefault().post(broadCastEvent);
+
                 break;
         }
     }
@@ -237,7 +242,7 @@ public class MainActivity extends SlidingActivity {
                     item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(2);
 
                     setIntent(null);
-                } else if(bundleType == BundleType.BUNDLE_TYPE_GROCERY_LIST_NOTIFICATION.value()) {
+                } else if (bundleType == BundleType.BUNDLE_TYPE_GROCERY_LIST_NOTIFICATION.value()) {
                     item = (MenuAdapter.MenuItem) mMenuAdapter.getItem(5);
 
                     setIntent(null);
@@ -333,7 +338,7 @@ public class MainActivity extends SlidingActivity {
             }
             break;
             case R.id.menu_action_add: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     requestPermissions(PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     return super.onOptionsItemSelected(item);
                 }
@@ -380,7 +385,7 @@ public class MainActivity extends SlidingActivity {
     /* For updating the sliding menu text. */
     public void updateLayoutConfig() {
         /* To avoid the trim memory issue. */
-        if(mOrigFontSizeMap != null) {
+        if (mOrigFontSizeMap != null) {
             mOrigFontSizeMap.clear();
         } else {
             mOrigFontSizeMap = new HashMap<>();
@@ -417,7 +422,7 @@ public class MainActivity extends SlidingActivity {
 
                 startActivity(Intent.createChooser(i, getString(R.string.feedback_subject)));
             } else if (tag.equals(getString(R.string.slidemenu_material_global_search))) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     requestPermissions(PERM_REQ_READ_EXT_STORAGE, getString(R.string.perm_rationale_read_ext_storage), Manifest.permission.READ_EXTERNAL_STORAGE);
                     return;
                 }
@@ -427,7 +432,7 @@ public class MainActivity extends SlidingActivity {
                 startActivity(intent);
             }
 
-            if(mSlideMenu.isMenuShowing()) {
+            if (mSlideMenu.isMenuShowing()) {
                 mSlideMenu.toggle(true);
             }
 
@@ -469,7 +474,7 @@ public class MainActivity extends SlidingActivity {
         mCurrFragmentClass = mNewFragmentClass;
         mCurrFragmentTag = mNewFragmentTag;
 
-        if((mCurrFragmentClass == MaterialManagerFragment.class
+        if ((mCurrFragmentClass == MaterialManagerFragment.class
                 || mCurrFragmentClass == GroceryListFragment.class)
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && !isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -611,7 +616,7 @@ public class MainActivity extends SlidingActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if(TextUtils.isEmpty(item.name)) {
+            if (TextUtils.isEmpty(item.name)) {
                 /* Add a bottom space view for enabling the scrolling of listview*/
                 convertView.setVisibility(View.INVISIBLE);
             } else {

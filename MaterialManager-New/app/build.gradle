@@ -22,7 +22,7 @@ android {
         applicationId "com.material.management"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 60
+        versionCode 61
         versionName "2.6.4"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

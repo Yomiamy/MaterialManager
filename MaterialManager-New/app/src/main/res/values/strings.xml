@@ -156,6 +156,7 @@
 
     <string name="title_progress_notif_backup_restore_successfully">Backup/Restore is successful</string>
     <string name="title_progress_notif_backup_restore_fail">Backup/Restore is failed</string>
+    <string name="title_progress_waiting_connect">Cloud service is connecting, please wait a moment...</string>
     <string name="title_notif_silent_mode">silent</string>
 
     <!--Grocery Login Activity-->

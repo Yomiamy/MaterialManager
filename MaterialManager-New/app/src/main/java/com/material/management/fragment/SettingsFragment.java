@@ -98,25 +98,25 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
         @Override
         public void finishBackupOrRestore(final String msg) throws RemoteException {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                        mGoogleApiClient.clearDefaultAccountAndReconnect();
-                        mGoogleApiClient.disconnect();
-                        mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
-                    }
+            mHandler.post(() -> {
+                if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                    mGoogleApiClient.clearDefaultAccountAndReconnect();
+                    mGoogleApiClient.disconnect();
+                    mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
+                }
 
-                    try {
-                        if (mDropboxService != null && mDropboxService.isLinked()) {
-                            mDropboxService.disConnect();
-                            mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
-                        }
-                    } catch (RemoteException e) {
-                        LogUtility.printStackTrace(e);
+                try {
+                    if (mDropboxService != null && mDropboxService.isLinked()) {
+                        mDropboxService.disConnect();
+                        mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                     }
+                } catch (RemoteException e) {
+                    LogUtility.printStackTrace(e);
+                }
 
-                    showToast(msg);
+                showToast(msg);
+                if (mProgressDialog != null) {
+                    // TODO: Add a workaround to avoid the NullPointerException
                     mProgressDialog.setShowState(false);
                     mProgressDialog.dismiss();
                     mProgressDialog = null;
@@ -383,6 +383,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                             mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                         }
 
+                        showProgressDialog(null, mResources.getString(R.string.title_progress_waiting_connect));
+
                         startActivityForResult(AccountPicker.newChooseAccountIntent(
                                 null, null, new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, true, getString(R.string.title_account_pick_description), null, null, null), REQUEST_CODE_ACCPICK);
                     }
@@ -414,10 +416,16 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     }
 
+    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BroadCastEvent event) {
-        if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST) {
-            mGoogleApiClient.connect();
+        if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST
+                || event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CANCEL_CONNECTION_REQUEST) {
+            if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CANCEL_CONNECTION_REQUEST) {
+                closeProgressDialog();
+            } else {
+                mGoogleApiClient.connect();
+            }
         } else if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_BACKUP_RESTORE_PROGRESS_UPDATE) {
             try {
                 BackupRestoreInfo bri = (BackupRestoreInfo) event.getData();
@@ -457,8 +465,9 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                             .build();
 
                     mGoogleApiClient.connect();
+                } else {
+                    closeProgressDialog();
                 }
-
             }
             break;
         }
@@ -466,20 +475,21 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     @Override
     public void onConnected(Bundle bundle) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_selected);
-            }
+        LogUtility.printLogD("randy", "onConnected");
+        mHandler.post(() -> {
+            closeProgressDialog();
+            mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_selected);
         });
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        LogUtility.printLogD("randy", "onConnectionSuspended");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+        LogUtility.printLogD("randy", "onConnectionFailed");
         if (connectionResult.hasResolution()) {
             try {
                 connectionResult.startResolutionForResult(mOwnerActivity, REQUEST_CODE_RESOLVE_CONNECTION);
