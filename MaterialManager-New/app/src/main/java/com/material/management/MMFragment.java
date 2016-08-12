@@ -166,6 +166,10 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
 
     @Override
     public void onClick(View v) {
+        hideSoftInput();
+    }
+
+    protected void hideSoftInput() {
         mImm.hideSoftInputFromWindow(getView().getApplicationWindowToken(), 0);
     }
 

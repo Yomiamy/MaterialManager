@@ -2,8 +2,10 @@ package com.material.management.fragment;
 
 import android.Manifest;
 import android.accounts.AccountManager;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
@@ -37,6 +39,7 @@ import com.material.management.Observer;
 import com.material.management.R;
 import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.data.BackupRestoreInfo;
+import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.LightProgressDialog;
 import com.material.management.monitor.MonitorService;
 import com.material.management.service.DropboxCloudService;
@@ -49,7 +52,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener, DialogInterface.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final int CLOUD_SERVICE_TYPE_DROPBOX = 0;
     private static final int CLOUD_SERVICE_TYPE_GOOGLE_DRIVER = 1;
 
@@ -59,6 +62,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private View mLayout;
     private TextView mTvDbRestore;
     private TextView mTvDbBackup;
+    private TextView mTvEnterCurrencySymbol;
     private RadioGroup mRgNotifVibrateOrSound;
     private Spinner mSpinNotifFrequency;
     private Spinner mSpinFontSizeChange;
@@ -71,12 +75,10 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private IBackupRestore mDropboxService;
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
-            // Log.d(MaterialManagerApplication.TAG, "onServiceConnected");
             mDropboxService = IBackupRestore.Stub.asInterface((IBinder) service);
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            // Log.d(MaterialManagerApplication.TAG, "onServiceDisconnected");
             mDropboxService = null;
         }
     };
@@ -85,13 +87,9 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         @Override
         public void updateProgress(final String msg, final int progress) throws RemoteException {
             if (mProgressDialog != null) {
-                mHandler.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        mProgressDialog.setMessage(msg);
-                        mProgressDialog.setProgress(progress);
-                    }
+                mHandler.post(() -> {
+                    mProgressDialog.setMessage(msg);
+                    mProgressDialog.setProgress(progress);
                 });
             }
         }
@@ -125,6 +123,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         }
     };
     private GoogleApiClient mGoogleApiClient;
+    private InputDialog mInputDialog;
     private String[] mFontSizeScaleTitles;
     private String[] mFontSizeScaleLeves;
     private int mIsNotifVibrateOrSound;
@@ -171,6 +170,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     @Override
     public void onPause() {
         super.onPause();
+        if (mInputDialog != null && mInputDialog.isDialogShowing())
+            mInputDialog.setShowState(false);
     }
 
     @Override
@@ -204,6 +205,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mIvGoogleDriveEnableStatus = (ImageView) mLayout.findViewById(R.id.iv_googledriver_enable_status);
         mTvDbBackup = (TextView) mLayout.findViewById(R.id.tv_database_backup);
         mTvDbRestore = (TextView) mLayout.findViewById(R.id.tv_database_restore);
+        mTvEnterCurrencySymbol = (TextView) mLayout.findViewById(R.id.tv_enter_currency_symbol);
         /* default is vibrate */
         mIsNotifVibrateOrSound = Utility.getIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND);
         /* default frequency is 1 hour */
@@ -240,10 +242,13 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mIvBtnGoogleDrive.setOnClickListener(this);
         mTvDbBackup.setOnClickListener(this);
         mTvDbRestore.setOnClickListener(this);
+        mTvEnterCurrencySymbol.setOnClickListener(this);
     }
 
     private void init() {
         mCurReqCloudService = CLOUD_SERVICE_TYPE_DROPBOX;
+
+        mTvEnterCurrencySymbol.setText(Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL));
         EventBus.getDefault().register(this);
         mOwnerActivity.bindService(new Intent(mOwnerActivity, DropboxCloudService.class), mConnection, Context.BIND_AUTO_CREATE);
     }
@@ -308,6 +313,25 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        if(which < 0) {
+            if(Dialog.BUTTON_POSITIVE == which) {
+                if (mInputDialog != null && mInputDialog.isDialogShowing()) {
+                    String newSymbol = mInputDialog.getInputString();
+
+                    mTvEnterCurrencySymbol.setText(newSymbol);
+                    Utility.setStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL, newSymbol);
+                }
+            } else if(Dialog.BUTTON_NEGATIVE == which) {}
+        }
+
+        hideSoftInput();
+        mInputDialog.setShowState(false);
+
+        mInputDialog = null;
     }
 
     public void onClick(View view) {
@@ -394,6 +418,14 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                 mIvDropboxEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
                 mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_unselected);
             }
+        } else if (id == R.id.tv_enter_currency_symbol) {
+            mInputDialog = new InputDialog(mOwnerActivity
+                    , mResources.getString(R.string.title_change_currency_dialog_title)
+                    , mResources.getString(R.string.title_change_currency_dialog_body)
+                    , mTvEnterCurrencySymbol.getText().toString()
+                    , this);
+
+            mInputDialog.show();
         }
     }
 
@@ -419,21 +451,23 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BroadCastEvent event) {
-        if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST
-                || event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CANCEL_CONNECTION_REQUEST) {
-            if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CANCEL_CONNECTION_REQUEST) {
+        int type = event.getEventType();
+
+        if (type == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CONNECTION_REQUEST
+                || type == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CANCEL_CONNECTION_REQUEST) {
+            if (type == BroadCastEvent.BROADCAST_EVENT_TYPE_RESOLVE_CANCEL_CONNECTION_REQUEST) {
                 closeProgressDialog();
             } else {
                 mGoogleApiClient.connect();
             }
-        } else if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_BACKUP_RESTORE_PROGRESS_UPDATE) {
+        } else if (type == BroadCastEvent.BROADCAST_EVENT_TYPE_BACKUP_RESTORE_PROGRESS_UPDATE) {
             try {
                 BackupRestoreInfo bri = (BackupRestoreInfo) event.getData();
                 mStatusUpdate.updateProgress(bri.getMsg(), bri.getProgress());
             } catch (RemoteException e) {
                 LogUtility.printStackTrace(e);
             }
-        } else if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_BACKUP_RESTORE_FINISHED) {
+        } else if (type == BroadCastEvent.BROADCAST_EVENT_TYPE_BACKUP_RESTORE_FINISHED) {
             try {
                 String finishMsg = (String) event.getData();
 
@@ -475,7 +509,6 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     @Override
     public void onConnected(Bundle bundle) {
-        LogUtility.printLogD("randy", "onConnected");
         mHandler.post(() -> {
             closeProgressDialog();
             mIvGoogleDriveEnableStatus.setImageResource(R.drawable.ic_cloud_service_selected);
@@ -484,12 +517,10 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
 
     @Override
     public void onConnectionSuspended(int i) {
-        LogUtility.printLogD("randy", "onConnectionSuspended");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        LogUtility.printLogD("randy", "onConnectionFailed");
         if (connectionResult.hasResolution()) {
             try {
                 connectionResult.startResolutionForResult(mOwnerActivity, REQUEST_CODE_RESOLVE_CONNECTION);

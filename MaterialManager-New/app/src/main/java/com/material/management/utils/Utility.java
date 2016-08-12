@@ -58,6 +58,7 @@ public class Utility {
     public static final String NOTIF_IS_VIBRATE_SOUND = "is_notif_vibrate_sound";
     public static final String NOTIF_FREQUENCY = "notif_freq";
     public static final String SHARE_PREF_KEY_MATERIAL_SORT_MODE = "share_pref_key_material_sort_mode";
+    public static final String SHARE_PREF_KEY_CURRENCY_SYMBOL = "share_pref_key_currency_symbol";
 
     private static Context sApplicationContext;
     private static Activity sActivity;
@@ -381,6 +382,8 @@ public class Utility {
 
         if (key.equals(FONT_SIZE_SCALE_FACTOR)) {
             return sSpSettings.getString(key, "1.0");
+        } else if(key.equals(SHARE_PREF_KEY_CURRENCY_SYMBOL)) {
+            return sSpSettings.getString(key, "$");
         }
         return sSpSettings.getString(key, "");
     }

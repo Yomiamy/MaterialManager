@@ -84,7 +84,7 @@
     <string name="global_search_checkout_date">結算日期 \u0022%1$s\u0022</string>
     <string name="global_search_not_checkout">尚未結算</string>
     <string name="global_search_qty">購買數量 \u0022%1$s\u0022</string>
-    <string name="global_search_price">物品單價 \u0022\uff04%1$s\u0022</string>
+    <string name="global_search_price">物品單價 \u0022%1$s %2$s\u0022</string>
 
 
     <!-- MaterialModifyActivity -->
@@ -97,6 +97,10 @@
     <string name="title_tv_notification_sound">鈴聲</string>
     <string name="title_tv_notification_frequnecy_label">過期後通知頻率</string>
     <string name="title_tv_font_size_label">字體調整</string>
+    <string name="title_tv_currency_label">幣值符號</string>
+    <string name="title_change_currency_dialog_title">更動幣值符號</string>
+    <string name="title_change_currency_dialog_body">輸入新的幣值符號</string>
+    <string name="title_tv_current_currency_title_label">目前幣值符號</string>
     <string name="title_tv_font_size_scale_first_label">調整為</string>
     <string name="title_tv_font_size_scale_sec_label">字體</string>
     <string name="title_tv_database_manage">資料庫備份/還原</string>
@@ -337,7 +341,7 @@
 
     <!-- GroceryListFragment -->
     <string name="title_checkout_total">總額</string>
-    <string name="title_layout_bottom_checkout_total">總額 $ %1$s</string>
+    <string name="title_layout_bottom_checkout_total">總額 %1$s %2$s</string>
     <string name="title_item_total">項物品</string>
     <string name="title_popup_modify">修改</string>
     <string name="title_popup_del">刪除</string>

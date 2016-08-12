@@ -71,7 +71,7 @@
     <string name="global_search_checkout_date">結算日期 \u0022%1$s\u0022</string>
     <string name="global_search_not_checkout">尚未結算</string>
     <string name="global_search_qty">购买数量 \u0022%1$s\u0022</string>
-    <string name="global_search_price">物品单价 \u0022\uff04%1$s\u0022</string>
+    <string name="global_search_price">物品单价 \u0022%1$s %2$s\u0022</string>
     <string name="material_modify_actionbar_title">其他 - 过期物品修改</string>
 
 
@@ -81,6 +81,10 @@
     <string name="title_tv_notification_sound">铃声</string>
     <string name="title_tv_notification_frequnecy_label">过期后通知频率</string>
     <string name="title_tv_font_size_label">字体调整</string>
+    <string name="title_tv_currency_label">币值符号</string>
+    <string name="title_change_currency_dialog_title">更动币值符号</string>
+    <string name="title_change_currency_dialog_body">输入新的币值符号</string>
+    <string name="title_tv_current_currency_title_label">目前币值符号</string>
     <string name="title_tv_font_size_scale_first_label">调整为</string>
     <string name="title_tv_font_size_scale_sec_label">字体</string>
     <string name="title_tv_database_manage">数据库备份/还原</string>
@@ -299,7 +303,7 @@
         <item>星期日</item>
     </string-array>
     <string name="title_checkout_total">总额</string>
-    <string name="title_layout_bottom_checkout_total">总额 $ %1$s</string>
+    <string name="title_layout_bottom_checkout_total">总额 %1$s %2$s</string>
     <string name="title_item_total">项物品</string>
     <string name="title_popup_modify">修改</string>
     <string name="title_popup_del">删除</string>

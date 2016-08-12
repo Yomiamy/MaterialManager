@@ -142,7 +142,7 @@
                     android:ellipsize="end"
                     android:text="store name"
                     android:textColor="@color/light_brown_label"
-                    android:textSize="16.0sp"
+                    android:textSize="@dimen/font_size_large"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -165,7 +165,7 @@
                 android:singleLine="true"
                 android:text="store address"
                 android:textColor="@color/gray"
-                android:textSize="14.0sp"
+                android:textSize="@dimen/font_size_medium"
                 android:textStyle="italic" />
         </RelativeLayout>
     </RelativeLayout>

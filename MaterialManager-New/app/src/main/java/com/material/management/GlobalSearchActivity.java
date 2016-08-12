@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.material.management.data.GroceryItem;
 import com.material.management.data.Material;
@@ -41,6 +42,7 @@ public class GlobalSearchActivity extends MMActivity {
     private GlobalDataLoaderTask mGlobalDataLoaderTask = null;
     private ShortCutSearchListAdapter mSearchResultAdapter = null;
     private String mKeyword = null;
+    private String mCurrencySymbol = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,23 +97,25 @@ public class GlobalSearchActivity extends MMActivity {
 
     private void init() {
         ActionBar actionBar = getActionBar();
+        mCurrencySymbol = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL);
 
         Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         actionBar.setTitle(getString(R.string.app_name));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
         }
     }
 
     private void setListener() {
         mEtSearchText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(mGlobalDataLoaderTask != null && !mGlobalDataLoaderTask.isCancelled()) {
+                if (mGlobalDataLoaderTask != null && !mGlobalDataLoaderTask.isCancelled()) {
                     mGlobalDataLoaderTask.cancel(true);
                     mGlobalDataLoaderTask = null;
                 }
@@ -133,17 +137,15 @@ public class GlobalSearchActivity extends MMActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
-        mLvContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                GlobalSearchData searchData = (GlobalSearchData) mSearchResultAdapter.getItem(pos);
-                GlobalSearchResultDialog searchDataDialog = new GlobalSearchResultDialog(GlobalSearchActivity.this, searchData);
+        mLvContentListView.setOnItemClickListener((parent, view, pos, id) -> {
+            GlobalSearchData searchData = (GlobalSearchData) mSearchResultAdapter.getItem(pos);
+            GlobalSearchResultDialog searchDataDialog = new GlobalSearchResultDialog(GlobalSearchActivity.this, searchData);
 
-                searchDataDialog.show();
-            }
+            searchDataDialog.show();
         });
 
         mIbHideKeyboard.setOnClickListener(this);
@@ -160,7 +162,7 @@ public class GlobalSearchActivity extends MMActivity {
         return super.onOptionsItemSelected(item);
     }
 
-     class GlobalDataLoaderTask extends AsyncTask<Void, Void, Void> {
+    class GlobalDataLoaderTask extends AsyncTask<Void, Void, Void> {
         private String mSearchKeyword;
         private ArrayList<GlobalSearchData> mGlobalSearchDataList;
 
@@ -177,19 +179,19 @@ public class GlobalSearchActivity extends MMActivity {
         }
 
 
-         private String calRestDay(Material material) {
+        private String calRestDay(Material material) {
              /* Calculate the diff days , FIXME: Check the memory and performance... */
-             String reset_days_str;
-             Calendar c1 = Calendar.getInstance();
-             Calendar c2 = Calendar.getInstance();
-             Calendar c3 = material.getValidDate();
-             c1.set(c1.get(Calendar.YEAR), c1.get(Calendar.MONTH), c1.get(Calendar.DAY_OF_MONTH));
-             c2.set(c3.get(Calendar.YEAR), c3.get(Calendar.MONTH), c3.get(Calendar.DAY_OF_MONTH));
-             long daysDiff = (c2.getTimeInMillis() - c1.getTimeInMillis()) / (24 * 60 * 60 * 1000);
-             reset_days_str = (daysDiff <= 0) ? getString(R.string.msg_expired) :getString(R.string.global_search_rest_days_exp, Long.toString(daysDiff));
+            String reset_days_str;
+            Calendar c1 = Calendar.getInstance();
+            Calendar c2 = Calendar.getInstance();
+            Calendar c3 = material.getValidDate();
+            c1.set(c1.get(Calendar.YEAR), c1.get(Calendar.MONTH), c1.get(Calendar.DAY_OF_MONTH));
+            c2.set(c3.get(Calendar.YEAR), c3.get(Calendar.MONTH), c3.get(Calendar.DAY_OF_MONTH));
+            long daysDiff = (c2.getTimeInMillis() - c1.getTimeInMillis()) / (24 * 60 * 60 * 1000);
+            reset_days_str = (daysDiff <= 0) ? getString(R.string.msg_expired) : getString(R.string.global_search_rest_days_exp, Long.toString(daysDiff));
 
-             return reset_days_str;
-         }
+            return reset_days_str;
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -197,10 +199,10 @@ public class GlobalSearchActivity extends MMActivity {
             ArrayList<GroceryItem> groceryItemList = DBUtility.selectGroceryItems();
 
             mGlobalSearchDataList.add(createHeadItem(mContext.getString(R.string.global_search_material_group)));
-            for(Material material : materialInfoList) {
+            for (Material material : materialInfoList) {
                 String name = material.getName();
 
-                if(name != null && name.toLowerCase().contains(mSearchKeyword)) {
+                if (name != null && name.toLowerCase().contains(mSearchKeyword)) {
                     GlobalSearchData searchData = new GlobalSearchData();
                     String restExpDays = calRestDay(material);
 
@@ -213,17 +215,17 @@ public class GlobalSearchActivity extends MMActivity {
             }
 
             mGlobalSearchDataList.add(createHeadItem(mContext.getString(R.string.global_search_grocery_group)));
-            for(GroceryItem groceryItem : groceryItemList) {
+            for (GroceryItem groceryItem : groceryItemList) {
                 String name = groceryItem.getName();
 
-                if(name != null && name.toLowerCase().contains(mSearchKeyword)) {
+                if (name != null && name.toLowerCase().contains(mSearchKeyword)) {
                     GlobalSearchData searchData = new GlobalSearchData();
                     double totalCost = Double.parseDouble(groceryItem.getPrice()) * Integer.parseInt(groceryItem.getQty());
 
                     searchData.setItemType(GlobalSearchData.ItemType.GROCERY_ITEM);
                     searchData.setItemName(name);
                     searchData.setItemCount(groceryItem.getQty());
-                    searchData.setItemTotalCost(getString(R.string.global_search_total_cost, Double.toString(totalCost)));
+                    searchData.setItemTotalCost(mCurrencySymbol + " " + Double.toString(totalCost));
                     searchData.setGroceryItem(groceryItem);
                     mGlobalSearchDataList.add(searchData);
                 }
@@ -232,14 +234,14 @@ public class GlobalSearchActivity extends MMActivity {
             return null;
         }
 
-         private GlobalSearchData createHeadItem(String headTitle) {
-             GlobalSearchData head = new GlobalSearchData();
+        private GlobalSearchData createHeadItem(String headTitle) {
+            GlobalSearchData head = new GlobalSearchData();
 
-             head.setIsHead(true);
-             head.setItemName(headTitle);
+            head.setIsHead(true);
+            head.setItemName(headTitle);
 
-             return head;
-         }
+            return head;
+        }
 
         @Override
         protected void onPostExecute(Void aVoid) {

@@ -140,6 +140,7 @@ public class GlobalSearchResultDialog extends AlertDialog.Builder implements Vie
                 GroceryListData groceryListData = DBUtility.selectGroceryListHistoryInfosById(groceryItem.getGroceryListId());
                 groceryListData = (groceryListData == null) ? DBUtility.selectGroceryListInfosById(groceryItem.getGroceryListId()) : groceryListData;
                 Date checkoutTime = groceryListData.getCheckOutTime();
+                String currencySymbol = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL);
 
                 Picasso.with(mCtx).load(new File(groceryItem.getGroceryPicPath())).fit().into(mRivHead);
                 mTvGroceryName.setText(groceryItem.getName());
@@ -147,7 +148,7 @@ public class GlobalSearchResultDialog extends AlertDialog.Builder implements Vie
                 mTvGroceryShopListName.setText(res.getString(R.string.global_search_shop_place, groceryListData.getGroceryListName()));
                 mTvGroceryShopDate.setText((checkoutTime != null) ? res.getString(R.string.global_search_checkout_date, Utility.transDateToString("yyyy-MM-dd HH:mm:ss", checkoutTime)) : res.getString(R.string.global_search_not_checkout));
                 mTvGroceryCount.setText(res.getString(R.string.global_search_qty, groceryItem.getQty()));
-                mTvGroceryShopCost.setText(res.getString(R.string.global_search_price, groceryItem.getPrice()));
+                mTvGroceryShopCost.setText(res.getString(R.string.global_search_price, currencySymbol, groceryItem.getPrice()));
                 setBarcode(mTvGroceryBarcode, barcodeFormat, barcode);
             }
             break;

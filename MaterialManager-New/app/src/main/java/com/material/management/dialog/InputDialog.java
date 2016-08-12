@@ -3,6 +3,7 @@ package com.material.management.dialog;
 import com.material.management.R;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +23,7 @@ public class InputDialog extends AlertDialog.Builder {
 
     private EditText mEtInputText;
     private DialogInterface.OnClickListener mListener;
+    private AlertDialog mDialog;
 
     public InputDialog(Context context, String title, String message, DialogInterface.OnClickListener listener) {
         super(context, R.style.AlertDialogTheme);
@@ -30,6 +32,11 @@ public class InputDialog extends AlertDialog.Builder {
         this.mContext = context;
         this.mListener = listener;
         initView();
+    }
+
+    public InputDialog(Context context, String title, String message, String defaultText, DialogInterface.OnClickListener listener) {
+        this(context, title, message, listener);
+        this.mEtInputText.setText(defaultText);
     }
 
     private void initView() {
@@ -49,15 +56,15 @@ public class InputDialog extends AlertDialog.Builder {
     @Override
     public AlertDialog show() {
         mIsShown = true;
-        AlertDialog dialog = super.show();
-        Window window = dialog.getWindow();
+        mDialog = super.show();
+        Window window = mDialog.getWindow();
 
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+        mDialog.setCanceledOnTouchOutside(false);
         window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         window.setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
-        return dialog;
+        return mDialog;
     }
 
     public boolean isDialogShowing() {
@@ -66,5 +73,9 @@ public class InputDialog extends AlertDialog.Builder {
 
     public void setShowState(boolean isShowing) {
         mIsShown = isShowing;
+
+        if(mDialog != null && !isShowing) {
+            mDialog.dismiss();
+        }
     }
 }

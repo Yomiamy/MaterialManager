@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.material.management.R;
 import com.material.management.data.GroceryItem;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 
 import java.lang.reflect.InvocationTargetException;
@@ -67,6 +68,7 @@ public class ReceiptDialog extends AlertDialog.Builder {
         TextView tvTotalValue = (TextView) layout.findViewById(R.id.tv_total_value);
         double totalValue = 0;
         int itemCount = 0;
+        String currencySymbol = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL);
 
         tvReceiptTitle.setText(mTitle);
         tvDate.setText(Utility.transDateToString("yyyy - MM - dd", nowDate.getTime()));
@@ -85,18 +87,14 @@ public class ReceiptDialog extends AlertDialog.Builder {
             ++itemCount;
         }
         tvNumOfItem.setText(Integer.toString(itemCount));
-        tvTotalValue.setText("$" + totalValue);
+        tvTotalValue.setText(currencySymbol + " " + totalValue);
 
         try {
             Method methodSetView = AlertDialog.Builder.class.getMethod("setView", View.class, int.class, int.class, int.class, int.class);
 
             methodSetView.invoke(this, layout, 0, 0, 0, 0);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LogUtility.printStackTrace(e);
         }
     }
 

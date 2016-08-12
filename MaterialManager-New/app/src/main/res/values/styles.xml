@@ -101,8 +101,8 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
-    <style name="section_item_checkbox" parent="@style/section_item">
-        <item name="android:padding">16.0dip</item>
+    <style name="common_setting_layout_style" parent="@style/section_item">
+        <item name="android:padding">16dp</item>
         <item name="android:checkMark">@drawable/checkbox_selector</item>
     </style>
 

@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.material.management.GroceryItemLoginActivity;
 import com.material.management.GroceryListModifyActivity;
 import com.material.management.MMFragment;
@@ -32,7 +33,9 @@ import com.material.management.data.Material;
 import com.material.management.dialog.MaterialMenuDialog;
 import com.material.management.dialog.ReceiptDialog;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.Utility;
 import com.picasso.Picasso;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +56,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
     private AlertDialog mGroceryMenuDialog = null;
     private ReceiptDialog mReceiptDialog = null;
     private GroceryListData mCurSelectedGroceryList = null;
+    private String mCurrencySymbol = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +81,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
     private void init() {
         mGroceryListInfos = DBUtility.selectGroceryListInfos();
         mGroceryListAdapter = new GroceryListAdapter(mGroceryListInfos);
+        mCurrencySymbol = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL);
 
         mLvGroceryList.setAdapter(mGroceryListAdapter);
         update(null);
@@ -181,39 +186,39 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
                 showAlertDialog(getString(R.string.title_notice_dialog), getString(R.string.msg_if_or_not_import_in_expired)
                         , getString(R.string.title_positive_btn_label), getString(R.string.title_negative_btn_label)
                         , new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<GroceryItem> groceryItemList = DBUtility.selectGroceryItemsById(mCurSelectedGroceryList.getId());
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ArrayList<GroceryItem> groceryItemList = DBUtility.selectGroceryItemsById(mCurSelectedGroceryList.getId());
 
-                        if (groceryItemList != null && groceryItemList.size() == 0) {
-                            return;
-                        }
+                                if (groceryItemList != null && groceryItemList.size() == 0) {
+                                    return;
+                                }
 
-                        for (GroceryItem item : groceryItemList) {
-                            Material material = new Material();
-                            String comment = getString(R.string.title_grocery_comment_content, item.getComment(), item.getPrice(), item.getQty());
+                                for (GroceryItem item : groceryItemList) {
+                                    Material material = new Material();
+                                    String comment = getString(R.string.title_grocery_comment_content, item.getComment(), item.getPrice(), item.getQty());
 
                             /* trim the ',' if the first character is ','. */
-                            while (comment.indexOf(',') == 0 && comment.length() >= 2) {
-                                comment = comment.substring(1);
-                            }
+                                    while (comment.indexOf(',') == 0 && comment.length() >= 2) {
+                                        comment = comment.substring(1);
+                                    }
 
-                            material.setName(item.getName());
-                            material.setMaterialPicPath(item.getGroceryPicPath());
-                            material.setBarcode(item.getBarcode());
-                            material.setBarcodeFormat(item.getBarcodeFormat());
-                            material.setMaterialType(item.getGroceryType());
-                            material.setIsAsPhotoType(0);
-                            material.setIsValidDateSetup(0);
-                            material.setPurchaceDate(nowDate);
-                            material.setValidDate(nowDate);
-                            material.setNotificationDays(0);
-                            material.setMaterialPlace("");
-                            material.setComment(comment);
-                            DBUtility.insertMaterialInfo(material);
-                        }
-                    }
-                }, null);
+                                    material.setName(item.getName());
+                                    material.setMaterialPicPath(item.getGroceryPicPath());
+                                    material.setBarcode(item.getBarcode());
+                                    material.setBarcodeFormat(item.getBarcodeFormat());
+                                    material.setMaterialType(item.getGroceryType());
+                                    material.setIsAsPhotoType(0);
+                                    material.setIsValidDateSetup(0);
+                                    material.setPurchaceDate(nowDate);
+                                    material.setValidDate(nowDate);
+                                    material.setNotificationDays(0);
+                                    material.setMaterialPlace("");
+                                    material.setComment(comment);
+                                    DBUtility.insertMaterialInfo(material);
+                                }
+                            }
+                        }, null);
             }
 
             mReceiptDialog = null;
@@ -306,7 +311,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
             int storeServiceStatus = checkStoreServiceStatus(groceryListInfo.getServiceTime());
 
             if (mCurGroceryListId != groceryListInfo.getId()) {
-               viewHolder.groceryBottomContent.setVisibility(View.GONE);
+                viewHolder.groceryBottomContent.setVisibility(View.GONE);
             }
             viewHolder.groceryName.setText(groceryListInfo.getGroceryListName());
             viewHolder.storeName.setText(groceryListInfo.getStoreName());
@@ -325,174 +330,157 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
             }
 
 
-            viewHolder.groceryHeadContent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCurRlGroceryButtomContent = viewHolder.groceryBottomContent;
-                    mCurLvGroceryItems = viewHolder.groceryItems;
-                    mCurStaticsTotal = viewHolder.staticTotal;
-                    mCurGroceryListId = groceryListInfo.getId();
-                    int visibility = mCurRlGroceryButtomContent.getVisibility();
+            viewHolder.groceryHeadContent.setOnClickListener((v) -> {
+                mCurRlGroceryButtomContent = viewHolder.groceryBottomContent;
+                mCurLvGroceryItems = viewHolder.groceryItems;
+                mCurStaticsTotal = viewHolder.staticTotal;
+                mCurGroceryListId = groceryListInfo.getId();
+                int visibility = mCurRlGroceryButtomContent.getVisibility();
 
-                    if (visibility == View.VISIBLE) {
-                        mCurSelectedGroceryList = null;
-                        Animation goneAnim = AnimationUtils.loadAnimation(mOwnerActivity, R.anim.push_up_out);
+                if (visibility == View.VISIBLE) {
+                    mCurSelectedGroceryList = null;
+                    Animation goneAnim = AnimationUtils.loadAnimation(mOwnerActivity, R.anim.push_up_out);
 
-                        goneAnim.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {}
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                mCurRlGroceryButtomContent.setVisibility(View.GONE);
-
-                                mCurRlGroceryButtomContent = null;
-                                mCurLvGroceryItems = null;
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {}
-                        });
-                        unregisterForContextMenu(mCurLvGroceryItems);
-                        mCurRlGroceryButtomContent.startAnimation(goneAnim);
-                    } else if (visibility == View.GONE) {
-                        mCurSelectedGroceryList = groceryListInfo;
-
-                        mCurRlGroceryButtomContent.startAnimation(AnimationUtils.loadAnimation(mOwnerActivity, R.anim.push_up_in));
-                        mCurRlGroceryButtomContent.setVisibility(View.VISIBLE);
-                        mCurLvGroceryItems.setOnTouchListener(new ListView.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                int action = event.getAction();
-                                switch (action) {
-                                    case MotionEvent.ACTION_DOWN:
-                                        // Disallow ScrollView to intercept touch events.
-                                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                                        break;
-
-                                    case MotionEvent.ACTION_UP:
-                                        // Allow ScrollView to intercept touch events.
-                                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                                        break;
-                                }
-
-                                // Handle ListView touch events.
-                                v.onTouchEvent(event);
-                                return true;
-                            }
-                        });
-                        mCurLvGroceryItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                            @Override
-                            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-                                mCurGroceryItemPos = pos;
-
-                                return false;
-                            }
-                        });
-                        reLoadGroceryItems();
-                        notifyDataSetChanged();
-                    }
-                    registerForContextMenu(mCurLvGroceryItems);
-                }
-            });
-
-            viewHolder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mOwnerActivity, GroceryItemLoginActivity.class);
-
-                    v.startAnimation(AnimationUtils.loadAnimation(mOwnerActivity, R.anim.anim_press_bounce));
-                    intent.putExtra("grocery_list_id", mCurGroceryListId);
-                    startActivityForResult(intent, REQ_ADD_GROCERY_ITEMS);
-                }
-            });
-
-            viewHolder.checkout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    v.startAnimation(AnimationUtils.loadAnimation(mOwnerActivity, R.anim.anim_press_bounce));
-
-                    GroceryItemAdapter groceryItemAdapter = (GroceryItemAdapter) mCurLvGroceryItems.getAdapter();
-                    mReceiptDialog = new ReceiptDialog(sActivity, getString(R.string.title_receipt_dialog_title), groceryListInfo.getGroceryListName(), groceryItemAdapter.getItems(), GroceryListFragment.this, false, null);
-
-                    mReceiptDialog.setShowState(true);
-                    mReceiptDialog.show();
-                }
-            });
-
-            viewHolder.spinMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(sActivity, v);
-
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    goneAnim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            int id = item.getItemId();
+                        public void onAnimationStart(Animation animation) {
+                        }
 
-                            switch (id) {
-                                case R.id.menu_del: {
-                                    DBUtility.deleteGroceryList(groceryListInfo.getId());
-                                    DBUtility.deleteGreceryItemsByListId(groceryListInfo.getId());
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            mCurRlGroceryButtomContent.setVisibility(View.GONE);
 
-                                    mGroceryListInfos = DBUtility.selectGroceryListInfos();
-                                    mGroceryListAdapter = new GroceryListAdapter(mGroceryListInfos);
+                            mCurRlGroceryButtomContent = null;
+                            mCurLvGroceryItems = null;
+                        }
 
-                                    if (mGroceryListAdapter.getCount() == 0) {
-                                        mLvGroceryList.setVisibility(View.GONE);
-                                        mRlEmptyData.setVisibility(View.VISIBLE);
-                                    } else {
-                                        mLvGroceryList.setAdapter(mGroceryListAdapter);
-                                    }
-                                }
-                                break;
-
-                                case R.id.menu_nav: {
-                                    String lat = groceryListInfo.getLat();
-                                    String lon = groceryListInfo.getLong();
-                                    String address = groceryListInfo.getAddress();
-
-                                    if (lat == null || lon == null || lat.isEmpty() || lon.isEmpty()) {
-                                        showToast(getString(R.string.msg_err_store_address));
-                                    } else {
-                                        String uri = String.format("geo:%s,%s?q=%s,%s(%s)", lat, lon, lat, lon, address);
-                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-
-                                        startActivity(intent);
-                                    }
-                                }
-                                break;
-
-                                case R.id.menu_modify: {
-                                    Intent intent = new Intent(mOwnerActivity, GroceryListModifyActivity.class);
-
-                                    intent.putExtra("grocery_list_info", groceryListInfo);
-                                    startActivityForResult(intent, REQ_MODIFY_GROCERY_LIST_INFO);
-                                }
-                                break;
-
-                                case R.id.menu_phone: {
-                                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                                    String phone = Uri.encode(groceryListInfo.getPhone());
-
-                                    if (phone == null || phone.isEmpty()) {
-                                        showToast(getString(R.string.msg_err_store_phone));
-
-                                        break;
-                                    }
-
-                                    intent.setData(Uri.parse("tel:" + phone));
-                                    startActivity(intent);
-                                }
-                                break;
-
-                            }
-                            return false;
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
                         }
                     });
-                    popup.getMenuInflater().inflate(R.menu.fragment_grocery_list_popup_menu, popup.getMenu());
-                    popup.show();
+                    unregisterForContextMenu(mCurLvGroceryItems);
+                    mCurRlGroceryButtomContent.startAnimation(goneAnim);
+                } else if (visibility == View.GONE) {
+                    mCurSelectedGroceryList = groceryListInfo;
+
+                    mCurRlGroceryButtomContent.startAnimation(AnimationUtils.loadAnimation(mOwnerActivity, R.anim.push_up_in));
+                    mCurRlGroceryButtomContent.setVisibility(View.VISIBLE);
+                    mCurLvGroceryItems.setOnTouchListener((vi, event) -> {
+                        int action = event.getAction();
+                        switch (action) {
+                            case MotionEvent.ACTION_DOWN:
+                                // Disallow ScrollView to intercept touch events.
+                                v.getParent().requestDisallowInterceptTouchEvent(true);
+                                break;
+
+                            case MotionEvent.ACTION_UP:
+                                // Allow ScrollView to intercept touch events.
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+
+                        // Handle ListView touch events.
+                        v.onTouchEvent(event);
+                        return true;
+                    });
+                    mCurLvGroceryItems.setOnItemLongClickListener((p, vi, pos, id) -> {
+                        mCurGroceryItemPos = pos;
+
+                        return false;
+                    });
+                    reLoadGroceryItems();
+                    notifyDataSetChanged();
                 }
+                registerForContextMenu(mCurLvGroceryItems);
+            });
+
+            viewHolder.add.setOnClickListener((v) -> {
+                Intent intent = new Intent(mOwnerActivity, GroceryItemLoginActivity.class);
+
+                v.startAnimation(AnimationUtils.loadAnimation(mOwnerActivity, R.anim.anim_press_bounce));
+                intent.putExtra("grocery_list_id", mCurGroceryListId);
+                startActivityForResult(intent, REQ_ADD_GROCERY_ITEMS);
+
+            });
+
+            viewHolder.checkout.setOnClickListener((v) -> {
+                v.startAnimation(AnimationUtils.loadAnimation(mOwnerActivity, R.anim.anim_press_bounce));
+
+                GroceryItemAdapter groceryItemAdapter = (GroceryItemAdapter) mCurLvGroceryItems.getAdapter();
+                mReceiptDialog = new ReceiptDialog(sActivity, getString(R.string.title_receipt_dialog_title), groceryListInfo.getGroceryListName(), groceryItemAdapter.getItems(), GroceryListFragment.this, false, null);
+
+                mReceiptDialog.setShowState(true);
+                mReceiptDialog.show();
+            });
+
+            viewHolder.spinMenu.setOnClickListener((v) -> {
+                PopupMenu popup = new PopupMenu(sActivity, v);
+
+                popup.setOnMenuItemClickListener((item) -> {
+                    int id = item.getItemId();
+
+                    switch (id) {
+                        case R.id.menu_del: {
+                            DBUtility.deleteGroceryList(groceryListInfo.getId());
+                            DBUtility.deleteGreceryItemsByListId(groceryListInfo.getId());
+
+                            mGroceryListInfos = DBUtility.selectGroceryListInfos();
+                            mGroceryListAdapter = new GroceryListAdapter(mGroceryListInfos);
+
+                            if (mGroceryListAdapter.getCount() == 0) {
+                                mLvGroceryList.setVisibility(View.GONE);
+                                mRlEmptyData.setVisibility(View.VISIBLE);
+                            } else {
+                                mLvGroceryList.setAdapter(mGroceryListAdapter);
+                            }
+                        }
+                        break;
+
+                        case R.id.menu_nav: {
+                            String lat = groceryListInfo.getLat();
+                            String lon = groceryListInfo.getLong();
+                            String address = groceryListInfo.getAddress();
+
+                            if (lat == null || lon == null || lat.isEmpty() || lon.isEmpty()) {
+                                showToast(getString(R.string.msg_err_store_address));
+                            } else {
+                                String uri = String.format("geo:%s,%s?q=%s,%s(%s)", lat, lon, lat, lon, address);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+
+                                startActivity(intent);
+                            }
+                        }
+                        break;
+
+                        case R.id.menu_modify: {
+                            Intent intent = new Intent(mOwnerActivity, GroceryListModifyActivity.class);
+
+                            intent.putExtra("grocery_list_info", groceryListInfo);
+                            startActivityForResult(intent, REQ_MODIFY_GROCERY_LIST_INFO);
+                        }
+                        break;
+
+                        case R.id.menu_phone: {
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            String phone = Uri.encode(groceryListInfo.getPhone());
+
+                            if (phone == null || phone.isEmpty()) {
+                                showToast(getString(R.string.msg_err_store_phone));
+
+                                break;
+                            }
+
+                            intent.setData(Uri.parse("tel:" + phone));
+                            startActivity(intent);
+                        }
+                        break;
+
+                    }
+                    return false;
+                });
+                popup.getMenuInflater().inflate(R.menu.fragment_grocery_list_popup_menu, popup.getMenu());
+                popup.show();
+
             });
             return view;
         }
@@ -582,7 +570,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
 
                 statisticTotal += Long.parseLong(item.getQty()) * Double.parseDouble(item.getPrice());
             }
-            mCurStaticsTotal.setText(getString(R.string.title_layout_bottom_checkout_total, Double.toString(statisticTotal)));
+            mCurStaticsTotal.setText(getString(R.string.title_layout_bottom_checkout_total, mCurrencySymbol, Double.toString(statisticTotal)));
         }
     }
 
@@ -642,7 +630,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
             viewHolder.groceryName.setText(groceryItem.getName());
             viewHolder.groceryType.setText(groceryItem.getGroceryType());
             viewHolder.groceryQty.setText("x " + groceryItem.getQty());
-            viewHolder.price.setText("$ " + (qty * price));
+            viewHolder.price.setText(mCurrencySymbol + " " + (qty * price));
             Picasso.with(sActivity).load(new File(groceryItem.getGroceryPicPath())).fit().into(viewHolder.groceryThumbnail);
 
             return view;

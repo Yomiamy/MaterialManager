@@ -88,7 +88,6 @@
     <string name="global_search">Global Search</string>
     <string name="global_search_material_group">Material Items</string>
     <string name="global_search_grocery_group">Grocery Items</string>
-    <string name="global_search_total_cost">$%1$s</string>
     <string name="global_search_rest_days_exp">%1$s days exp.</string>
     <string name="global_search_material_qty">Qty:</string>
     <string name="global_search_material_price">Price:</string>
@@ -96,7 +95,7 @@
     <string name="global_search_checkout_date">Purchasing date \u0022%1$s\u0022</string>
     <string name="global_search_not_checkout">尚未結算</string>
     <string name="global_search_qty">Quantity \u0022%1$s\u0022</string>
-    <string name="global_search_price">Unit-price \u0022\uff04%1$s\u0022</string>
+    <string name="global_search_price">Unit-price \u0022%1$s %2$s\u0022</string>
 
     <string name="image">Image</string>
     <string name="userInfoChat">Chat</string>
@@ -123,6 +122,10 @@
     <string name="title_tv_notification_sound">Sound</string>
     <string name="title_tv_notification_frequnecy_label">Notification frequency</string>
     <string name="title_tv_font_size_label">Font size adjustment</string>
+    <string name="title_tv_currency_label">Currency</string>
+    <string name="title_change_currency_dialog_title">Change the currency symbol</string>
+    <string name="title_change_currency_dialog_body">Enter the new currency symbol</string>
+    <string name="title_tv_current_currency_title_label">Currency symbol</string>
     <string name="title_tv_font_size_scale_first_label">Adjust the font size as</string>
     <string name="title_tv_font_size_scale_sec_label">font size</string>
     <string name="title_tv_database_manage">Database operations</string>
@@ -365,7 +368,7 @@
 
     <!-- GroceryListFragment -->
     <string name="title_checkout_total">TOTAL</string>
-    <string name="title_layout_bottom_checkout_total">Total $ %1$s</string>
+    <string name="title_layout_bottom_checkout_total">Total %1$s %2$s</string>
     <string name="title_item_total">ITEMS</string>
     <string name="title_popup_modify">EDIT</string>
     <string name="title_popup_del">DELETE</string>
