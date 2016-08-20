@@ -151,11 +151,14 @@
                 android:id="@+id/tv_enter_currency_symbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/tv_enter_currency_symbol_min_w"
+                android:minHeight="@dimen/tv_enter_currency_symbol_min_h"
                 android:layout_marginLeft="@dimen/tv_enter_currency_symbol_margin_left"
                 android:clickable="true"
-                android:text="$"
+                android:gravity="center"
                 android:textColor="@color/settings_title_black"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size_medium"
+                android:text="$"/>
         </LinearLayout>
 
         <TextView

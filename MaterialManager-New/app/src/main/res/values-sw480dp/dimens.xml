@@ -93,6 +93,8 @@
     <dimen name="tv_setting_common_vertical_gap_w">1dp</dimen>
     <dimen name="tv_setting_common_vertical_gap_h">40dp</dimen>
     <dimen name="tv_enter_currency_symbol_margin_left">15dp</dimen>
+    <dimen name="tv_enter_currency_symbol_min_w">20dp</dimen>
+    <dimen name="tv_enter_currency_symbol_min_h">20dp</dimen>
 
     <dimen name="spin_setting_notif_frequency_w">100dp</dimen>
     <dimen name="spin_setting_notif_frequency_margin_left">5dp</dimen>

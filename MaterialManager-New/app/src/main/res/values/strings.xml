@@ -156,11 +156,16 @@
     <string name="title_progress_backup_photo_successfully">Backup photo:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_restore_photo_successfully">Restore photo:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_adjust_drive_space_successfully">Adjust the google drive space...\n(%1$s/100)</string>
+    <string name="title_default_currency_symbol">$</string>
 
     <string name="title_progress_notif_backup_restore_successfully">Backup/Restore is successful</string>
     <string name="title_progress_notif_backup_restore_fail">Backup/Restore is failed</string>
     <string name="title_progress_waiting_connect">Cloud service is connecting, please wait a moment...</string>
     <string name="title_notif_silent_mode">silent</string>
+
+    <!-- SettingsFragment -->
+    <string name="title_account_pick_description">Please select a gmail account used for data backup</string>
+    <string name="msg_error_empty_currency_symbol">The currency symbol can not be empty</string>
 
     <!--Grocery Login Activity-->
     <string name="title_grocery_list_modify_actionbar_title">Grocery Monitor - Grocery List Modification</string>
@@ -407,9 +412,6 @@
     <string name="msg_error_start_date_not_set">Start date not be assigned!</string>
     <string name="msg_error_end_date_not_set">End date not be assigned!</string>
     <string name="msg_error_end_date_before_start_date">End date can not be before start date!</string>
-
-    <!-- SettingsFragment -->
-    <string name="title_account_pick_description">Please select a gmail account used for data backup</string>
 
     <!-- Barcode Dialog -->
     <string name="title_barcode_dialog">"Display barcode"</string>

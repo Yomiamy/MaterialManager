@@ -26,6 +26,7 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -370,6 +371,7 @@ public class Utility {
         if (sSpSettings == null) {
             sSpSettings = sApplicationContext.getSharedPreferences(SETTING, Context.MODE_PRIVATE);
         }
+
         SharedPreferences.Editor PE = sSpSettings.edit();
         PE.putString(key, value);
         PE.commit();
@@ -383,7 +385,15 @@ public class Utility {
         if (key.equals(FONT_SIZE_SCALE_FACTOR)) {
             return sSpSettings.getString(key, "1.0");
         } else if(key.equals(SHARE_PREF_KEY_CURRENCY_SYMBOL)) {
-            return sSpSettings.getString(key, "$");
+            String currencySymbol = sSpSettings.getString(key, "");
+
+            if(TextUtils.isEmpty(currencySymbol)) {
+                currencySymbol = sActivity.getString(R.string.title_default_currency_symbol);
+
+                setStringValueForKey(key, currencySymbol);
+            }
+
+            return currencySymbol;
         }
         return sSpSettings.getString(key, "");
     }

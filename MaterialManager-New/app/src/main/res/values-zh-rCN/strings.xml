@@ -115,6 +115,7 @@
     <string name="title_progress_backup_photo_successfully">备份图片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_restore_photo_successfully">回复图片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_adjust_drive_space_successfully">调整GoogleDrive空间...\n(%1$s/100)</string>
+    <string name="title_default_currency_symbol">$</string>
     <string name="title_progress_notif_backup_restore_successfully">[备份/回复]数据库成功</string>
     <string name="title_progress_notif_backup_restore_fail">[备份/回复]数据库失败</string>
     <string name="title_progress_waiting_connect">云端服务连接中，请稍候...</string>
@@ -338,6 +339,7 @@
     <string name="msg_error_end_date_not_set">结束日期尚未设定</string>
     <string name="msg_error_end_date_before_start_date">结束日期不能早于开始日期</string>
     <string name="title_account_pick_description">请选择用于备份过期物品管家资料的帐号</string>
+    <string name="msg_error_empty_currency_symbol">币值符号不能为空</string>
     <string name="title_barcode_dialog">"条形码显示"</string>
     <string name="title_no_barcode_msg">无条形码资料 !!!</string>
     <string name="title_app_about">关于</string>

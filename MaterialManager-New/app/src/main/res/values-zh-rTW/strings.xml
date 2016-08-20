@@ -131,10 +131,15 @@
     <string name="title_progress_backup_photo_successfully">備份圖片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_restore_photo_successfully">回復圖片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_adjust_drive_space_successfully">調整GoogleDrive空間...\n(%1$s/100)</string>
+    <string name="title_default_currency_symbol">$</string>
     <string name="title_progress_notif_backup_restore_successfully">[備份/回復]資料庫成功</string>
     <string name="title_progress_notif_backup_restore_fail">[備份/回復]資料庫失敗</string>
     <string name="title_progress_waiting_connect">雲端服務連接中，請稍候...</string>
     <string name="title_notif_silent_mode">無提醒</string>
+
+    <!-- SettingsFragment -->
+    <string name="title_account_pick_description">請選擇用於備份過期物品管家資料的帳號</string>
+    <string name="msg_error_empty_currency_symbol">幣值符號不能為空</string>
 
     <!--Grocery Login Activity-->
     <string name="title_grocery_list_modify_actionbar_title">購物管理 - 清單資料修改</string>
@@ -380,9 +385,6 @@
     <string name="msg_error_start_date_not_set">開始日期尚未設定</string>
     <string name="msg_error_end_date_not_set">結束日期尚未設定</string>
     <string name="msg_error_end_date_before_start_date">結束日期不能早於開始日期</string>
-
-    <!-- SettingsFragment -->
-    <string name="title_account_pick_description">請選擇用於備份過期物品管家資料的帳號</string>
 
     <!-- Barcode Dialog -->
     <string name="title_barcode_dialog">"條碼顯示"</string>

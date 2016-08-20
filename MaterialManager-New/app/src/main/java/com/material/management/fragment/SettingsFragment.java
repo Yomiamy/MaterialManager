@@ -322,16 +322,19 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                 if (mInputDialog != null && mInputDialog.isDialogShowing()) {
                     String newSymbol = mInputDialog.getInputString();
 
-                    mTvEnterCurrencySymbol.setText(newSymbol);
-                    Utility.setStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL, newSymbol);
+                    if (!TextUtils.isEmpty(newSymbol)) {
+                        mTvEnterCurrencySymbol.setText(newSymbol);
+                        Utility.setStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL, newSymbol);
+                    } else {
+                        showToast(mResources.getString(R.string.msg_error_empty_currency_symbol));
+                    }
                 }
             } else if(Dialog.BUTTON_NEGATIVE == which) {}
         }
 
-        hideSoftInput();
         mInputDialog.setShowState(false);
-
         mInputDialog = null;
+        hideSoftInput();
     }
 
     public void onClick(View view) {
