@@ -17,6 +17,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,12 +46,14 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
     protected ConnectionControl mControl;
     protected DeviceInfo mDeviceInfo;
     protected HashMap<Integer, Float> mOrigFontSizeMap = null;
+    protected Window mWindow = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mHandler = new Handler();
         mResources = getResources();
         mOwnerActivity = (MainActivity) getActivity();
+        mWindow = mOwnerActivity.getWindow();
         mMetrics = new DisplayMetrics();
         mInflater = (LayoutInflater) mOwnerActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mImm = (InputMethodManager) mOwnerActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -180,6 +184,17 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
         }
         storeViewFontSize(layout);
         changeFontSize(layout);
+    }
+
+    protected void changeBrightness(float brightness) {
+        // Adjust the screen brightness to the max
+        WindowManager.LayoutParams layout = mWindow.getAttributes();
+        layout.screenBrightness = brightness;
+        mOwnerActivity.getWindow().setAttributes(layout);
+    }
+
+    protected float getBrightness() {
+        return mWindow.getAttributes().screenBrightness;
     }
 
     protected void storeViewFontSize(View view) {

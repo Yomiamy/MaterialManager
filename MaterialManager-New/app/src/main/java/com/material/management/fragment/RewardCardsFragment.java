@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -33,6 +35,7 @@ import com.material.management.Observer;
 import com.material.management.R;
 
 import android.os.Handler;
+
 import com.material.management.component.FlipAnimation;
 import com.material.management.data.BundleInfo;
 import com.material.management.data.RewardData;
@@ -41,6 +44,7 @@ import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Picasso;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,6 +73,7 @@ public class RewardCardsFragment extends MMFragment implements Observer {
     private RewardLoadTask mRewardLoadTask = null;
     private RewardListAdapter mRewardListAdapter = null;
     private String mTitle;
+    private float mOriginBrightness = 0F;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,7 +119,16 @@ public class RewardCardsFragment extends MMFragment implements Observer {
         super.onResume();
 
         sendScreenAnalytics(getString(R.string.ga_app_view_reward_cards_fragment));
+        // Change the brightness
+        changeBrightness(1.0F);
         reloadRewardList();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Restore the brightness
+        changeBrightness(mOriginBrightness);
     }
 
     @Override
@@ -135,38 +149,36 @@ public class RewardCardsFragment extends MMFragment implements Observer {
     }
 
     private void init() {
+        mOriginBrightness = getBrightness();
         CharSequence titleCharSeq = mOwnerActivity.getActionBar().getTitle();
 
         if (titleCharSeq != null && !TextUtils.isEmpty(titleCharSeq)) {
             mTitle = titleCharSeq.toString();
         }
 
-        mHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                switch (msg.what) {
-                    case MESSAGE_RELOAD_REWARD: {
-                        reloadRewardList();
-                    }
-                    break;
-
-                    case MESSAGE_EDIT_REWARD_INFO: {
-                        RewardInfo rewardInfo = (RewardInfo) msg.obj;
-
-                        editRewardInfo(rewardInfo);
-                    }
-                    break;
-
-                    case MESSAGE_PREVIEW_REWARD_CARD_PHOTO: {
-                        RewardInfo rewardInfo = (RewardInfo) msg.obj;
-
-                        mFlipAnimation = new FlipAnimation(mIvRewardFrontPreview, mIvRewardBackPreview);
-                        displayRewardPreviewStatus(mRlRewardPreview.getWidth() / 2, mRlRewardPreview.getHeight() / 2, rewardInfo);
-                    }
-                    break;
+        mHandler = new Handler(Looper.getMainLooper(), (Message msg) -> {
+            switch (msg.what) {
+                case MESSAGE_RELOAD_REWARD: {
+                    reloadRewardList();
                 }
-                return false;
+                break;
+
+                case MESSAGE_EDIT_REWARD_INFO: {
+                    RewardInfo rewardInfo = (RewardInfo) msg.obj;
+
+                    editRewardInfo(rewardInfo);
+                }
+                break;
+
+                case MESSAGE_PREVIEW_REWARD_CARD_PHOTO: {
+                    RewardInfo rewardInfo = (RewardInfo) msg.obj;
+
+                    mFlipAnimation = new FlipAnimation(mIvRewardFrontPreview, mIvRewardBackPreview);
+                    displayRewardPreviewStatus(mRlRewardPreview.getWidth() / 2, mRlRewardPreview.getHeight() / 2, rewardInfo);
+                }
+                break;
             }
+            return false;
         });
 
         mRewardListAdapter = new RewardListAdapter(mOwnerActivity, mInflater, mHandler);
@@ -198,7 +210,7 @@ public class RewardCardsFragment extends MMFragment implements Observer {
     }
 
     private void displayRewardPreviewStatus(int cx, int cy, RewardInfo rewardInfo) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_READ_EXT_STORAGE, getString(R.string.perm_rationale_read_ext_storage), Manifest.permission.READ_EXTERNAL_STORAGE);
             return;
         }
@@ -237,7 +249,8 @@ public class RewardCardsFragment extends MMFragment implements Observer {
             // make the view invisible when the animation is done
             animator.addListener(new SupportAnimator.AnimatorListener() {
                 @Override
-                public void onAnimationStart() {}
+                public void onAnimationStart() {
+                }
 
                 @Override
                 public void onAnimationEnd() {
@@ -247,10 +260,12 @@ public class RewardCardsFragment extends MMFragment implements Observer {
                 }
 
                 @Override
-                public void onAnimationCancel() {}
+                public void onAnimationCancel() {
+                }
 
                 @Override
-                public void onAnimationRepeat() {}
+                public void onAnimationRepeat() {
+                }
             });
 
             // start the animation
@@ -261,7 +276,7 @@ public class RewardCardsFragment extends MMFragment implements Observer {
     }
 
     private void flipCard() {
-        if(mIvRewardFrontPreview.getVisibility() == View.GONE || mFlipAnimation.isEqualToView(mIvRewardFrontPreview)) {
+        if (mIvRewardFrontPreview.getVisibility() == View.GONE || mFlipAnimation.isEqualToView(mIvRewardFrontPreview)) {
             mFlipAnimation.reverse();
         }
         mRlRewardFaceLayout.startAnimation(mFlipAnimation);
