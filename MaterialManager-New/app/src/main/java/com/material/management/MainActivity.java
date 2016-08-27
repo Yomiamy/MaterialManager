@@ -221,6 +221,7 @@ public class MainActivity extends SlidingActivity {
         setMenuItemVisibility(R.id.menu_action_add, false);
         setMenuItemVisibility(R.id.menu_action_cancel, false);
         setMenuItemVisibility(R.id.menu_action_new, false);
+        setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
         setMenuItemVisibility(R.id.menu_sort_by_date, false);
         setMenuItemVisibility(R.id.menu_sort_by_name, false);
         setMenuItemVisibility(R.id.menu_sort_by_place, false);

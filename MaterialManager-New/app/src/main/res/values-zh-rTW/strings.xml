@@ -34,6 +34,7 @@
     <string name="menu_grid_1x1">1 x 1 格列 </string>
     <string name="menu_grid_2x1">1 x 2 格列</string>
     <string name="menu_clear_expired_items">清除所有過期項目</string>
+    <string name="menu_receipt_grocery_login">透過發票登入購物清單列表</string>
     <string name="menu_share">分享</string>
     <string name="menu_contact_us">聯絡我們</string>
     <string name="menu_about">關於</string>

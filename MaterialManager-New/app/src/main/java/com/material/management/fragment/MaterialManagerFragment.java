@@ -363,6 +363,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, false);
         mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
         mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, false);
+        mOwnerActivity.setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
         mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
         mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
         mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
@@ -574,6 +575,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 activity.setMenuItemVisibility(R.id.action_search, true);
                 activity.setMenuItemVisibility(R.id.menu_action_add, false);
                 activity.setMenuItemVisibility(R.id.menu_action_cancel, false);
+                activity.setMenuItemVisibility(R.id.menu_action_new, false);
+                activity.setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
                 activity.setMenuItemVisibility(R.id.menu_sort_by_date, true);
                 activity.setMenuItemVisibility(R.id.menu_sort_by_name, true);
                 activity.setMenuItemVisibility(R.id.menu_sort_by_place, true);

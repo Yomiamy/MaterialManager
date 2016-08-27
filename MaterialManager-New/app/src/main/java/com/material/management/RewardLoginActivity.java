@@ -190,6 +190,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         setMenuItemVisibility(R.id.menu_action_add, true);
         setMenuItemVisibility(R.id.menu_action_cancel, true);
         setMenuItemVisibility(R.id.menu_action_new, false);
+        setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
         setMenuItemVisibility(R.id.menu_sort_by_date, false);
         setMenuItemVisibility(R.id.menu_sort_by_name, false);
         setMenuItemVisibility(R.id.menu_sort_by_place, false);

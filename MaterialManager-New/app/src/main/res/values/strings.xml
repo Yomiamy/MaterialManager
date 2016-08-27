@@ -44,6 +44,7 @@
     <string name="menu_grid_1x1">1 x 1 grid </string>
     <string name="menu_grid_2x1">1 x 2 grid</string>
     <string name="menu_clear_expired_items">Clear exp. item(s)</string>
+    <string name="menu_receipt_grocery_login">Login the grocery list by receipt</string>
     <string name="menu_share">Share</string>
     <string name="menu_contact_us">Contact us</string>
     <string name="menu_about">About</string>

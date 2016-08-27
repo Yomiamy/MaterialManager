@@ -648,6 +648,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, true);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, true);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, false);
+            mOwnerActivity.setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);
