@@ -16,6 +16,7 @@
     <string name="no_gps_view_message1">本項功能須使用GPS定位</string>
     <string name="no_gps_view_message2">• 請確認您的定位功能已開啟。</string>
     <string name="data_progressing">資料處理中...</string>
+    <string name="data_progressing_fail">資料處理失敗，請再試一次</string>
     <string name="data_save_success">資料儲存成功</string>
     <string name="data_save_fail">資料儲存失敗</string>
 
@@ -23,6 +24,7 @@
     <string name="perm_rationale_read_ext_storage">此功能需要從外部儲存空間讀取資料的權限以便套用資料至頁面上，請授與權限並再使用此功能</string>
     <string name="perm_rationale_camera">此功能需要具有相機權限以便掃描相關資料，請授與權限並再使用此功能</string>
     <string name="perm_rationale_location">此功能需要具有存取地理位置權限以便搜尋附近環境資料或識別地點相鄰性，請授與權限並再使用此功能</string>
+    <string name="perm_rationale_read_phone_state">此功能需要存取設備資訊以便加密查詢資料</string>
 
     <!-- MainActivity -->
     <string name="app_name">過期物品管家</string>
@@ -329,12 +331,13 @@
     <string name="title_sat">星期六</string>
     <string name="title_sun">星期日</string>
     <string name="grocery_login_msg_geo_trans">位置轉換中，請稍候...</string>
+    <string name="grocery_login_msg_query_receipt_info">查詢發票資訊中，請稍候...</string>
 
     <!-- LoginGroceryListFragment error message -->
     <string name="grocery_login_err_empty_phone">電話欄位尚未輸入</string>
     <string name="grocery_login_err_empty_store_address">店家地址欄位尚未輸入</string>
     <string name="grocery_login_err_dialog_msg">暫無相關資料，請稍後再試</string>
-
+    <string name="grocery_login_err_receipt_code_format_incorrect">條碼或QR碼資料不正確無法識別</string>
     <string-array name="weekTitle">
         <item>星期一</item>
         <item>星期二</item>

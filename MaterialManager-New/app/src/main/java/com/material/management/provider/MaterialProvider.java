@@ -295,7 +295,7 @@ public class MaterialProvider extends ContentProvider {
                 db.beginTransaction();
                 boolean isSuccessful = false;
 
-                /* FIXME: 
+                /*
                  * the upgrade only handle neighboring old and new version. e.g.: 1 -> 2.
                  * we need to handle the complex upgrade in the future. e.g.: 1 -> 3.
                  * */

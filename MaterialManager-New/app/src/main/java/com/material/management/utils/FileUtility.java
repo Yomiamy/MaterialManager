@@ -129,11 +129,6 @@ public class FileUtility {
             DriveFile childFile = childMetaData.getDriveId().asDriveFile();
             Status status = childFile.delete(apiClient).await();
 
-            if (status.isSuccess()) {
-                LogUtility.printLogD("randy", "delete " + childMetaData.getTitle() + " success.");
-            } else {
-                LogUtility.printLogD("randy", "delete " + childMetaData.getTitle() + " fail.");
-            }
             if (observ != null) {
                 BackupRestoreInfo pi = new BackupRestoreInfo();
                 pi.setMsg(sContext.getString(R.string.title_progress_adjust_drive_space_successfully,  ((i + 1) * 100) / len));

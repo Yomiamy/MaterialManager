@@ -297,6 +297,25 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             break;
+
+            case R.id.menu_action_receipt_grocery_login: {
+                if (mCurFragment != null && mCurFragment instanceof Observer
+                        && mCurFragment instanceof LoginGroceryListFragment) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (!isPermissionGranted(Manifest.permission.CAMERA) || !isPermissionGranted(Manifest.permission.READ_PHONE_STATE)))  {
+                        if(!isPermissionGranted(Manifest.permission.CAMERA)) {
+                            requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
+                        }
+
+                        if(!isPermissionGranted(Manifest.permission.READ_PHONE_STATE)) {
+                            requestPermissions(MMActivity.PERM_REQ_READ_PHONE_STATE, getString(R.string.perm_rationale_read_phone_state), Manifest.permission.READ_PHONE_STATE);
+                        }
+                        return super.onOptionsItemSelected(item);
+                    }
+                    ((LoginGroceryListFragment) mCurFragment).update(LoginGroceryListFragment.ACTION_BAR_BTN_ACTION_LOGIN_BY_RECEIPT);
+                }
+            }
+            break;
+
             case R.id.menu_grid_1x1: {
                 if (mCurFragment != null && mCurFragment instanceof Observer
                         && mCurFragment instanceof MaterialManagerFragment) {

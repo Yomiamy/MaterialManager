@@ -127,7 +127,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         initView(mLayout);
         update(null);
         changeLayoutConfig(mLayout);
-        LogUtility.printLogD(DEBUG_LOG_TAG, "onCretatView()...");
 
         return mLayout;
     }

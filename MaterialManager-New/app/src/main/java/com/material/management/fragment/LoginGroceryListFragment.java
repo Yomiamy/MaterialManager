@@ -2,6 +2,8 @@ package com.material.management.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +17,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.RequestParams;
 import com.material.management.MMActivity;
 import com.material.management.MMFragment;
@@ -27,21 +34,29 @@ import com.material.management.R;
 import com.material.management.api.module.ConnectionControl;
 import com.material.management.data.GroceryListData;
 import com.material.management.data.StoreData;
+import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class LoginGroceryListFragment extends MMFragment implements Observer, TimePickerDialog.OnTimeSetListener, CompoundButton.OnCheckedChangeListener {
+    public static final String ACTION_BAR_BTN_ACTION_LOGIN_BY_RECEIPT = "login_by_receipt";
     public static final String ACTION_BAR_BTN_ACTION_ADD = "add_material";
     public static final String ACTION_BAR_BTN_ACTION_CLEAR = "clear_user_input";
     private static final String REQ_PLACE_SEARCH = "geo_transform";
+    private static final String REQ_QUERY_RECEIPT_INFO = "query_receipt_info";
     private static final String TIMEPICKER_TAG = "timepicker";
     private static MainActivity sActivity;
 
@@ -160,7 +175,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
             }
         }
 
-        for(String text : mTextHistoryList) {
+        for (String text : mTextHistoryList) {
             textHistory.append(text);
             textHistory.append(":");
         }
@@ -244,7 +259,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
             break;
 
             case R.id.iv_store_address: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_ACCESS_FINE_LOCATION, getString(R.string.perm_rationale_location), Manifest.permission.ACCESS_FINE_LOCATION);
                     return;
                 }
@@ -279,16 +294,65 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) {
-            mActStoreName.setText("");
-            mActPhone.setText("");
-            mActAddress.setText("");
-            return;
+        if (requestCode == IntentIntegrator.REQUEST_CODE) {
+            // Get barcode and request the receipt information
+            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+            if (scanResult != null) {
+                String code = scanResult.getContents();
+                String codeFormat = scanResult.getFormatName();
+
+                if (code != null && codeFormat != null) {
+                    LogUtility.printLogD("randy", "barcode format = " + codeFormat);
+                    LogUtility.printLogD("randy", "barcode = " + code);
+                    LogUtility.printLogD("randy", "UUID = " + Utility.getUUID(mOwnerActivity));
+
+                    RequestParams params = new RequestParams();
+
+                    // TODO: It maybe need to be refactored
+                    if (codeFormat.equals(BarcodeFormat.QR_CODE.name())) {
+                        if (code.length() < 77) {
+                            showToast(mResources.getString(R.string.grocery_login_err_receipt_code_format_incorrect));
+                            return;
+                        }
+                        params.put("type", "QRCode");
+                        params.put("invNum", code.substring(0, 10));
+                        params.put("encrypt", code.substring(53, 77));
+                        params.put("sellerID", code.substring(45, 53));
+                        params.put("invDate", Utility.convertTWDate(code.substring(10, 17), "yyyMMdd", "yyyy/MM/dd"));
+                        params.put("randomNumber", code.substring(17, 21));
+                    } else if (codeFormat.equals(BarcodeFormat.CODE_39)) {
+                        if (code.length() < 19) {
+                            showToast(mResources.getString(R.string.grocery_login_err_receipt_code_format_incorrect));
+                            return;
+                        }
+                        params.put("type", "Barcode");
+                        params.put("invTerm", code.substring(0, 5));
+                        params.put("invNum", code.substring(5, 15));
+                        // TODO: where is th invData in barcode?
+                        // params.put("invDate", );
+                        params.put("randomNumber", code.substring(15, 19));
+                    }
+                    params.put("version", "0.3");
+                    params.put("action", "qryInvDetail");
+                    params.put("generation", "V2");
+                    params.put("UUID", Utility.getUUID(mOwnerActivity));
+                    params.put("appID", mResources.getString(R.string.receipt_app_id));
+
+                    showProgressDialog(null, mResources.getString(R.string.grocery_login_msg_query_receipt_info));
+                    mControl.postData(ConnectionControl.TW_RECEIPT_INFO, LoginGroceryListFragment.this, params, REQ_QUERY_RECEIPT_INFO);
+                }
+            }
+        } else {
+            if (data == null) {
+                mActStoreName.setText("");
+                mActPhone.setText("");
+                mActAddress.setText("");
+                return;
+            }
+            mSelectedStoreData = data.getParcelableExtra("store_data");
+            updateStoreInfo();
         }
-
-        mSelectedStoreData = data.getParcelableExtra("store_data");
-
-        updateStoreInfo();
     }
 
     private void updateStoreInfo() {
@@ -406,14 +470,38 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
 //                "OVER_QUERY_LIMIT" 表示您超過配額了。
 //                "REQUEST_DENIED" 表示您的要求已遭拒絕，通常是因為缺少 sensor 參數。
 //                "INVALID_REQUEST" 一般表示查詢 (address 或 latlng) 遺失了。
-                    showAlertDialog(null, getString(R.string.grocery_login_err_dialog_msg), getString(R.string.title_positive_btn_label), null, null, null);
+                    showToast(mResources.getString(R.string.grocery_login_err_dialog_msg));
 
                 }
-                closeProgressDialog();
+            } else if (req.equals(REQ_QUERY_RECEIPT_INFO)) {
+                if (jsonObj != null && jsonObj.getInt("code") == 200) {
+                    String receiptNum = jsonObj.getString("invNum");
+                    String receiptDate = jsonObj.getString("invDate");
+                    String storeName = jsonObj.getString("sellerName");
+                    String storeAddress = jsonObj.getString("sellerAddress");
+                    JSONArray groceryDetailAry = jsonObj.getJSONArray("details");
+
+                    mActStoreName.setText(storeName);
+                    mActGroceryListName.setText(storeName + " - " + receiptDate);
+                    mActAddress.setText(storeAddress);
+                } else {
+                    showToast(mResources.getString(R.string.grocery_login_err_dialog_msg));
+                }
+
+                LogUtility.printLogD("randy", jsonObj.toString());
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            LogUtility.printStackTrace(e);
+            showToast(mResources.getString(R.string.data_progressing_fail));
+        } finally {
+            closeProgressDialog();
         }
+    }
+
+    @Override
+    public void callbackFromController(JSONObject result, Throwable throwable, String error) {
+        showToast(mResources.getString(R.string.grocery_login_err_dialog_msg));
+        closeProgressDialog();
     }
 
     @Override
@@ -423,44 +511,51 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
         }
 
         if (data != null) {
-            if (data.equals(ACTION_BAR_BTN_ACTION_ADD)) {
-                GroceryListData groceryListData = new GroceryListData();
-                StringBuilder serviceTimeStr = new StringBuilder("");
+            if (data.equals(ACTION_BAR_BTN_ACTION_ADD) || data.equals(ACTION_BAR_BTN_ACTION_CLEAR)) {
+                if (data.equals(ACTION_BAR_BTN_ACTION_ADD)) {
+                    GroceryListData groceryListData = new GroceryListData();
+                    StringBuilder serviceTimeStr = new StringBuilder("");
 
-                groceryListData.setGroceryListName(mActGroceryListName.getText().toString());
-                groceryListData.setIsAlertWhenNearBy(mCbNearbyAlert.isChecked() ? 1 : 0);
-                groceryListData.setStoreName(mActStoreName.getText().toString());
-                groceryListData.setAddress(mActAddress.getText().toString());
-                groceryListData.setPhone(mActPhone.getText().toString());
-                /* The service time for each is  [week day]:[start time]~[end time] and each day is separated by "|"*/
-                serviceTimeStr.append("1:").append(mBtnSun.getText().toString()).append("~").append(mBtnPMSun.getText()).append("|");
-                serviceTimeStr.append("2:").append(mBtnMon.getText().toString()).append("~").append(mBtnPMMon.getText()).append("|");
-                serviceTimeStr.append("3:").append(mBtnTue.getText().toString()).append("~").append(mBtnPMThu.getText()).append("|");
-                serviceTimeStr.append("4:").append(mBtnWed.getText().toString()).append("~").append(mBtnPMWed.getText()).append("|");
-                serviceTimeStr.append("5:").append(mBtnThu.getText().toString()).append("~").append(mBtnPMThu.getText()).append("|");
-                serviceTimeStr.append("6:").append(mBtnFri.getText().toString()).append("~").append(mBtnPMFri.getText()).append("|");
-                serviceTimeStr.append("7:").append(mBtnSat.getText().toString()).append("~").append(mBtnPMSat.getText());
+                    groceryListData.setGroceryListName(mActGroceryListName.getText().toString());
+                    groceryListData.setIsAlertWhenNearBy(mCbNearbyAlert.isChecked() ? 1 : 0);
+                    groceryListData.setStoreName(mActStoreName.getText().toString());
+                    groceryListData.setAddress(mActAddress.getText().toString());
+                    groceryListData.setPhone(mActPhone.getText().toString());
+                    /* The service time for each is  [week day]:[start time]~[end time] and each day is separated by "|"*/
+                    serviceTimeStr.append("1:").append(mBtnSun.getText().toString()).append("~").append(mBtnPMSun.getText()).append("|");
+                    serviceTimeStr.append("2:").append(mBtnMon.getText().toString()).append("~").append(mBtnPMMon.getText()).append("|");
+                    serviceTimeStr.append("3:").append(mBtnTue.getText().toString()).append("~").append(mBtnPMThu.getText()).append("|");
+                    serviceTimeStr.append("4:").append(mBtnWed.getText().toString()).append("~").append(mBtnPMWed.getText()).append("|");
+                    serviceTimeStr.append("5:").append(mBtnThu.getText().toString()).append("~").append(mBtnPMThu.getText()).append("|");
+                    serviceTimeStr.append("6:").append(mBtnFri.getText().toString()).append("~").append(mBtnPMFri.getText()).append("|");
+                    serviceTimeStr.append("7:").append(mBtnSat.getText().toString()).append("~").append(mBtnPMSat.getText());
 
-                /* replace the default string in service time string.*/
-                String serviceTimeDefaultInDb = getString(R.string.title_service_time_default_in_db);
-                String serviceTimeDefault = getString(R.string.title_service_time_default);
-                int index;
-                int len = serviceTimeDefault.length();
+                    /* replace the default string in service time string.*/
+                    String serviceTimeDefaultInDb = getString(R.string.title_service_time_default_in_db);
+                    String serviceTimeDefault = getString(R.string.title_service_time_default);
+                    int index;
+                    int len = serviceTimeDefault.length();
 
-                while((index = serviceTimeStr.indexOf(serviceTimeDefault)) != -1) {
-                    serviceTimeStr.replace(index, index + len , serviceTimeDefaultInDb);
+                    while ((index = serviceTimeStr.indexOf(serviceTimeDefault)) != -1) {
+                        serviceTimeStr.replace(index, index + len, serviceTimeDefaultInDb);
+                    }
+                    groceryListData.setServiceTime(serviceTimeStr.toString());
+                    groceryListData.setLat((mSelectedStoreData != null) ? mSelectedStoreData.getStoreLat() : "");
+                    groceryListData.setLong((mSelectedStoreData != null) ? mSelectedStoreData.getStoreLong() : "");
+                    groceryListData.setIsAlertWhenNearBy(mCbNearbyAlert.isChecked() ? 1 : 0);
+
+                    updateTextHistory(groceryListData.getGroceryListName(), groceryListData.getStoreName(), groceryListData.getPhone(), groceryListData.getAddress());
+                    DBUtility.insertGroceryListInfo(groceryListData);
+                    showToast(getString(R.string.data_save_success));
+                } else if (data.equals(ACTION_BAR_BTN_ACTION_CLEAR)) {
                 }
-                groceryListData.setServiceTime(serviceTimeStr.toString());
-                groceryListData.setLat((mSelectedStoreData != null) ? mSelectedStoreData.getStoreLat() : "");
-                groceryListData.setLong((mSelectedStoreData != null) ? mSelectedStoreData.getStoreLong() : "");
-                groceryListData.setIsAlertWhenNearBy(mCbNearbyAlert.isChecked() ? 1 : 0);
+                clearUserData();
+            } else if (data.equals(ACTION_BAR_BTN_ACTION_LOGIN_BY_RECEIPT)) {
+                IntentIntegrator integrator = new IntentIntegrator(LoginGroceryListFragment.this);
+                integrator.initiateScan();
+            }
 
-                updateTextHistory(groceryListData.getGroceryListName(), groceryListData.getStoreName(), groceryListData.getPhone(), groceryListData.getAddress());
-                DBUtility.insertGroceryListInfo(groceryListData);
-                showToast(getString(R.string.data_save_success));
-            } else if (data.equals(ACTION_BAR_BTN_ACTION_CLEAR)) {}
-            clearUserData();
-            mImm.hideSoftInputFromWindow(mLayout.getApplicationWindowToken(), 0);
+            hideSoftInput();
         } else {
             sActivity.setMenuItemVisibility(R.id.action_search, false);
             sActivity.setMenuItemVisibility(R.id.menu_action_add, true);
