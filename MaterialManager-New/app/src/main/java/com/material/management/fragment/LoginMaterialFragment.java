@@ -157,6 +157,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3);
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_3to4);
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5);
+        isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_5to6);
 
         if (isNeedDbWarnDialog != 0) {
             AlertDialog.Builder warnDialog = new AlertDialog.Builder(mOwnerActivity, R.style.AlertDialogTheme);
@@ -170,10 +171,10 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3, 0);
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_3to4, 0);
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5, 0);
+            Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_5to6, 0);
         }
 
         sendScreenAnalytics(getString(R.string.ga_app_view_login_material_fragment));
-        LogUtility.printLogD(DEBUG_LOG_TAG, "onResume()...");
         super.onResume();
     }
 
@@ -647,7 +648,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, true);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, true);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, false);
-            mOwnerActivity.setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);

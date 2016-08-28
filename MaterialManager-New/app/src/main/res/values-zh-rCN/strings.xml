@@ -265,6 +265,7 @@
     <string name="msg_confirm_del_dialog">确认是否删除？</string>
     <string name="title_grocery_name">清单名称 :</string>
     <string name="title_store_address_hint">点击以选择一个地点(非必要)</string>
+    <string name="title_store_login_grocery_by_receipt_hint">透过电子发票登入购物清单</string>
     <string name="title_nearby_alert">临近地点时通知我(1公里內)</string>
     <string name="title_address">地址 :</string>
     <string name="title_phone">电话 :</string>

@@ -10,12 +10,6 @@
 
     <!-- for material add or cancel -->
     <item
-        android:id="@+id/menu_action_receipt_grocery_login"
-        android:icon="@drawable/ic_action_barcode_green"
-        android:showAsAction="always|withText"
-        android:title="@string/menu_receipt_grocery_login"/>
-
-    <item
         android:id="@+id/menu_action_add"
         android:icon="@drawable/ic_action_tick_green"
         android:showAsAction="always|withText"

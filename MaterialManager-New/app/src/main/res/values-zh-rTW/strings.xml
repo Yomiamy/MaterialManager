@@ -301,6 +301,7 @@
 
     <!-- LoginGroceryListFragment -->
     <string name="title_grocery_name">清單名稱 : </string>
+    <string name="title_store_login_grocery_by_receipt_hint">透過電子發票登入購物清單</string>
     <string name="title_store_address_hint">點擊以選擇一個地點(非必要)</string>
     <string name="title_nearby_alert">臨近地點時通知我(1公里內)</string>
     <string name="title_address">地址 : </string>

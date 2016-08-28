@@ -59,6 +59,32 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_login_grocery_by_receipt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rl_grocery_login_common_subitem_layout_margin_top"
+                    android:layout_marginLeft="@dimen/rl_grocery_login_common_subitem_layout_margin_left">
+
+                    <ImageView
+                        android:id="@+id/iv_login_receipt_barcode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_action_barcode_green" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/iv_login_receipt_barcode"
+                        android:text="@string/title_store_login_grocery_by_receipt_hint"
+                        android:textColor="@color/GK"
+                        android:textSize="@dimen/font_size_medium"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -89,6 +115,7 @@
                             android:textSize="@dimen/font_size_medium"
                             android:textStyle="bold" />
                     </RelativeLayout>
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"

@@ -3,10 +3,10 @@ package com.material.management.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.RequestParams;
@@ -32,9 +31,9 @@ import com.material.management.Observer;
 import com.material.management.StoreMapActivity;
 import com.material.management.R;
 import com.material.management.api.module.ConnectionControl;
+import com.material.management.data.GroceryItem;
 import com.material.management.data.GroceryListData;
 import com.material.management.data.StoreData;
-import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
@@ -49,10 +48,9 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class LoginGroceryListFragment extends MMFragment implements Observer, TimePickerDialog.OnTimeSetListener, CompoundButton.OnCheckedChangeListener {
-    public static final String ACTION_BAR_BTN_ACTION_LOGIN_BY_RECEIPT = "login_by_receipt";
+
     public static final String ACTION_BAR_BTN_ACTION_ADD = "add_material";
     public static final String ACTION_BAR_BTN_ACTION_CLEAR = "clear_user_input";
     private static final String REQ_PLACE_SEARCH = "geo_transform";
@@ -65,6 +63,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     private AutoCompleteTextView mActStoreName;
     private AutoCompleteTextView mActAddress;
     private AutoCompleteTextView mActPhone;
+    private ImageView mIvReceiptBarcode;
     private ImageView mIvStoreAddress;
     private ImageView mIvPhone;
     private ImageView mIvNavig;
@@ -81,9 +80,11 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     private TimePickerDialog mTimePickerDialog = null;
     private ArrayAdapter<String> mTextHistAdapter = null;
     private ArrayList<String> mTextHistoryList;
+    private ArrayList<GroceryItem> mReceiptItemList = null;
     private String mTitle;
     private String mCurModifiedAddress;
     private StoreData mSelectedStoreData = null;
+    private String mReceiptNum = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,6 +108,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     }
 
     private void findView() {
+        mIvReceiptBarcode = (ImageView) mLayout.findViewById(R.id.iv_login_receipt_barcode);
         mIvPhone = (ImageView) mLayout.findViewById(R.id.iv_phoneButton);
         mIvNavig = (ImageView) mLayout.findViewById(R.id.iv_navigateButton);
         mIvStoreAddress = (ImageView) mLayout.findViewById(R.id.iv_store_address);
@@ -146,6 +148,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     }
 
     private void setListener() {
+        mIvReceiptBarcode.setOnClickListener(this);
         mIvPhone.setOnClickListener(this);
         mIvNavig.setOnClickListener(this);
         mIvStoreAddress.setOnClickListener(this);
@@ -225,6 +228,23 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
 
         v.startAnimation(AnimationUtils.loadAnimation(sActivity, R.anim.anim_press_bounce));
         switch (id) {
+            case R.id.iv_login_receipt_barcode: {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && (!mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA) || !mOwnerActivity.isPermissionGranted(Manifest.permission.READ_PHONE_STATE))) {
+                    if (!mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
+                        mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_CAMERA, mResources.getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
+                    }
+
+                    if (!mOwnerActivity.isPermissionGranted(Manifest.permission.READ_PHONE_STATE)) {
+                        mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_READ_PHONE_STATE, getString(R.string.perm_rationale_read_phone_state), Manifest.permission.READ_PHONE_STATE);
+                    }
+                    return;
+                }
+                IntentIntegrator integrator = new IntentIntegrator(LoginGroceryListFragment.this);
+                integrator.initiateScan();
+            }
+            break;
+
             case R.id.iv_phoneButton: {
                 String phone = Uri.encode(mActPhone.getText().toString());
 
@@ -475,11 +495,38 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                 }
             } else if (req.equals(REQ_QUERY_RECEIPT_INFO)) {
                 if (jsonObj != null && jsonObj.getInt("code") == 200) {
-                    String receiptNum = jsonObj.getString("invNum");
+                    mReceiptNum = jsonObj.getString("invNum");
                     String receiptDate = jsonObj.getString("invDate");
                     String storeName = jsonObj.getString("sellerName");
                     String storeAddress = jsonObj.getString("sellerAddress");
                     JSONArray groceryDetailAry = jsonObj.getJSONArray("details");
+                    mReceiptItemList = new ArrayList<>();
+                    ArrayList<String> materialTypeList = DBUtility.selectMaterialTypeInfo();
+                    Calendar purchaseDateCal = Calendar.getInstance();
+
+                    // TODO: Need to be refactored.
+                    purchaseDateCal.setTime(Utility.transStringToDate("yyyyMMdd", receiptDate));
+                    for(int i = 0, len = groceryDetailAry.length() ; i < len ; i++) {
+                        JSONObject detailJsonObj = groceryDetailAry.getJSONObject(i);
+                        GroceryItem groceryItem = new GroceryItem();
+
+                        // set the -1 as the default grocery list id
+                        groceryItem.setGroceryListId(-1);
+                        groceryItem.setGroceryPic(((BitmapDrawable) getResources().getDrawable(R.drawable.ic_no_image_available)).getBitmap());
+                        groceryItem.setBarcode("");
+                        groceryItem.setBarcodeFormat("");
+                        groceryItem.setName(detailJsonObj.getString("description"));
+                        // use the index 0 item as default grocery list item type
+                        groceryItem.setGroceryType(materialTypeList.get(0));
+                        groceryItem.setSize("");
+                        groceryItem.setSizeUnit("");
+                        groceryItem.setQty(detailJsonObj.getString("quantity"));
+                        groceryItem.setPrice(detailJsonObj.getString("unitPrice"));
+                        groceryItem.setComment("");
+                        groceryItem.setPurchaceDate(purchaseDateCal);
+                        groceryItem.setValidDate(Calendar.getInstance());
+                        mReceiptItemList.add(groceryItem);
+                    }
 
                     mActStoreName.setText(storeName);
                     mActGroceryListName.setText(storeName + " - " + receiptDate);
@@ -543,16 +590,28 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                     groceryListData.setLat((mSelectedStoreData != null) ? mSelectedStoreData.getStoreLat() : "");
                     groceryListData.setLong((mSelectedStoreData != null) ? mSelectedStoreData.getStoreLong() : "");
                     groceryListData.setIsAlertWhenNearBy(mCbNearbyAlert.isChecked() ? 1 : 0);
+                    groceryListData.setReceiptNum(TextUtils.isEmpty(mReceiptNum) ? "" : mReceiptNum);
 
                     updateTextHistory(groceryListData.getGroceryListName(), groceryListData.getStoreName(), groceryListData.getPhone(), groceryListData.getAddress());
                     DBUtility.insertGroceryListInfo(groceryListData);
+
+                    // user scan the receipt data to fill grocery list data and items automatically
+                    if(!TextUtils.isEmpty(mReceiptNum)) {
+                        groceryListData = DBUtility.selectGroceryListInfoByReceiptNum(mReceiptNum);
+
+                        // TODO: it maybe cause slow performance
+                        for(GroceryItem item : mReceiptItemList) {
+                            item.setGroceryListId(groceryListData.getId());
+
+                            DBUtility.insertGroceryItemInfo(item);
+                        }
+                    }
+                    mReceiptNum = null;
+                    mReceiptItemList = null;
                     showToast(getString(R.string.data_save_success));
                 } else if (data.equals(ACTION_BAR_BTN_ACTION_CLEAR)) {
                 }
                 clearUserData();
-            } else if (data.equals(ACTION_BAR_BTN_ACTION_LOGIN_BY_RECEIPT)) {
-                IntentIntegrator integrator = new IntentIntegrator(LoginGroceryListFragment.this);
-                integrator.initiateScan();
             }
 
             hideSoftInput();
@@ -561,7 +620,6 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
             sActivity.setMenuItemVisibility(R.id.menu_action_add, true);
             sActivity.setMenuItemVisibility(R.id.menu_action_cancel, true);
             sActivity.setMenuItemVisibility(R.id.menu_action_new, false);
-            sActivity.setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, true);
             sActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
             sActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
             sActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);

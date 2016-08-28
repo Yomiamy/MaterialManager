@@ -10,6 +10,7 @@ public class GroceryListData extends GlobalSearchData implements Parcelable{
     protected ItemType mItemType = ItemType.GROCERY_LIST;
 
     private int mId;
+    private String mReceiptNum;
     private String mGroceryListName = "";
     /*
     *  0 : Disable the nearby alert.
@@ -40,6 +41,14 @@ public class GroceryListData extends GlobalSearchData implements Parcelable{
 
     public void setId(int mId) {
         this.mId = mId;
+    }
+
+    public String getReceiptNum() {
+        return mReceiptNum;
+    }
+
+    public void setReceiptNum(String mReceiptNum) {
+        this.mReceiptNum = mReceiptNum;
     }
 
     public String getGroceryListName() {
@@ -122,6 +131,7 @@ public class GroceryListData extends GlobalSearchData implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
+        dest.writeString(mReceiptNum);
         dest.writeString(mGroceryListName);
         dest.writeInt(mIsAlertWhenNearBy);
         dest.writeString(mStoreName);
@@ -139,6 +149,7 @@ public class GroceryListData extends GlobalSearchData implements Parcelable{
             GroceryListData groceryListData = new GroceryListData();
 
             groceryListData.setId(p.readInt());
+            groceryListData.setReceiptNum(p.readString());
             groceryListData.setGroceryListName(p.readString());
             groceryListData.setIsAlertWhenNearBy(p.readInt());
             groceryListData.setStoreName(p.readString());

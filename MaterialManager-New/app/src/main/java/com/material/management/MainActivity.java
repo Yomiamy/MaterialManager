@@ -221,7 +221,6 @@ public class MainActivity extends SlidingActivity {
         setMenuItemVisibility(R.id.menu_action_add, false);
         setMenuItemVisibility(R.id.menu_action_cancel, false);
         setMenuItemVisibility(R.id.menu_action_new, false);
-        setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
         setMenuItemVisibility(R.id.menu_sort_by_date, false);
         setMenuItemVisibility(R.id.menu_sort_by_name, false);
         setMenuItemVisibility(R.id.menu_sort_by_place, false);
@@ -294,24 +293,6 @@ public class MainActivity extends SlidingActivity {
                     changeHomeAsUpIcon(R.drawable.ic_drawer);
                 } else if (mCurHomeUpIconResId == R.drawable.ic_drawer) {
                     mSlideMenu.toggle();
-                }
-            }
-            break;
-
-            case R.id.menu_action_receipt_grocery_login: {
-                if (mCurFragment != null && mCurFragment instanceof Observer
-                        && mCurFragment instanceof LoginGroceryListFragment) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (!isPermissionGranted(Manifest.permission.CAMERA) || !isPermissionGranted(Manifest.permission.READ_PHONE_STATE)))  {
-                        if(!isPermissionGranted(Manifest.permission.CAMERA)) {
-                            requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
-                        }
-
-                        if(!isPermissionGranted(Manifest.permission.READ_PHONE_STATE)) {
-                            requestPermissions(MMActivity.PERM_REQ_READ_PHONE_STATE, getString(R.string.perm_rationale_read_phone_state), Manifest.permission.READ_PHONE_STATE);
-                        }
-                        return super.onOptionsItemSelected(item);
-                    }
-                    ((LoginGroceryListFragment) mCurFragment).update(LoginGroceryListFragment.ACTION_BAR_BTN_ACTION_LOGIN_BY_RECEIPT);
                 }
             }
             break;

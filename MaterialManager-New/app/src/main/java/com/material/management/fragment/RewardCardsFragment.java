@@ -298,7 +298,6 @@ public class RewardCardsFragment extends MMFragment implements Observer {
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_add, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_cancel, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_action_new, true);
-            mOwnerActivity.setMenuItemVisibility(R.id.menu_action_receipt_grocery_login, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_date, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_name, false);
             mOwnerActivity.setMenuItemVisibility(R.id.menu_sort_by_place, false);

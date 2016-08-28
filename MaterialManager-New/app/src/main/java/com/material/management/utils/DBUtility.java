@@ -438,6 +438,7 @@ public class DBUtility {
             String lon = new String(newGroceryListInfo.getLong().getBytes(), sStringCharSet);
             String phone = new String(newGroceryListInfo.getPhone().getBytes(), sStringCharSet);
             String serviceTime = new String(newGroceryListInfo.getServiceTime().getBytes(), sStringCharSet);
+            String receiptNum = new String(newGroceryListInfo.getReceiptNum().getBytes(), sStringCharSet);
 
             value.put("grocery_list_name", groceryListName);
             value.put("alert_nearby", newGroceryListInfo.getIsAlertWhenNearBy());
@@ -447,6 +448,7 @@ public class DBUtility {
             value.put("longitude", lon);
             value.put("phone", phone);
             value.put("service_time", serviceTime);
+            value.put("receipt_num", receiptNum);
 
             int row = sResolver.update(MaterialProvider.URI_GROCERY_LIST, value, "id=?", new String[]{Integer.toString(oldGroceryListInfo.getId())});
         } catch (UnsupportedEncodingException e) {
@@ -466,6 +468,7 @@ public class DBUtility {
             value.put("longitude", new String(groceryListInfo.getLong().getBytes(), sStringCharSet));
             value.put("phone", new String(groceryListInfo.getPhone().getBytes(), sStringCharSet));
             value.put("service_time", new String(groceryListInfo.getServiceTime().getBytes(), sStringCharSet));
+            value.put("receipt_num", new String(groceryListInfo.getReceiptNum().getBytes(), sStringCharSet));
 
             sResolver.insert(MaterialProvider.URI_GROCERY_LIST, value);
         } catch (UnsupportedEncodingException e) {
@@ -574,6 +577,7 @@ public class DBUtility {
                 groceryListInfo.setLong(c.getString(6));
                 groceryListInfo.setPhone(c.getString(7));
                 groceryListInfo.setServiceTime(c.getString(8));
+                groceryListInfo.setReceiptNum(c.getString(9));
 
                 groceryListInfos.add(groceryListInfo);
             }
@@ -586,6 +590,40 @@ public class DBUtility {
             }
         }
         return groceryListInfos;
+    }
+
+    public synchronized static GroceryListData selectGroceryListInfoByReceiptNum(String receiptNum) {
+        ArrayList<GroceryListData> groceryListInfos = new ArrayList<>();
+        Cursor c = null;
+
+        try {
+            c = sResolver.query(MaterialProvider.URI_GROCERY_LIST, null, "receipt_num=?", new String[]{receiptNum}, null);
+
+            while (c.moveToNext()) {
+                GroceryListData groceryListInfo = new GroceryListData();
+
+                groceryListInfo.setId(c.getInt(0));
+                groceryListInfo.setGroceryListName(c.getString(1));
+                groceryListInfo.setIsAlertWhenNearBy(c.getInt(2));
+                groceryListInfo.setStoreName(c.getString(3));
+                groceryListInfo.setAddress(c.getString(4));
+                groceryListInfo.setLat(c.getString(5));
+                groceryListInfo.setLong(c.getString(6));
+                groceryListInfo.setPhone(c.getString(7));
+                groceryListInfo.setServiceTime(c.getString(8));
+                groceryListInfo.setReceiptNum(c.getString(9));
+
+                groceryListInfos.add(groceryListInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) {
+                c.close();
+                c = null;
+            }
+        }
+        return (groceryListInfos.size() > 0) ? groceryListInfos.get(0) : null;
     }
 
 
@@ -608,6 +646,7 @@ public class DBUtility {
                 groceryListInfo.setLong(c.getString(6));
                 groceryListInfo.setPhone(c.getString(7));
                 groceryListInfo.setServiceTime(c.getString(8));
+                groceryListInfo.setReceiptNum(c.getString(9));
 
                 groceryListInfos.add(groceryListInfo);
             }

@@ -56,6 +56,7 @@ public class Utility {
     public static final String DB_UPGRADE_FLAG_2to3 = "db_upgrade_flag_2_to_3";
     public static final String DB_UPGRADE_FLAG_3to4 = "db_upgrade_flag_3_to_4";
     public static final String DB_UPGRADE_FLAG_4to5 = "db_upgrade_flag_4_to_5";
+    public static final String DB_UPGRADE_FLAG_5to6 = "db_upgrade_flag_5_to_6";
     public static final String CATEGORY_IS_INITIALIZED = "category_is_initialized";
     public static final String SHARE_IS_INITIALIZED = "share_is_initialized";
     public static final String SHARE_AUTO_COMPLETE_TEXT = "share_auto_complete_text";
