@@ -370,17 +370,17 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
                         switch (action) {
                             case MotionEvent.ACTION_DOWN:
                                 // Disallow ScrollView to intercept touch events.
-                                v.getParent().requestDisallowInterceptTouchEvent(true);
+                                vi.getParent().requestDisallowInterceptTouchEvent(true);
                                 break;
 
                             case MotionEvent.ACTION_UP:
                                 // Allow ScrollView to intercept touch events.
-                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                vi.getParent().requestDisallowInterceptTouchEvent(false);
                                 break;
                         }
 
                         // Handle ListView touch events.
-                        v.onTouchEvent(event);
+                        vi.onTouchEvent(event);
                         return true;
                     });
                     mCurLvGroceryItems.setOnItemLongClickListener((p, vi, pos, id) -> {
