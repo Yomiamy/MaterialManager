@@ -277,7 +277,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
                             continue;
                         }
 
-                        statisticTotal += Long.parseLong(item.getQty()) * Double.parseDouble(item.getPrice());
+                        statisticTotal += Double.parseDouble(item.getQty()) * Double.parseDouble(item.getPrice());
                         ItemDetails itemDetails = null;
 
                         /* Use [item name][item price] as map key*/
@@ -289,8 +289,8 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
                             itemDetailsMap.put(item.getName() + item.getPrice(), itemDetails);
                         }
                         itemDetails = itemDetailsMap.get(item.getName() + item.getPrice());
-                        itemDetails.qty += Long.parseLong(item.getQty());
-                        itemDetails.total += itemDetails.price * Long.parseLong(item.getQty());
+                        itemDetails.qty += Double.parseDouble(item.getQty());
+                        itemDetails.total += itemDetails.price * Double.parseDouble(item.getQty());
                     }
                     groceryListData.setTotalCost(statisticTotal);
                     mGreceryList.add(groceryListData);
@@ -387,8 +387,8 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
 
             tvItemName.setText(itemDetails.itemName);
             tvPrice.setText(Double.toString(itemDetails.price));
-            tvQty.setText(Long.toString(itemDetails.qty));
-            tvTotal.setText(Long.toString(itemDetails.total));
+            tvQty.setText(Double.toString(itemDetails.qty));
+            tvTotal.setText(Double.toString(itemDetails.total));
 
             return view;
         }
@@ -397,7 +397,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
     private class ItemDetails {
         String itemName = null;
         double price = 0;
-        long qty = 0;
-        long total = 0;
+        double qty = 0;
+        double total = 0;
     }
 }

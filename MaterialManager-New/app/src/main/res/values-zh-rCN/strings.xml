@@ -299,6 +299,7 @@
     <string name="grocery_login_err_empty_phone">电话字段尚未输入</string>
     <string name="grocery_login_err_empty_store_address">店家地址字段尚未输入</string>
     <string name="grocery_login_err_dialog_msg">暂无相关资料，请稍后再试</string>
+    <string name="grocery_receipt_barcode_err_dialog_msg">发票资料码有误，请确认后再试一次</string>
     <string name="grocery_login_err_receipt_code_format_incorrect">条码或QR码资料不正确无法识別</string>
     <string-array name="weekTitle">
         <item>星期一</item>

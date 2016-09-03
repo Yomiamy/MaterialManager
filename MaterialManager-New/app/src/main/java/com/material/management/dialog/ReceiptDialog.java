@@ -74,7 +74,7 @@ public class ReceiptDialog extends AlertDialog.Builder {
         tvDate.setText(Utility.transDateToString("yyyy - MM - dd", nowDate.getTime()));
         tvTime.setText(Utility.transDateToString("hh:mm a", nowDate.getTime()));
         for (GroceryItem item : mGroceryItemList) {
-            totalValue += Long.parseLong(item.getQty()) * Double.parseDouble(item.getPrice());
+            totalValue += Double.parseDouble(item.getQty()) * Double.parseDouble(item.getPrice());
             View checkOutItemLayout = layoutInflater.inflate(R.layout.view_checkout_item, null);
             TextView tvQty = (TextView) checkOutItemLayout.findViewById(R.id.tv_qty);
             TextView tvItemName = (TextView) checkOutItemLayout.findViewById(R.id.tv_item_name);

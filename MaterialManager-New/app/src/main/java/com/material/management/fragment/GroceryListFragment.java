@@ -568,7 +568,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
                     continue;
                 }
 
-                statisticTotal += Long.parseLong(item.getQty()) * Double.parseDouble(item.getPrice());
+                statisticTotal += Double.parseDouble(item.getQty()) * Double.parseDouble(item.getPrice());
             }
             mCurStaticsTotal.setText(getString(R.string.title_layout_bottom_checkout_total, mCurrencySymbol, Double.toString(statisticTotal)));
         }
@@ -623,7 +623,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
                 viewHolder = (ViewHolder) view.getTag();
             }
 
-            long qty = (groceryItem.getQty() == null || groceryItem.getQty().isEmpty()) ? 0 : Long.parseLong(groceryItem.getQty());
+            double qty = (groceryItem.getQty() == null || groceryItem.getQty().isEmpty()) ? 0 : Double.parseDouble(groceryItem.getQty());
             double price = (groceryItem.getPrice() == null || groceryItem.getPrice().isEmpty()) ? 0 : Double.parseDouble(groceryItem.getPrice());
 
             viewHolder.notPurchasedGrayMask.setVisibility(View.GONE);

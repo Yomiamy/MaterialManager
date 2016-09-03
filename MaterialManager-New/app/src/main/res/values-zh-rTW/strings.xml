@@ -337,6 +337,7 @@
     <!-- LoginGroceryListFragment error message -->
     <string name="grocery_login_err_empty_phone">電話欄位尚未輸入</string>
     <string name="grocery_login_err_empty_store_address">店家地址欄位尚未輸入</string>
+    <string name="grocery_receipt_barcode_err_dialog_msg">發票資料碼有誤，請確認後再試一次</string>
     <string name="grocery_login_err_dialog_msg">暫無相關資料，請稍後再試</string>
     <string name="grocery_login_err_receipt_code_format_incorrect">條碼或QR碼資料不正確無法識別</string>
     <string-array name="weekTitle">

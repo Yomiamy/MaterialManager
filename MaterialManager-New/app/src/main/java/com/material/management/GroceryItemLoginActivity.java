@@ -522,7 +522,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     return;
                 }
 
-                mEtQty.setText(Integer.toString(Integer.parseInt(qtyStr) + 1));
+                mEtQty.setText(Double.toString(Double.parseDouble(qtyStr) + 1));
             }
             break;
 
@@ -535,10 +535,10 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     return;
                 }
 
-                int qty = Integer.parseInt(qtyStr);
+                double qty = Double.parseDouble(qtyStr);
                 qty = (qty - 1 < 0) ? 0 : qty - 1;
 
-                mEtQty.setText(Integer.toString(qty));
+                mEtQty.setText(Double.toString(qty));
             }
             break;
 

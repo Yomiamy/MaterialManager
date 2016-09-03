@@ -367,6 +367,7 @@
     <string name="grocery_login_err_empty_phone">Phone column should not be empty</string>
     <string name="grocery_login_err_empty_store_address">Store address column should not be empty</string>
     <string name="grocery_login_err_dialog_msg">Can not retrieve data, please re-try it later...</string>
+    <string name="grocery_receipt_barcode_err_dialog_msg">Receipt barcode is incorrect ，please confirm it and try again</string>
     <string name="grocery_login_err_receipt_code_format_incorrect">The format of barcode/qrcode is incorrect</string>
 
     <string-array name="weekTitle">

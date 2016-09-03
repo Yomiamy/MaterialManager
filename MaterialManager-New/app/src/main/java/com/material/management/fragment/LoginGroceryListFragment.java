@@ -532,10 +532,8 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                     mActGroceryListName.setText(storeName + " - " + receiptDate);
                     mActAddress.setText(storeAddress);
                 } else {
-                    showToast(mResources.getString(R.string.grocery_login_err_dialog_msg));
+                    showToast(mResources.getString(R.string.grocery_receipt_barcode_err_dialog_msg));
                 }
-
-                LogUtility.printLogD("randy", jsonObj.toString());
             }
         } catch (JSONException e) {
             LogUtility.printStackTrace(e);
