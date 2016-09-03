@@ -37,6 +37,7 @@ import com.material.management.utils.Utility;
 import com.picasso.Picasso;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -56,6 +57,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
     private AlertDialog mGroceryMenuDialog = null;
     private ReceiptDialog mReceiptDialog = null;
     private GroceryListData mCurSelectedGroceryList = null;
+    private DecimalFormat mDecimalFormat = new DecimalFormat(GroceryItem.DECIMAL_PRECISION_FORMAT);
     private String mCurrencySymbol = null;
 
     @Override
@@ -570,7 +572,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
 
                 statisticTotal += Double.parseDouble(item.getQty()) * Double.parseDouble(item.getPrice());
             }
-            mCurStaticsTotal.setText(getString(R.string.title_layout_bottom_checkout_total, mCurrencySymbol, Double.toString(statisticTotal)));
+            mCurStaticsTotal.setText(getString(R.string.title_layout_bottom_checkout_total, mCurrencySymbol, mDecimalFormat.format(statisticTotal)));
         }
     }
 
@@ -629,8 +631,8 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
             viewHolder.notPurchasedGrayMask.setVisibility(View.GONE);
             viewHolder.groceryName.setText(groceryItem.getName());
             viewHolder.groceryType.setText(groceryItem.getGroceryType());
-            viewHolder.groceryQty.setText("x " + groceryItem.getQty());
-            viewHolder.price.setText(mCurrencySymbol + " " + (qty * price));
+            viewHolder.groceryQty.setText("x " + mDecimalFormat.format(qty));
+            viewHolder.price.setText(mCurrencySymbol + " " + mDecimalFormat.format(qty * price));
             Picasso.with(sActivity).load(new File(groceryItem.getGroceryPicPath())).fit().into(viewHolder.groceryThumbnail);
 
             return view;

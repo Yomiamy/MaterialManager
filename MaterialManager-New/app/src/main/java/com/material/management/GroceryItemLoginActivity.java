@@ -48,6 +48,7 @@ import com.picasso.Callback;
 import com.picasso.Picasso;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -91,6 +92,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
     private GroceryItem mGroceryItem = null;
     private Calendar mPurchaceDate;
     private Calendar mValidDate;
+    private DecimalFormat mDecimalFormat = new DecimalFormat(GroceryItem.DECIMAL_PRECISION_FORMAT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -522,7 +524,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     return;
                 }
 
-                mEtQty.setText(Double.toString(Double.parseDouble(qtyStr) + 1));
+                mEtQty.setText(mDecimalFormat.format(Double.parseDouble(qtyStr) + 1));
             }
             break;
 
@@ -538,7 +540,8 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                 double qty = Double.parseDouble(qtyStr);
                 qty = (qty - 1 < 0) ? 0 : qty - 1;
 
-                mEtQty.setText(Double.toString(qty));
+
+                mEtQty.setText(mDecimalFormat.format(qty));
             }
             break;
 

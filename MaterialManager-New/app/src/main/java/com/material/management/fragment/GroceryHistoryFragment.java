@@ -33,6 +33,7 @@ import com.material.management.dialog.ReceiptDialog;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.Utility;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -58,6 +59,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
     private Calendar mEndDate = null;
     private Calendar mStartDate = null;
     private ArrayList<GroceryListData> mGreceryList = null;
+    private DecimalFormat mDecimalFormat = new DecimalFormat(GroceryItem.DECIMAL_PRECISION_FORMAT);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -386,9 +388,9 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
             TextView tvTotal = (TextView) view.findViewById(R.id.tv_item_total);
 
             tvItemName.setText(itemDetails.itemName);
-            tvPrice.setText(Double.toString(itemDetails.price));
-            tvQty.setText(Double.toString(itemDetails.qty));
-            tvTotal.setText(Double.toString(itemDetails.total));
+            tvPrice.setText(mDecimalFormat.format(itemDetails.price));
+            tvQty.setText(mDecimalFormat.format(itemDetails.qty));
+            tvTotal.setText(mDecimalFormat.format(itemDetails.total));
 
             return view;
         }

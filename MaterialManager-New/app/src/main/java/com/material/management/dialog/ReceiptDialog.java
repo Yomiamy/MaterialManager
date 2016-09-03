@@ -19,6 +19,7 @@ import com.material.management.utils.Utility;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class ReceiptDialog extends AlertDialog.Builder {
     private final String mTitle;
     private boolean mIsShown;
     private Date mSpecificDate = null;
+    private DecimalFormat mDecimalFormat = new DecimalFormat(GroceryItem.DECIMAL_PRECISION_FORMAT);
 
     public ReceiptDialog(Context context, String title, String receiptTitle, ArrayList<GroceryItem> groceryItemList, DialogInterface.OnClickListener listener, boolean isOnlyOneConfirm, Date date) {
         super(context, R.style.AlertDialogTheme);
@@ -80,14 +82,14 @@ public class ReceiptDialog extends AlertDialog.Builder {
             TextView tvItemName = (TextView) checkOutItemLayout.findViewById(R.id.tv_item_name);
             TextView tvItemPrice = (TextView) checkOutItemLayout.findViewById(R.id.tv_item_price);
 
-            tvQty.setText(item.getQty());
+            tvQty.setText(mDecimalFormat.format(Double.parseDouble(item.getQty())));
             tvItemName.setText(item.getName());
-            tvItemPrice.setText(Double.toString(Double.parseDouble(item.getPrice()) * Double.parseDouble(item.getQty())));
+            tvItemPrice.setText(mDecimalFormat.format(Double.parseDouble(item.getPrice()) * Double.parseDouble(item.getQty())));
             llCheckoutItems.addView(checkOutItemLayout);
             ++itemCount;
         }
         tvNumOfItem.setText(Integer.toString(itemCount));
-        tvTotalValue.setText(currencySymbol + " " + totalValue);
+        tvTotalValue.setText(currencySymbol + " " + mDecimalFormat.format(totalValue));
 
         try {
             Method methodSetView = AlertDialog.Builder.class.getMethod("setView", View.class, int.class, int.class, int.class, int.class);

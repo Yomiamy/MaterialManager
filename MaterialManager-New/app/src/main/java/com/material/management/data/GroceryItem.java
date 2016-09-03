@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import java.util.Calendar;
 
 public class GroceryItem extends GlobalSearchData implements Parcelable {
+    public static final String DECIMAL_PRECISION_FORMAT = "0.##";
+
+
     public String getName() {
         return name;
     }
