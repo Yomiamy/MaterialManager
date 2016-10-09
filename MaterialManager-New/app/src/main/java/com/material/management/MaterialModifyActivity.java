@@ -38,6 +38,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.data.Material;
 import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.MultiChoiceDialog;
@@ -49,6 +50,8 @@ import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Picasso;
 import com.cropper.CropImage;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -403,8 +406,6 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                     /* Restore to original icon */
                         mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
                         Utility.releaseBitmaps(mNewestBitmap);
-                        mNewestBitmap = null;
-
                         mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
                         LogUtility.printError(e);
@@ -420,30 +421,25 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
 
             case REQ_SELECT_PICTURE: {
                 if (Activity.RESULT_OK == resultCode && intent != null && intent.getData() != null) {
-                /* Restore to original icon */
+                    /* Restore to original icon */
                     mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
                     Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-
                     Uri selectedImageUri = intent.getData();
-                    String selectedImagePath = Utility.getPathFromUri(selectedImageUri);
-
-                     /* FIXME: duplicate decode image */
-                    try {
-                        if (selectedImagePath != null) {
-                            mNewestBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
-                        }
-                    } catch (OutOfMemoryError e) {
-                    /* A workaround to avoid the OOM */
-                        LogUtility.printError(e);
-                        Utility.forceGC(false);
-                    }
 
                     /* Error handling */
-                    if (mNewestBitmap != null) {
-                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(this);
+                    if (selectedImageUri != null) {
+                        CropImage.activity(selectedImageUri).start(this);
                     }
                 }
+            }
+            break;
+
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE: {
+                CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                File photoFile = new File(Utility.getPathFromUri(result.getUri()));
+                mNewestBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+
+                mIvAddPhoto.setImageBitmap(mNewestBitmap);
             }
             break;
 
@@ -605,27 +601,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                     subDialog.setNegativeButton(getString(R.string.title_negative_btn_label), null);
                     subDialog.show();
                 }
-//                else if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
-//                    /* Recycle the original bitmap from camera intent extra. */
-//
-//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-//                    Utility.releaseBitmaps(mNewestBitmap);
-//                    mNewestBitmap = null;
-//
-//
-//                    Bitmap bitmap = mCropImgDialog.getCroppedImage();
-//                    mNewestBitmap = bitmap;
-//
-//                    mIvAddPhoto.setImageBitmap(bitmap);
-//                    mCropImgDialog.setShowState(false);
-//                }
             } else if (AlertDialog.BUTTON_NEGATIVE == which) {
-//                if (mCropImgDialog != null) {
-//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-//                    Utility.releaseBitmaps(mNewestBitmap);
-//                    mNewestBitmap = null;
-//                    mCropImgDialog.setShowState(false);
-//                } else
                 if (mMultiChoiceDialog != null || mInputDialog != null) {
                     mSpinMaterialCategory.setSelection(0);
                 }

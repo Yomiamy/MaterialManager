@@ -3,6 +3,7 @@ package com.material.management;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.cropper.CropImage;
 import com.material.management.fragment.MaterialManagerFragment;
 import com.material.management.fragment.MaterialManagerFragment.MaterialSortMode;
 import com.material.management.broadcast.BroadCastEvent;
@@ -185,7 +186,7 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case SettingsFragment.REQUEST_CODE_RESOLVE_CONNECTION:
+            case SettingsFragment.REQUEST_CODE_RESOLVE_CONNECTION: {
                 BroadCastEvent broadCastEvent = null;
 
                 if (resultCode == RESULT_OK) {
@@ -195,8 +196,20 @@ public class MainActivity extends SlidingActivity {
                 }
 
                 EventBus.getDefault().post(broadCastEvent);
+            }
 
-                break;
+            break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE: {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                BroadCastEvent broadCastEvent = null;
+
+                if (resultCode == RESULT_OK) {
+                    broadCastEvent = new BroadCastEvent(BroadCastEvent.BROADCAST_EVENT_TYPE_CROP_IMAGE, result.getUri());
+
+                    EventBus.getDefault().post(broadCastEvent);
+                }
+            }
+            break;
         }
     }
 

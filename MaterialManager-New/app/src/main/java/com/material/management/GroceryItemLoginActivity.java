@@ -555,11 +555,10 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         switch (requestCode) {
             case REQ_CAMERA_TAKE_PIC: {
                 if (Activity.RESULT_OK == resultCode) {
-                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-
                     try {
+                    /* Restore to original icon */
+                        mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestBitmap);
                         mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
                         LogUtility.printError(e);
@@ -575,29 +574,25 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
             case REQ_SELECT_PICTURE: {
                 if (Activity.RESULT_OK == resultCode && intent != null && intent.getData() != null) {
+                    /* Restore to original icon */
                     mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
                     Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-
                     Uri selectedImageUri = intent.getData();
-                    String selectedImagePath = Utility.getPathFromUri(selectedImageUri);
 
-                    /* FIXME: duplicate decode image */
-                    try {
-                        if (selectedImagePath != null) {
-                            mNewestBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
-                        }
-                    } catch (OutOfMemoryError e) {
-                    /* A workaround to avoid the OOM */
-                        LogUtility.printError(e);
-                        Utility.forceGC(false);
-                    }
-
-                   /* Error handling */
-                    if (mNewestBitmap != null) {
-                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(this);
+                    /* Error handling */
+                    if (selectedImageUri != null) {
+                        CropImage.activity(selectedImageUri).start(this);
                     }
                 }
+            }
+            break;
+
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE: {
+                CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                File photoFile = new File(Utility.getPathFromUri(result.getUri()));
+                mNewestBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+
+                mIvAddPhoto.setImageBitmap(mNewestBitmap);
             }
             break;
 

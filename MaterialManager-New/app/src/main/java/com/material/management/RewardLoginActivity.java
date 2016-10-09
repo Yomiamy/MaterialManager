@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cropper.CropImage;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -111,8 +112,8 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         actionBar.setTitle(intent.getStringExtra("title"));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
         }
 
         initOldData();
@@ -216,7 +217,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             break;
 
             case R.id.menu_action_add: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     requestPermissions(PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     return super.onOptionsItemSelected(item);
                 }
@@ -310,7 +311,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         switch (id) {
             case R.id.iv_add_reward_front_photo:
             case R.id.iv_add_reward_back_photo: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     requestPermissions(MMActivity.PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     return;
                 }
@@ -329,7 +330,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             break;
 
             case R.id.tv_material_barcode: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                     requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;
                 }
@@ -382,30 +383,30 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 //            }
 //        } else {
 
-           if (mSelectPhotoDialog != null) {
-                mSelectPhotoDialog.setShowState(false);
-                Utility.forceGC(true);
-                if (which == 0) {
+        if (mSelectPhotoDialog != null) {
+            mSelectPhotoDialog.setShowState(false);
+            Utility.forceGC(true);
+            if (which == 0) {
                     /* from album */
-                    Intent albumIntent = new Intent(Intent.ACTION_PICK,
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent albumIntent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                    startActivityForResult(
-                            Intent.createChooser(albumIntent, getString(R.string.title_image_chooser_title)),
-                            REQ_SELECT_PICTURE);
-                } else if (which == 1) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
-                        requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
-                        return;
-                    }
+                startActivityForResult(
+                        Intent.createChooser(albumIntent, getString(R.string.title_image_chooser_title)),
+                        REQ_SELECT_PICTURE);
+            } else if (which == 1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
+                    requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
+                    return;
+                }
 
                     /* from camera */
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtility.TEMP_PHOTO_FILE));
-                    startActivityForResult(takePictureIntent, REQ_CAMERA_TAKE_PIC);
-                }
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtility.TEMP_PHOTO_FILE));
+                startActivityForResult(takePictureIntent, REQ_CAMERA_TAKE_PIC);
             }
+        }
 //        }
 
         mSelectPhotoDialog = null;
@@ -442,12 +443,10 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 
                     if (mNewestFrontBitmap != null || mNewestBackBitmap != null) {
                         if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-//                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
+                            CropImage.activity(Utility.getImageUri(mNewestFrontBitmap)).start(this);
                         } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-//                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
+                            CropImage.activity(Utility.getImageUri(mNewestBackBitmap)).start(this);
                         }
-
-//                        mCropImgDialog.show();
                     }
                 }
             }
@@ -467,33 +466,40 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                     }
 
                     Uri selectedImageUri = intent.getData();
-                    String selectedImagePath = Utility.getPathFromUri(selectedImageUri);
-
-                     /* FIXME: duplicate decode image */
-                    try {
-                        if (selectedImagePath != null) {
-                            if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-                                mNewestFrontBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
-                            } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-                                mNewestBackBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
-                            }
-                        }
-                    } catch (OutOfMemoryError e) {
-                    /* A workaround to avoid the OOM */
-                        LogUtility.printError(e);
-                        Utility.forceGC(false);
-                    }
 
                     /* Error handling */
-                    if (mNewestFrontBitmap != null || mNewestBackBitmap != null) {
+                    if (selectedImageUri != null) {
                         if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-//                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
+                            CropImage.activity(selectedImageUri).start(this);
                         } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-//                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
+                            CropImage.activity(selectedImageUri).start(this);
                         }
-//                        mCropImgDialog.show();
                     }
                 }
+            }
+            break;
+
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE: {
+                CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                File photoFile = new File(Utility.getPathFromUri(result.getUri()));
+
+                /* Recycle the original bitmap from camera intent extra. */
+                if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                    mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                    Utility.releaseBitmaps(mNewestFrontBitmap);
+
+                    mNewestFrontBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);;
+
+                    mIvAddRewardFrontPhoto.setImageBitmap(mNewestFrontBitmap);
+                } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                    mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                    Utility.releaseBitmaps(mNewestBackBitmap);
+
+                    mNewestBackBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+
+                    mIvAddRewardBackPhoto.setImageBitmap(mNewestBackBitmap);
+                }
+
             }
             break;
 

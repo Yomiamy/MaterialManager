@@ -1,5 +1,6 @@
 package com.material.management.fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import com.material.management.MMActivity;
 import com.material.management.MMFragment;
 import com.material.management.Observer;
 import com.material.management.R;
+import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.MultiChoiceDialog;
 import com.material.management.dialog.SelectPhotoDialog;
@@ -22,6 +24,7 @@ import com.material.management.data.Material;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.FileUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.cropper.CropImage;
 
@@ -57,6 +60,10 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LoginMaterialFragment extends MMFragment implements Observer, OnItemSelectedListener,
         DialogInterface.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -124,6 +131,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         initView(mLayout);
         update(null);
         changeLayoutConfig(mLayout);
+        EventBus.getDefault().register(this);
 
         return mLayout;
     }
@@ -189,6 +197,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     @Override
     public void onDestroyView() {
         Utility.releaseBitmaps(mNewestBitmap);
+        EventBus.getDefault().unregister(this);
 
         super.onDestroyView();
     }
@@ -196,6 +205,20 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BroadCastEvent event) {
+        int type = event.getEventType();
+
+        if (type == BroadCastEvent.BROADCAST_EVENT_TYPE_CROP_IMAGE) {
+            /* Recycle the original bitmap from camera intent extra. */
+            File photoFile = new File(Utility.getPathFromUri((Uri) event.getData()));
+            mNewestBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+
+            mIvAddPhoto.setImageBitmap(mNewestBitmap);
+        }
     }
 
     private void initSpinnerData() {
@@ -272,11 +295,9 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                     /* Restore to original icon */
                         mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
                         Utility.releaseBitmaps(mNewestBitmap);
-                        mNewestBitmap = null;
-
                         mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
-                        e.printStackTrace();
+                        LogUtility.printError(e);
                         Utility.forceGC(false);
                     }
 
@@ -291,24 +312,10 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                     /* Restore to original icon */
                     mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
                     Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-
                     Uri selectedImageUri = intent.getData();
-//                    String selectedImagePath = Utility.getPathFromUri(selectedImageUri);
-//
-//                     /* FIXME: duplicate decode image */
-//                    try {
-//                        if (selectedImagePath != null) {
-//                            mNewestBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
-//                        }
-//                    } catch (OutOfMemoryError e) {
-//                    /* A workaround to avoid the OOM */
-//                        e.printStackTrace();
-//                        Utility.forceGC(false);
-//                    }
 
                     /* Error handling */
-                    if (mNewestBitmap != null) {
+                    if (selectedImageUri != null) {
                         CropImage.activity(selectedImageUri).start(mOwnerActivity);
                     }
                 }
@@ -464,27 +471,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                     subDialog.setNegativeButton(getString(R.string.title_negative_btn_label), null);
                     subDialog.show();
                 }
-//                else if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
-//                    /* Recycle the original bitmap from camera intent extra. */
-//
-//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-//                    Utility.releaseBitmaps(mNewestBitmap);
-//                    mNewestBitmap = null;
-//
-//
-//                    Bitmap bitmap = mCropImgDialog.getCroppedImage();
-//                    mNewestBitmap = bitmap;
-//
-//                    mIvAddPhoto.setImageBitmap(bitmap);
-//                    mCropImgDialog.setShowState(false);
-//                }
             } else if (AlertDialog.BUTTON_NEGATIVE == which) {
-//                if (mCropImgDialog != null) {
-//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-//                    Utility.releaseBitmaps(mNewestBitmap);
-//                    mNewestBitmap = null;
-//                    mCropImgDialog.setShowState(false);
-//                } else
                 if (mMultiChoiceDialog != null || mInputDialog != null) {
                     mSpinMaterialCategory.setSelection(0);
                 }
@@ -505,7 +492,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                             Intent.createChooser(albumIntent, getString(R.string.title_image_chooser_title)),
                             REQ_SELECT_PICTURE);
                 } else if (which == 1) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
                         mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                         return;
                     }
@@ -542,7 +529,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             break;
 
             case R.id.tv_material_barcode: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
                     mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;
                 }
@@ -552,7 +539,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             }
             break;
             case R.id.iv_add_photo: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     return;
                 }
