@@ -5,6 +5,7 @@
     <string name="perm_rationale_read_ext_storage">此功能需要从外部储存空间读取资料的权限以便套用資料至页面上，请授与权限并再使用此功能</string>
     <string name="perm_rationale_camera">此功能需要具有相机权限以便扫描相关资料，请授与权限并再使用此功能</string>
     <string name="perm_rationale_location">此功能需要具有存取地理位置权限以便搜寻附近环境资料或识別地点相邻性，请授与权限并再使用此功能</string>
+    <string name="perm_rationale_read_phone_state">此功能需要存取设备资讯以便加密查询资料</string>
 
     <string name="title_notice_dialog">!!! 注意 !!!</string>
     <string name="title_positive_btn_label">确定</string>
@@ -19,6 +20,7 @@
     <string name="no_gps_view_message1">本项功能须使用GPS定位</string>
     <string name="no_gps_view_message2">• 请确认您的定位功能已开启。</string>
     <string name="data_progressing">数据处理中...</string>
+    <string name="data_progressing_fail">数据处理失败，请再试一次</string>
     <string name="data_save_success">数据储存成功</string>
     <string name="data_save_fail">数据储存失败</string>
     <string name="app_name">过期物品管家</string>
@@ -30,6 +32,7 @@
     <string name="menu_grid_1x1">1 x 1 格列</string>
     <string name="menu_grid_2x1">1 x 2 格列</string>
     <string name="menu_clear_expired_items">清除所有过期项目</string>
+    <string name="menu_receipt_grocery_login">透过发票登入购物清单列表</string>
     <string name="menu_share">分享</string>
     <string name="menu_contact_us">联络我们</string>
     <string name="menu_about">关于</string>
@@ -262,6 +265,7 @@
     <string name="msg_confirm_del_dialog">确认是否删除？</string>
     <string name="title_grocery_name">清单名称 :</string>
     <string name="title_store_address_hint">点击以选择一个地点(非必要)</string>
+    <string name="title_store_login_grocery_by_receipt_hint">透过电子发票登入购物清单</string>
     <string name="title_nearby_alert">临近地点时通知我(1公里內)</string>
     <string name="title_address">地址 :</string>
     <string name="title_phone">电话 :</string>
@@ -291,9 +295,12 @@
     <string name="title_sat">星期六</string>
     <string name="title_sun">星期日</string>
     <string name="grocery_login_msg_geo_trans">位置转换中，请稍候...</string>
+    <string name="grocery_login_msg_query_receipt_info">查询发票资讯中，请稍候...</string>
     <string name="grocery_login_err_empty_phone">电话字段尚未输入</string>
     <string name="grocery_login_err_empty_store_address">店家地址字段尚未输入</string>
     <string name="grocery_login_err_dialog_msg">暂无相关资料，请稍后再试</string>
+    <string name="grocery_receipt_barcode_err_dialog_msg">发票资料码有误，请确认后再试一次</string>
+    <string name="grocery_login_err_receipt_code_format_incorrect">条码或QR码资料不正确无法识別</string>
     <string-array name="weekTitle">
         <item>星期一</item>
         <item>星期二</item>

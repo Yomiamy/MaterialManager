@@ -574,6 +574,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 activity.setMenuItemVisibility(R.id.action_search, true);
                 activity.setMenuItemVisibility(R.id.menu_action_add, false);
                 activity.setMenuItemVisibility(R.id.menu_action_cancel, false);
+                activity.setMenuItemVisibility(R.id.menu_action_new, false);
                 activity.setMenuItemVisibility(R.id.menu_sort_by_date, true);
                 activity.setMenuItemVisibility(R.id.menu_sort_by_name, true);
                 activity.setMenuItemVisibility(R.id.menu_sort_by_place, true);

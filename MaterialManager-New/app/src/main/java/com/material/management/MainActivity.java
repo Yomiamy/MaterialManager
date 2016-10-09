@@ -296,6 +296,7 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             break;
+
             case R.id.menu_grid_1x1: {
                 if (mCurFragment != null && mCurFragment instanceof Observer
                         && mCurFragment instanceof MaterialManagerFragment) {

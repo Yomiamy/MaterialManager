@@ -56,16 +56,23 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.citux:datetimepicker:0.1.2'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
-    compile 'com.google.android.gms:play-services:8.4.0'
-    compile 'com.android.support:palette-v7:+'
-    compile 'com.android.support:recyclerview-v7:+'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'com.makeramen:roundedimageview:2.2.1'
-    compile 'org.greenrobot:eventbus:+'
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'com.karumi:dexter:+'
+    compile ('com.github.citux:datetimepicker:0.1.2'){
+        exclude module: 'support-v4'
+    }
+    compile ('com.github.PhilJay:MPAndroidChart:v2.1.6')
+    compile ('com.google.android.gms:play-services:8.4.0'){
+        exclude module: 'support-v4'
+    }
+    compile ('com.android.support:palette-v7:+')
+    compile ('com.android.support:recyclerview-v7:+')
+    compile ('de.hdodenhof:circleimageview:2.0.0')
+    compile ('com.makeramen:roundedimageview:2.2.1')
+    compile ('org.greenrobot:eventbus:+')
+    compile ('com.android.support:multidex:1.0.0')
+    compile ('com.karumi:dexter:+'){
+        exclude module: 'support-v4'
+    }
+
     compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }

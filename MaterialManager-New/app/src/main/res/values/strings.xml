@@ -3,6 +3,8 @@
 
     <!--Common-->
     <string name="place_api_key">AIzaSyB_1jcVRcsziBZ5nB796flr3GUGOeUiNUw</string>
+    <string name="receipt_app_id">EINV6201608099805</string>
+    <string name="receipt_api_key">U3R4b1U3YjQ0Z3hSeFBEaw==</string>
 
     <string name="title_notice_dialog">!!! Notice !!!</string>
     <string name="title_positive_btn_label">Ok</string>
@@ -18,6 +20,7 @@
     <string name="no_gps_view_message1">This function has to connect to GPS</string>
     <string name="no_gps_view_message2">• Please comfirm your positioning function is open and available</string>
     <string name="data_progressing">Data handling...</string>
+    <string name="data_progressing_fail">Data processing failed, please try it again</string>
     <string name="data_save_success">Data saved successfully</string>
     <string name="data_save_fail">Data saved fail</string>
 
@@ -33,6 +36,7 @@
     <string name="perm_rationale_read_ext_storage">The functionality need a permission for reading and applying the related data from external storage. Please give the permission and retry again</string>
     <string name="perm_rationale_camera">The functionality need a permission for using the camera to scan the input data. Please give the permission and retry again</string>
     <string name="perm_rationale_location">The functionality need a permission for accessing the location information so that it can find out the stores that close to you and related distance. Please give the permission and retry again</string>
+    <string name="perm_rationale_read_phone_state">The functionality need to encrypt the query by phone information</string>
 
     <!-- MainActivity -->
     <string name="app_name">Expired Monitor</string>
@@ -44,6 +48,7 @@
     <string name="menu_grid_1x1">1 x 1 grid </string>
     <string name="menu_grid_2x1">1 x 2 grid</string>
     <string name="menu_clear_expired_items">Clear exp. item(s)</string>
+    <string name="menu_receipt_grocery_login">Login the grocery list by receipt</string>
     <string name="menu_share">Share</string>
     <string name="menu_contact_us">Contact us</string>
     <string name="menu_about">About</string>
@@ -326,6 +331,7 @@
     <!-- LoginGroceryListFragment -->
     <string name="title_grocery_name">Grocery Name:</string>
     <string name="title_store_address_hint">Tap to pick a location(Optional)</string>
+    <string name="title_store_login_grocery_by_receipt_hint">Login list info. by the receipt barcode</string>
     <string name="title_nearby_alert">Alert me when nearby(1 kilo-meter)</string>
     <string name="title_address">Address : </string>
     <string name="title_phone">Phone : </string>
@@ -355,11 +361,14 @@
     <string name="title_sat">SAT</string>
     <string name="title_sun">SUN</string>
     <string name="grocery_login_msg_geo_trans">Location transform，please wait a moment...</string>
+    <string name="grocery_login_msg_query_receipt_info">Query the detail of receipt，please wait a moment...</string>
 
     <!-- LoginGroceryListFragment error message -->
     <string name="grocery_login_err_empty_phone">Phone column should not be empty</string>
     <string name="grocery_login_err_empty_store_address">Store address column should not be empty</string>
     <string name="grocery_login_err_dialog_msg">Can not retrieve data, please re-try it later...</string>
+    <string name="grocery_receipt_barcode_err_dialog_msg">Receipt barcode is incorrect ，please confirm it and try again</string>
+    <string name="grocery_login_err_receipt_code_format_incorrect">The format of barcode/qrcode is incorrect</string>
 
     <string-array name="weekTitle">
         <item>MON</item>

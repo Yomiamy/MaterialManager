@@ -100,18 +100,15 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
 
     /* TODO: We that it use common layout and only setup message. But maybe it need to be custom in the future. */
     public void showToast(final String msg) {
-        mOwnerActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast toast = new Toast(mOwnerActivity);
-                View layout = mInflater.inflate(R.layout.view_default_toast, null);
-                TextView tvToastMsg = (TextView) layout.findViewById(R.id.tv_toast_msg);
+        mOwnerActivity.runOnUiThread(() -> {
+            Toast toast = new Toast(mOwnerActivity);
+            View layout = mInflater.inflate(R.layout.view_default_toast, null);
+            TextView tvToastMsg = (TextView) layout.findViewById(R.id.tv_toast_msg);
 
-                tvToastMsg.setText(msg);
-                toast.setView(layout);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            tvToastMsg.setText(msg);
+            toast.setView(layout);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.show();
         });
     }
 

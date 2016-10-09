@@ -47,6 +47,7 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
     public static final String PERM_REQ_WRITE_EXT_STORAGE = "PERM_REQ_WRITE_EXT_STORAGE";
     public static final String PERM_REQ_CAMERA = "PERM_REQ_CAMERA";
     public static final String PERM_REQ_ACCESS_FINE_LOCATION = "PERM_REQ_ACCESS_FINE_LOCATION";
+    public static final String PERM_REQ_READ_PHONE_STATE = "PERM_REQ_READ_PHONE_STATE";
 
     protected View mLayout = null;
     protected Dialog mProgressDialog;
@@ -258,6 +259,8 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
                 permRationale = getString(R.string.perm_rationale_camera);
             } else if(tag.equals(PERM_REQ_ACCESS_FINE_LOCATION)) {
                 permRationale = getString(R.string.perm_rationale_location);
+            } else if(tag.equals(PERM_REQ_READ_PHONE_STATE)) {
+                permRationale = getString(R.string.perm_rationale_read_phone_state);
             }
 
             showAlertDialog(null

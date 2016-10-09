@@ -5,8 +5,10 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,6 +26,7 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -42,6 +45,7 @@ import com.material.management.MaterialManagerApplication;
 import com.material.management.R;
 import com.material.management.data.DeviceInfo;
 import com.material.management.service.location.LocationUtility;
+import com.material.management.utils.openudid.OpenUDID_manager;
 
 public class Utility {
     /* Share preference name. */
@@ -52,6 +56,7 @@ public class Utility {
     public static final String DB_UPGRADE_FLAG_2to3 = "db_upgrade_flag_2_to_3";
     public static final String DB_UPGRADE_FLAG_3to4 = "db_upgrade_flag_3_to_4";
     public static final String DB_UPGRADE_FLAG_4to5 = "db_upgrade_flag_4_to_5";
+    public static final String DB_UPGRADE_FLAG_5to6 = "db_upgrade_flag_5_to_6";
     public static final String CATEGORY_IS_INITIALIZED = "category_is_initialized";
     public static final String SHARE_IS_INITIALIZED = "share_is_initialized";
     public static final String SHARE_AUTO_COMPLETE_TEXT = "share_auto_complete_text";
@@ -92,11 +97,11 @@ public class Utility {
     }
 
     /**
-     *  Used to detect whether or not the memory of application is cleared.
-     *  These static variables should be keeped when process alive.
+     * Used to detect whether or not the memory of application is cleared.
+     * These static variables should be keeped when process alive.
      *
-     *  @return True indicate the memory is clear; Otherwise, is False.
-     * */
+     * @return True indicate the memory is clear; Otherwise, is False.
+     */
     public static boolean isApplicationInitialized() {
         return sActivity != null && sLocUtility != null && sDeviceInfo != null;
     }
@@ -164,6 +169,23 @@ public class Utility {
         }
 
         return ss;
+    }
+
+    public static String convertTWDate(String AD, String beforeFormat, String afterFormat) {
+        //轉年月格式
+        if (AD == null) return "";
+        SimpleDateFormat df4 = new SimpleDateFormat(beforeFormat);
+        SimpleDateFormat df2 = new SimpleDateFormat(afterFormat);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(df4.parse(AD));
+            if (cal.get(Calendar.YEAR) > 1492) cal.add(Calendar.YEAR, -1911);
+            else cal.add(Calendar.YEAR, +1911);
+            return df2.format(cal.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static <T extends Number> String convertDecimalFormat(T valObj, String format) {
@@ -258,7 +280,7 @@ public class Utility {
     }
 
     public static void forceGC(boolean isForce) {
-        if(isForce) {
+        if (isForce) {
             System.runFinalization();
         }
         System.gc();
@@ -301,6 +323,26 @@ public class Utility {
         if (sWakeLock != null)
             sWakeLock.release();
         sWakeLock = null;
+    }
+
+    public static String getUUID(Context ctx) {
+        TelephonyManager tm = (TelephonyManager) ctx.getSystemService(ctx.TELEPHONY_SERVICE);
+
+        String android_id = null;
+        //To check if the initialization is over (it's asynchronous)
+        if (OpenUDID_manager.isInitialized()) {
+            android_id = OpenUDID_manager.getOpenUDID();
+        } else {
+            OpenUDID_manager.sync(ctx); //initialize the OpenUDID
+            android_id = OpenUDID_manager.getOpenUDID(); //to retrieve your OpenUDID
+        }
+
+        String tmDevice = "" + tm.getDeviceId();
+        String tmSerial = "" + tm.getSimSerialNumber();
+        UUID deviceUuid = new UUID(android_id.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        String uniqueId = deviceUuid.toString();
+
+        return uniqueId;
     }
 
     public static DisplayMetrics getDisplayMetrics() {
@@ -384,10 +426,10 @@ public class Utility {
 
         if (key.equals(FONT_SIZE_SCALE_FACTOR)) {
             return sSpSettings.getString(key, "1.0");
-        } else if(key.equals(SHARE_PREF_KEY_CURRENCY_SYMBOL)) {
+        } else if (key.equals(SHARE_PREF_KEY_CURRENCY_SYMBOL)) {
             String currencySymbol = sSpSettings.getString(key, "");
 
-            if(TextUtils.isEmpty(currencySymbol)) {
+            if (TextUtils.isEmpty(currencySymbol)) {
                 currencySymbol = sActivity.getString(R.string.title_default_currency_symbol);
 
                 setStringValueForKey(key, currencySymbol);

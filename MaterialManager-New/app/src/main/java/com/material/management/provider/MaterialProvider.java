@@ -165,7 +165,7 @@ public class MaterialProvider extends ContentProvider {
     }
 
     public static class UtilSQLiteOpenHelper extends SQLiteOpenHelper {
-        private static final int VERSION = 5;
+        private static final int VERSION = 6;
         public static final String TB_MATERIAL = "material";
         public static final String TB_MATERIAL_TYPE = "material_type";
         public static final String TB_MATERIAL_HISTORY = "material_history";
@@ -234,7 +234,8 @@ public class MaterialProvider extends ContentProvider {
                     + " latitude TEXT,"
                     + " longitude TEXT,"
                     + " phone TEXT,"
-                    + " service_time TEXT)";
+                    + " service_time TEXT,"
+                    + " receipt_num TEXT)";
 
             /* Grocery list informations */
             final String TB_GROCERY_ITEMS_SQL_STMT = "create table " + TB_GROCERY_ITEMS
@@ -295,7 +296,7 @@ public class MaterialProvider extends ContentProvider {
                 db.beginTransaction();
                 boolean isSuccessful = false;
 
-                /* FIXME: 
+                /*
                  * the upgrade only handle neighboring old and new version. e.g.: 1 -> 2.
                  * we need to handle the complex upgrade in the future. e.g.: 1 -> 3.
                  * */
@@ -389,6 +390,13 @@ public class MaterialProvider extends ContentProvider {
                         oldVersion++;
                         isSuccessful = true;
                         Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5, 1);
+                    }
+
+                    case 5: {
+                        db.execSQL("ALTER TABLE " + TB_GROCERY_LIST + " ADD COLUMN receipt_num TEXT NOT NULL DEFAULT ''");
+                        oldVersion++;
+                        isSuccessful = true;
+                        Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_5to6, 1);
                     }
                 }
 

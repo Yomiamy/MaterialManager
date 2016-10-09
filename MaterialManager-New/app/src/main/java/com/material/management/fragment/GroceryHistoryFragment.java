@@ -33,6 +33,7 @@ import com.material.management.dialog.ReceiptDialog;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.Utility;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -58,6 +59,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
     private Calendar mEndDate = null;
     private Calendar mStartDate = null;
     private ArrayList<GroceryListData> mGreceryList = null;
+    private DecimalFormat mDecimalFormat = new DecimalFormat(GroceryItem.DECIMAL_PRECISION_FORMAT);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -277,7 +279,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
                             continue;
                         }
 
-                        statisticTotal += Long.parseLong(item.getQty()) * Double.parseDouble(item.getPrice());
+                        statisticTotal += Double.parseDouble(item.getQty()) * Double.parseDouble(item.getPrice());
                         ItemDetails itemDetails = null;
 
                         /* Use [item name][item price] as map key*/
@@ -289,8 +291,8 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
                             itemDetailsMap.put(item.getName() + item.getPrice(), itemDetails);
                         }
                         itemDetails = itemDetailsMap.get(item.getName() + item.getPrice());
-                        itemDetails.qty += Long.parseLong(item.getQty());
-                        itemDetails.total += itemDetails.price * Long.parseLong(item.getQty());
+                        itemDetails.qty += Double.parseDouble(item.getQty());
+                        itemDetails.total += itemDetails.price * Double.parseDouble(item.getQty());
                     }
                     groceryListData.setTotalCost(statisticTotal);
                     mGreceryList.add(groceryListData);
@@ -386,9 +388,9 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
             TextView tvTotal = (TextView) view.findViewById(R.id.tv_item_total);
 
             tvItemName.setText(itemDetails.itemName);
-            tvPrice.setText(Double.toString(itemDetails.price));
-            tvQty.setText(Long.toString(itemDetails.qty));
-            tvTotal.setText(Long.toString(itemDetails.total));
+            tvPrice.setText(mDecimalFormat.format(itemDetails.price));
+            tvQty.setText(mDecimalFormat.format(itemDetails.qty));
+            tvTotal.setText(mDecimalFormat.format(itemDetails.total));
 
             return view;
         }
@@ -397,7 +399,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
     private class ItemDetails {
         String itemName = null;
         double price = 0;
-        long qty = 0;
-        long total = 0;
+        double qty = 0;
+        double total = 0;
     }
 }

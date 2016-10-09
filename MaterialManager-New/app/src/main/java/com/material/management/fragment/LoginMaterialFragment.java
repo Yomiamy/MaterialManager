@@ -127,7 +127,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         initView(mLayout);
         update(null);
         changeLayoutConfig(mLayout);
-        LogUtility.printLogD(DEBUG_LOG_TAG, "onCretatView()...");
 
         return mLayout;
     }
@@ -158,6 +157,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3);
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_3to4);
         isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5);
+        isNeedDbWarnDialog = isNeedDbWarnDialog + Utility.getIntValueForKey(Utility.DB_UPGRADE_FLAG_5to6);
 
         if (isNeedDbWarnDialog != 0) {
             AlertDialog.Builder warnDialog = new AlertDialog.Builder(mOwnerActivity, R.style.AlertDialogTheme);
@@ -171,10 +171,10 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_2to3, 0);
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_3to4, 0);
             Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_4to5, 0);
+            Utility.setIntValueForKey(Utility.DB_UPGRADE_FLAG_5to6, 0);
         }
 
         sendScreenAnalytics(getString(R.string.ga_app_view_login_material_fragment));
-        LogUtility.printLogD(DEBUG_LOG_TAG, "onResume()...");
         super.onResume();
     }
 

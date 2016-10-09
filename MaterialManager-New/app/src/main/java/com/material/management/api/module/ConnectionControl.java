@@ -24,10 +24,15 @@ public class ConnectionControl {
     public static final String PLACE_NEARBY_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
     public static final String PLACE_DETAIL_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/details/json?";
     public static final String PLACE_PHOTO_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/photo?";
+    public static final String TW_RECEIPT_INFO_URL = "https://www.einvoice.nat.gov.tw/PB2CAPIVAN/invapp/InvApp";
+
+    private static final int REQUEST_TIME_OUT = 30000;
+
     public static final int GEO_ADDRESS_TRANSFORM = 0;
     public static final int PLACE_NEARBY_SEARCH = 1;
     public static final int PLACE_DETAIL_SEARCH = 2;
     public static final int PLACE_PHOTO_SEARCH = 3;
+    public static final int TW_RECEIPT_INFO = 4;
 
     private static ConnectionControl singleton = null;
 
@@ -49,6 +54,8 @@ public class ConnectionControl {
             url = PLACE_DETAIL_SEARCH_URL;
         if(type == PLACE_PHOTO_SEARCH)
             url = PLACE_PHOTO_SEARCH_URL;
+        if(type == TW_RECEIPT_INFO)
+            url = TW_RECEIPT_INFO_URL;
         return url;
     }
 
@@ -64,12 +71,29 @@ public class ConnectionControl {
         a.setUrl(getDataUrl(type) + params.toString());
         a.setTag(tag);
         a.get();
+    }
 
+    public void postData(int type, ViewCallbackListener callback, RequestParams params) {
+        ControlThread a = new ControlThread(type, callback);
+        a.setUrl(getDataUrl(type));
+        a.setParams(params);
+        a.post();
+
+    }
+
+    public void postData(int type, ViewCallbackListener callback, RequestParams params, String tag) {
+        ControlThread a = new ControlThread(type, callback);
+        a.setUrl(getDataUrl(type));
+        a.setParams(params);
+        a.setTag(tag);
+        a.post();
     }
 
     protected AsyncHttpClient getDataHttpClient() {
         if (null == dataHttpClient) {
             dataHttpClient = new AsyncHttpClient();
+
+            dataHttpClient.setTimeout(REQUEST_TIME_OUT);
             try {
                 KeyStore trustStore;
                 trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -122,6 +146,12 @@ public class ConnectionControl {
             AsyncHttpClient client = getDataHttpClient();
 
             client.get(url, handler);
+        }
+
+        public void post() {
+            AsyncHttpClient client = getDataHttpClient();
+
+            client.post(url, params, handler);
         }
 
 

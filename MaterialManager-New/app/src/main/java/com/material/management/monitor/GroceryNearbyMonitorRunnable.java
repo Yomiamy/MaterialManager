@@ -59,7 +59,6 @@ public class GroceryNearbyMonitorRunnable implements Runnable {
             boolean isNearby = (dist >= MAX_NEARBY_RADIUS) ? false : true ;
             String distStr = (dist >= 1000) ? mContext.getString(R.string.format_dist_kilometer, mKmFormat.format(dist / 1000)): mContext.getString(R.string.format_dist_meter, mMeterFormat.format(dist));
 
-            LogUtility.printLogD(TAG, "Distance to " + storeName + " is " + dist + " meters.");
             if(isNearby) {
                 String address = groceryListData.getAddress();
                 String uri = String.format("geo:%s,%s?q=%s,%s(%s)", lat, lng, lat, lng, address);

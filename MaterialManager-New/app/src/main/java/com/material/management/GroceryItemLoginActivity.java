@@ -48,6 +48,7 @@ import com.picasso.Callback;
 import com.picasso.Picasso;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -91,6 +92,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
     private GroceryItem mGroceryItem = null;
     private Calendar mPurchaceDate;
     private Calendar mValidDate;
+    private DecimalFormat mDecimalFormat = new DecimalFormat(GroceryItem.DECIMAL_PRECISION_FORMAT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -408,7 +410,9 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                 groceryItem.setName(mActGroceryItemName.getText().toString());
                 groceryItem.setGroceryType((String) mSpinItemCategory.getSelectedItem());
                 groceryItem.setSize(mEtSize.getText().toString());
-                groceryItem.setSizeUnit((String) mSpinUnit.getSelectedItem());
+                // TODO: Size unit useless currently.
+                groceryItem.setSizeUnit("");
+                //groceryItem.setSizeUnit((String) mSpinUnit.getSelectedItem());
                 groceryItem.setQty(mEtQty.getText().toString());
                 groceryItem.setPrice(mEtPrice.getText().toString());
                 groceryItem.setComment(mEtItemNote.getText().toString());
@@ -522,7 +526,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     return;
                 }
 
-                mEtQty.setText(Integer.toString(Integer.parseInt(qtyStr) + 1));
+                mEtQty.setText(mDecimalFormat.format(Double.parseDouble(qtyStr) + 1));
             }
             break;
 
@@ -535,10 +539,11 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     return;
                 }
 
-                int qty = Integer.parseInt(qtyStr);
+                double qty = Double.parseDouble(qtyStr);
                 qty = (qty - 1 < 0) ? 0 : qty - 1;
 
-                mEtQty.setText(Integer.toString(qty));
+
+                mEtQty.setText(mDecimalFormat.format(qty));
             }
             break;
 
