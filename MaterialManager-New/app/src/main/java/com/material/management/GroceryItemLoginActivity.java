@@ -35,7 +35,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.material.management.data.GroceryItem;
-import com.material.management.dialog.CropImageDialog;
 import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.MultiChoiceDialog;
 import com.material.management.dialog.SelectPhotoDialog;
@@ -46,6 +45,7 @@ import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Callback;
 import com.picasso.Picasso;
+import com.cropper.CropImage;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -80,7 +80,6 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
     private ArrayAdapter<String> mCategoryAdapter = null;
     private LinkedHashSet<String> mMaterialTypes = null;
     private SelectPhotoDialog mSelectPhotoDialog;
-    private CropImageDialog mCropImgDialog;
     private ArrayAdapter<String> mTextHistAdapter = null;
     private ArrayList<String> mTextHistoryList;
     private Bitmap mBarcodeBitmap = null;
@@ -470,8 +469,6 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
     protected void onPause() {
         super.onPause();
 
-        if (mCropImgDialog != null && mCropImgDialog.isDialogShowing())
-            mCropImgDialog.setShowState(false);
         if (mInputDialog != null && mInputDialog.isDialogShowing())
             mInputDialog.setShowState(false);
         if (mMultiChoiceDialog != null && mMultiChoiceDialog.isDialogShowing())
@@ -570,9 +567,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     }
 
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(this, mNewestBitmap, this);
-
-                        mCropImgDialog.show();
+                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(this);
                     }
                 }
             }
@@ -600,9 +595,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
                    /* Error handling */
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(this, mNewestBitmap, this);
-
-                        mCropImgDialog.show();
+                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(this);
                     }
                 }
             }
@@ -654,19 +647,20 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
          /* which < 0, then the dialog has positive/negative button */
         if (which < 0) {
             if (AlertDialog.BUTTON_POSITIVE == which) {
-                if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
-                    /* Recycle the original bitmap from camera intent extra. */
-                    if (mNewestBitmap != null && !mNewestBitmap.isRecycled()) {
-                        mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                        Utility.releaseBitmaps(mNewestBitmap);
-                        mNewestBitmap = null;
-                    }
-
-                    mNewestBitmap = mCropImgDialog.getCroppedImage();
-
-                    mIvAddPhoto.setImageBitmap(mNewestBitmap);
-                    mCropImgDialog.setShowState(false);
-                } else if (mInputDialog != null && mInputDialog.isDialogShowing()) {
+//                if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
+//                    /* Recycle the original bitmap from camera intent extra. */
+//                    if (mNewestBitmap != null && !mNewestBitmap.isRecycled()) {
+//                        mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                        Utility.releaseBitmaps(mNewestBitmap);
+//                        mNewestBitmap = null;
+//                    }
+//
+//                    mNewestBitmap = mCropImgDialog.getCroppedImage();
+//
+//                    mIvAddPhoto.setImageBitmap(mNewestBitmap);
+//                    mCropImgDialog.setShowState(false);
+//                } else
+                if (mInputDialog != null && mInputDialog.isDialogShowing()) {
                     String input = mInputDialog.getInputString();
 
                     if (input.trim().isEmpty()) {
@@ -710,12 +704,13 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     subDialog.show();
                 }
             } else if (AlertDialog.BUTTON_NEGATIVE == which) {
-                if (mCropImgDialog != null && mNewestBitmap != null && !mNewestBitmap.isRecycled()) {
-                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mCropImgDialog.setShowState(false);
-                    mNewestBitmap = null;
-                } else if (mMultiChoiceDialog != null || mInputDialog != null) {
+//                if (mCropImgDialog != null && mNewestBitmap != null && !mNewestBitmap.isRecycled()) {
+//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                    Utility.releaseBitmaps(mNewestBitmap);
+//                    mCropImgDialog.setShowState(false);
+//                    mNewestBitmap = null;
+//                } else
+                if (mMultiChoiceDialog != null || mInputDialog != null) {
                     mSpinItemCategory.setSelection(0);
                 }
             }
@@ -747,7 +742,6 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             }
         }
 
-        mCropImgDialog = null;
         mSelectPhotoDialog = null;
     }
 

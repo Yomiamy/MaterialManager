@@ -39,7 +39,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.material.management.data.Material;
-import com.material.management.dialog.CropImageDialog;
 import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.MultiChoiceDialog;
 import com.material.management.dialog.SelectPhotoDialog;
@@ -49,6 +48,7 @@ import com.material.management.utils.FileUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Picasso;
+import com.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,7 +79,6 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
     private AutoCompleteTextView mActComment;
     private InputDialog mInputDialog;
     private MultiChoiceDialog mMultiChoiceDialog;
-    private CropImageDialog mCropImgDialog;
     private SelectPhotoDialog mSelectPhotoDialog;
     private DatePickerDialog mDatePickerDialog;
 
@@ -238,8 +237,6 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             mInputDialog.setShowState(false);
         if (mMultiChoiceDialog != null && mMultiChoiceDialog.isDialogShowing())
             mMultiChoiceDialog.setShowState(false);
-        if (mCropImgDialog != null && mCropImgDialog.isDialogShowing())
-            mCropImgDialog.setShowState(false);
         if (mSelectPhotoDialog != null && mSelectPhotoDialog.isDialogShowing())
             mSelectPhotoDialog.setShowState(false);
         super.onPause();
@@ -415,9 +412,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                     }
 
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(this, mNewestBitmap, this);
-
-                        mCropImgDialog.show();
+                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(this);
                     }
                 }
             }
@@ -444,11 +439,9 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                         Utility.forceGC(false);
                     }
 
-                /* Error handling */
+                    /* Error handling */
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(this, mNewestBitmap, this);
-
-                        mCropImgDialog.show();
+                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(this);
                     }
                 }
             }
@@ -611,27 +604,29 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                             });
                     subDialog.setNegativeButton(getString(R.string.title_negative_btn_label), null);
                     subDialog.show();
-                } else if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
-                    /* Recycle the original bitmap from camera intent extra. */
-
-                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-
-
-                    Bitmap bitmap = mCropImgDialog.getCroppedImage();
-                    mNewestBitmap = bitmap;
-
-                    mIvAddPhoto.setImageBitmap(bitmap);
-                    mCropImgDialog.setShowState(false);
                 }
+//                else if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
+//                    /* Recycle the original bitmap from camera intent extra. */
+//
+//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                    Utility.releaseBitmaps(mNewestBitmap);
+//                    mNewestBitmap = null;
+//
+//
+//                    Bitmap bitmap = mCropImgDialog.getCroppedImage();
+//                    mNewestBitmap = bitmap;
+//
+//                    mIvAddPhoto.setImageBitmap(bitmap);
+//                    mCropImgDialog.setShowState(false);
+//                }
             } else if (AlertDialog.BUTTON_NEGATIVE == which) {
-                if (mCropImgDialog != null) {
-                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-                    mCropImgDialog.setShowState(false);
-                } else if (mMultiChoiceDialog != null || mInputDialog != null) {
+//                if (mCropImgDialog != null) {
+//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                    Utility.releaseBitmaps(mNewestBitmap);
+//                    mNewestBitmap = null;
+//                    mCropImgDialog.setShowState(false);
+//                } else
+                if (mMultiChoiceDialog != null || mInputDialog != null) {
                     mSpinMaterialCategory.setSelection(0);
                 }
 
@@ -665,7 +660,6 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             }
         }
 
-        mCropImgDialog = null;
         mMultiChoiceDialog = null;
         mInputDialog = null;
         mSelectPhotoDialog = null;

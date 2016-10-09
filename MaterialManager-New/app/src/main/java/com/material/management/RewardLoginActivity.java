@@ -31,7 +31,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.material.management.component.FlipAnimation;
 import com.material.management.data.RewardInfo;
-import com.material.management.dialog.CropImageDialog;
 import com.material.management.dialog.SelectPhotoDialog;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
@@ -58,7 +57,6 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
     private BitmapFactory.Options mOptions = null;
     private FlipAnimation mFlipAnimation;
     private SelectPhotoDialog mSelectPhotoDialog;
-    private CropImageDialog mCropImgDialog;
     private RewardInfo mOldRewardInfo;
     private Bitmap mNewestFrontBitmap;
     private Bitmap mNewestBackBitmap;
@@ -263,7 +261,6 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         Bitmap rewardBackBitmap = rewardBackDrawable != null && (rewardBackDrawable instanceof BitmapDrawable) ? ((BitmapDrawable) rewardBackDrawable).getBitmap() : null;
         Drawable defaultBarcodeImg = mResources.getDrawable(R.drawable.selector_barcode);
         mSelectPhotoDialog = null;
-        mCropImgDialog = null;
 
         defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(), defaultBarcodeImg.getIntrinsicHeight());
 
@@ -348,42 +345,44 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
     @Override
     public void onClick(DialogInterface dialog, int which) {
 
-        if (which < 0) {
-            if (AlertDialog.BUTTON_POSITIVE == which) {
-                if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
-                    /* Recycle the original bitmap from camera intent extra. */
-                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                        Utility.releaseBitmaps(mNewestFrontBitmap);
+//        if (which < 0) {
+//            if (AlertDialog.BUTTON_POSITIVE == which) {
+//                if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
+//                    /* Recycle the original bitmap from camera intent extra. */
+//                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+//                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                        Utility.releaseBitmaps(mNewestFrontBitmap);
+//
+//                        mNewestFrontBitmap = mCropImgDialog.getCroppedImage();
+//
+//                        mIvAddRewardFrontPhoto.setImageBitmap(mNewestFrontBitmap);
+//                    } else
+//                    if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+//                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                        Utility.releaseBitmaps(mNewestBackBitmap);
+//
+//                        mNewestBackBitmap = mCropImgDialog.getCroppedImage();
+//
+//                        mIvAddRewardBackPhoto.setImageBitmap(mNewestBackBitmap);
+//                    }
+//
+//                    mCropImgDialog.setShowState(false);
+//                }
+//            } else if (AlertDialog.BUTTON_NEGATIVE == which) {
+//                if (mCropImgDialog != null) {
+//                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+//                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                        Utility.releaseBitmaps(mNewestFrontBitmap);
+//                    } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+//                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                        Utility.releaseBitmaps(mNewestBackBitmap);
+//                    }
+//                    mCropImgDialog.setShowState(false);
+//                }
+//            }
+//        } else {
 
-                        mNewestFrontBitmap = mCropImgDialog.getCroppedImage();
-
-                        mIvAddRewardFrontPhoto.setImageBitmap(mNewestFrontBitmap);
-                    } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                        Utility.releaseBitmaps(mNewestBackBitmap);
-
-                        mNewestBackBitmap = mCropImgDialog.getCroppedImage();
-
-                        mIvAddRewardBackPhoto.setImageBitmap(mNewestBackBitmap);
-                    }
-
-                    mCropImgDialog.setShowState(false);
-                }
-            } else if (AlertDialog.BUTTON_NEGATIVE == which) {
-                if (mCropImgDialog != null) {
-                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                        Utility.releaseBitmaps(mNewestFrontBitmap);
-                    } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                        Utility.releaseBitmaps(mNewestBackBitmap);
-                    }
-                    mCropImgDialog.setShowState(false);
-                }
-            }
-        } else {
-            if (mSelectPhotoDialog != null) {
+           if (mSelectPhotoDialog != null) {
                 mSelectPhotoDialog.setShowState(false);
                 Utility.forceGC(true);
                 if (which == 0) {
@@ -407,10 +406,10 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                     startActivityForResult(takePictureIntent, REQ_CAMERA_TAKE_PIC);
                 }
             }
-        }
+//        }
 
         mSelectPhotoDialog = null;
-        mCropImgDialog = null;
+
     }
 
     @Override
@@ -443,12 +442,12 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 
                     if (mNewestFrontBitmap != null || mNewestBackBitmap != null) {
                         if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
+//                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
                         } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
+//                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
                         }
 
-                        mCropImgDialog.show();
+//                        mCropImgDialog.show();
                     }
                 }
             }
@@ -485,14 +484,14 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                         Utility.forceGC(false);
                     }
 
-                /* Error handling */
+                    /* Error handling */
                     if (mNewestFrontBitmap != null || mNewestBackBitmap != null) {
                         if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
+//                            mCropImgDialog = new CropImageDialog(this, mNewestFrontBitmap, this);
                         } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
+//                            mCropImgDialog = new CropImageDialog(this, mNewestBackBitmap, this);
                         }
-                        mCropImgDialog.show();
+//                        mCropImgDialog.show();
                     }
                 }
             }

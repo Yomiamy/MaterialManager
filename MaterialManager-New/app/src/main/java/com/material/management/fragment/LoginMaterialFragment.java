@@ -13,10 +13,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.material.management.MMActivity;
 import com.material.management.MMFragment;
-import com.material.management.MaterialManagerApplication;
 import com.material.management.Observer;
 import com.material.management.R;
-import com.material.management.dialog.CropImageDialog;
 import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.MultiChoiceDialog;
 import com.material.management.dialog.SelectPhotoDialog;
@@ -24,12 +22,13 @@ import com.material.management.data.Material;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.FileUtility;
-import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
+import com.cropper.CropImage;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,7 +42,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +83,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     private AutoCompleteTextView mActComment;
     private InputDialog mInputDialog;
     private MultiChoiceDialog mMultiChoiceDialog;
-    private CropImageDialog mCropImgDialog;
     private SelectPhotoDialog mSelectPhotoDialog;
     private DatePickerDialog mDatePickerDialog;
 
@@ -184,8 +181,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             mInputDialog.setShowState(false);
         if (mMultiChoiceDialog != null && mMultiChoiceDialog.isDialogShowing())
             mMultiChoiceDialog.setShowState(false);
-        if (mCropImgDialog != null && mCropImgDialog.isDialogShowing())
-            mCropImgDialog.setShowState(false);
         if (mSelectPhotoDialog != null && mSelectPhotoDialog.isDialogShowing())
             mSelectPhotoDialog.setShowState(false);
         super.onPause();
@@ -286,39 +281,35 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                     }
 
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(mOwnerActivity, mNewestBitmap, this);
-
-                        mCropImgDialog.show();
+                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(mOwnerActivity);
                     }
                 }
             }
             break;
             case REQ_SELECT_PICTURE: {
                 if (Activity.RESULT_OK == resultCode && intent != null && intent.getData() != null) {
-                /* Restore to original icon */
+                    /* Restore to original icon */
                     mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
                     Utility.releaseBitmaps(mNewestBitmap);
                     mNewestBitmap = null;
 
                     Uri selectedImageUri = intent.getData();
-                    String selectedImagePath = Utility.getPathFromUri(selectedImageUri);
+//                    String selectedImagePath = Utility.getPathFromUri(selectedImageUri);
+//
+//                     /* FIXME: duplicate decode image */
+//                    try {
+//                        if (selectedImagePath != null) {
+//                            mNewestBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
+//                        }
+//                    } catch (OutOfMemoryError e) {
+//                    /* A workaround to avoid the OOM */
+//                        e.printStackTrace();
+//                        Utility.forceGC(false);
+//                    }
 
-                     /* FIXME: duplicate decode image */
-                    try {
-                        if (selectedImagePath != null) {
-                            mNewestBitmap = BitmapFactory.decodeFile(selectedImagePath, mOptions);
-                        }
-                    } catch (OutOfMemoryError e) {
-                    /* A workaround to avoid the OOM */
-                        e.printStackTrace();
-                        Utility.forceGC(false);
-                    }
-
-                /* Error handling */
+                    /* Error handling */
                     if (mNewestBitmap != null) {
-                        mCropImgDialog = new CropImageDialog(mOwnerActivity, mNewestBitmap, this);
-
-                        mCropImgDialog.show();
+                        CropImage.activity(selectedImageUri).start(mOwnerActivity);
                     }
                 }
             }
@@ -472,27 +463,29 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                             });
                     subDialog.setNegativeButton(getString(R.string.title_negative_btn_label), null);
                     subDialog.show();
-                } else if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
-                    /* Recycle the original bitmap from camera intent extra. */
-
-                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-
-
-                    Bitmap bitmap = mCropImgDialog.getCroppedImage();
-                    mNewestBitmap = bitmap;
-
-                    mIvAddPhoto.setImageBitmap(bitmap);
-                    mCropImgDialog.setShowState(false);
                 }
+//                else if (mCropImgDialog != null && mCropImgDialog.isDialogShowing()) {
+//                    /* Recycle the original bitmap from camera intent extra. */
+//
+//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                    Utility.releaseBitmaps(mNewestBitmap);
+//                    mNewestBitmap = null;
+//
+//
+//                    Bitmap bitmap = mCropImgDialog.getCroppedImage();
+//                    mNewestBitmap = bitmap;
+//
+//                    mIvAddPhoto.setImageBitmap(bitmap);
+//                    mCropImgDialog.setShowState(false);
+//                }
             } else if (AlertDialog.BUTTON_NEGATIVE == which) {
-                if (mCropImgDialog != null) {
-                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBitmap);
-                    mNewestBitmap = null;
-                    mCropImgDialog.setShowState(false);
-                } else if (mMultiChoiceDialog != null || mInputDialog != null) {
+//                if (mCropImgDialog != null) {
+//                    mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
+//                    Utility.releaseBitmaps(mNewestBitmap);
+//                    mNewestBitmap = null;
+//                    mCropImgDialog.setShowState(false);
+//                } else
+                if (mMultiChoiceDialog != null || mInputDialog != null) {
                     mSpinMaterialCategory.setSelection(0);
                 }
 
@@ -526,7 +519,6 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             }
         }
 
-        mCropImgDialog = null;
         mMultiChoiceDialog = null;
         mInputDialog = null;
         mSelectPhotoDialog = null;

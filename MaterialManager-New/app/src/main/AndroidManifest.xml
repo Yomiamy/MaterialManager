@@ -228,6 +228,10 @@
             android:label="@string/menu_help"
             android:screenOrientation="user"
             android:stateNotNeeded="true" />
+
+        <activity android:name="com.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.material.management.StoreMapActivity"
             android:screenOrientation="portrait"

@@ -473,6 +473,13 @@
     <string name="title_db_upgrade_dialog">Warning!!!</string>
     <string name="title_db_upgrade_msg">Database version is upgraded, you must manually re-backup your database again !!!</string>
 
+    <!-- CropImage -->
+    <string name="crop_image_activity_title"></string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+
     <!-- Barcode Scanner -->
     <string name="app_picker_name">Applications</string>
     <string name="bookmark_picker_name">Bookmarks</string>
