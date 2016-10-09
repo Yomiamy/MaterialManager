@@ -331,7 +331,7 @@
     <!-- LoginGroceryListFragment -->
     <string name="title_grocery_name">Grocery Name:</string>
     <string name="title_store_address_hint">Tap to pick a location(Optional)</string>
-    <string name="title_store_login_grocery_by_receipt_hint">Login grocery by receipt barcode</string>
+    <string name="title_store_login_grocery_by_receipt_hint">Login list info. by the receipt barcode</string>
     <string name="title_nearby_alert">Alert me when nearby(1 kilo-meter)</string>
     <string name="title_address">Address : </string>
     <string name="title_phone">Phone : </string>

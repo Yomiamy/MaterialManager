@@ -73,7 +73,7 @@ public class FileUtility {
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "";
         } finally {
             try {
                 if (out != null)

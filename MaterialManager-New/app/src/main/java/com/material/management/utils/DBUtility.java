@@ -777,8 +777,9 @@ public class DBUtility {
             String barcodeFormat = new String(groceryItem.getBarcodeFormat().getBytes(), sStringCharSet);
             String barcode = new String(groceryItem.getBarcode().getBytes(), sStringCharSet);
             String photoPath = new String(groceryItem.getGroceryPicPath().getBytes(), sStringCharSet);
+            String price = new String(groceryItem.getPrice().getBytes(), sStringCharSet);
 
-            sResolver.delete(MaterialProvider.URI_GROCERY_ITEMS, "name=? and grocery_list_id =? and barcode_format=? and barcode=? and photo_path=?", new String[]{name, groceryListId, barcodeFormat, barcode, photoPath});
+            sResolver.delete(MaterialProvider.URI_GROCERY_ITEMS, "name=? and grocery_list_id =? and barcode_format=? and barcode=? and photo_path=? and price=?", new String[]{name, groceryListId, barcodeFormat, barcode, photoPath, price});
         } catch (UnsupportedEncodingException e) {
             LogUtility.printStackTrace(e);
         }
