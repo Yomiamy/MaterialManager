@@ -480,26 +480,28 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             break;
 
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE: {
-                CropImage.ActivityResult result = CropImage.getActivityResult(intent);
-                File photoFile = new File(Utility.getPathFromUri(result.getUri()));
+                if (resultCode == RESULT_OK) {
+                    CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                    File photoFile = new File(Utility.getPathFromUri(result.getUri()));
 
-                /* Recycle the original bitmap from camera intent extra. */
-                if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-                    mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestFrontBitmap);
+                     /* Recycle the original bitmap from camera intent extra. */
+                    if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
+                        mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestFrontBitmap);
 
-                    mNewestFrontBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);;
+                        mNewestFrontBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+                        ;
 
-                    mIvAddRewardFrontPhoto.setImageBitmap(mNewestFrontBitmap);
-                } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-                    mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
-                    Utility.releaseBitmaps(mNewestBackBitmap);
+                        mIvAddRewardFrontPhoto.setImageBitmap(mNewestFrontBitmap);
+                    } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
+                        mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
+                        Utility.releaseBitmaps(mNewestBackBitmap);
 
-                    mNewestBackBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+                        mNewestBackBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
 
-                    mIvAddRewardBackPhoto.setImageBitmap(mNewestBackBitmap);
+                        mIvAddRewardBackPhoto.setImageBitmap(mNewestBackBitmap);
+                    }
                 }
-
             }
             break;
 

@@ -161,8 +161,8 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
         }
 
         initSpinnerData();
@@ -344,7 +344,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             break;
 
             case R.id.menu_action_add: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     requestPermissions(PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     return super.onOptionsItemSelected(item);
                 }
@@ -435,11 +435,13 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             break;
 
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE: {
-                CropImage.ActivityResult result = CropImage.getActivityResult(intent);
-                File photoFile = new File(Utility.getPathFromUri(result.getUri()));
-                mNewestBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+                if (resultCode == RESULT_OK) {
+                    CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                    File photoFile = new File(Utility.getPathFromUri(result.getUri()));
+                    mNewestBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
 
-                mIvAddPhoto.setImageBitmap(mNewestBitmap);
+                    mIvAddPhoto.setImageBitmap(mNewestBitmap);
+                }
             }
             break;
 
@@ -622,7 +624,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                             Intent.createChooser(albumIntent, getString(R.string.title_image_chooser_title)),
                             REQ_SELECT_PICTURE);
                 } else if (which == 1) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                         requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                         return;
                     }

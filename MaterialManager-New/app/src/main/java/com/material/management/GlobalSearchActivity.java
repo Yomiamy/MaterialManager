@@ -30,6 +30,7 @@ import com.material.management.dialog.GlobalSearchResultDialog;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.Utility;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -39,6 +40,7 @@ public class GlobalSearchActivity extends MMActivity {
     private ListView mLvContentListView;
     private EditText mEtSearchText;
 
+    private DecimalFormat mDecimalFormat = new DecimalFormat(GroceryItem.DECIMAL_PRECISION_FORMAT);
     private GlobalDataLoaderTask mGlobalDataLoaderTask = null;
     private ShortCutSearchListAdapter mSearchResultAdapter = null;
     private String mKeyword = null;
@@ -220,12 +222,12 @@ public class GlobalSearchActivity extends MMActivity {
 
                 if (name != null && name.toLowerCase().contains(mSearchKeyword)) {
                     GlobalSearchData searchData = new GlobalSearchData();
-                    double totalCost = Double.parseDouble(groceryItem.getPrice()) * Integer.parseInt(groceryItem.getQty());
+                    double totalCost = Double.parseDouble(groceryItem.getPrice()) * Double.parseDouble(groceryItem.getQty());
 
                     searchData.setItemType(GlobalSearchData.ItemType.GROCERY_ITEM);
                     searchData.setItemName(name);
                     searchData.setItemCount(groceryItem.getQty());
-                    searchData.setItemTotalCost(mCurrencySymbol + " " + Double.toString(totalCost));
+                    searchData.setItemTotalCost(mCurrencySymbol + " " + mDecimalFormat.format(totalCost));
                     searchData.setGroceryItem(groceryItem);
                     mGlobalSearchDataList.add(searchData);
                 }

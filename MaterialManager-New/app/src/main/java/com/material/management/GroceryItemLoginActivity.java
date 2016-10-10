@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -138,7 +139,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         mSpinItemCategory.setOnItemSelectedListener(this);
     }
 
-    private void init(){
+    private void init() {
         mActionBar = getActionBar();
         mOptions = new BitmapFactory.Options();
         mGroceryListId = getIntent().getIntExtra("grocery_list_id", -1);
@@ -160,25 +161,26 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
         mActionBar.setTitle(getString(R.string.title_grocery_item_login_actionbar_title));
         mActionBar.setDisplayHomeAsUpEnabled(true);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
         }
 
-        if(mGroceryListId < 0 && mGroceryItem != null) {
+        if (mGroceryListId < 0 && mGroceryItem != null) {
             mGroceryListId = mGroceryItem.getGroceryListId();
             String groceryPicPath = mGroceryItem.getGroceryPicPath();
             mBarcode = mGroceryItem.getBarcode();
             mBarcodeFormat = mGroceryItem.getBarcodeFormat();
 
-            if(groceryPicPath != null) {
+            if (groceryPicPath != null) {
                 Picasso.with(mContext).load(new File(groceryPicPath)).fit().into(mIvAddPhoto, new Callback() {
                     @Override
                     public void onSuccess() {
-                        mNewestBitmap = ((BitmapDrawable)mIvAddPhoto.getDrawable()).getBitmap();
+                        mNewestBitmap = ((BitmapDrawable) mIvAddPhoto.getDrawable()).getBitmap();
                     }
 
                     @Override
-                    public void onError() {}
+                    public void onError() {
+                    }
                 });
             }
 
@@ -200,7 +202,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             mActGroceryItemName.setText(mGroceryItem.getName());
             mSpinItemCategory.setSelection(((ArrayAdapter<String>) mSpinItemCategory.getAdapter()).getPosition(mGroceryItem.getGroceryType()));
             mEtSize.setText(mGroceryItem.getSize());
-            mSpinUnit.setSelection(((ArrayAdapter<String>)mSpinUnit.getAdapter()).getPosition(mGroceryItem.getSizeUnit()));
+            mSpinUnit.setSelection(((ArrayAdapter<String>) mSpinUnit.getAdapter()).getPosition(mGroceryItem.getSizeUnit()));
             mEtQty.setText(mGroceryItem.getQty());
             mEtPrice.setText(mGroceryItem.getPrice());
             mEtItemNote.setText(mGroceryItem.getComment());
@@ -236,7 +238,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             }
         }
 
-        for(String text : mTextHistoryList) {
+        for (String text : mTextHistoryList) {
             textHistory.append(text);
             textHistory.append(":");
         }
@@ -276,7 +278,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         String name = groceryItem.getName();
         String category = groceryItem.getGroceryType();
 
-        if(name.trim().isEmpty()) {
+        if (name.trim().isEmpty()) {
             msg = msg.append(getString(R.string.msg_no_grocery_name));
             isAllow = isAllow && false;
         }
@@ -286,10 +288,10 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             isAllow = isAllow && false;
         }
 
-        if(qty.trim().isEmpty()) {
+        if (qty.trim().isEmpty()) {
             msg = msg.append(getString(R.string.msg_no_grocery_qty));
             isAllow = isAllow && false;
-        } else if(qty.equals("0")) {
+        } else if (qty.equals("0")) {
             msg = msg.append(getString(R.string.msg_no_grocery_zero_qty_err));
             isAllow = isAllow && false;
         }
@@ -310,7 +312,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             spinList.add(0, getString(R.string.item_spinner_empty));
         }
 
-        if(mCategoryAdapter == null) {
+        if (mCategoryAdapter == null) {
             mCategoryAdapter = new ArrayAdapter<String>(this, R.layout.view_spinner_item_layout, spinList) {
                 public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = super.getDropDownView(position, convertView, parent);
@@ -391,12 +393,12 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             break;
 
             case R.id.menu_action_add: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     requestPermissions(PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     return super.onOptionsItemSelected(item);
                 }
 
-                if(mGroceryListId < 0) {
+                if (mGroceryListId < 0) {
                     showToast(getString(R.string.data_save_fail));
                 }
 
@@ -420,7 +422,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
                 String msg = isAllowSave(groceryItem);
 
-                if(msg == null) {
+                if (msg == null) {
                     if (mGroceryItem != null) {
                     /* Delete the previous data, if user modify the selected grocery item */
                         DBUtility.deleteGroceryItem(mGroceryItem);
@@ -451,10 +453,10 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
     }
 
     public void setMenuItemVisibility(int id, boolean visible) {
-        if(mOptionMenu != null) {
+        if (mOptionMenu != null) {
             MenuItem item = mOptionMenu.findItem(id);
 
-            if(item != null)
+            if (item != null)
                 item.setVisible(visible);
         }
     }
@@ -489,21 +491,21 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
         switch (id) {
             case R.id.iv_add_photo: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     requestPermissions(MMActivity.PERM_REQ_WRITE_EXT_STORAGE, getString(R.string.perm_rationale_write_ext_storage), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     return;
                 }
 
-                mSelectPhotoDialog = new SelectPhotoDialog(this, getString(R.string.title_select_photo), new String[] {
+                mSelectPhotoDialog = new SelectPhotoDialog(this, getString(R.string.title_select_photo), new String[]{
                         getString(R.string.title_select_photo_from_album),
-                        getString(R.string.title_select_photo_from_camera) }, this);
+                        getString(R.string.title_select_photo_from_camera)}, this);
 
                 mSelectPhotoDialog.show();
             }
             break;
 
             case R.id.tv_material_barcode: {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                     requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;
                 }
@@ -518,7 +520,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                 String qtyStr = mEtQty.getText().toString();
 
                 v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press_bounce));
-                if(qtyStr == null || qtyStr.isEmpty()) {
+                if (qtyStr == null || qtyStr.isEmpty()) {
                     mEtQty.setText("0");
                     return;
                 }
@@ -527,11 +529,11 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             }
             break;
 
-            case  R.id.iv_quantity_minus: {
+            case R.id.iv_quantity_minus: {
                 String qtyStr = mEtQty.getText().toString();
 
                 v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press_bounce));
-                if(qtyStr == null || qtyStr.isEmpty()) {
+                if (qtyStr == null || qtyStr.isEmpty()) {
                     mEtQty.setText("0");
                     return;
                 }
@@ -588,11 +590,13 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             break;
 
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE: {
-                CropImage.ActivityResult result = CropImage.getActivityResult(intent);
-                File photoFile = new File(Utility.getPathFromUri(result.getUri()));
-                mNewestBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
+                if (resultCode == RESULT_OK) {
+                    CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                    File photoFile = new File(Utility.getPathFromUri(result.getUri()));
+                    mNewestBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), mOptions);
 
-                mIvAddPhoto.setImageBitmap(mNewestBitmap);
+                    mIvAddPhoto.setImageBitmap(mNewestBitmap);
+                }
             }
             break;
 
@@ -723,7 +727,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                             Intent.createChooser(albumIntent, getString(R.string.title_image_chooser_title)),
                             REQ_SELECT_PICTURE);
                 } else if (which == 1) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                         requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                         return;
                     }
