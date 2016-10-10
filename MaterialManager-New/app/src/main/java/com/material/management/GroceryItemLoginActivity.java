@@ -558,17 +558,16 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             case REQ_CAMERA_TAKE_PIC: {
                 if (Activity.RESULT_OK == resultCode) {
                     try {
-                    /* Restore to original icon */
+                       /* Restore to original icon */
                         mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
                         Utility.releaseBitmaps(mNewestBitmap);
-                        mNewestBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                     } catch (OutOfMemoryError e) {
                         LogUtility.printError(e);
                         Utility.forceGC(false);
                     }
 
-                    if (mNewestBitmap != null) {
-                        CropImage.activity(Utility.getImageUri(mNewestBitmap)).start(this);
+                    if (FileUtility.TEMP_PHOTO_FILE.exists()) {
+                        CropImage.activity(Uri.fromFile(FileUtility.TEMP_PHOTO_FILE)).start(this);
                     }
                 }
             }

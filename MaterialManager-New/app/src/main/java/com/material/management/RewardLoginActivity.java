@@ -427,26 +427,18 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
                             mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
                             Utility.releaseBitmaps(mNewestFrontBitmap);
                             mNewestFrontBitmap = null;
-
-                            mNewestFrontBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                         } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
                             mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
                             Utility.releaseBitmaps(mNewestBackBitmap);
                             mNewestBackBitmap = null;
-
-                            mNewestBackBitmap = BitmapFactory.decodeFile(FileUtility.TEMP_PHOTO_FILE.getAbsolutePath(), mOptions);
                         }
                     } catch (OutOfMemoryError e) {
                         LogUtility.printError(e);
                         Utility.forceGC(false);
                     }
 
-                    if (mNewestFrontBitmap != null || mNewestBackBitmap != null) {
-                        if (mCurRewardFaceResId == R.id.iv_add_reward_front_photo) {
-                            CropImage.activity(Utility.getImageUri(mNewestFrontBitmap)).start(this);
-                        } else if (mCurRewardFaceResId == R.id.iv_add_reward_back_photo) {
-                            CropImage.activity(Utility.getImageUri(mNewestBackBitmap)).start(this);
-                        }
+                    if (FileUtility.TEMP_PHOTO_FILE.exists()) {
+                        CropImage.activity(Uri.fromFile(FileUtility.TEMP_PHOTO_FILE)).start(this);
                     }
                 }
             }
