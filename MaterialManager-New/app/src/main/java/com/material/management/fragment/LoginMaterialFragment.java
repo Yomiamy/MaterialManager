@@ -301,7 +301,9 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                     }
 
                     if (FileUtility.TEMP_PHOTO_FILE.exists()) {
-                        CropImage.activity(Uri.fromFile(FileUtility.TEMP_PHOTO_FILE)).start(mOwnerActivity);
+                        CropImage.activity(Uri.fromFile(FileUtility.TEMP_PHOTO_FILE))
+                                .setActivityTitle(mResources.getString(R.string.app_name))
+                                .start(mOwnerActivity);
                     }
                 }
             }
@@ -315,7 +317,9 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
                     /* Error handling */
                     if (selectedImageUri != null) {
-                        CropImage.activity(selectedImageUri).start(mOwnerActivity);
+                        CropImage.activity(selectedImageUri)
+                                 .setActivityTitle(mResources.getString(R.string.app_name))
+                                 .start(mOwnerActivity);
                     }
                 }
             }

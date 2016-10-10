@@ -567,7 +567,9 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     }
 
                     if (FileUtility.TEMP_PHOTO_FILE.exists()) {
-                        CropImage.activity(Uri.fromFile(FileUtility.TEMP_PHOTO_FILE)).start(this);
+                        CropImage.activity(Uri.fromFile(FileUtility.TEMP_PHOTO_FILE))
+                                .setActivityTitle(mResources.getString(R.string.app_name))
+                                .start(this);
                     }
                 }
             }
@@ -582,7 +584,9 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
 
                     /* Error handling */
                     if (selectedImageUri != null) {
-                        CropImage.activity(selectedImageUri).start(this);
+                        CropImage.activity(selectedImageUri)
+                                .setActivityTitle(mResources.getString(R.string.app_name))
+                                .start(this);
                     }
                 }
             }
