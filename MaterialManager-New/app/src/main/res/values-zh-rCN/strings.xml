@@ -296,6 +296,7 @@
     <string name="title_sun">星期日</string>
     <string name="grocery_login_msg_geo_trans">位置转换中，请稍候...</string>
     <string name="grocery_login_msg_query_receipt_info">查询发票资讯中，请稍候...</string>
+    <string name="receipt_scan_hint_msg">请扫描电子发票左边的Barcode</string>
     <string name="grocery_login_err_empty_phone">电话字段尚未输入</string>
     <string name="grocery_login_err_empty_store_address">店家地址字段尚未输入</string>
     <string name="grocery_login_err_dialog_msg">暂无相关资料，请稍后再试</string>

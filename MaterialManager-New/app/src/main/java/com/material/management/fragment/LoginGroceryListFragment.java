@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
@@ -59,6 +60,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     private static MainActivity sActivity;
 
     private View mLayout;
+    private RelativeLayout mRlLoginListByReceipt;
     private AutoCompleteTextView mActGroceryListName;
     private AutoCompleteTextView mActStoreName;
     private AutoCompleteTextView mActAddress;
@@ -108,6 +110,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     }
 
     private void findView() {
+        mRlLoginListByReceipt = (RelativeLayout) mLayout.findViewById(R.id.rl_login_grocery_by_receipt);
         mIvReceiptBarcode = (ImageView) mLayout.findViewById(R.id.iv_login_receipt_barcode);
         mIvPhone = (ImageView) mLayout.findViewById(R.id.iv_phoneButton);
         mIvNavig = (ImageView) mLayout.findViewById(R.id.iv_navigateButton);
@@ -141,6 +144,9 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
         Calendar calendar = Calendar.getInstance();
         mTimePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
 
+        if (!mDeviceInfo.getLocale().equalsIgnoreCase("TW")) {
+            mRlLoginListByReceipt.setVisibility(View.GONE);
+        }
         update(null);
         initAutoCompleteData();
         clearUserData();
@@ -240,6 +246,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                     }
                     return;
                 }
+                showToast(mResources.getString(R.string.receipt_scan_hint_msg));
                 IntentIntegrator integrator = new IntentIntegrator(LoginGroceryListFragment.this);
                 integrator.initiateScan();
             }

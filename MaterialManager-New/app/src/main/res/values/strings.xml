@@ -360,14 +360,15 @@
     <string name="title_fri">FRI</string>
     <string name="title_sat">SAT</string>
     <string name="title_sun">SUN</string>
-    <string name="grocery_login_msg_geo_trans">Location transform，please wait a moment...</string>
-    <string name="grocery_login_msg_query_receipt_info">Query the detail of receipt，please wait a moment...</string>
+    <string name="grocery_login_msg_geo_trans">Location transform, please wait a moment...</string>
+    <string name="grocery_login_msg_query_receipt_info">Query the detail of receipt, please wait a moment...</string>
+    <string name="receipt_scan_hint_msg">Please scan the barcode at the left side</string>
 
     <!-- LoginGroceryListFragment error message -->
     <string name="grocery_login_err_empty_phone">Phone column should not be empty</string>
     <string name="grocery_login_err_empty_store_address">Store address column should not be empty</string>
     <string name="grocery_login_err_dialog_msg">Can not retrieve data, please re-try it later...</string>
-    <string name="grocery_receipt_barcode_err_dialog_msg">Receipt barcode is incorrect ，please confirm it and try again</string>
+    <string name="grocery_receipt_barcode_err_dialog_msg">Receipt barcode is incorrect, please confirm it and try again</string>
     <string name="grocery_login_err_receipt_code_format_incorrect">The format of barcode/qrcode is incorrect</string>
 
     <string-array name="weekTitle">
