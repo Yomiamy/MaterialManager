@@ -10,7 +10,7 @@ public class GroceryListData extends GlobalSearchData implements Parcelable{
     protected ItemType mItemType = ItemType.GROCERY_LIST;
 
     private int mId;
-    private String mReceiptNum;
+    private String mReceiptNum = "";
     private String mGroceryListName = "";
     /*
     *  0 : Disable the nearby alert.
