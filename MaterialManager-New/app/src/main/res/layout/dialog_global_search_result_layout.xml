@@ -63,7 +63,7 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                android:id="@+id/tv_material_barcode"
+                android:id="@+id/tv_barcode_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

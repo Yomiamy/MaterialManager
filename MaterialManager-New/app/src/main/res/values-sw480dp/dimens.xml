@@ -1,6 +1,9 @@
 <resources>
 
     <!-- fragment_login_material_layout -->
+    <dimen name="tv_login_material_common_txt_size">@dimen/font_size_medium</dimen>
+    <dimen name="tv_login_material_common_vertical_gap">0dp</dimen>
+
     <dimen name="ll_login_material_full_layout_margin_left">10dp</dimen>
     <dimen name="ll_login_material_full_layout_margin_right">10dp</dimen>
     <dimen name="ll_login_material_full_layout_margin_top">10dp</dimen>
@@ -13,7 +16,10 @@
     <dimen name="iv_login_material_add_photo_h">170dp</dimen>
     <dimen name="iv_login_material_add_photo_w">170dp</dimen>
     <dimen name="iv_login_material_add_photo_margin_top">15dp</dimen>
-    <dimen name="tv_login_material_material_barcode_margin_left">10dp</dimen>
+    <dimen name="rl_login_material_material_barcode_layout_margin_left">10dp</dimen>
+    <dimen name="iv_login_material_barcode_w">170dp</dimen>
+    <dimen name="iv_login_material_barcode_h">70dp</dimen>
+    <dimen name="sp_login_material_txt_size">@dimen/font_size_xxxsmall</dimen>
     <dimen name="rl_login_material_purchace_date_layout_margin_left">10dp</dimen>
     <dimen name="tv_login_material_purchace_date_margin_left">7dp</dimen>
     <dimen name="rl_login_material_validate_date_layout_margin_left">10dp</dimen>

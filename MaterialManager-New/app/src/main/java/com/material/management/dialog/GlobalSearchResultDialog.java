@@ -87,7 +87,7 @@ public class GlobalSearchResultDialog extends AlertDialog.Builder implements Vie
         mTvMaterialName = (TextView) mLayout.findViewById(R.id.tv_material_name);
         mTvMaterialCategory = (TextView) mLayout.findViewById(R.id.tv_material_category);
         mTvExpireStatus = (TextView) mLayout.findViewById(R.id.tv_expire_status);
-        mTvMaterialBarcode = (TextView) mLayout.findViewById(R.id.tv_material_barcode);
+        mTvMaterialBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode_txt);
         /* Grocery info layout. */
         mLlGroceryInfoLayout = (LinearLayout) mLayout.findViewById(R.id.ll_grocery_info_layout);
         mTvGroceryName = (TextView) mLayout.findViewById(R.id.tv_grocery_name);

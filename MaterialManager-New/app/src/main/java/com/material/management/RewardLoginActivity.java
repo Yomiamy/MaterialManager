@@ -4,7 +4,6 @@ package com.material.management;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -84,7 +83,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         mIvAddRewardFrontPhoto = (ImageView) findViewById(R.id.iv_add_reward_front_photo);
         mIvAddRewardBackPhoto = (ImageView) findViewById(R.id.iv_add_reward_back_photo);
         mIvChangeRewardFace = (ImageView) findViewById(R.id.iv_change_reward_face);
-        mTvAddBardCode = (TextView) findViewById(R.id.tv_material_barcode);
+        mTvAddBardCode = (TextView) findViewById(R.id.tv_barcode_txt);
         mActvCardName = (AutoCompleteTextView) findViewById(R.id.act_card_name);
         mActvComment = (AutoCompleteTextView) findViewById(R.id.actv_item_note);
     }
@@ -329,7 +328,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             }
             break;
 
-            case R.id.tv_material_barcode: {
+            case R.id.tv_barcode_txt: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                     requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;

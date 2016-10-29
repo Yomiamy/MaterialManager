@@ -798,13 +798,13 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             });
 
             if (!isNeedBarcodeIc) {
-                ((TextView) view.findViewById(R.id.tv_material_barcode)).setCompoundDrawables(null, null, null, null);
+                ((TextView) view.findViewById(R.id.tv_barcode_txt)).setCompoundDrawables(null, null, null, null);
             } else {
                 Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.ic_barcode_indicator);
 
                 defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
                         defaultBarcodeImg.getIntrinsicHeight());
-                ((TextView) view.findViewById(R.id.tv_material_barcode)).setCompoundDrawables(null, null,
+                ((TextView) view.findViewById(R.id.tv_barcode_txt)).setCompoundDrawables(null, null,
                         defaultBarcodeImg, null);
             }
 

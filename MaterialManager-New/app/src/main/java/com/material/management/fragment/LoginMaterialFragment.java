@@ -31,7 +31,6 @@ import com.cropper.CropImage;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,6 +44,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,7 +80,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     private RelativeLayout mRlPurchaceDate;
     private RelativeLayout mRlValidateDate;
     private ImageView mIvAddPhoto;
-    private TextView mTvBarcode;
+    private ImageView mIvBarcode;
+    private TextView mTvBarcodeTxt;
     private AutoCompleteTextView mActMaterialName;
     private Spinner mSpinMaterialCategory;
     private TextView mTvPurchaceDate;
@@ -92,6 +93,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     private MultiChoiceDialog mMultiChoiceDialog;
     private SelectPhotoDialog mSelectPhotoDialog;
     private DatePickerDialog mDatePickerDialog;
+    private TextView mSpinnerTxtView;
 
     private Bitmap mNewestBitmap = null;
     private Bitmap mBarcodeBitmap = null;
@@ -138,7 +140,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
     private void initView(View layout) {
         mIvAddPhoto = (ImageView) layout.findViewById(R.id.iv_add_photo);
-        mTvBarcode = (TextView) layout.findViewById(R.id.tv_material_barcode);
+        mIvBarcode = (ImageView) layout.findViewById(R.id.iv_barcode);
+        mTvBarcodeTxt = (TextView) layout.findViewById(R.id.tv_barcode_txt);
         mActMaterialName = (AutoCompleteTextView) layout.findViewById(R.id.act_material_name);
         mSpinMaterialCategory = (Spinner) layout.findViewById(R.id.spin_material_category);
         mRlPurchaceDate = (RelativeLayout) layout.findViewById(R.id.rl_purchace_date_layout);
@@ -148,9 +151,10 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         mEtNotificationDays = (EditText) layout.findViewById(R.id.et_notification_days);
         mActMaterialPlace = (AutoCompleteTextView) layout.findViewById(R.id.act_material_place);
         mActComment = (AutoCompleteTextView) layout.findViewById(R.id.act_comment);
+        mSpinnerTxtView = new TextView(mOwnerActivity);
 
         mIvAddPhoto.setOnClickListener(this);
-        mTvBarcode.setOnClickListener(this);
+        mIvBarcode.setOnClickListener(this);
         mRlPurchaceDate.setOnClickListener(this);
         mRlValidateDate.setOnClickListener(this);
         mSpinMaterialCategory.setOnItemSelectedListener(this);
@@ -241,8 +245,11 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             mCategoryAdapter = new ArrayAdapter<String>(mOwnerActivity, R.layout.view_spinner_item_layout, spinList) {
                 public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = super.getDropDownView(position, convertView, parent);
+                    TextView spTxtView = (TextView) v;
+                    int txtSize = mResources.getDimensionPixelSize(R.dimen.sp_login_material_txt_size);
 
-                    ((TextView) v).setGravity(Gravity.CENTER);
+                    spTxtView.setTextSize(txtSize);
+                    spTxtView.setGravity(Gravity.CENTER);
                     changeLayoutConfig(v);
 
                     return v;
@@ -251,7 +258,10 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
+                    TextView spTxtView = (TextView) v;
+                    int txtSize = mResources.getDimensionPixelSize(R.dimen.sp_login_material_txt_size);
 
+                    spTxtView.setTextSize(txtSize);
                     changeLayoutConfig(v);
 
                     return v;
@@ -334,27 +344,22 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
                     if (barcode != null && barcodeFormat != null) {
                         try {
-                        /* Restore to default */
+                            /* Restore to default */
                             mBarcode = "";
-                            Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.selector_barcode);
+                            Drawable defaultBarcodeImg = ContextCompat.getDrawable(mOwnerActivity, R.drawable.selector_barcode);
 
-                            defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
-                                    defaultBarcodeImg.getIntrinsicHeight());
-                            mTvBarcode.setText("x xxxxxx xxxxxx x");
-                            mTvBarcode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+                            mTvBarcodeTxt.setText("x xxxxxx xxxxxx x");
+                            mIvBarcode.setImageDrawable(defaultBarcodeImg);
                             Utility.releaseBitmaps(mBarcodeBitmap);
-                            mBarcodeBitmap = null;
 
+                            mBarcodeBitmap = null;
                             mBarcode = barcode;
                             mBarcodeFormat = barcodeFormat;
                             mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(barcode,
                                     BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
-                            Drawable barcodeDrawable = new BitmapDrawable(getResources(), mBarcodeBitmap);
 
-                            barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
-                                    barcodeDrawable.getIntrinsicHeight());
-                            mTvBarcode.setText(barcode);
-                            mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
+                            mTvBarcodeTxt.setText(barcode);
+                            mIvBarcode.setImageBitmap(mBarcodeBitmap);
                             new AutoFillTask().execute(mBarcodeFormat, mBarcode);
                         } catch (WriterException e) {
                             e.printStackTrace();
@@ -370,18 +375,16 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         if (mTvPurchaceDate == null || mTvValidDate == null
                 || mIvAddPhoto == null || mActMaterialName == null
                 || mActMaterialPlace == null || mActComment == null
-                || mEtNotificationDays == null || mTvBarcode == null) {
+                || mEtNotificationDays == null || mTvBarcodeTxt == null) {
             return;
         }
 
         mPurchaceDate = Calendar.getInstance();
         mValidDate = Calendar.getInstance();
-        mNewestBitmap = ((BitmapDrawable) mOwnerActivity.getResources().getDrawable(R.drawable.ic_no_image_available)).getBitmap();
-        Drawable defaultBarcodeImg = mOwnerActivity.getResources().getDrawable(R.drawable.selector_barcode);
+        mNewestBitmap = ((BitmapDrawable) ContextCompat.getDrawable(mOwnerActivity, R.drawable.ic_no_image_available)).getBitmap();
+        Drawable defaultBarcodeImg = ContextCompat.getDrawable(mOwnerActivity, R.drawable.selector_barcode);
         mBarcode = "";
         mBarcodeFormat = "";
-
-        defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(), defaultBarcodeImg.getIntrinsicHeight());
 
         /* set the default time */
         mTvPurchaceDate.setText(Utility.transDateToString(mPurchaceDate.getTime()));
@@ -391,8 +394,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         mActMaterialPlace.setText("");
         mActComment.setText("");
         mEtNotificationDays.setText("");
-        mTvBarcode.setText("x xxxxxx xxxxxx x");
-        mTvBarcode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+        mTvBarcodeTxt.setText("x xxxxxx xxxxxx x");
+        mIvBarcode.setImageDrawable(defaultBarcodeImg);
     }
 
     private String isAllowSave(Material material) {
@@ -531,7 +534,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             }
             break;
 
-            case R.id.tv_material_barcode: {
+            case R.id.iv_barcode: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !mOwnerActivity.isPermissionGranted(Manifest.permission.CAMERA)) {
                     mOwnerActivity.requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;
@@ -641,7 +644,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View arg1, int arg2, long arg3) {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int arg2, long arg3) {
         String item = (String) adapterView.getSelectedItem();
         String firstItem = (String) adapterView.getItemAtPosition(0);
         boolean isCanDel = !firstItem.trim().isEmpty() ? true : false;

@@ -38,7 +38,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.data.Material;
 import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.MultiChoiceDialog;
@@ -50,8 +49,6 @@ import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Picasso;
 import com.cropper.CropImage;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -116,7 +113,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
 
     private void findView() {
         mIvAddPhoto = (ImageView) mLayout.findViewById(R.id.iv_add_photo);
-        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_material_barcode);
+        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode_txt);
         mActMaterialName = (AutoCompleteTextView) mLayout.findViewById(R.id.act_material_name);
         mSpinMaterialCategory = (Spinner) mLayout.findViewById(R.id.spin_material_category);
         mRlPurchaceDate = (RelativeLayout) mLayout.findViewById(R.id.rl_purchace_date_layout);
@@ -663,7 +660,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             }
             break;
 
-            case R.id.tv_material_barcode: {
+            case R.id.tv_barcode_txt: {
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
             }

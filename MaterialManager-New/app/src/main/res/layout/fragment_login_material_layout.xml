@@ -51,6 +51,13 @@
 
         </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,25 +76,43 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_barcode"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
-
-            <!--改到此-->
-            <TextView
-                android:id="@+id/tv_material_barcode"
+            
+            <RelativeLayout
+                android:id="@id/rl_barcode_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/tv_login_material_material_barcode_margin_left"
                 android:layout_toRightOf="@+id/tv_title_barcode"
-                android:clickable="true"
-                android:drawableTop="@drawable/selector_barcode"
-                android:gravity="center"
-                android:text="x xxxxxx xxxxxx x"
-                android:textColor="@color/content_text_color"
-                android:textSize="@dimen/font_size_medium"
-                android:textStyle="bold" />
+                android:layout_marginLeft="@dimen/rl_login_material_material_barcode_layout_margin_left">
+                <ImageView
+                    android:id="@+id/iv_barcode"
+                    android:layout_width="@dimen/iv_login_material_barcode_w"
+                    android:layout_height="@dimen/iv_login_material_barcode_h"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/selector_barcode"/>
+
+                <TextView
+                    android:id="@+id/tv_barcode_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_barcode"
+                    android:layout_centerHorizontal="true"
+                    android:text="x xxxxxx xxxxxx x"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_login_material_common_txt_size"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            
+            
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -107,7 +132,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_material_name"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
 
             <AutoCompleteTextView
@@ -120,8 +145,15 @@
                 android:ems="10"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textSize="@dimen/font_size_medium" />
+                android:textSize="@dimen/tv_login_material_common_txt_size"/>
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -142,7 +174,7 @@
                 android:gravity="center"
                 android:text="@string/title_tv_material_category"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
 
             <Spinner
@@ -152,8 +184,15 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_material_category"
-                android:popupBackground="@color/spinner_background" />
+                android:popupBackground="@color/spinner_background"/>
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -173,7 +212,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_purchace_date"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -192,8 +231,8 @@
                     android:layout_marginLeft="@dimen/tv_login_material_purchace_date_margin_left"
                     android:gravity="center"
                     android:text="yyyy/mm/dd"
-                    android:textColor="@color/content_text_color"
-                    android:textSize="@dimen/font_size_medium"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_login_material_common_txt_size"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -204,6 +243,13 @@
                     android:src="@drawable/spinner_background_holo_light" />
             </RelativeLayout>
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -223,7 +269,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_valid_date"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -242,8 +288,8 @@
                     android:layout_marginLeft="@dimen/tv_login_material_validate_date_margin_left"
                     android:gravity="center"
                     android:text="yyyy/mm/dd"
-                    android:textColor="@color/content_text_color"
-                    android:textSize="@dimen/font_size_medium"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_login_material_common_txt_size"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -254,6 +300,13 @@
                     android:src="@drawable/spinner_background_holo_light" />
             </RelativeLayout>
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -274,7 +327,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_notification"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
 
             <EditText
@@ -288,7 +341,8 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:minWidth="20dp" />
+                android:minWidth="20dp"
+                android:textSize="@dimen/tv_login_material_common_txt_size"/>
 
             <TextView
                 android:id="@+id/tv_days"
@@ -298,9 +352,16 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_notification_days"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -320,7 +381,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_material_place"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
 
             <AutoCompleteTextView
@@ -333,8 +394,15 @@
                 android:ems="10"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textSize="@dimen/font_size_medium" />
+                android:textSize="@dimen/tv_login_material_common_txt_size"/>
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_login_material_common_vertical_gap"
+            android:layout_marginLeft="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/rl_login_material_common_item_layout_margin_left"
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -354,7 +422,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/title_tv_comment"
                 android:textColor="@color/GK"
-                android:textSize="@dimen/font_size_medium"
+                android:textSize="@dimen/tv_login_material_common_txt_size"
                 android:textStyle="bold" />
 
             <AutoCompleteTextView
@@ -366,7 +434,7 @@
                 android:completionThreshold="1"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:textSize="@dimen/font_size_medium" />
+                android:textSize="@dimen/tv_login_material_common_txt_size" />
         </RelativeLayout>
 
         <ImageView

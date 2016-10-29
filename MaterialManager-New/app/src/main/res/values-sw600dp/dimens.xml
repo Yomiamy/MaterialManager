@@ -24,20 +24,26 @@
     <dimen name="slide_menu_subitem_icon_height_size">75dp</dimen>
 
     <!-- fragment_login_material_layout -->
+    <dimen name="tv_login_material_common_txt_size">@dimen/font_size_xxxlarge</dimen>
+    <dimen name="tv_login_material_common_vertical_gap">20dp</dimen>
+
     <dimen name="login_material_content_padding_bottom">70dp</dimen>
-    <dimen name="ll_login_material_full_layout_margin_left">10dp</dimen>
-    <dimen name="ll_login_material_full_layout_margin_right">10dp</dimen>
+    <dimen name="ll_login_material_full_layout_margin_left">30dp</dimen>
+    <dimen name="ll_login_material_full_layout_margin_right">30dp</dimen>
     <dimen name="ll_login_material_full_layout_margin_top">10dp</dimen>
     <dimen name="rl_login_material_common_item_layout_margin_left">3dp</dimen>
     <dimen name="rl_login_material_common_item_layout_margin_right">3dp</dimen>
     <dimen name="rl_login_material_common_item_layout_padding_left">15dp</dimen>
     <dimen name="rl_login_material_common_item_layout_padding_right">15dp</dimen>
     <dimen name="rl_login_material_common_item_layout_padding_top">15dp</dimen>
-    <dimen name="iv_login_material_common_spinner_ic_w">100dp</dimen>
-    <dimen name="iv_login_material_add_photo_h">170dp</dimen>
-    <dimen name="iv_login_material_add_photo_w">170dp</dimen>
-    <dimen name="iv_login_material_add_photo_margin_top">15dp</dimen>
-    <dimen name="tv_login_material_material_barcode_margin_left">10dp</dimen>
+    <dimen name="iv_login_material_common_spinner_ic_w">150dp</dimen>
+    <dimen name="iv_login_material_add_photo_h">200dp</dimen>
+    <dimen name="iv_login_material_add_photo_w">200dp</dimen>
+    <dimen name="iv_login_material_add_photo_margin_top">40dp</dimen>
+    <dimen name="rl_login_material_material_barcode_layout_margin_left">20dp</dimen>
+    <dimen name="iv_login_material_barcode_w">270dp</dimen>
+    <dimen name="iv_login_material_barcode_h">70dp</dimen>
+    <dimen name="sp_login_material_txt_size">@dimen/font_size_large</dimen>
     <dimen name="rl_login_material_purchace_date_layout_margin_left">10dp</dimen>
     <dimen name="tv_login_material_purchace_date_margin_left">7dp</dimen>
     <dimen name="rl_login_material_validate_date_layout_margin_left">10dp</dimen>

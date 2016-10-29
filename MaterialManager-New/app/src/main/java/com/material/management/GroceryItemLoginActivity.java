@@ -128,7 +128,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         mIvAddPhoto = (ImageView) mLayout.findViewById(R.id.iv_add_photo);
         mIvQtyPlus = (ImageView) mLayout.findViewById(R.id.iv_quantity_plus);
         mIvQtyMinus = (ImageView) mLayout.findViewById(R.id.iv_quantity_minus);
-        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_material_barcode);
+        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode_txt);
     }
 
     private void setListener() {
@@ -504,7 +504,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             }
             break;
 
-            case R.id.tv_material_barcode: {
+            case R.id.tv_barcode_txt: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                     requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;
