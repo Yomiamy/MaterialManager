@@ -184,6 +184,11 @@ public class MainActivity extends SlidingActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case SettingsFragment.REQUEST_CODE_RESOLVE_CONNECTION: {

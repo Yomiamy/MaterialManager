@@ -4,8 +4,8 @@
     <!--<item android:drawable="@drawable/bg_menu_normal" android:state_focused="false" android:state_pressed="false"></item>-->
     <!--<item android:drawable="@drawable/bg_menu_normal" android:state_focused="false" android:state_pressed="true"></item>-->
     <!--<item android:drawable="@drawable/bg_menu_normal" android:state_focused="false"></item>-->
-    <item android:drawable="@color/bg_grocery_login" android:state_focused="false" android:state_pressed="false"></item>
-    <item android:drawable="@color/bg_grocery_login" android:state_focused="false" android:state_pressed="true"></item>
-    <item android:drawable="@color/bg_grocery_login" android:state_focused="false"></item>
+    <item android:drawable="@color/mercury" android:state_focused="false" android:state_pressed="false"></item>
+    <item android:drawable="@color/mercury" android:state_focused="false" android:state_pressed="true"></item>
+    <item android:drawable="@color/mercury" android:state_focused="false"></item>
 
 </selector>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ffe2e2e2">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mercury">
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="8.0dip"
-        android:layout_marginTop="8.0dip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,32 +19,32 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16.0dp"
-            android:layout_marginRight="16.0dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/ic_iron_ring" />
 
         <LinearLayout
             android:id="@+id/ll_photo_layout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16.0dip"
-            android:layout_marginRight="16.0dip"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="#ffffffff"
             android:orientation="vertical">
             <!--<LinearLayout-->
-            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="16.0dip"-->
-            <!--android:layout_marginRight="16.0dip"-->
-            <!--android:layout_marginTop="8.0dip"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:layout_marginTop="8dp"-->
             <!--android:layout_weight="1.0"-->
             <!--android:orientation="horizontal">-->
 
             <!--<TextView-->
             <!--android:id="@+id/tv_photo"-->
-            <!--android:layout_width="0.0dip"-->
-            <!--android:layout_height="32.0dip"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="32dp"-->
             <!--android:layout_gravity="center_vertical"-->
             <!--android:layout_weight="1.0"-->
             <!--android:gravity="center_vertical"-->
@@ -55,8 +55,8 @@
 
             <!--<ImageView-->
             <!--android:id="@+id/iv_photo_delete"-->
-            <!--android:layout_width="28.0dip"-->
-            <!--android:layout_height="28.0dip"-->
+            <!--android:layout_width="28dp"-->
+            <!--android:layout_height="28dp"-->
             <!--android:layout_gravity="bottom"-->
             <!--android:layout_weight="0.0"-->
             <!--android:gravity="bottom|right|center"-->
@@ -66,36 +66,36 @@
 
             <!--<ImageView-->
             <!--android:id="@+id/iv_photo"-->
-            <!--android:layout_width="200.0dip"-->
-            <!--android:layout_height="200.0dip"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="200dp"-->
             <!--android:layout_gravity="center"-->
-            <!--android:layout_marginBottom="5.0dip"-->
-            <!--android:layout_marginTop="5.0dip"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_marginTop="5dp"-->
             <!--android:layout_weight="1.0"-->
             <!--android:gravity="center"-->
             <!--android:scaleType="centerInside"-->
             <!--android:src="@null" />-->
 
             <RelativeLayout
-                android:layout_width="240.0dip"
-                android:layout_height="240.0dip"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5.0dip"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1.0">
 
                 <ImageView
                     android:id="@+id/iv_add_photo"
-                    android:layout_width="240.0dip"
-                    android:layout_height="240.0dip"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/selector_add_photo_status" />
 
                 <ImageView
-                    android:layout_width="240.0dip"
-                    android:layout_height="240.0dip"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/bg_add_photo_shadow"
@@ -104,32 +104,32 @@
 
             <!--<View-->
             <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="16.0dip" />-->
+            <!--android:layout_height="16dp" />-->
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_barcode_layout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16.0dip"
-            android:layout_marginRight="16.0dip"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="#ffffffff"
             android:orientation="vertical"
             android:visibility="visible">
 
             <!--<LinearLayout-->
-                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="16.0dip"-->
-                <!--android:layout_marginRight="16.0dip"-->
-                <!--android:layout_marginTop="8.0dip"-->
+                <!--android:layout_marginLeft="16dp"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:layout_marginTop="8dp"-->
                 <!--android:layout_weight="1.0"-->
                 <!--android:orientation="horizontal">-->
 
                 <!--<TextView-->
                     <!--android:id="@+id/tv_barcode"-->
-                    <!--android:layout_width="0.0dip"-->
-                    <!--android:layout_height="32.0dip"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="32dp"-->
                     <!--android:layout_gravity="center_vertical"-->
                     <!--android:layout_weight="1.0"-->
                     <!--android:gravity="center_vertical"-->
@@ -140,8 +140,8 @@
 
                 <!--<ImageView-->
                     <!--android:id="@+id/iv_barcode_del"-->
-                    <!--android:layout_width="28.0dip"-->
-                    <!--android:layout_height="28.0dip"-->
+                    <!--android:layout_width="28dp"-->
+                    <!--android:layout_height="28dp"-->
                     <!--android:layout_gravity="bottom"-->
                     <!--android:layout_weight="0.0"-->
                     <!--android:gravity="bottom|right|center"-->
@@ -151,9 +151,9 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="32.0dip"
+                android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16.0dip"
+                android:layout_marginLeft="16dp"
                 android:gravity="center_vertical"
                 android:text="@string/title_grocery_item_barcode"
                 android:textColor="#ff89a923"
@@ -165,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="60.0dip"
+                android:layout_marginLeft="60dp"
                 android:clickable="true"
                 android:drawableTop="@drawable/selector_barcode"
                 android:gravity="center"
@@ -175,10 +175,10 @@
 
             <!--<ImageView-->
                 <!--android:id="@+id/iv_barcode"-->
-                <!--android:layout_width="200.0dip"-->
-                <!--android:layout_height="80.0dip"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="80dp"-->
                 <!--android:layout_gravity="center"-->
-                <!--android:layout_marginTop="8.0dip"-->
+                <!--android:layout_marginTop="8dp"-->
                 <!--android:layout_weight="1.0"-->
                 <!--android:clickable="true"-->
                 <!--android:gravity="center"-->
@@ -188,42 +188,42 @@
             <!--<TextView-->
                 <!--android:id="@+id/tv_barcode_value"-->
                 <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="36.0dip"-->
+                <!--android:layout_height="36dp"-->
                 <!--android:layout_gravity="center"-->
-                <!--android:layout_marginBottom="5.0dip"-->
-                <!--android:layout_marginTop="4.0dip"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginTop="4dp"-->
                 <!--android:text="x xxxxxx xxxxxx x"-->
                 <!--android:textColor="#ff89a923"-->
                 <!--android:textSize="@dimen/textview_text_size" />-->
 
             <!--<View-->
             <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="16.0dip" />-->
+            <!--android:layout_height="16dp" />-->
         </LinearLayout>
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_barcode_shadow"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="6.0dip"-->
-        <!--android:layout_marginBottom="5.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="6dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:background="@drawable/light_shadow"-->
         <!--android:visibility="visible" />-->
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16.0dip"
-            android:layout_marginRight="16.0dip"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="#ffffffff"
             android:orientation="vertical">
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16.0dip"
-                android:layout_marginRight="16.0dip"
-                android:layout_marginTop="16.0dip"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/title_grocery_item_title"
                 android:textColor="#ff89a923"
                 android:textSize="@dimen/textview_text_size"
@@ -232,11 +232,11 @@
             <AutoCompleteTextView
                 android:id="@+id/act_item_name"
                 style="@style/EditTextAppTheme"
-                android:layout_width="fill_parent"
-                android:layout_height="48.0dip"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16.0dip"
-                android:layout_marginRight="16.0dip"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:gravity="center_vertical"
                 android:hint="@string/title_grocery_item_hint"
                 android:inputType="textCapSentences"
@@ -245,11 +245,11 @@
 
             <TextView
                 android:id="@+id/tv_category_label"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16.0dip"
-                android:layout_marginRight="16.0dip"
-                android:layout_marginTop="5.0dip"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/title_grocery_item_category"
                 android:textColor="#ff89a923"
                 android:textSize="@dimen/textview_text_size"
@@ -257,28 +257,28 @@
 
             <LinearLayout
                 android:id="@+id/ll_category"
-                android:layout_width="fill_parent"
-                android:layout_height="48.0dip"
-                android:layout_marginBottom="5.0dip"
-                android:layout_marginLeft="16.0dip"
-                android:layout_marginRight="16.0dip"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/spin_item_category"
                     style="@style/SpinnerAppTheme"
-                    android:layout_width="0.0dip"
-                    android:layout_height="48.0dip"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
                     android:layout_weight="1.0"
                     android:textSize="@dimen/textview_text_size" />
 
                 <!--<ImageView-->
                 <!--android:id="@+id/iv_add_category_btn"-->
                 <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="48.0dip"-->
+                <!--android:layout_height="48dp"-->
                 <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginLeft="4.0dip"-->
-                <!--android:layout_marginRight="7.0dip"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="7dp"-->
                 <!--android:layout_weight="0.0"-->
                 <!--android:gravity="center_vertical"-->
                 <!--android:scaleType="fitCenter"-->
@@ -291,12 +291,12 @@
             <!-- We don't show the size information for user, but we also record it in data silently. -->
             <LinearLayout
                 android:id="@+id/ll_size_unit"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5.0dip"
-                android:layout_marginLeft="16.0dip"
-                android:layout_marginRight="16.0dip"
-                android:layout_marginTop="5.0dip"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
@@ -309,9 +309,9 @@
 
                     <TextView
                         android:id="@+id/tv_size_label"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="16.0dip"
+                        android:layout_marginRight="16dp"
                         android:text="@string/title_grocery_item_size"
                         android:textColor="#ff89a923"
                         android:textSize="@dimen/textview_text_size"
@@ -320,14 +320,14 @@
                     <LinearLayout
                         android:id="@+id/ll_size_fraction"
                         android:layout_width="wrap_content"
-                        android:layout_height="48.0dip"
+                        android:layout_height="48dp"
                         android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_size"
                             style="@style/EditTextAppTheme"
-                            android:layout_width="80.0dip"
-                            android:layout_height="48.0dip"
+                            android:layout_width="80dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center_vertical"
                             android:digits="0123456789."
                             android:gravity="center"
@@ -339,12 +339,12 @@
 
                         <Button
                             android:id="@+id/btn_pick_fraction_qty"
-                            android:layout_width="24.0dip"
-                            android:layout_height="32.0dip"
+                            android:layout_width="24dp"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="5.0dip"
+                            android:layout_marginBottom="5dp"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5.0dip"
+                            android:layout_marginTop="5dp"
                             android:layout_weight="0.0"
                             android:background="@drawable/button_rounded_shape"
                             android:gravity="center"
@@ -363,10 +363,10 @@
 
                     <TextView
                         android:id="@+id/tv_unit"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7.0dip"
-                        android:layout_marginRight="16.0dip"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="16dp"
                         android:text="@string/title_grocery_item_unit"
                         android:textColor="#ff89a923"
                         android:textSize="@dimen/textview_text_size"
@@ -376,18 +376,18 @@
                         android:id="@+id/spin_unit"
                         style="@style/SpinnerAppTheme"
                         android:layout_width="wrap_content"
-                        android:layout_height="48.0dip"
+                        android:layout_height="48dp"
                         android:textSize="@dimen/textview_text_size" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5.0dip"
-                android:layout_marginLeft="23.0dip"
-                android:layout_marginRight="23.0dip"
-                android:layout_marginTop="16.0dip"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="23dp"
+                android:layout_marginRight="23dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -398,7 +398,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/title_grocery_item_quantity"
                         android:textColor="#ff89a923"
@@ -406,15 +406,15 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5.0dip"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/iv_quantity_plus"
-                            android:layout_width="24.0dip"
-                            android:layout_height="24.0dip"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:layout_gravity="bottom"
                             android:layout_weight="0.0"
                             android:clickable="true"
@@ -424,8 +424,8 @@
                         <EditText
                             android:id="@+id/et_qty"
                             style="@style/EditTextAppTheme"
-                            android:layout_width="60.0dip"
-                            android:layout_height="48.0dip"
+                            android:layout_width="60dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="0.0"
                             android:digits="0123456789."
@@ -438,8 +438,8 @@
 
                         <ImageView
                             android:id="@+id/iv_quantity_minus"
-                            android:layout_width="24.0dip"
-                            android:layout_height="24.0dip"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:layout_gravity="bottom"
                             android:layout_weight="0.0"
                             android:clickable="true"
@@ -455,7 +455,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/title_grocery_item_price"
                         android:textColor="#ff89a923"
@@ -465,8 +465,8 @@
                     <EditText
                         android:id="@+id/et_price"
                         style="@style/EditTextAppTheme"
-                        android:layout_width="80.0dip"
-                        android:layout_height="48.0dip"
+                        android:layout_width="80dp"
+                        android:layout_height="48dp"
                         android:layout_gravity="center"
                         android:layout_weight="1.0"
                         android:digits="0123456789."
@@ -481,11 +481,11 @@
 
             <!--<TextView-->
             <!--android:id="@+id/tv_fav"-->
-            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="23.0dip"-->
-            <!--android:layout_marginRight="32.0dip"-->
-            <!--android:layout_marginTop="4.0dip"-->
+            <!--android:layout_marginLeft="23dp"-->
+            <!--android:layout_marginRight="32dp"-->
+            <!--android:layout_marginTop="4dp"-->
             <!--android:text="@string/title_grocery_item_fav"-->
             <!--android:textColor="#ff89a923"-->
             <!--android:textSize="11.0sp"-->
@@ -493,22 +493,22 @@
 
             <!--<ImageView-->
             <!--android:id="@+id/iv_fav"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="36.0dip"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="36dp"-->
             <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginBottom="5.0dip"-->
-            <!--android:layout_marginRight="7.0dip"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_marginRight="7dp"-->
             <!--android:gravity="center"-->
             <!--android:scaleType="fitCenter"-->
             <!--android:src="@drawable/ic_action_star_0" />-->
 
             <TextView
                 android:id="@+id/tv_item_note"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16.0dip"
-                android:layout_marginLeft="16.0dip"
-                android:layout_marginRight="16.0dip"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:text="@string/title_grocery_item_note"
                 android:textColor="#ff89a923"
                 android:textSize="@dimen/textview_text_size"
@@ -517,11 +517,11 @@
             <EditText
                 android:id="@+id/et_item_note"
                 style="@style/EditTextAppTheme"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16.0dip"
-                android:layout_marginRight="16.0dip"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:gravity="left|center_vertical"
                 android:hint="@string/title_grocery_item_note_hint"
                 android:inputType="textCapSentences|textMultiLine"
@@ -533,17 +533,17 @@
 
             <!--<LinearLayout-->
             <!--android:id="@+id/ll_item_tag_header"-->
-            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="16.0dip"-->
-            <!--android:layout_marginRight="16.0dip"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
             <!--android:layout_weight="1.0"-->
             <!--android:orientation="horizontal">-->
 
             <!--<TextView-->
             <!--android:id="@+id/tv_item_tag"-->
-            <!--android:layout_width="0.0dip"-->
-            <!--android:layout_height="36.0dip"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="36dp"-->
             <!--android:layout_weight="1.0"-->
             <!--android:gravity="left|center"-->
             <!--android:text="@string/title_grocery_item_tag"-->
@@ -554,16 +554,16 @@
 
             <!--<LinearLayout-->
             <!--android:id="@+id/ll_item_tag"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="48.0dip"-->
-            <!--android:layout_marginLeft="16.0dip"-->
-            <!--android:layout_marginRight="16.0dip"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
             <!--android:orientation="horizontal">-->
 
             <!--<LinearLayout-->
             <!--android:id="@+id/ll_item_tag_check_box"-->
             <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="48.0dip"-->
+            <!--android:layout_height="48dp"-->
             <!--android:orientation="horizontal">-->
 
             <!--<CheckBox-->
@@ -578,8 +578,8 @@
             <!--<Spinner-->
             <!--android:id="@+id/spin_item_tag"-->
             <!--style="@style/SpinnerAppTheme"-->
-            <!--android:layout_width="0.0dip"-->
-            <!--android:layout_height="48.0dip"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="48dp"-->
             <!--android:layout_gravity="center"-->
             <!--android:layout_weight="0.75"-->
             <!--android:gravity="center"-->
@@ -587,10 +587,10 @@
 
             <!--<ImageView-->
             <!--android:id="@+id/iv_add_item_tag_btn"-->
-            <!--android:layout_width="32.0dip"-->
-            <!--android:layout_height="32.0dip"-->
+            <!--android:layout_width="32dp"-->
+            <!--android:layout_height="32dp"-->
             <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginRight="12.0dip"-->
+            <!--android:layout_marginRight="12dp"-->
             <!--android:layout_weight="0.0"-->
             <!--android:background="@drawable/selectable_background_main_theme"-->
             <!--android:gravity="center_vertical"-->
@@ -602,10 +602,10 @@
 
             <!--<ImageView-->
             <!--android:id="@+id/iv_edit_item_tag"-->
-            <!--android:layout_width="28.0dip"-->
-            <!--android:layout_height="28.0dip"-->
+            <!--android:layout_width="28dp"-->
+            <!--android:layout_height="28dp"-->
             <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginRight="7.0dip"-->
+            <!--android:layout_marginRight="7dp"-->
             <!--android:layout_weight="0.0"-->
             <!--android:background="@drawable/selectable_background_main_theme"-->
             <!--android:gravity="center_vertical"-->
@@ -619,30 +619,30 @@
             <View
                 android:id="@+id/v_bottom_spacing"
                 android:layout_width="wrap_content"
-                android:layout_height="16.0dip" />
+                android:layout_height="16dp" />
         </LinearLayout>
 
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="6.0dip"
-            android:layout_marginBottom="5.0dip"
-            android:layout_marginLeft="16.0dip"
-            android:layout_marginRight="16.0dip"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/light_shadow" />
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="5.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
-        <!--android:layout_marginTop="16.0dip"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
         <!--android:background="@null"-->
         <!--android:orientation="horizontal"-->
         <!--android:visibility="visible">-->
 
         <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_gravity="center"-->
         <!--android:gravity="center"-->
@@ -652,21 +652,21 @@
         <!--</LinearLayout>-->
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
-        <!--android:layout_marginTop="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
         <!--android:background="#ffffffff"-->
         <!--android:orientation="vertical">-->
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="5.0dip"-->
-        <!--android:layout_marginLeft="23.0dip"-->
-        <!--android:layout_marginRight="23.0dip"-->
-        <!--android:layout_marginTop="16.0dip"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="23dp"-->
+        <!--android:layout_marginRight="23dp"-->
+        <!--android:layout_marginTop="16dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<LinearLayout-->
@@ -676,7 +676,7 @@
         <!--android:orientation="vertical">-->
 
         <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:text="@string/title_grocery_item_quantity"-->
         <!--android:textColor="#ff89a923"-->
@@ -684,15 +684,15 @@
         <!--android:textStyle="bold" />-->
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="5.0dip"-->
+        <!--android:layout_marginBottom="5dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_quantity_Minus"-->
-        <!--android:layout_width="24.0dip"-->
-        <!--android:layout_height="24.0dip"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
         <!--android:layout_gravity="bottom"-->
         <!--android:layout_weight="0.0"-->
         <!--android:gravity="center"-->
@@ -701,8 +701,8 @@
         <!--<EditText-->
         <!--android:id="@+id/et_qty"-->
         <!--style="@style/EditTextAppTheme"-->
-        <!--android:layout_width="60.0dip"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="48dp"-->
         <!--android:layout_gravity="center_vertical"-->
         <!--android:layout_weight="0.0"-->
         <!--android:digits="0123456789."-->
@@ -713,8 +713,8 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_quantity_plus"-->
-        <!--android:layout_width="24.0dip"-->
-        <!--android:layout_height="24.0dip"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
         <!--android:layout_gravity="bottom"-->
         <!--android:layout_weight="0.0"-->
         <!--android:gravity="center"-->
@@ -728,7 +728,7 @@
         <!--android:layout_weight="1.0"-->
         <!--android:orientation="vertical">-->
         <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:text="@string/title_grocery_item_price"-->
         <!--android:textColor="#ff89a923"-->
@@ -738,8 +738,8 @@
         <!--<EditText-->
         <!--android:id="@+id/et_price"-->
         <!--style="@style/EditTextAppTheme"-->
-        <!--android:layout_width="80.0dip"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="48dp"-->
         <!--android:layout_gravity="center_vertical"-->
         <!--android:layout_weight="1.0"-->
         <!--android:digits="0123456789."-->
@@ -751,19 +751,19 @@
         <!--</LinearLayout>-->
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
-        <!--android:layout_marginTop="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
         <!--android:background="#ffffffff"-->
         <!--android:orientation="vertical">-->
 
         <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="7.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:text="@string/title_grocery_item_priority"-->
         <!--android:textColor="#ff89a923"-->
         <!--android:textSize="11.0sp"-->
@@ -772,16 +772,16 @@
         <!--<Spinner-->
         <!--android:id="@+id/spin_priority"-->
         <!--style="@style/SpinnerAppTheme"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
         <!--android:entries="@array/priority_array"-->
         <!--android:textSize="14.0sp" />-->
 
         <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="7.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:text="@string/title_grocery_item_list_note"-->
         <!--android:textColor="#ff89a923"-->
         <!--android:textSize="11.0sp"-->
@@ -790,11 +790,11 @@
         <!--<EditText-->
         <!--android:id="@+id/et_list_note"-->
         <!--style="@style/EditTextAppTheme"-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:gravity="left|center_vertical"-->
         <!--android:hint="@string/title_grocery_item_note_hint"-->
         <!--android:inputType="textCapSentences|textMultiLine"-->
@@ -806,19 +806,19 @@
         <!--</LinearLayout>-->
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:orientation="horizontal">-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_title_list_item_tag"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="36.0dip"-->
-        <!--android:layout_marginLeft="7.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:gravity="left|center"-->
         <!--android:text="AISLE TAG"-->
@@ -828,15 +828,15 @@
         <!--</LinearLayout>-->
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="48.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<LinearLayout-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_height="48dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<CheckBox-->
@@ -851,8 +851,8 @@
         <!--<Spinner-->
         <!--android:id="@+id/spin_list_item_tag"-->
         <!--style="@style/SpinnerAppTheme"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="48dp"-->
         <!--android:layout_gravity="center"-->
         <!--android:layout_weight="0.75"-->
         <!--android:gravity="center"-->
@@ -860,10 +860,10 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_add_list_item_tag_btn"-->
-        <!--android:layout_width="32.0dip"-->
-        <!--android:layout_height="32.0dip"-->
+        <!--android:layout_width="32dp"-->
+        <!--android:layout_height="32dp"-->
         <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_marginRight="12.0dip"-->
+        <!--android:layout_marginRight="12dp"-->
         <!--android:layout_weight="0.0"-->
         <!--android:background="@drawable/selectable_background_main_theme"-->
         <!--android:gravity="center_vertical"-->
@@ -875,10 +875,10 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_edit_list_item_tag_btn"-->
-        <!--android:layout_width="28.0dip"-->
-        <!--android:layout_height="28.0dip"-->
+        <!--android:layout_width="28dp"-->
+        <!--android:layout_height="28dp"-->
         <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_marginRight="7.0dip"-->
+        <!--android:layout_marginRight="7dp"-->
         <!--android:layout_weight="0.0"-->
         <!--android:background="@drawable/selectable_background_main_theme"-->
         <!--android:gravity="center_vertical"-->
@@ -891,42 +891,42 @@
 
         <!--<View-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="16.0dip" />-->
+        <!--android:layout_height="16dp" />-->
         <!--</LinearLayout>-->
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_list_shadow"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="6.0dip"-->
-        <!--android:layout_marginBottom="5.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="6dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:background="@drawable/light_shadow" />-->
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_coupon_main_layout"-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
-        <!--android:layout_marginTop="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
         <!--android:background="#ffffffff"-->
         <!--android:orientation="vertical">-->
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_coupon_row1_layout"-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
-        <!--android:layout_marginTop="12.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="12dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:orientation="horizontal">-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_title_coupon"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="32.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="32dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:gravity="left|center"-->
         <!--android:text="@string/title_grocery_item_coupon"-->
@@ -936,8 +936,8 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_coupon_menu_btn"-->
-        <!--android:layout_width="32.0dip"-->
-        <!--android:layout_height="32.0dip"-->
+        <!--android:layout_width="32dp"-->
+        <!--android:layout_height="32dp"-->
         <!--android:layout_gravity="bottom"-->
         <!--android:layout_weight="0.0"-->
         <!--android:gravity="bottom|right|center"-->
@@ -947,30 +947,30 @@
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_coupon_row2_layout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="38.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="38dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_coupon_check_box_layout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="38.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="38dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<CheckBox-->
         <!--android:id="@+id/couponCheckBox"-->
         <!--style="@style/CheckBoxAppTheme"-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="38.0dip"-->
+        <!--android:layout_height="38dp"-->
         <!--android:layout_gravity="center_vertical"-->
         <!--android:gravity="center" />-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_title_coupon_check_box"-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="38.0dip"-->
+        <!--android:layout_height="38dp"-->
         <!--android:layout_gravity="center_vertical"-->
         <!--android:gravity="center_vertical"-->
         <!--android:text="@string/title_grocery_item_coupon"-->
@@ -980,17 +980,17 @@
         <!--</LinearLayout>-->
 
         <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="38.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="38dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<Spinner-->
         <!--android:id="@+id/spin_coupon_typeSpinner"-->
         <!--style="@style/SpinnerAppTheme"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="38.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="38dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="0.7"-->
         <!--android:entries="@array/coupon_type_array"-->
         <!--android:prompt="@string/coupon_type"-->
@@ -1000,8 +1000,8 @@
         <!--<EditText-->
         <!--android:id="@+id/et_coupon_value"-->
         <!--style="@style/EditTextAppTheme"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="36.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="36dp"-->
         <!--android:layout_gravity="center_vertical"-->
         <!--android:layout_weight="0.3"-->
         <!--android:digits="0123456789."-->
@@ -1014,20 +1014,20 @@
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_coupon_expiry_layout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="38.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="38dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:orientation="horizontal"-->
         <!--android:visibility="visible">-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_coupon_expiry_"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="36.0dip"-->
-        <!--android:layout_marginLeft="7.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:gravity="left|center"-->
         <!--android:text="exp. Sept 16, 2012"-->
@@ -1035,8 +1035,8 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_coupon_expir_remove_btn"-->
-        <!--android:layout_width="36.0dip"-->
-        <!--android:layout_height="36.0dip"-->
+        <!--android:layout_width="36dp"-->
+        <!--android:layout_height="36dp"-->
         <!--android:layout_gravity="bottom"-->
         <!--android:layout_weight="0.0"-->
         <!--android:gravity="bottom|right|center"-->
@@ -1046,20 +1046,20 @@
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_coupon_comment_layout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="38.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="38dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:orientation="horizontal"-->
         <!--android:visibility="visible">-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_coupon_comment"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="36.0dip"-->
-        <!--android:layout_marginLeft="7.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:gravity="left|center"-->
         <!--android:text="Coupon Comment"-->
@@ -1067,8 +1067,8 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_coupon_comment_remove_btn"-->
-        <!--android:layout_width="36.0dip"-->
-        <!--android:layout_height="36.0dip"-->
+        <!--android:layout_width="36dp"-->
+        <!--android:layout_height="36dp"-->
         <!--android:layout_gravity="bottom"-->
         <!--android:layout_weight="0.0"-->
         <!--android:gravity="bottom|right|center"-->
@@ -1078,21 +1078,21 @@
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_coupon_barcode_layout"-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:background="#ffffffff"-->
         <!--android:orientation="vertical"-->
         <!--android:visibility="visible">-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_coupon_barcode"-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="7.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
-        <!--android:layout_marginTop="4.0dip"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="4dp"-->
         <!--android:text="@string/title_grocery_item_coupon_barcode"-->
         <!--android:textColor="#ff89a923"-->
         <!--android:textSize="11.0sp"-->
@@ -1100,10 +1100,10 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_coupon_barcode"-->
-        <!--android:layout_width="380.0dip"-->
-        <!--android:layout_height="38.0dip"-->
+        <!--android:layout_width="380dp"-->
+        <!--android:layout_height="38dp"-->
         <!--android:layout_gravity="center"-->
-        <!--android:layout_marginTop="5.0dip"-->
+        <!--android:layout_marginTop="5dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:gravity="center"-->
         <!--android:scaleType="center"-->
@@ -1112,9 +1112,9 @@
         <!--<TextView-->
         <!--android:id="@+id/tv_coupon_barcode_value"-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="30.0dip"-->
+        <!--android:layout_height="30dp"-->
         <!--android:layout_gravity="center"-->
-        <!--android:layout_marginBottom="5.0dip"-->
+        <!--android:layout_marginBottom="5dp"-->
         <!--android:text="1234567890"-->
         <!--android:textColor="#ff89a923"-->
         <!--android:textSize="15.0sp" />-->
@@ -1122,41 +1122,41 @@
 
         <!--<View-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="16.0dip" />-->
+        <!--android:layout_height="16dp" />-->
         <!--</LinearLayout>-->
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_coupon_shadow"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="6.0dip"-->
-        <!--android:layout_marginBottom="5.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="6dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:background="@drawable/light_shadow" />-->
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_tax_main_layout"-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
-        <!--android:layout_marginTop="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
         <!--android:background="#ffffffff"-->
         <!--android:orientation="vertical">-->
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_tax_layout"-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:orientation="horizontal">-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_title_tax"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="36.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="36dp"-->
         <!--android:layout_weight="1.0"-->
         <!--android:gravity="left|center"-->
         <!--android:text="@string/title_grocery_item_tax"-->
@@ -1167,16 +1167,16 @@
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_tax1_layout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="48.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_tax_check_box_layout"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="48dp"-->
         <!--android:layout_weight="0.65"-->
         <!--android:orientation="horizontal">-->
 
@@ -1202,8 +1202,8 @@
         <!--<Spinner-->
         <!--android:id="@+id/spin_tax"-->
         <!--style="@style/SpinnerAppTheme"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="48dp"-->
         <!--android:layout_gravity="center"-->
         <!--android:layout_weight="0.35"-->
         <!--android:gravity="center"-->
@@ -1211,10 +1211,10 @@
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_add_tax_btn"-->
-        <!--android:layout_width="32.0dip"-->
-        <!--android:layout_height="32.0dip"-->
+        <!--android:layout_width="32dp"-->
+        <!--android:layout_height="32dp"-->
         <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_marginRight="7.0dip"-->
+        <!--android:layout_marginRight="7dp"-->
         <!--android:layout_weight="0.0"-->
         <!--android:gravity="center_vertical"-->
         <!--android:scaleType="fitCenter"-->
@@ -1226,16 +1226,16 @@
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_tax2_layout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="48.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:orientation="horizontal">-->
 
         <!--<LinearLayout-->
         <!--android:id="@+id/ll_tax2_check_box_layout"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="48dp"-->
         <!--android:layout_weight="0.65"-->
         <!--android:orientation="horizontal">-->
 
@@ -1261,17 +1261,17 @@
         <!--<Spinner-->
         <!--android:id="@+id/spin_tax2"-->
         <!--style="@style/SpinnerAppTheme"-->
-        <!--android:layout_width="0.0dip"-->
-        <!--android:layout_height="48.0dip"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="48dp"-->
         <!--android:layout_weight="0.35"-->
         <!--android:textSize="14.0sp" />-->
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_add_tax2_btn"-->
-        <!--android:layout_width="32.0dip"-->
-        <!--android:layout_height="32.0dip"-->
+        <!--android:layout_width="32dp"-->
+        <!--android:layout_height="32dp"-->
         <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_marginRight="7.0dip"-->
+        <!--android:layout_marginRight="7dp"-->
         <!--android:layout_weight="0.0"-->
         <!--android:gravity="center_vertical"-->
         <!--android:scaleType="fitCenter"-->
@@ -1283,20 +1283,20 @@
 
         <!--<View-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="16.0dip" />-->
+        <!--android:layout_height="16dp" />-->
         <!--</LinearLayout>-->
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_tax_shadow"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="6.0dip"-->
-        <!--android:layout_marginBottom="5.0dip"-->
-        <!--android:layout_marginLeft="16.0dip"-->
-        <!--android:layout_marginRight="16.0dip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="6dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:background="@drawable/light_shadow" />-->
 
         <View
             android:layout_width="wrap_content"
-            android:layout_height="16.0dip" />
+            android:layout_height="16dp" />
     </LinearLayout>
 </ScrollView>

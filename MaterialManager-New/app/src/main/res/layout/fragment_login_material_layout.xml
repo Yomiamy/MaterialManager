@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_grocery_login"
+    android:background="@color/mercury"
     android:fillViewport="false">
 
     <LinearLayout
@@ -10,7 +10,7 @@
         android:layout_marginLeft="@dimen/ll_login_material_full_layout_margin_left"
         android:layout_marginRight="@dimen/ll_login_material_full_layout_margin_right"
         android:layout_marginTop="@dimen/ll_login_material_full_layout_margin_top"
-        android:background="@color/bg_grocery_login"
+        android:background="@color/mercury"
         android:orientation="vertical">
 
         <ImageView

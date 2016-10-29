@@ -6,4 +6,4 @@
 	android:fadeScrollbars="true"
 	android:drawSelectorOnTop="true"
 	android:scrollbarAlwaysDrawVerticalTrack="true"
-    android:background="@color/bg_grocery_login"/>
+    android:background="@color/mercury"/>
