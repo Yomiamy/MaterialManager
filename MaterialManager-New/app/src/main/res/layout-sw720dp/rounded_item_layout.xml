@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="426dip"
+    android:layout_height="wrap_content"
     android:background="@color/mercury">
     <RelativeLayout
         android:id="@+id/rl_material_type_layout"
@@ -10,12 +10,8 @@
         android:layout_height="wrap_content">
         <com.material.management.component.RoundedImageView
             android:id="@+id/iv_rounded_view_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="426dp"
             android:padding="0dip"
             android:scaleType="centerCrop"
             app:border_color="@color/selector_border"
@@ -30,7 +26,7 @@
             android:layout_alignLeft="@id/iv_rounded_view_pic"
             android:layout_marginBottom="29dp"
             android:layout_marginLeft="15dp"
-            android:background="#7ff29b25"
+            android:background="@color/carrot_orange"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:textSize="@dimen/textview_text_size"
@@ -67,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@id/rl_material_type_layout"
         android:layout_marginBottom="29dp">
         <ImageView
             android:id="@+id/iv_expired_ref"

@@ -5,6 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/mercury"
     android:orientation="vertical">
+
+    <!--android:stretchMode="columnWidth"-->
+    <!--android:columnWidth="@dimen/gv_material_manager_material_grid_column_w"-->
     <GridView
         android:id="@+id/gv_material_grid"
         android:layout_width="match_parent"
@@ -12,12 +15,10 @@
         android:layout_margin="@dimen/gv_material_manager_material_grid_margin"
         android:background="@drawable/selector_material_listview_background"
         android:listSelector="@android:color/transparent"
-        android:columnWidth="@dimen/gv_material_manager_material_grid_column_w"
         android:gravity="center"
         android:horizontalSpacing="@dimen/gv_material_manager_material_grid_horizontal_space"
         android:verticalSpacing="@dimen/gv_material_manager_material_grid_vertical_space"
-        android:numColumns="2"
-        android:stretchMode="columnWidth">
+        android:numColumns="2">
     </GridView>
 
     <include
