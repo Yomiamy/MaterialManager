@@ -83,10 +83,10 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
     private ArrayAdapter<String> mTextHistAdapter = null;
     private ArrayList<String> mTextHistoryList;
     private ArrayList<GroceryItem> mReceiptItemList = null;
-    private String mTitle;
-    private String mCurModifiedAddress;
+    private String mTitle = "";
+    private String mCurModifiedAddress = "";
     private StoreData mSelectedStoreData = null;
-    private String mReceiptNum = null;
+    private String mReceiptNum = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
