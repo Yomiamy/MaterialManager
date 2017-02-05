@@ -502,10 +502,10 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                 }
             } else if (req.equals(REQ_QUERY_RECEIPT_INFO)) {
                 if (jsonObj != null && jsonObj.getInt("code") == 200) {
-                    mReceiptNum = jsonObj.getString("invNum");
-                    String receiptDate = jsonObj.getString("invDate");
-                    String storeName = jsonObj.getString("sellerName");
-                    String storeAddress = jsonObj.getString("sellerAddress");
+                    mReceiptNum = jsonObj.has("invNum") ? jsonObj.getString("invNum") : "";
+                    String receiptDate = jsonObj.has("invDate") ? jsonObj.getString("invDate") : "";
+                    String storeName = jsonObj.has("sellerName") ? jsonObj.getString("sellerName") : "";
+                    String storeAddress = jsonObj.has("sellerAddress") ? jsonObj.getString("sellerAddress") : "";
                     JSONArray groceryDetailAry = jsonObj.getJSONArray("details");
                     mReceiptItemList = new ArrayList<>();
                     ArrayList<String> materialTypeList = DBUtility.selectMaterialTypeInfo();
