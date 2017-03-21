@@ -5,23 +5,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -33,6 +32,7 @@ import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.material.management.MMFragment;
 import com.material.management.MainActivity;
@@ -47,9 +47,12 @@ import com.material.management.data.Material;
 import com.material.management.data.StreamItem;
 import com.material.management.interf.ISearchUpdate;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Callback;
 import com.picasso.Picasso;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class MaterialManagerFragment extends MMFragment implements Observer, SearchView.OnQueryTextListener,
         OnItemClickListener, DialogInterface.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -61,6 +64,10 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
 
     private View mLayout;
     private GridView mGvMaterialType;
+    private RelativeLayout mRlPhotoPreviewLayout;
+    private ConstraintLayout mClProgressLayout;
+    private ImageView mIvPhotoPreview;
+    private ImageView mIvClosePreivew;
 
     private Locale mLocale = null;
     private MaterialMenuDialog mMaterialMenu = null;
@@ -100,7 +107,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
 
         ListAdapter adapter = mGvMaterialType.getAdapter();
 
-        if(adapter != null && (adapter instanceof MaterialAdapter) && mIsNeedResumeRefresh) {
+        if (adapter != null && (adapter instanceof MaterialAdapter) && mIsNeedResumeRefresh) {
             String materialType = mSelectedMaterial.getMaterialType();
             Bundle bundle = new Bundle();
 
@@ -141,16 +148,17 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         /* TODO: It may be duplicate with loadMaterialType */
         mMaterialTypGridNum = (mMaterialTypGridNum == -1) ? Utility.getIntValueForKey(Utility.MATERIAL_TYPE_GRID_COLUMN_NUM) : mMaterialTypGridNum;
         mGvMaterialType = (GridView) mLayout.findViewById(R.id.gv_material_grid);
+        mRlPhotoPreviewLayout = (RelativeLayout) mLayout.findViewById(R.id.rl_photo_preview);
+        mClProgressLayout = (ConstraintLayout) mLayout.findViewById(R.id.cl_progress_layout);
+        mIvPhotoPreview = (ImageView) mLayout.findViewById(R.id.iv_preview_photo);
+        mIvClosePreivew = (ImageView) mLayout.findViewById(R.id.iv_preview_photo_close);
         RelativeLayout rlEmptyData = (RelativeLayout) mLayout.findViewById(R.id.rl_empty_data);
         mMaterialTypeAdapter = new StreamAdapter();
 
         mGvMaterialType.setAdapter(mMaterialTypeAdapter);
-        mGvMaterialType.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                mSelectedPosition = position;
-                return false;
-            }
+        mGvMaterialType.setOnItemLongClickListener((adapterView, view, position, arg3) -> {
+            mSelectedPosition = position;
+            return false;
         });
         setMaterialTypeGridColumnNum(mMaterialTypGridNum);
         mGvMaterialType.setEmptyView(rlEmptyData);
@@ -201,13 +209,10 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             final StreamAdapter streamAdapter = (StreamAdapter) adapter;
 
             if (isDel) {
-                DialogInterface.OnClickListener confirmListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        streamAdapter.remove(materialItem);
-                        DBUtility.deleteMaterialInfoByType(materialItem.getMaterialType());
-                        streamAdapter.refreshSearch(null);
-                    }
+                DialogInterface.OnClickListener confirmListener = (dialog, which) -> {
+                    streamAdapter.remove(materialItem);
+                    DBUtility.deleteMaterialInfoByType(materialItem.getMaterialType());
+                    streamAdapter.refreshSearch(null);
                 };
 
                 showAlertDialog(getString(R.string.title_confirm_del_dialog), getString(R.string.msg_confirm_del_dialog)
@@ -236,15 +241,13 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 materialItem.setIsAsPhotoType(1);
                 DBUtility.updateMaterialIsAsPhotoType(materialItem);
                 showToast(getString(R.string.msg_set_as_face_success));
-            }
-            else if (isModify) {
+            } else if (isModify) {
                 Intent intent = new Intent(mOwnerActivity, MaterialModifyActivity.class);
                 mIsNeedResumeRefresh = true;
 
                 intent.putExtra("material_item", mSelectedMaterial);
                 startActivity(intent);
-            }
-            else if (isViewBarcode) {
+            } else if (isViewBarcode) {
                 String barcode = materialItem.getBarcode();
                 String barcodeFormat = materialItem.getBarcodeFormat();
 
@@ -527,22 +530,12 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 }
             });
             roundedImgView.setScaleType(item.getScaleType());
-            roundedImgView.setOnClickListener(new OnClickListener() {
+            roundedImgView.setOnClickListener((v) -> {
+                String type = item.getMaterialType();
 
-                @Override
-                public void onClick(View v) {
-                    String type = item.getMaterialType();
-
-                    triggerSelectMaterialType(type, null);
-                }
+                triggerSelectMaterialType(type, null);
             });
-            roundedImgView.setOnLongClickListener(new OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v) {
-                    return false;
-                }
-            });
+            roundedImgView.setOnLongClickListener((v) -> false);
 
             ((TextView) view.findViewById(R.id.tv_rounded_text2)).setText(Utility.formatMatchedString(
                     item.getMaterialType(), mSearchStr));
@@ -642,45 +635,32 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         public void sort(MaterialSortMode mode) {
             switch (mode) {
                 case BY_DATE:
-                    Collections.sort(mSearchedItem, new Comparator<Material>() {
+                    Collections.sort(mSearchedItem, (m1, m2) -> {
+                        long m1Time = m1.getValidDate().getTimeInMillis();
+                        long m2Time = m2.getValidDate().getTimeInMillis();
 
-                        @Override
-                        public int compare(Material m1, Material m2) {
-                            long m1Time = m1.getValidDate().getTimeInMillis();
-                            long m2Time = m2.getValidDate().getTimeInMillis();
-
-                            if (m1Time > m2Time)
-                                return 1;
-                            else if (m1Time < m2Time)
-                                return -1;
-                            else
-                                return 0;
-
-                        }
+                        if (m1Time > m2Time)
+                            return 1;
+                        else if (m1Time < m2Time)
+                            return -1;
+                        else
+                            return 0;
                     });
                     break;
                 case BY_NAME:
-                    Collections.sort(mSearchedItem, new Comparator<Material>() {
+                    Collections.sort(mSearchedItem, (m1, m2) -> {
+                        String m1Name = m1.getName();
+                        String m2Name = m2.getName();
 
-                        @Override
-                        public int compare(Material m1, Material m2) {
-                            String m1Name = m1.getName();
-                            String m2Name = m2.getName();
-
-                            return m1Name.compareTo(m2Name);
-                        }
+                        return m1Name.compareTo(m2Name);
                     });
                     break;
                 case BY_PLACE:
-                    Collections.sort(mSearchedItem, new Comparator<Material>() {
+                    Collections.sort(mSearchedItem, (m1, m2) -> {
+                        String m1Place = m1.getMaterialPlace();
+                        String m2Plcae = m2.getMaterialPlace();
 
-                        @Override
-                        public int compare(Material m1, Material m2) {
-                            String m1Place = m1.getMaterialPlace();
-                            String m2Plcae = m2.getMaterialPlace();
-
-                            return m1Place.compareTo(m2Plcae);
-                        }
+                        return m1Place.compareTo(m2Plcae);
                     });
                     break;
             }
@@ -758,7 +738,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 viewHolder.validDate = (TextView) view.findViewById(R.id.tv_material_valid_date);
                 viewHolder.place = (TextView) view.findViewById(R.id.tv_material_place);
                 viewHolder.comment = (TextView) view.findViewById(R.id.tv_material_comment);
-                viewHolder.onnLoading = (RelativeLayout) view.findViewById(R.id.rl_on_loading);
+                viewHolder.onLoading = (RelativeLayout) view.findViewById(R.id.rl_on_loading);
                 viewHolder.materialPic = (ImageView) view.findViewById(R.id.iv_material_pic);
                 viewHolder.unit = (TextView) view.findViewById(R.id.tv_unit);
                 viewHolder.expired = (TextView) view.findViewById(R.id.tv_material_expired);
@@ -778,22 +758,49 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
 
             viewHolder.restDay.setSelected(true);
             viewHolder.noValidDate.setSelected(true);
-            viewHolder.onnLoading.setVisibility(View.VISIBLE);
+            viewHolder.onLoading.setVisibility(View.VISIBLE);
             Picasso.with(mOwnerActivity).cancelRequest(viewHolder.materialPic);
-            Picasso.with(mOwnerActivity).load(new File(item.getMaterialPicPath())).centerCrop().resize(mScaledSize, mScaledSize).into(viewHolder.materialPic, new Callback() {
+            Picasso.with(mOwnerActivity).load(new File(item.getMaterialPicPath())).into(viewHolder.materialPic, new Callback() {
                 @Override
                 public void onSuccess() {
-                    viewHolder.onnLoading.setVisibility(View.GONE);
-                    viewHolder.materialPic.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                        }
+                    viewHolder.onLoading.setVisibility(View.GONE);
+                    // Display the big material photo
+                    viewHolder.materialPic.setOnClickListener((v) -> {
+                        mRlPhotoPreviewLayout.setVisibility(View.VISIBLE);
+                        mIvPhotoPreview.setVisibility(View.GONE);
+                        mClProgressLayout.setVisibility(View.VISIBLE);
+
+                        Picasso.with(mOwnerActivity).cancelRequest(mIvPhotoPreview);
+                        Picasso.with(mOwnerActivity).load(new File(item.getMaterialPicPath())).centerInside().resize(mScaledSize, mScaledSize).into(mIvPhotoPreview, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                postDisplayPhoto(false);
+                            }
+
+                            @Override
+                            public void onError() {
+                                postDisplayPhoto(true);
+                            }
+
+                            private void postDisplayPhoto(boolean isError) {
+                                mIvPhotoPreview.setVisibility(View.VISIBLE);
+                                mClProgressLayout.setVisibility(View.GONE);
+                                mIvClosePreivew.setOnClickListener((v) -> mRlPhotoPreviewLayout.setVisibility(View.GONE));
+                                if (isError) {
+                                    mIvPhotoPreview.setImageResource(R.drawable.ic_no_image_available);
+                                } else {
+                                    PhotoViewAttacher viewAttacher = new PhotoViewAttacher(mIvPhotoPreview);
+
+                                    viewAttacher.update();
+                                }
+                            }
+                        });
                     });
                 }
 
                 @Override
                 public void onError() {
-                    viewHolder.onnLoading.setVisibility(View.GONE);
+                    viewHolder.onLoading.setVisibility(View.GONE);
                 }
             });
 
@@ -870,7 +877,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         }
 
         private class ViewHolder {
-            RelativeLayout onnLoading;
+            RelativeLayout onLoading;
             ImageView materialPic;
             TextView materialName;
             TextView materialType;

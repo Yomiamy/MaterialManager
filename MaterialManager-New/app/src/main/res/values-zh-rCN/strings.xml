@@ -12,6 +12,7 @@
     <string name="title_positive_go_setting_btn_label">設定</string>
     <string name="title_negative_btn_label">取消</string>
     <string name="title_neutral_btn_import_in_expired">纳入过期管理</string>
+    <string name="title_loading">載入中...</string>
     <string name="on_loading">数据加载中...</string>
     <string name="no_network_view_message1">本项功能须连线网路使用</string>
     <string name="no_network_view_message2">• 请确认您已开启网路连线服务，且并未处於＂飞航模式＂中。</string>

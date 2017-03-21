@@ -252,6 +252,15 @@
     <dimen name="dialog_userinfo_roundImageView_width">120dp</dimen>
     <dimen name="dialog_userinfo_roundImageView_height">120dp</dimen>
 
+    <dimen name="iv_preview_photo_close_w">30dp</dimen>
+    <dimen name="iv_preview_photo_close_h">30dp</dimen>
+    <dimen name="iv_preview_photo_close_margin_top">20dp</dimen>
+    <dimen name="iv_preview_photo_close_margin_right">20dp</dimen>
+
+    <!-- view_loading_layout -->
+    <dimen name="pb_progress_h">50dp</dimen>
+    <dimen name="pb_progress_w">50dp</dimen>
+    <dimen name="tv_progress_title_margin_top">5dp</dimen>
 
     <!--Slide Menu-->
     <dimen name="slidingmenu_offset">80dp</dimen>

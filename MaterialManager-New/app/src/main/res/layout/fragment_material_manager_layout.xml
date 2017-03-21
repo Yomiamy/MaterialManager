@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mercury"
-    android:orientation="vertical">
+    android:background="@color/mercury">
 
-    <!--android:stretchMode="columnWidth"-->
-    <!--android:columnWidth="@dimen/gv_material_manager_material_grid_column_w"-->
     <GridView
         android:id="@+id/gv_material_grid"
         android:layout_width="match_parent"
@@ -26,8 +23,13 @@
         layout="@layout/no_data_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
         android:textSize="@dimen/font_size_xxlarge"
         android:visibility="gone"/>
-</LinearLayout>
+
+    <include
+        android:id="@+id/rl_photo_preview"
+        layout="@layout/view_photo_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+</RelativeLayout>

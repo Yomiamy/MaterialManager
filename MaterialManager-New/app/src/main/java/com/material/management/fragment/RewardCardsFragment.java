@@ -568,29 +568,26 @@ public class RewardCardsFragment extends MMFragment implements Observer {
                     case R.id.giftCardMenuButton: {
                         PopupMenu popup = new PopupMenu(mCtx, v);
 
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                int id = item.getItemId();
+                        popup.setOnMenuItemClickListener((item) -> {
+                            int itemId = item.getItemId();
 
-                                switch (id) {
-                                    case R.id.menu_edit: {
-                                        Message msg = Message.obtain();
-                                        msg.what = MESSAGE_EDIT_REWARD_INFO;
-                                        msg.obj = mRewardInfo;
+                            switch (itemId) {
+                                case R.id.menu_edit: {
+                                    Message msg = Message.obtain();
+                                    msg.what = MESSAGE_EDIT_REWARD_INFO;
+                                    msg.obj = mRewardInfo;
 
-                                        mHandler.sendMessage(msg);
-                                    }
-                                    break;
-
-                                    case R.id.menu_del: {
-                                        DBUtility.deleteRewardCard(mRewardInfo);
-                                        mHandler.sendEmptyMessage(MESSAGE_RELOAD_REWARD);
-                                    }
-                                    break;
+                                    mHandler.sendMessage(msg);
                                 }
-                                return false;
+                                break;
+
+                                case R.id.menu_del: {
+                                    DBUtility.deleteRewardCard(mRewardInfo);
+                                    mHandler.sendEmptyMessage(MESSAGE_RELOAD_REWARD);
+                                }
+                                break;
                             }
+                            return false;
                         });
 
                         popup.getMenuInflater().inflate(R.menu.fragment_reward_list_popup_menu, popup.getMenu());

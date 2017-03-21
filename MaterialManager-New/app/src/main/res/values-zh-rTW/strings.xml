@@ -7,6 +7,7 @@
     <string name="title_positive_go_setting_btn_label">設定</string>
     <string name="title_negative_btn_label">取消</string>
     <string name="title_neutral_btn_import_in_expired">納入過期管理</string>
+    <string name="title_loading">載入中...</string>
 
     <string name="on_loading">資料載入中...</string>
     <string name="no_network_view_message1">本項功能須連線網路使用</string>

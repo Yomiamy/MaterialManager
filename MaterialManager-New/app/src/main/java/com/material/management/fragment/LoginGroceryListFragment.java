@@ -330,10 +330,6 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                 String codeFormat = scanResult.getFormatName();
 
                 if (code != null && codeFormat != null) {
-                    LogUtility.printLogD("randy", "barcode format = " + codeFormat);
-                    LogUtility.printLogD("randy", "barcode = " + code);
-                    LogUtility.printLogD("randy", "UUID = " + Utility.getUUID(mOwnerActivity));
-
                     RequestParams params = new RequestParams();
 
                     // TODO: It maybe need to be refactored
