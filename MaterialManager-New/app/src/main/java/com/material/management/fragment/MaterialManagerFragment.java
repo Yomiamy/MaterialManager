@@ -760,7 +760,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             viewHolder.noValidDate.setSelected(true);
             viewHolder.onLoading.setVisibility(View.VISIBLE);
             Picasso.with(mOwnerActivity).cancelRequest(viewHolder.materialPic);
-            Picasso.with(mOwnerActivity).load(new File(item.getMaterialPicPath())).into(viewHolder.materialPic, new Callback() {
+            Picasso.with(mOwnerActivity).load(new File(item.getMaterialPicPath())).centerCrop().resize(mScaledSize, mScaledSize).into(viewHolder.materialPic, new Callback() {
                 @Override
                 public void onSuccess() {
                     viewHolder.onLoading.setVisibility(View.GONE);
@@ -771,7 +771,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                         mClProgressLayout.setVisibility(View.VISIBLE);
 
                         Picasso.with(mOwnerActivity).cancelRequest(mIvPhotoPreview);
-                        Picasso.with(mOwnerActivity).load(new File(item.getMaterialPicPath())).centerInside().resize(mScaledSize, mScaledSize).into(mIvPhotoPreview, new Callback() {
+                        // Double the scale size toe let PhotoViewAttacher do more scale
+                        Picasso.with(mOwnerActivity).load(new File(item.getMaterialPicPath())).centerInside().resize(mScaledSize * 2, mScaledSize * 2).into(mIvPhotoPreview, new Callback() {
                             @Override
                             public void onSuccess() {
                                 postDisplayPhoto(false);
