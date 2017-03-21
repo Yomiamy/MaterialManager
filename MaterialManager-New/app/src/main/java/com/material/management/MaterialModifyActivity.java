@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +46,7 @@ import com.material.management.dialog.MultiChoiceDialog;
 import com.material.management.dialog.SelectPhotoDialog;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.FabricUtility;
 import com.material.management.utils.FileUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
@@ -69,7 +72,8 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
     private RelativeLayout mRlPurchaceDate;
     private RelativeLayout mRlValidateDate;
     private ImageView mIvAddPhoto;
-    private TextView mTvBarcode;
+    private ImageView mIvBarcode;
+    private TextView mTvBarcodeTxt;
     private AutoCompleteTextView mActMaterialName;
     private Spinner mSpinMaterialCategory;
     private TextView mTvPurchaceDate;
@@ -113,7 +117,8 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
 
     private void findView() {
         mIvAddPhoto = (ImageView) mLayout.findViewById(R.id.iv_add_photo);
-        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode_txt);
+        mIvBarcode = (ImageView) mLayout.findViewById(R.id.iv_barcode);
+        mTvBarcodeTxt = (TextView) mLayout.findViewById(R.id.tv_barcode_txt);
         mActMaterialName = (AutoCompleteTextView) mLayout.findViewById(R.id.act_material_name);
         mSpinMaterialCategory = (Spinner) mLayout.findViewById(R.id.spin_material_category);
         mRlPurchaceDate = (RelativeLayout) mLayout.findViewById(R.id.rl_purchace_date_layout);
@@ -127,7 +132,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
 
     private void setListener() {
         mIvAddPhoto.setOnClickListener(this);
-        mTvBarcode.setOnClickListener(this);
+        mIvBarcode.setOnClickListener(this);
         mRlPurchaceDate.setOnClickListener(this);
         mRlValidateDate.setOnClickListener(this);
         mSpinMaterialCategory.setOnItemSelectedListener(this);
@@ -146,9 +151,9 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         mOptions.inInputShareable = true;
 
         if (isInitialized)
-            mMaterialTypes = new LinkedHashSet<String>();
+            mMaterialTypes = new LinkedHashSet<>();
         else {
-            mMaterialTypes = new LinkedHashSet<String>(Arrays.asList(getResources().getStringArray(
+            mMaterialTypes = new LinkedHashSet<>(Arrays.asList(getResources().getStringArray(
                     R.array.default_material_type)));
             Utility.setBooleanValueForKey(Utility.CATEGORY_IS_INITIALIZED, true);
         }
@@ -187,30 +192,26 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             /* Pre-reset as default */
             mBarcode = "";
             mBarcodeFormat = "";
-            Drawable barcodeDrawable = mContext.getResources().getDrawable(R.drawable.selector_barcode);
+            Drawable barcodeDrawable = ContextCompat.getDrawable(mContext, R.drawable.selector_barcode);
 
-            barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(), barcodeDrawable.getIntrinsicHeight());
-            mTvBarcode.setText("x xxxxxx xxxxxx x");
-            mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
-
+            mIvBarcode.setImageDrawable(barcodeDrawable);
+            mTvBarcodeTxt.setText("x xxxxxx xxxxxx x");
             Utility.releaseBitmaps(mBarcodeBitmap);
             mBarcodeBitmap = null;
-            if (barcodeFormat != null && barcode != null && !barcodeFormat.isEmpty() && !barcode.isEmpty()) {
+            if (!TextUtils.isEmpty(barcodeFormat) && !TextUtils.isEmpty(barcode)) {
                 mBarcode = barcode;
                 mBarcodeFormat = barcodeFormat;
                 mBarcodeBitmap = BarCodeUtility
                         .encodeAsBitmap(barcode, BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
 
                 barcodeDrawable = new BitmapDrawable(mContext.getResources(), mBarcodeBitmap);
-                barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
-                        barcodeDrawable.getIntrinsicHeight());
-                mTvBarcode.setText(barcode);
-                mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
+
+                mTvBarcodeTxt.setText(barcode);
+                mIvBarcode.setImageDrawable(barcodeDrawable);
             }
-        } catch (Resources.NotFoundException e) {
+        } catch (Exception e) {
             LogUtility.printStackTrace(e);
-        } catch (WriterException e) {
-            LogUtility.printStackTrace(e);
+            FabricUtility.logException(e);
         }
     }
 
@@ -453,32 +454,8 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                     String barcode = scanResult.getContents();
                     String barcodeFormat = scanResult.getFormatName();
 
-                    if (barcode != null && barcodeFormat != null) {
-                        try {
-                        /* Restore to default */
-                            mBarcode = "";
-                            Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.selector_barcode);
-
-                            defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
-                                    defaultBarcodeImg.getIntrinsicHeight());
-                            mTvBarcode.setText("x xxxxxx xxxxxx x");
-                            mTvBarcode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
-                            Utility.releaseBitmaps(mBarcodeBitmap);
-                            mBarcodeBitmap = null;
-
-                            mBarcode = barcode;
-                            mBarcodeFormat = barcodeFormat;
-                            mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(barcode,
-                                    BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
-                            Drawable barcodeDrawable = new BitmapDrawable(getResources(), mBarcodeBitmap);
-
-                            barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
-                                    barcodeDrawable.getIntrinsicHeight());
-                            mTvBarcode.setText(barcode);
-                            mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
-                        } catch (WriterException e) {
-                            LogUtility.printStackTrace(e);
-                        }
+                    if (!TextUtils.isEmpty(barcodeFormat) && !TextUtils.isEmpty(barcode)) {
+                        setBarcodeInfo(barcodeFormat, barcode);
                     }
                 }
             }
@@ -499,7 +476,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         if (mTvPurchaceDate == null || mTvValidDate == null
                 || mIvAddPhoto == null || mActMaterialName == null
                 || mActMaterialPlace == null || mActComment == null
-                || mEtNotificationDays == null || mTvBarcode == null) {
+                || mEtNotificationDays == null || mTvBarcodeTxt == null) {
             return;
         }
 
@@ -520,8 +497,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         mActMaterialPlace.setText("");
         mActComment.setText("");
         mEtNotificationDays.setText("");
-        mTvBarcode.setText("x xxxxxx xxxxxx x");
-        mTvBarcode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+        setBarcodeInfo(null, null);
     }
 
     private String isAllowSave(Material material) {
@@ -587,17 +563,15 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
                     subDialog.setTitle(getResources().getString(R.string.msg_remind_title));
                     subDialog.setMessage(getResources().getString(R.string.msg_remind_delete_material_type_title));
                     subDialog.setPositiveButton(getString(R.string.title_positive_btn_label),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialoginterface, int i) {
-                                    for (String item : selectedItems) {
-                                        if (item.trim().isEmpty())
-                                            continue;
+                            (dialoginterface, i) -> {
+                                for (String item : selectedItems) {
+                                    if (item.trim().isEmpty())
+                                        continue;
 
-                                        mMaterialTypes.remove(item);
-                                        DBUtility.delMaterialTypeInfo(item);
-                                        initSpinnerData();
-                                        mSpinMaterialCategory.setSelection(0);
-                                    }
+                                    mMaterialTypes.remove(item);
+                                    DBUtility.delMaterialTypeInfo(item);
+                                    initSpinnerData();
+                                    mSpinMaterialCategory.setSelection(0);
                                 }
                             });
                     subDialog.setNegativeButton(getString(R.string.title_negative_btn_label), null);
@@ -660,7 +634,7 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
             }
             break;
 
-            case R.id.tv_barcode_txt: {
+            case R.id.iv_barcode: {
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
             }
