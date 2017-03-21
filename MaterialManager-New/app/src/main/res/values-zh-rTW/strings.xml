@@ -58,6 +58,7 @@
     <string name="slidemenu_material_settings">設定</string>
     <string name="slidemenu_material_about">關於</string>
     <string name="slidemenu_material_feedback">問題回報</string>
+    <string name="slidemenu_material_privacy_policy">隱私權政策</string>
 
     <string name="feedback_mail">yianday0330@gmail.com</string>
     <string name="feedback_subject">【過期物品管家】問題與意見回饋</string>

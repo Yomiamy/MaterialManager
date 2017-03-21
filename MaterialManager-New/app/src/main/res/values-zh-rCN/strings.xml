@@ -50,6 +50,8 @@
     <string name="slidemenu_material_settings">设定</string>
     <string name="slidemenu_material_about">关于</string>
     <string name="slidemenu_material_feedback">问题回报</string>
+    <string name="slidemenu_material_privacy_policy">隐私权政策</string>
+
     <string name="feedback_mail">yianday0330@gmail.com</string>
     <string name="feedback_subject">【过期物品管家】问题与意见回馈</string>
     <string name="feedback_content">感谢您对过期物品管家的支持，若有任何建议，请在此填写您的意见以及联系数据。\n\n系统平台版本: %1$s \n应用程序版本: %2$s\n设备种类: %3$s</string>

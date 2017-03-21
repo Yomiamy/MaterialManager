@@ -32,6 +32,8 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -449,9 +451,15 @@ public class MainActivity extends SlidingActivity {
                 Intent intent = new Intent(this, GlobalSearchActivity.class);
 
                 startActivity(intent);
+            } else if(tag.equals(getString(R.string.slidemenu_material_privacy_policy))) {
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(ContextCompat.getColor(this, R.color.black));
+
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(getString(R.string.privacy_policy_domain)));
             }
 
-            if (mSlideMenu.isMenuShowing()) {
+            if (isMenuShowing()) {
                 mSlideMenu.toggle(true);
             }
 
@@ -571,6 +579,7 @@ public class MainActivity extends SlidingActivity {
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_other)));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_global_search), R.drawable.ic_search, null));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_settings), R.drawable.ic_setting, SettingsFragment.class));
+            mMenus.add(new MenuItem(getString(R.string.slidemenu_material_privacy_policy), R.drawable.ic_privacy_policy, null));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_feedback), R.drawable.ic_spanner, null));
             mMenus.add(new MenuItem(getString(R.string.slidemenu_material_about), R.drawable.ic_about, null));
             mMenus.add(new MenuItem(null, -1, null));

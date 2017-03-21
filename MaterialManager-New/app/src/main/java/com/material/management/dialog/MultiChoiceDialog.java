@@ -1,7 +1,9 @@
 package com.material.management.dialog;
 
 import java.util.HashSet;
+
 import com.material.management.R;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,23 +27,18 @@ public class MultiChoiceDialog extends AlertDialog.Builder {
         this.mTitle = title;
         this.mItems = items;
         this.mListener = listener;
-        this.mSelectedItems = new HashSet<String>();
+        this.mSelectedItems = new HashSet<>();
         initView();
     }
 
     private void initView() {
         this.setTitle(mTitle);
-        this.setMultiChoiceItems(mItems, null, new OnMultiChoiceClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                String item = mItems[which];
-                if (isChecked)
-                    mSelectedItems.add(item);
-                else
-                    mSelectedItems.remove(item);
-
-            }
+        this.setMultiChoiceItems(mItems, null, (dialog, which, isChecked) -> {
+            String item = mItems[which];
+            if (isChecked)
+                mSelectedItems.add(item);
+            else
+                mSelectedItems.remove(item);
         });
         this.setPositiveButton(mContext.getString(R.string.title_positive_btn_label), mListener);
         this.setNegativeButton(mContext.getString(R.string.title_negative_btn_label), mListener);
