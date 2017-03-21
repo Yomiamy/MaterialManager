@@ -21,8 +21,8 @@
         android:src="@drawable/icon_dismiss" />
 
     <include
-        android:id="@+id/cl_progress_layout"
-        layout="@layout/view_loading_layout"
+        android:id="@+id/rl_loading_layout"
+        layout="@layout/view_empty_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />

@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -47,7 +46,6 @@ import com.material.management.data.Material;
 import com.material.management.data.StreamItem;
 import com.material.management.interf.ISearchUpdate;
 import com.material.management.utils.DBUtility;
-import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Callback;
 import com.picasso.Picasso;
@@ -65,7 +63,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
     private View mLayout;
     private GridView mGvMaterialType;
     private RelativeLayout mRlPhotoPreviewLayout;
-    private ConstraintLayout mClProgressLayout;
+    private RelativeLayout mRlLoadingLayout;
     private ImageView mIvPhotoPreview;
     private ImageView mIvClosePreivew;
 
@@ -149,7 +147,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         mMaterialTypGridNum = (mMaterialTypGridNum == -1) ? Utility.getIntValueForKey(Utility.MATERIAL_TYPE_GRID_COLUMN_NUM) : mMaterialTypGridNum;
         mGvMaterialType = (GridView) mLayout.findViewById(R.id.gv_material_grid);
         mRlPhotoPreviewLayout = (RelativeLayout) mLayout.findViewById(R.id.rl_photo_preview);
-        mClProgressLayout = (ConstraintLayout) mLayout.findViewById(R.id.cl_progress_layout);
+        mRlLoadingLayout = (RelativeLayout) mLayout.findViewById(R.id.rl_loading_layout);
         mIvPhotoPreview = (ImageView) mLayout.findViewById(R.id.iv_preview_photo);
         mIvClosePreivew = (ImageView) mLayout.findViewById(R.id.iv_preview_photo_close);
         RelativeLayout rlEmptyData = (RelativeLayout) mLayout.findViewById(R.id.rl_empty_data);
@@ -768,7 +766,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                     viewHolder.materialPic.setOnClickListener((v) -> {
                         mRlPhotoPreviewLayout.setVisibility(View.VISIBLE);
                         mIvPhotoPreview.setVisibility(View.GONE);
-                        mClProgressLayout.setVisibility(View.VISIBLE);
+                        mRlLoadingLayout.setVisibility(View.VISIBLE);
 
                         Picasso.with(mOwnerActivity).cancelRequest(mIvPhotoPreview);
                         // Double the scale size toe let PhotoViewAttacher do more scale
@@ -785,7 +783,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
 
                             private void postDisplayPhoto(boolean isError) {
                                 mIvPhotoPreview.setVisibility(View.VISIBLE);
-                                mClProgressLayout.setVisibility(View.GONE);
+                                mRlLoadingLayout.setVisibility(View.GONE);
                                 mIvClosePreivew.setOnClickListener((v) -> mRlPhotoPreviewLayout.setVisibility(View.GONE));
                                 if (isError) {
                                     mIvPhotoPreview.setImageResource(R.drawable.ic_no_image_available);
