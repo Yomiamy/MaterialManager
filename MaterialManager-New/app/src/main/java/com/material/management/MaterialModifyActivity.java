@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
@@ -605,8 +606,16 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
 
                     /* from camera */
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtility.TEMP_PHOTO_FILE));
+                    Uri tmpPhotoUri = null;
+                    /**
+                     *  If your targetSdkVersion is 24 or higher, you can not use file: Uri values in Intents on Android 7.0+ devices.
+                     * */
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        tmpPhotoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", FileUtility.TEMP_PHOTO_FILE);
+                    } else {
+                        tmpPhotoUri = Uri.fromFile(FileUtility.TEMP_PHOTO_FILE);
+                    }
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tmpPhotoUri);
                     startActivityForResult(takePictureIntent, REQ_CAMERA_TAKE_PIC);
                 }
             }
