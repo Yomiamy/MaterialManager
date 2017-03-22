@@ -168,31 +168,31 @@
             android:name="com.google.zxing.client.android.PreferencesActivity"
             android:label="@string/preferences_name"
             android:stateNotNeeded="true" />
-        <activity
-            android:name=".encode.EncodeActivity"
-            android:stateNotNeeded="true">
-            <intent-filter>
-                <action android:name="com.google.zxing.client.android.ENCODE" />
+        <!--<activity-->
+            <!--android:name=".encode.EncodeActivity"-->
+            <!--android:stateNotNeeded="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.zxing.client.android.ENCODE" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <!-- This allows us to handle the Share button in Contacts. -->
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+            <!--&lt;!&ndash; This allows us to handle the Share button in Contacts. &ndash;&gt;-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.SEND" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="text/x-vcard" />
-            </intent-filter>
-            <!-- This allows us to handle sharing any plain text . -->
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+                <!--<data android:mimeType="text/x-vcard" />-->
+            <!--</intent-filter>-->
+            <!--&lt;!&ndash; This allows us to handle sharing any plain text . &ndash;&gt;-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.SEND" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-        </activity>
+                <!--<data android:mimeType="text/plain" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
             android:name="com.google.zxing.client.android.book.SearchBookContentsActivity"
             android:label="@string/sbc_name"
