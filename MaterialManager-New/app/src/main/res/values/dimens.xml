@@ -210,6 +210,11 @@
     <dimen name="iv_add_reward_photo_change_w">25dp</dimen>
     <dimen name="iv_change_reward_preview_face_margint_left">10dp</dimen>
 
+    <!-- activity_camera_layout -->
+    <dimen name="iv_camera_op_btn_h">40dp</dimen>
+    <dimen name="iv_camera_op_btn_margin">10dp</dimen>
+    <dimen name="iv_camera_op_btn_padding">5dp</dimen>
+
     <!-- view_search_info_dialog -->
     <dimen name="dialog_userinfo_main_width">300dp</dimen>
     <dimen name="dialog_userinfo_topBackground_height">130dp</dimen>

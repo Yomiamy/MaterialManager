@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_camera_preview_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_camera_op_btns_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.flurgle.camerakit.CameraView
+            android:id="@+id/cv_camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            app:ckCropOutput="false"
+            app:ckFacing="back"
+            app:ckFlash="off"
+            app:ckFocus="tap"
+            app:ckZoom="pinch"
+            app:ckJpegQuality="100"
+            app:ckMethod="standard" />
+
+        <com.material.management.utils.camerakit.FocusMarkerLayout
+            android:id="@+id/fml_camera_focus_marker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/cv_camera_preview"
+            android:layout_alignLeft="@id/cv_camera_preview"
+            android:layout_alignRight="@id/cv_camera_preview"
+            android:layout_alignTop="@id/cv_camera_preview" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_camera_op_btns_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_camera_preview_layout">
+
+        <ImageView
+            android:id="@+id/iv_capture_photo"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/iv_camera_op_btn_h"
+            android:padding="@dimen/iv_camera_op_btn_padding"
+            android:layout_margin="@dimen/iv_camera_op_btn_margin"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_shape"
+            android:src="@drawable/selector_camera_capture_photo"/>
+
+        <ImageView
+            android:id="@+id/iv_toggle_flash"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/iv_camera_op_btn_h"
+            android:layout_margin="@dimen/iv_camera_op_btn_margin"
+            android:padding="@dimen/iv_camera_op_btn_padding"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_shape"
+            android:src="@drawable/selector_camera_flash_off"/>
+
+        <ImageView
+            android:id="@+id/iv_switch_front_and_back_camera"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/iv_camera_op_btn_h"
+            android:layout_margin="@dimen/iv_camera_op_btn_margin"
+            android:padding="@dimen/iv_camera_op_btn_padding"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_shape"
+            android:src="@drawable/selector_camera_switch" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -92,6 +92,8 @@
     <string name="store_map_msg_err_retry">Can not retrieve data，please re-try it later...</string>
     <string name="store_map_msg_location_updating">Location updating，please wait a moment...</string>
 
+    <!-- CameraActivity -->
+    <string name="camera_activity_actionbar_title">Camera Preview</string>
 
     <!-- GlobalSearchActivity -->
     <string name="global_search">Global Search</string>

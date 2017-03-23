@@ -2,6 +2,7 @@ package com.material.management;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -52,8 +53,9 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
     protected View mLayout = null;
     protected Dialog mProgressDialog;
     protected Handler mHandler;
-    protected Resources mResources;
     protected Context mContext;
+    protected Resources mResources;
+    protected ActionBar mActionBar;
     protected ConnectionControl mControl;
     protected LayoutInflater mInflater;
     protected DisplayMetrics mMetrics;
@@ -69,6 +71,7 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
         mResources = getResources();
         mMetrics = new DisplayMetrics();
         mContext = this;
+        mActionBar = getActionBar();
         mInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mControl = ConnectionControl.getInstance();

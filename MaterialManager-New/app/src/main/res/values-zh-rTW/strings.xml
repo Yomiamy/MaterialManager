@@ -78,6 +78,9 @@
     <string name="store_map_msg_err_retry">暫無相關資料，請稍後再試</string>
     <string name="store_map_msg_location_updating">位置更新中，請稍後...</string>
 
+    <!-- CameraActivity -->
+    <string name="camera_activity_actionbar_title">相機預覽</string>
+
     <!-- GlobalSearchActivity -->
     <string name="global_search">全域搜尋</string>
     <string name="global_search_material_group">過期物品</string>

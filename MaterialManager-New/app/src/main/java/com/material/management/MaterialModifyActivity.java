@@ -88,7 +88,6 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
     private DatePickerDialog mDatePickerDialog;
 
     private Material mOldMaterial;
-    private ActionBar mActionBar;
     private Menu mOptionMenu;
     private Bitmap mNewestBitmap = null;
     private Bitmap mBarcodeBitmap = null;
@@ -144,7 +143,6 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         mOldMaterial = getIntent().getParcelableExtra("material_item");
         mValidDate = mOldMaterial.getValidDate();
         mPurchaceDate = mOldMaterial.getPurchaceDate();
-        mActionBar = getActionBar();
         mOptions = new BitmapFactory.Options();
         mOptions.inDensity = Utility.getDisplayMetrics().densityDpi;
         mOptions.inScaled = false;
