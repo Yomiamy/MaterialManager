@@ -22,7 +22,6 @@ public class CameraActivity extends MMActivity {
     private CameraView mCvCameraView;
     private FocusMarkerLayout mFmlFocusMarker;
     private ImageView mIvCapturePhoto;
-    private ImageView mIvToggleFlash;
     private ImageView mIvSwitchFrontBack;
 
     @Override
@@ -39,13 +38,11 @@ public class CameraActivity extends MMActivity {
         mCvCameraView = (CameraView) findViewById(R.id.cv_camera_preview);
         mFmlFocusMarker = (FocusMarkerLayout) findViewById(R.id.fml_camera_focus_marker);
         mIvCapturePhoto = (ImageView) findViewById(R.id.iv_capture_photo);
-        mIvToggleFlash = (ImageView) findViewById(R.id.iv_toggle_flash);
         mIvSwitchFrontBack = (ImageView) findViewById(R.id.iv_switch_front_and_back_camera);
     }
 
     private void initListener() {
         mIvCapturePhoto.setOnClickListener(this);
-        mIvToggleFlash.setOnClickListener(this);
         mIvSwitchFrontBack.setOnClickListener(this);
         mFmlFocusMarker.setOnTouchListener((v, event) -> {
             mFmlFocusMarker.focus(event.getX(), event.getY());
@@ -58,6 +55,8 @@ public class CameraActivity extends MMActivity {
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
+
+        mCvCameraView.setFacing(CameraKit.Constants.FACING_BACK);
     }
 
     @Override
@@ -108,13 +107,8 @@ public class CameraActivity extends MMActivity {
             }
             break;
 
-            case R.id.iv_toggle_flash: {
-
-            }
-            break;
-
             case R.id.iv_switch_front_and_back_camera: {
-
+                mCvCameraView.toggleFacing();
             }
             break;
         }

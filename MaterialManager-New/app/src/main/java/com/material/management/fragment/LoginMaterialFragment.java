@@ -12,6 +12,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.material.management.CameraActivity;
 import com.material.management.MMActivity;
 import com.material.management.MMFragment;
 import com.material.management.Observer;
@@ -69,7 +70,6 @@ import org.greenrobot.eventbus.ThreadMode;
 public class LoginMaterialFragment extends MMFragment implements Observer, OnItemSelectedListener,
         DialogInterface.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    public static final String DEBUG_LOG_TAG = "LoginMaterialFragment";
     public static final String ACTION_BAR_BTN_ACTION_ADD = "add_material";
     public static final String ACTION_BAR_BTN_ACTION_CLEAR = "clear_user_input";
     private static final int REQ_CAMERA_TAKE_PIC = 1;
@@ -504,19 +504,22 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                         return;
                     }
 
-                    /* from camera */
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    Uri tmpPhotoUri = null;
-                    /**
-                     *  If your targetSdkVersion is 24 or higher, you can not use file: Uri values in Intents on Android 7.0+ devices.
-                     * */
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        tmpPhotoUri = FileProvider.getUriForFile(mOwnerActivity, mOwnerActivity.getApplicationContext().getPackageName() + ".provider", FileUtility.TEMP_PHOTO_FILE);
-                    } else {
-                        tmpPhotoUri = Uri.fromFile(FileUtility.TEMP_PHOTO_FILE);
-                    }
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tmpPhotoUri);
-                    startActivityForResult(takePictureIntent, REQ_CAMERA_TAKE_PIC);
+                    Intent intent = new Intent(mOwnerActivity, CameraActivity.class);
+
+                    startActivity(intent);
+//                    /* from camera */
+//                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    Uri tmpPhotoUri = null;
+//                    /**
+//                     *  If your targetSdkVersion is 24 or higher, you can not use file: Uri values in Intents on Android 7.0+ devices.
+//                     * */
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                        tmpPhotoUri = FileProvider.getUriForFile(mOwnerActivity, mOwnerActivity.getApplicationContext().getPackageName() + ".provider", FileUtility.TEMP_PHOTO_FILE);
+//                    } else {
+//                        tmpPhotoUri = Uri.fromFile(FileUtility.TEMP_PHOTO_FILE);
+//                    }
+//                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tmpPhotoUri);
+//                    startActivityForResult(takePictureIntent, REQ_CAMERA_TAKE_PIC);
                 }
             }
         }
