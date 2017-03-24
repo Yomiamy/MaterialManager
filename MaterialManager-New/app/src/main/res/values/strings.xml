@@ -12,6 +12,7 @@
     <string name="title_negative_btn_label">Cancel</string>
     <string name="title_neutral_btn_import_in_expired">Import in expired</string>
     <string name="title_loading">Loading...</string>
+    <string name="title_photo_write_progress">Photo writing...</string>
 
     <string name="on_loading">Data Loading...</string>
     <string name="no_network_view_message1">This function has to connect to internet</string>

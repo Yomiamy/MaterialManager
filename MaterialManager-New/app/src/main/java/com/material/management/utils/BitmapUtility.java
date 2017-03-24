@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -179,47 +180,41 @@ public class BitmapUtility {
         }).start();
     }
 
-    public void writeBitmapToTarget(final String url, final Bitmap bmp, final File targetFile) {
-        mBitmapSdCacheExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                FileOutputStream fos = null;
-                InputStream in = null;
+    public void writeBitmapToFile(final Bitmap bmp, final File targetFile, final String ext) {
+        FileOutputStream fos = null;
+        InputStream in = null;
 
-                try {
-                    fos = new FileOutputStream(targetFile);
+        try {
+            fos = new FileOutputStream(targetFile);
                         /* Default write bitmap as .jpg */
-                    Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.JPEG;
+            Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.JPEG;
 
-                    //
-                    if (url.endsWith("png")) {
-                        compressFormat = Bitmap.CompressFormat.PNG;
-                    }
-                    bmp.compress(compressFormat, 100, fos);
-                    fos.flush();
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (fos != null) {
-                            fos.close();
-                        }
-                        if (in != null) {
-                            in.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+            if (ext.endsWith("png")) {
+                compressFormat = Bitmap.CompressFormat.PNG;
             }
-        });
+            bmp.compress(compressFormat, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /* TODO: Need to be refactor and review, I afraid the quality of bitmap to become more low. */
-    public Bitmap readBitmapFromTarget(File cachedFile, BitmapFactory.Options options) {
+    public Bitmap readBitmapFromFile(File cachedFile, BitmapFactory.Options options) {
         return BitmapFactory.decodeFile(cachedFile.getAbsolutePath(), options);
     }
 
@@ -238,7 +233,7 @@ public class BitmapUtility {
         private BitmapCallBack mBmpCallBack = null;
         private Object mOrigTag = null;
 
-            /* Default settings */ {
+        /* Default settings */ {
             mMetrics = Utility.getDisplayMetrics();
             /* We use the 1/4 width and height as a default scaling factor if user doesn't specify. */
             mImgScaledWidth = mMetrics.widthPixels / 4;

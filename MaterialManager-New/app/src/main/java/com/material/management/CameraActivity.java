@@ -1,5 +1,6 @@
 package com.material.management;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,12 +11,10 @@ import android.widget.ImageView;
 import com.flurgle.camerakit.CameraKit;
 import com.flurgle.camerakit.CameraListener;
 import com.flurgle.camerakit.CameraView;
+import com.material.management.utils.BitmapUtility;
+import com.material.management.utils.FileUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.camerakit.FocusMarkerLayout;
-
-/**
- * Created by yomi on 2017/3/23.
- */
 
 public class CameraActivity extends MMActivity {
 
@@ -23,6 +22,7 @@ public class CameraActivity extends MMActivity {
     private FocusMarkerLayout mFmlFocusMarker;
     private ImageView mIvCapturePhoto;
     private ImageView mIvSwitchFrontBack;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class CameraActivity extends MMActivity {
     }
 
     private void init() {
+
         mActionBar.setTitle(getString(R.string.camera_activity_actionbar_title));
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -96,13 +97,18 @@ public class CameraActivity extends MMActivity {
                     @Override
                     public void onPictureTaken(byte[] jpeg) {
                         super.onPictureTaken(jpeg);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
 
+                        showProgressDialog(null, mResources.getString(R.string.title_photo_write_progress));
+                        new Thread(() -> {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
 
-                        LogUtility.printLogD("randy", "");
+                            BitmapUtility.getInstance().writeBitmapToFile(bitmap, FileUtility.TEMP_PHOTO_FILE, "jpg");
+                            closeProgressDialog();
+                            setResult(RESULT_OK);
+                            finish();
+                        }).start();
                     }
                 });
-                mCvCameraView.setFlash(CameraKit.Constants.FLASH_ON);
                 mCvCameraView.captureImage();
             }
             break;

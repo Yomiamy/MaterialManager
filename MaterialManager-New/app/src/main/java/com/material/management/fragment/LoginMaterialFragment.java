@@ -506,7 +506,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
 
                     Intent intent = new Intent(mOwnerActivity, CameraActivity.class);
 
-                    startActivity(intent);
+                    startActivityForResult(intent, REQ_CAMERA_TAKE_PIC);
 //                    /* from camera */
 //                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                    Uri tmpPhotoUri = null;

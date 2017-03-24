@@ -104,12 +104,12 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
     public void showProgressDialog(String title, String content) {
         /* to avoid windowLeaked*/
         closeProgressDialog();
-        mProgressDialog = ProgressDialog.show(this, title, content, true);
+        mHandler.post(() -> mProgressDialog = ProgressDialog.show(this, title, content, true));
     }
 
     public void closeProgressDialog() {
         if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
+            mHandler.post(() -> mProgressDialog.dismiss());
         }
     }
 
