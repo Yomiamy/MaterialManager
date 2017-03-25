@@ -14,7 +14,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +43,7 @@ import com.material.management.dialog.MultiChoiceDialog;
 import com.material.management.dialog.SelectPhotoDialog;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.FabricUtility;
 import com.material.management.utils.FileUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
@@ -72,7 +74,8 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
     private ImageView mIvAddPhoto;
     private ImageView mIvQtyPlus;
     private ImageView mIvQtyMinus;
-    private TextView mTvBarcode;
+    private ImageView mIvBarcode;
+    private TextView mTvBarcodeVal;
 
     private ActionBar mActionBar;
     private Menu mOptionMenu;
@@ -129,12 +132,13 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         mIvAddPhoto = (ImageView) mLayout.findViewById(R.id.iv_add_photo);
         mIvQtyPlus = (ImageView) mLayout.findViewById(R.id.iv_quantity_plus);
         mIvQtyMinus = (ImageView) mLayout.findViewById(R.id.iv_quantity_minus);
-        mTvBarcode = (TextView) mLayout.findViewById(R.id.tv_barcode_txt);
+        mIvBarcode = (ImageView) mLayout.findViewById(R.id.iv_barcode);
+        mTvBarcodeVal = (TextView) mLayout.findViewById(R.id.tv_barcode_txt);
     }
 
     private void setListener() {
         mIvAddPhoto.setOnClickListener(this);
-        mTvBarcode.setOnClickListener(this);
+        mIvBarcode.setOnClickListener(this);
         mIvQtyPlus.setOnClickListener(this);
         mIvQtyMinus.setOnClickListener(this);
         mSpinItemCategory.setOnItemSelectedListener(this);
@@ -185,18 +189,16 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                 });
             }
 
-            if (mBarcode != null && mBarcodeFormat != null && !mBarcode.isEmpty() && !mBarcodeFormat.isEmpty()) {
+            if (!TextUtils.isEmpty(mBarcode) && !TextUtils.isEmpty(mBarcodeFormat)) {
                 try {
                     mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(mBarcode,
                             BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
-                    Drawable barcodeDrawable = new BitmapDrawable(getResources(), mBarcodeBitmap);
 
-                    barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
-                            barcodeDrawable.getIntrinsicHeight());
-                    mTvBarcode.setText(mBarcode);
-                    mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
+                    mIvBarcode.setImageBitmap(mBarcodeBitmap);
+                    mTvBarcodeVal.setText(mBarcode);
                 } catch (WriterException e) {
                     LogUtility.printStackTrace(e);
+                    FabricUtility.logException(e);
                 }
             }
 
@@ -252,17 +254,14 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
         /* set the default time */
         mPurchaceDate = Calendar.getInstance();
         mValidDate = Calendar.getInstance();
-        mNewestBitmap = ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_no_image_available)).getBitmap();
+        mNewestBitmap = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.ic_no_image_available)).getBitmap();
         mBarcode = "";
         mBarcodeFormat = "";
-        Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.selector_barcode);
-
-        defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
-                defaultBarcodeImg.getIntrinsicHeight());
+        Drawable defaultBarcodeImg = ContextCompat.getDrawable(this, R.drawable.selector_barcode);
 
         mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
-        mTvBarcode.setText("x xxxxxx xxxxxx x");
-        mTvBarcode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+        mTvBarcodeVal.setText("x xxxxxx xxxxxx x");
+        mIvBarcode.setImageDrawable(defaultBarcodeImg);
         mActGroceryItemName.setText("");
         mSpinItemCategory.setSelection(0);
         mEtSize.setText("");
@@ -505,7 +504,7 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
             }
             break;
 
-            case R.id.tv_barcode_txt: {
+            case R.id.iv_barcode: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                     requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;
@@ -615,13 +614,10 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                     if (barcode != null && barcodeFormat != null) {
                         try {
                             /* Restore to default */
-                            mBarcode = "";
-                            Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.selector_barcode);
+                            Drawable defaultBarcodeImg = ContextCompat.getDrawable(this, R.drawable.selector_barcode);
 
-                            defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
-                                    defaultBarcodeImg.getIntrinsicHeight());
-                            mTvBarcode.setText("x xxxxxx xxxxxx x");
-                            mTvBarcode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+                            mTvBarcodeVal.setText("x xxxxxx xxxxxx x");
+                            mIvBarcode.setImageDrawable(defaultBarcodeImg);
                             Utility.releaseBitmaps(mBarcodeBitmap);
                             mBarcodeBitmap = null;
 
@@ -629,12 +625,8 @@ public class GroceryItemLoginActivity extends MMActivity implements DialogInterf
                             mBarcodeFormat = barcodeFormat;
                             mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(barcode,
                                     BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
-                            Drawable barcodeDrawable = new BitmapDrawable(getResources(), mBarcodeBitmap);
-
-                            barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
-                                    barcodeDrawable.getIntrinsicHeight());
-                            mTvBarcode.setText(barcode);
-                            mTvBarcode.setCompoundDrawables(null, barcodeDrawable, null, null);
+                            mTvBarcodeVal.setText(barcode);
+                            mIvBarcode.setImageBitmap(mBarcodeBitmap);
                         } catch (WriterException e) {
                             LogUtility.printStackTrace(e);
                         }
