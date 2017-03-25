@@ -383,8 +383,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
 
             ListAdapter adapter = mGvMaterialType.getAdapter();
             if (adapter instanceof StreamAdapter
-                    && (materialType != null && !materialType.isEmpty())
-                    && (materialName != null && !materialName.isEmpty())) {
+                    && !TextUtils.isEmpty(materialType)) {
                 ((StreamAdapter) adapter).triggerSelectMaterialType(materialType, materialName);
                 mOwnerActivity.setIntent(null);
             }

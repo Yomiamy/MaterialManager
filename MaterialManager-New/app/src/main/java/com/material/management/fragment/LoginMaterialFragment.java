@@ -246,11 +246,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
             mCategoryAdapter = new ArrayAdapter<String>(mOwnerActivity, R.layout.view_spinner_item_layout, spinList) {
                 public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = super.getDropDownView(position, convertView, parent);
-                    TextView spTxtView = (TextView) v;
-                    int txtSize = mResources.getDimensionPixelSize(R.dimen.sp_login_material_txt_size);
 
-                    spTxtView.setTextSize(txtSize);
-                    spTxtView.setGravity(Gravity.CENTER);
                     changeLayoutConfig(v);
 
                     return v;
@@ -259,10 +255,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
-                    TextView spTxtView = (TextView) v;
-                    int txtSize = mResources.getDimensionPixelSize(R.dimen.sp_login_material_txt_size);
 
-                    spTxtView.setTextSize(txtSize);
                     changeLayoutConfig(v);
 
                     return v;
