@@ -50,9 +50,10 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import hotchemi.android.rate.AppRate;
+
 public class MainActivity extends SlidingActivity {
     private Menu mOptionMenu;
-    private ActionBar mActionBar;
     private ListView mLvSlideMenu;
     private SearchView mSvSearchView;
 
@@ -102,7 +103,6 @@ public class MainActivity extends SlidingActivity {
 
     private void init() {
         Intent i = new Intent(this, MonitorService.class);
-        mActionBar = getActionBar();
         mMenuAdapter = new MenuAdapter(MainActivity.this);
         mIsSettingPressed = false;
         mIsFirstBackKeyPress = false;
@@ -123,6 +123,22 @@ public class MainActivity extends SlidingActivity {
         mLvSlideMenu.setCacheColorHint(0);
         mLvSlideMenu.setAdapter(mMenuAdapter);
         mLvSlideMenu.setOnItemClickListener(mMenuAdapter);
+
+        AppRate.with(this)
+                .setInstallDays(0) // default 10, 0 means install day.
+                .setLaunchTimes(2) // default 10
+                .setRemindInterval(1) // default 1
+                .setShowLaterButton(true) // default true
+                .setOnClickButtonListener((which) -> { // callback listener.
+                    if (which != -2) {
+                        AppRate.with(this).clearAgreeShowDialog();
+                    }
+                })
+                .setDebug(false) // default false
+                .monitor();
+        // Show a dialog if meets conditions
+        AppRate.showRateDialogIfMeetsConditions(this);
+
 
         ((MaterialManagerApplication) getApplication()).getTracker(MaterialManagerApplication.TrackerName.APP_TRACKER);
         Utility.setMainActivity(this);
@@ -451,7 +467,7 @@ public class MainActivity extends SlidingActivity {
                 Intent intent = new Intent(this, GlobalSearchActivity.class);
 
                 startActivity(intent);
-            } else if(tag.equals(getString(R.string.slidemenu_material_privacy_policy))) {
+            } else if (tag.equals(getString(R.string.slidemenu_material_privacy_policy))) {
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 builder.setToolbarColor(ContextCompat.getColor(this, R.color.black));
 
