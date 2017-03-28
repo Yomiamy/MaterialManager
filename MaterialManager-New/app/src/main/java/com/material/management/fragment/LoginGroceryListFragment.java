@@ -344,7 +344,7 @@ public class LoginGroceryListFragment extends MMFragment implements Observer, Ti
                         params.put("sellerID", code.substring(45, 53));
                         params.put("invDate", Utility.convertTWDate(code.substring(10, 17), "yyyMMdd", "yyyy/MM/dd"));
                         params.put("randomNumber", code.substring(17, 21));
-                    } else if (codeFormat.equals(BarcodeFormat.CODE_39)) {
+                    } else if (codeFormat.equals(BarcodeFormat.CODE_39.name())) {
                         if (code.length() < 19) {
                             showToast(mResources.getString(R.string.grocery_login_err_receipt_code_format_incorrect));
                             return;
