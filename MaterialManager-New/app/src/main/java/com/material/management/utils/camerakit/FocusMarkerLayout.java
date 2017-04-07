@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.commonsware.cwac.camera.CameraView;
 import com.material.management.R;
 
 public class FocusMarkerLayout extends FrameLayout {
 
     private FrameLayout mFocusMarkerContainer;
     private ImageView mFill;
+    private CameraView mCameraView;
 
     public FocusMarkerLayout(@NonNull Context context) {
         super(context, null);
@@ -67,7 +69,14 @@ public class FocusMarkerLayout extends FrameLayout {
                     }
                 }).start();
 
+        if(mCameraView != null && mCameraView.isAutoFocusAvailable()) {
+            mCameraView.cancelAutoFocus();
+            mCameraView.autoFocus();
+        }
     }
 
 
+    public void setCameraView(CameraView cameraView) {
+        this.mCameraView = cameraView;
+    }
 }

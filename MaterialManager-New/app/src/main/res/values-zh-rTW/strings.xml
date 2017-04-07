@@ -81,6 +81,7 @@
 
     <!-- CameraActivity -->
     <string name="camera_activity_actionbar_title">相機預覽</string>
+    <string name="title_camera_reconfiguring">相機重新設置中...</string>
 
     <!-- GlobalSearchActivity -->
     <string name="global_search">全域搜尋</string>

@@ -95,6 +95,7 @@
 
     <!-- CameraActivity -->
     <string name="camera_activity_actionbar_title">Camera Preview</string>
+    <string name="title_camera_reconfiguring">Camera reconfiguring...</string>
 
     <!-- GlobalSearchActivity -->
     <string name="global_search">Global Search</string>

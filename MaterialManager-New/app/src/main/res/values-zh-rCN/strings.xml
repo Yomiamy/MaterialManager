@@ -69,6 +69,7 @@
     <string name="store_map_msg_err_retry">暂无相关资料，请稍后再试</string>
     <string name="store_map_msg_location_updating">位置更新中，请稍后...</string>
     <string name="camera_activity_actionbar_title">相机预览</string>
+    <string name="title_camera_reconfiguring">相机重新设置中...</string>
     <string name="global_search">全域搜寻</string>
     <string name="global_search_material_group">過期物品</string>
     <string name="global_search_grocery_group">購買物品</string>
