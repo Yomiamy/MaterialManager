@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import com.material.management.data.RewardInfo;
 import com.material.management.dialog.SelectPhotoDialog;
 import com.material.management.utils.BarCodeUtility;
 import com.material.management.utils.DBUtility;
+import com.material.management.utils.FabricUtility;
 import com.material.management.utils.FileUtility;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
@@ -48,10 +50,12 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 
     private Menu mOptionMenu;
     private RelativeLayout mRlAddRewardLayout;
+    private RelativeLayout mRlBarcodeLayout;
     private ImageView mIvAddRewardFrontPhoto;
     private ImageView mIvAddRewardBackPhoto;
     private ImageView mIvChangeRewardFace;
-    private TextView mTvAddBardCode;
+    private ImageView mIvBarcode;
+    private TextView mTvBarcodeTxt;
     private AutoCompleteTextView mActvCardName;
     private AutoCompleteTextView mActvComment;
 
@@ -81,10 +85,12 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 
     private void findView() {
         mRlAddRewardLayout = (RelativeLayout) findViewById(R.id.rl_add_photo_layout);
+        mRlBarcodeLayout = (RelativeLayout) findViewById(R.id.rl_barcode_layout);
         mIvAddRewardFrontPhoto = (ImageView) findViewById(R.id.iv_add_reward_front_photo);
         mIvAddRewardBackPhoto = (ImageView) findViewById(R.id.iv_add_reward_back_photo);
         mIvChangeRewardFace = (ImageView) findViewById(R.id.iv_change_reward_face);
-        mTvAddBardCode = (TextView) findViewById(R.id.tv_barcode_txt);
+        mIvBarcode = (ImageView) findViewById(R.id.iv_barcode);
+        mTvBarcodeTxt = (TextView) findViewById(R.id.tv_barcode_txt);
         mActvCardName = (AutoCompleteTextView) findViewById(R.id.act_card_name);
         mActvComment = (AutoCompleteTextView) findViewById(R.id.actv_item_note);
     }
@@ -93,7 +99,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
         mIvAddRewardFrontPhoto.setOnClickListener(this);
         mIvAddRewardBackPhoto.setOnClickListener(this);
         mIvChangeRewardFace.setOnClickListener(this);
-        mTvAddBardCode.setOnClickListener(this);
+        mRlBarcodeLayout.setOnClickListener(this);
     }
 
     private void init() {
@@ -132,33 +138,23 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
     }
 
     private void setBarcodeInfo(String barcodeFormat, String barcode) {
-        if (barcode == null || barcodeFormat == null || barcode.isEmpty() || barcodeFormat.isEmpty()) {
+        if (TextUtils.isEmpty(barcode) || TextUtils.isEmpty(barcodeFormat)) {
             return;
         }
         try {
-                        /* Restore to default */
-            mBarcode = "";
-            Drawable defaultBarcodeImg = getResources().getDrawable(R.drawable.selector_barcode);
-
-            defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(),
-                    defaultBarcodeImg.getIntrinsicHeight());
-            mTvAddBardCode.setText("x xxxxxx xxxxxx x");
-            mTvAddBardCode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+            /* Restore to default */
+            mTvBarcodeTxt.setText("x xxxxxx xxxxxx x");
+            mIvBarcode.setImageResource(R.drawable.selector_barcode);
             Utility.releaseBitmaps(mBarcodeBitmap);
 
-            mBarcodeBitmap = null;
             mBarcode = barcode;
             mBarcodeFormat = barcodeFormat;
-            mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(barcode,
-                    BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
-            Drawable barcodeDrawable = new BitmapDrawable(getResources(), mBarcodeBitmap);
-
-            barcodeDrawable.setBounds(0, 0, barcodeDrawable.getIntrinsicWidth(),
-                    barcodeDrawable.getIntrinsicHeight());
-            mTvAddBardCode.setText(barcode);
-            mTvAddBardCode.setCompoundDrawables(null, barcodeDrawable, null, null);
+            mBarcodeBitmap = BarCodeUtility.encodeAsBitmap(barcode, BarcodeFormat.valueOf(mBarcodeFormat), 600, 300);
+            mTvBarcodeTxt.setText(barcode);
+            mIvBarcode.setImageBitmap(mBarcodeBitmap);
         } catch (WriterException e) {
             LogUtility.printStackTrace(e);
+            FabricUtility.logException(e);
         }
     }
 
@@ -256,8 +252,8 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
     private void clearUserData() {
         Drawable rewardFrontDrawable = mIvAddRewardFrontPhoto.getDrawable();
         Drawable rewardBackDrawable = mIvAddRewardBackPhoto.getDrawable();
-        Drawable[] compoundDrawables = mTvAddBardCode.getCompoundDrawables();
-        Bitmap barcodeBitmap = (compoundDrawables != null && compoundDrawables.length > 0) ? ((compoundDrawables[1] instanceof BitmapDrawable) ? ((BitmapDrawable) compoundDrawables[1]).getBitmap() : null) : null;
+        Drawable barcodeDrawable = mIvBarcode.getDrawable();
+        Bitmap barcodeBitmap = barcodeDrawable != null && (barcodeDrawable instanceof BitmapDrawable) ? ((BitmapDrawable) barcodeDrawable).getBitmap() : null;
         Bitmap rewardFrontBitmap = rewardFrontDrawable != null && (rewardFrontDrawable instanceof BitmapDrawable) ? ((BitmapDrawable) rewardFrontDrawable).getBitmap() : null;
         Bitmap rewardBackBitmap = rewardBackDrawable != null && (rewardBackDrawable instanceof BitmapDrawable) ? ((BitmapDrawable) rewardBackDrawable).getBitmap() : null;
         Drawable defaultBarcodeImg = mResources.getDrawable(R.drawable.selector_barcode);
@@ -267,8 +263,8 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
 
         mActvCardName.setText("");
         mActvComment.setText("");
-        mTvAddBardCode.setText("x xxxxxx xxxxxx x");
-        mTvAddBardCode.setCompoundDrawables(null, defaultBarcodeImg, null, null);
+        mTvBarcodeTxt.setText("x xxxxxx xxxxxx x");
+        mIvBarcode.setImageResource(R.drawable.selector_barcode);
         mIvAddRewardFrontPhoto.setImageResource(R.drawable.selector_add_photo_status);
         mIvAddRewardBackPhoto.setImageResource(R.drawable.selector_add_photo_status);
         Utility.releaseBitmaps(rewardFrontBitmap);
@@ -282,8 +278,6 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
     @Override
     public void onBackPressed() {
         clearUserData();
-        mTvAddBardCode.setCompoundDrawables(null, null, null, null);
-        mIvAddRewardFrontPhoto.setImageDrawable(null);
 
         super.onBackPressed();
     }
@@ -329,7 +323,7 @@ public class RewardLoginActivity extends MMActivity implements DialogInterface.O
             }
             break;
 
-            case R.id.tv_barcode_txt: {
+            case R.id.rl_barcode_layout: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isPermissionGranted(Manifest.permission.CAMERA)) {
                     requestPermissions(MMActivity.PERM_REQ_CAMERA, getString(R.string.perm_rationale_camera), Manifest.permission.CAMERA);
                     return;
