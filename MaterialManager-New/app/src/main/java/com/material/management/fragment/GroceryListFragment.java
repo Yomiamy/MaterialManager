@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,7 @@ import com.material.management.R;
 import com.material.management.data.GroceryItem;
 import com.material.management.data.GroceryListData;
 import com.material.management.data.Material;
-import com.material.management.dialog.MaterialMenuDialog;
+import com.material.management.dialog.SpinnerChoiceDialog;
 import com.material.management.dialog.ReceiptDialog;
 import com.material.management.utils.DBUtility;
 import com.material.management.utils.Utility;
@@ -53,7 +52,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
 
     private ArrayList<GroceryListData> mGroceryListInfos = null;
     private GroceryListAdapter mGroceryListAdapter = null;
-    private MaterialMenuDialog mGroceryMenu = null;
+    private SpinnerChoiceDialog mGroceryMenu = null;
     private AlertDialog mGroceryMenuDialog = null;
     private ReceiptDialog mReceiptDialog = null;
     private GroceryListData mCurSelectedGroceryList = null;
@@ -102,7 +101,7 @@ public class GroceryListFragment extends MMFragment implements Observer, Adapter
         items.add(getString(R.string.title_menu_item_modify));
         items.add(getString(R.string.title_menu_item_del));
 
-        mGroceryMenu = new MaterialMenuDialog(sActivity, getString(R.string.title_menu_head), items.toArray(new String[0]), this);
+        mGroceryMenu = new SpinnerChoiceDialog(sActivity, getString(R.string.title_menu_head), items.toArray(new String[0]), this);
         mGroceryMenuDialog = mGroceryMenu.show();
     }
 

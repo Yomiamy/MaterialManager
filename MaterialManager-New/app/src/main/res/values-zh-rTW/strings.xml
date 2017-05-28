@@ -108,9 +108,11 @@
     <string name="title_tv_notification_frequnecy_label">過期後通知頻率</string>
     <string name="title_tv_font_size_label">字體調整</string>
     <string name="title_tv_currency_label">幣值符號</string>
+    <string name="title_tv_date_format_label">日期格式</string>
     <string name="title_change_currency_dialog_title">更動幣值符號</string>
     <string name="title_change_currency_dialog_body">輸入新的幣值符號</string>
-    <string name="title_tv_current_currency_title_label">目前幣值符號</string>
+    <string name="title_tv_current_currency_title_label">幣值符號</string>
+    <string name="title_tv_current_date_format_title_label">日期格式</string>
     <string name="title_tv_font_size_scale_first_label">調整為</string>
     <string name="title_tv_font_size_scale_sec_label">字體</string>
     <string name="title_tv_database_manage">資料庫備份/還原</string>

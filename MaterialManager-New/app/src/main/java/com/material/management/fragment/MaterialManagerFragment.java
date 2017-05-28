@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -39,7 +38,7 @@ import com.material.management.MaterialModifyActivity;
 import com.material.management.Observer;
 import com.material.management.R;
 import com.material.management.dialog.BarcodeDialog;
-import com.material.management.dialog.MaterialMenuDialog;
+import com.material.management.dialog.SpinnerChoiceDialog;
 import com.material.management.component.RoundedImageView;
 import com.material.management.data.BundleInfo;
 import com.material.management.data.Material;
@@ -68,7 +67,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
     private ImageView mIvClosePreivew;
 
     private Locale mLocale = null;
-    private MaterialMenuDialog mMaterialMenu = null;
+    private SpinnerChoiceDialog mMaterialMenu = null;
     private AlertDialog mMaterialMenuDialog = null;
     private DatePickerDialog mDatePickerDialog = null;
     private BarcodeDialog mBarcodeDialog;
@@ -183,7 +182,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 items.add(getString(R.string.title_menu_item_set_up_valid_date));
             }
         }
-        mMaterialMenu = new MaterialMenuDialog(mOwnerActivity, getString(R.string.title_menu_head),
+        mMaterialMenu = new SpinnerChoiceDialog(mOwnerActivity, getString(R.string.title_menu_head),
                 items.toArray(new String[0]), this);
 
         mMaterialMenuDialog = mMaterialMenu.show();

@@ -91,9 +91,11 @@
     <string name="title_tv_notification_frequnecy_label">过期后通知频率</string>
     <string name="title_tv_font_size_label">字体调整</string>
     <string name="title_tv_currency_label">币值符号</string>
+    <string name="title_tv_date_format_label">日期格式</string>
     <string name="title_change_currency_dialog_title">更动币值符号</string>
     <string name="title_change_currency_dialog_body">输入新的币值符号</string>
-    <string name="title_tv_current_currency_title_label">目前币值符号</string>
+    <string name="title_tv_current_currency_title_label">币值符号</string>
+    <string name="title_tv_current_date_format_title_label">日期格式</string>
     <string name="title_tv_font_size_scale_first_label">调整为</string>
     <string name="title_tv_font_size_scale_sec_label">字体</string>
     <string name="title_tv_database_manage">数据库备份/还原</string>

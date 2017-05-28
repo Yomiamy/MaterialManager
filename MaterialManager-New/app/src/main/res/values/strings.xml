@@ -136,9 +136,11 @@
     <string name="title_tv_notification_frequnecy_label">Notification frequency</string>
     <string name="title_tv_font_size_label">Font size adjustment</string>
     <string name="title_tv_currency_label">Currency</string>
+    <string name="title_tv_date_format_label">Date format</string>
     <string name="title_change_currency_dialog_title">Change the currency symbol</string>
     <string name="title_change_currency_dialog_body">Enter the new currency symbol</string>
     <string name="title_tv_current_currency_title_label">Currency symbol</string>
+    <string name="title_tv_current_date_format_title_label">Date format</string>
     <string name="title_tv_font_size_scale_first_label">Adjust the font size as</string>
     <string name="title_tv_font_size_scale_sec_label">font size</string>
     <string name="title_tv_database_manage">Database operations</string>
