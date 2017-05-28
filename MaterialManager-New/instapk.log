@@ -1,0 +1,6 @@
+三月 28, 2017 11:48:39 下午 com.pytenlabs.instapk.helpers.LogHelper init
+資訊: Mac OS X, 10.12, x86_64, Android Studio AI-145.1617
+三月 28, 2017 11:49:18 下午 com.pytenlabs.instapk.helpers.ApiHelper$3 run
+資訊: RES CODE :200
+三月 28, 2017 11:49:18 下午 com.pytenlabs.instapk.helpers.ApiHelper$3 run
+資訊: RES : {"channels":[{"id":"C0DC2ULJW","name":"android"},{"id":"C0DBT6VU4","name":"general"},{"id":"C0DBW4Y76","name":"ios"},{"id":"C0DBZ3C9X","name":"random"}],"groups":[]}

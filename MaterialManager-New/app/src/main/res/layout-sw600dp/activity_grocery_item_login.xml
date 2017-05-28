@@ -195,7 +195,7 @@
                 <!--android:clickable="true"-->
                 <!--android:gravity="center"-->
                 <!--android:scaleType="center"-->
-                <!--android:src="@drawable/barcode_sample" />-->
+                <!--android:src="@drawaic_barcode_samplemple" />-->
 
             <!--<TextView-->
                 <!--android:id="@+id/tv_barcode_value"-->
@@ -1119,7 +1119,7 @@
         <!--android:layout_weight="1.0"-->
         <!--android:gravity="center"-->
         <!--android:scaleType="center"-->
-        <!--android:src="@drawable/barcode_sample" />-->
+        <!--android:src="@drawaic_barcode_samplemple" />-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_coupon_barcode_value"-->

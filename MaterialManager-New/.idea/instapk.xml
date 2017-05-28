@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectStorageHelper">
+    <option name="apkLocation" value="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" />
+    <option name="packageName" value="com.material.management" />
+    <option name="accessToken" value="582b068670f0c22ae2d89ddaa2a1bebcaab80436ec0e" />
+    <option name="projectName" value="MaterialManager" />
+    <option name="jwtToken" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlQwREJaQTA0WCBVMERDMDIwOVkiLCJ1c2VyX2lkIjo4MiwiZW1haWwiOiIiLCJleHAiOjE0OTg0MTk1MjR9.gHWNyxOvxv-NsFkdNe5j05J8k--epsqVrizGn6-kLfY" />
+    <option name="projectId" value="ZXlKcFpDSTZPRGQ5OjFjc2FUVTpiWDItZGpJS09hVW45RXVYeFNjNHhTQmJYNDQ=" />
+    <option name="slackChannelId" value="C0DC2ULJW" />
+    <option name="slackChannels" value="{&quot;channels&quot;:[{&quot;id&quot;:&quot;C0DC2ULJW&quot;,&quot;name&quot;:&quot;android&quot;},{&quot;id&quot;:&quot;C0DBT6VU4&quot;,&quot;name&quot;:&quot;general&quot;},{&quot;id&quot;:&quot;C0DBW4Y76&quot;,&quot;name&quot;:&quot;ios&quot;},{&quot;id&quot;:&quot;C0DBZ3C9X&quot;,&quot;name&quot;:&quot;random&quot;}],&quot;groups&quot;:[]}" />
+    <option name="releaseNote" value="Test the apk upload" />
+    <option name="firstLaunch" value="false" />
+  </component>
+</project>

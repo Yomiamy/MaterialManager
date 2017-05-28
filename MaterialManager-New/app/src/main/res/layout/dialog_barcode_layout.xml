@@ -12,7 +12,7 @@
         android:gravity="center"       
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:drawableTop="@drawable/ic_barcode"
+        android:drawableTop="@drawable/ic_barcode_sample"
         android:text="x xxxxxx xxxxxx x"/>
     
 
