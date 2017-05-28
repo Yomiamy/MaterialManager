@@ -95,6 +95,7 @@
 
     <!-- CameraActivity -->
     <string name="camera_activity_actionbar_title">Camera Preview</string>
+    <string name="title_camera_reconfiguring">Camera reconfiguring...</string>
 
     <!-- GlobalSearchActivity -->
     <string name="global_search">Global Search</string>
@@ -369,7 +370,7 @@
     <string name="title_sun">SUN</string>
     <string name="grocery_login_msg_geo_trans">Location transform, please wait a moment...</string>
     <string name="grocery_login_msg_query_receipt_info">Query the detail of receipt, please wait a moment...</string>
-    <string name="receipt_scan_hint_msg">Please scan the qr-code at the left side</string>
+    <string name="receipt_scan_hint_msg">Please scan the qr-code at the left side or the barcode at the center position</string>
 
     <!-- LoginGroceryListFragment error message -->
     <string name="grocery_login_err_empty_phone">Phone column should not be empty</string>

@@ -13,26 +13,35 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.flurgle.camerakit.CameraView
-            android:id="@+id/cv_camera_preview"
+        <FrameLayout
+            android:id="@+id/fl_camera_preview_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            app:ckCropOutput="false"
-            app:ckFacing="back"
-            app:ckFlash="off"
-            app:ckFocus="tap"
-            app:ckJpegQuality="100"
-            app:ckMethod="standard" />
+            android:layout_gravity="center_vertical">
+
+            <com.commonsware.cwac.camera.CameraView
+                android:id="@+id/cv_camera_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </FrameLayout>
+
 
         <com.material.management.utils.camerakit.FocusMarkerLayout
             android:id="@+id/fml_camera_focus_marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/cv_camera_preview"
-            android:layout_alignLeft="@id/cv_camera_preview"
-            android:layout_alignRight="@id/cv_camera_preview"
-            android:layout_alignTop="@id/cv_camera_preview" />
+            android:layout_alignBottom="@id/fl_camera_preview_layout"
+            android:layout_alignLeft="@id/fl_camera_preview_layout"
+            android:layout_alignRight="@id/fl_camera_preview_layout"
+            android:layout_alignTop="@id/fl_camera_preview_layout" />
+
+        <View
+            android:id="@+id/v_shutter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -50,20 +59,20 @@
             android:id="@+id/iv_capture_photo"
             android:layout_width="0dp"
             android:layout_height="@dimen/iv_camera_op_btn_h"
-            android:padding="@dimen/iv_camera_op_btn_padding"
             android:layout_margin="@dimen/iv_camera_op_btn_margin"
             android:layout_weight="1"
             android:background="@drawable/button_rounded_shape"
-            android:src="@drawable/selector_camera_capture_photo"/>
+            android:padding="@dimen/iv_camera_op_btn_padding"
+            android:src="@drawable/selector_camera_capture_photo" />
 
         <ImageView
             android:id="@+id/iv_switch_front_and_back_camera"
             android:layout_width="0dp"
             android:layout_height="@dimen/iv_camera_op_btn_h"
             android:layout_margin="@dimen/iv_camera_op_btn_margin"
-            android:padding="@dimen/iv_camera_op_btn_padding"
             android:layout_weight="1"
             android:background="@drawable/button_rounded_shape"
+            android:padding="@dimen/iv_camera_op_btn_padding"
             android:src="@drawable/selector_camera_switch" />
 
     </LinearLayout>

@@ -49,8 +49,8 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:scaleType="fitXY"
-                    android:visibility="gone"
-                    android:src="@drawable/selector_add_photo_status" />
+                    android:src="@drawable/selector_add_photo_status"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="@dimen/iv_add_reward_photo_w"
@@ -93,20 +93,31 @@
                 android:textColor="@color/GK"
                 android:textSize="@dimen/font_size_medium"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_barcode_txt"
+            <RelativeLayout
+                android:id="@id/rl_barcode_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/tv_barcode_margin_top"
-                android:layout_marginLeft="@dimen/tv_barcode_margin_left"
-                android:clickable="true"
-                android:drawableTop="@drawable/selector_barcode"
-                android:gravity="center"
-                android:text="x xxxxxx xxxxxx x"
-                android:textColor="@color/content_text_color"
-                android:textStyle="bold" />
+                android:layout_marginLeft="@dimen/rl_barcode_margin_left"
+                android:layout_marginTop="@dimen/rl_barcode_margin_top">
+
+                <ImageView
+                    android:id="@+id/iv_barcode"
+                    android:layout_width="@dimen/iv_login_material_barcode_w"
+                    android:layout_height="@dimen/iv_login_material_barcode_h"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/selector_barcode" />
+
+                <TextView
+                    android:id="@+id/tv_barcode_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_barcode"
+                    android:layout_centerHorizontal="true"
+                    android:text="x xxxxxx xxxxxx x"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_login_material_common_txt_size"
+                    android:textStyle="bold" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -136,10 +147,10 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/act_margin_left"
                 android:layout_marginRight="@dimen/act_margin_right"
-                android:minHeight="@dimen/act_min_h"
                 android:gravity="center_vertical"
                 android:hint="@string/title_card_name_hint"
                 android:inputType="textCapSentences"
+                android:minHeight="@dimen/act_min_h"
                 android:singleLine="true"
                 android:textSize="@dimen/font_size_large" />
 

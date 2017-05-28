@@ -69,6 +69,7 @@
     <string name="store_map_msg_err_retry">暂无相关资料，请稍后再试</string>
     <string name="store_map_msg_location_updating">位置更新中，请稍后...</string>
     <string name="camera_activity_actionbar_title">相机预览</string>
+    <string name="title_camera_reconfiguring">相机重新设置中...</string>
     <string name="global_search">全域搜寻</string>
     <string name="global_search_material_group">過期物品</string>
     <string name="global_search_grocery_group">購買物品</string>
@@ -301,7 +302,7 @@
     <string name="title_sun">星期日</string>
     <string name="grocery_login_msg_geo_trans">位置转换中，请稍候...</string>
     <string name="grocery_login_msg_query_receipt_info">查询发票资讯中，请稍候...</string>
-    <string name="receipt_scan_hint_msg">请扫描电子发票左边的QR-Code</string>
+    <string name="receipt_scan_hint_msg">请扫描电子发票左边的QR-Code或上方的一维条码</string>
     <string name="grocery_login_err_empty_phone">电话字段尚未输入</string>
     <string name="grocery_login_err_empty_store_address">店家地址字段尚未输入</string>
     <string name="grocery_login_err_dialog_msg">暂无相关资料，请稍后再试</string>
