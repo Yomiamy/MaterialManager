@@ -144,6 +144,7 @@
     <string name="title_progress_restore_photo_successfully">回復圖片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_adjust_drive_space_successfully">調整GoogleDrive空間...\n(%1$s/100)</string>
     <string name="title_default_currency_symbol">$</string>
+    <string name="title_choose_date_format_dialog">選擇一種日期格式</string>
     <string name="title_progress_notif_backup_restore_successfully">[備份/回復]資料庫成功</string>
     <string name="title_progress_notif_backup_restore_fail">[備份/回復]資料庫失敗</string>
     <string name="title_progress_waiting_connect">雲端服務連接中，請稍候...</string>

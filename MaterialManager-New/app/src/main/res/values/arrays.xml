@@ -173,4 +173,15 @@
         <item>1.2</item>
         <item>1.0</item>
     </string-array>
+
+    <string-array name="date_format_ary">
+        <item>MM-dd-yyyy::YYYY-MM-DD(Ex.: 2017-04-01)</item>
+        <item>MM-dd-yyyy::MM-DD-YYYY(Ex.: 04-01-2017)</item>
+        <item>yyyy年MM月dd日::YYYY年MM月DD日(Ex.: 2017年04月01日)</item>
+        <item>yyyy-mm-dd::YYYY-MM-DD(Ex: 2017-04-01)</item>
+        <item>dd.MM.yyyy::DD.MM.YYYY(Ex.: 01.04.2017)</item>
+        <item>dd/MM/yyyy::DD/MM/YYYY(Ex.: 01/04/2017)</item>
+        <item>MM/dd/yyyy::MM/DD/YYYY(Ex.: 04/01/2017)</item>
+        <item>dd-MM-yyyy::DD-MM-YYYY(Ex.: 01-04-2017)</item>
+    </string-array>
 </resources>
