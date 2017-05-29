@@ -53,6 +53,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class MaterialManagerFragment extends MMFragment implements Observer, SearchView.OnQueryTextListener,
         OnItemClickListener, DialogInterface.OnClickListener, DatePickerDialog.OnDateSetListener {
+
     private static final String DATEPICKER_TAG = "datepicker";
 
     public enum MaterialSortMode {
@@ -76,6 +77,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
     private Object mData = null;
     private Material mSelectedMaterial = null;
     private String mSearchString = null;
+    private String mDateFormat;
     private int mSelectedPosition;
     private int mMaterialTypGridNum = -1;
     private boolean mIsNeedResumeRefresh = false;
@@ -91,6 +93,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         mOptions.inInputShareable = true;
         mOptions.inScaled = false;
         mOptions.inDensity = Utility.getDisplayMetrics().densityDpi;
+        String composedDateFormat = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL);
+        mDateFormat = composedDateFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[0];
 
         initView();
         update(mData);
@@ -818,10 +822,10 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             viewHolder.materialType.setText(Utility.formatMatchedString(item.getMaterialType(), mSearchStr));
             viewHolder.materialType.setSelected(true);
 
-            viewHolder.purchaceDate.setText(Utility.formatMatchedString(Utility.transDateToString("yyyy-MM-dd", item.getPurchaceDate().getTime()), mSearchStr));
+            viewHolder.purchaceDate.setText(Utility.formatMatchedString(Utility.transDateToString(mDateFormat, item.getPurchaceDate().getTime()), mSearchStr));
             viewHolder.purchaceDate.setSelected(true);
 
-            viewHolder.validDate.setText(Utility.formatMatchedString(Utility.transDateToString("yyyy-MM-dd", item.getValidDate().getTime()), mSearchStr));
+            viewHolder.validDate.setText(Utility.formatMatchedString(Utility.transDateToString(mDateFormat, item.getValidDate().getTime()), mSearchStr));
             viewHolder.validDate.setSelected(true);
 
             viewHolder.place.setText(Utility.formatMatchedString(item.getMaterialPlace(), mSearchStr));
@@ -924,8 +928,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                     type = item.getMaterialType();
                     comment = item.getComment();
                     place = item.getMaterialPlace();
-                    purchDate = Utility.transDateToString("yyyy-MM-dd", item.getPurchaceDate().getTime());
-                    validDate = Utility.transDateToString("yyyy-MM-dd", item.getValidDate().getTime());
+                    purchDate = Utility.transDateToString(mDateFormat, item.getPurchaceDate().getTime());
+                    validDate = Utility.transDateToString(mDateFormat, item.getValidDate().getTime());
 
                     /* To update the material information after modifying material info */
                     Calendar c1 = Calendar.getInstance();

@@ -15,6 +15,7 @@ import java.util.Calendar;
 public class ExpireMonitorRunnable implements Runnable {
     public static final String MONITOR_THREAD_NAME = "Expire_Monitor_Thread";
     private static NotificationOutput sNotificationOutput = NotificationOutput.getInstance();
+    private final String mDateFormat;
 
     private Context mContext;
     private int mNotifType;
@@ -22,6 +23,8 @@ public class ExpireMonitorRunnable implements Runnable {
     public ExpireMonitorRunnable(int notifType) {
         mContext = Utility.getContext();
         mNotifType = notifType;
+        String composedDateFormat = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL);
+        mDateFormat = composedDateFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[0];
     }
 
     @Override
@@ -33,7 +36,7 @@ public class ExpireMonitorRunnable implements Runnable {
         for (Material material : materialList) {
             int notificationDays = material.getNotificationDays();
             Calendar validateDate = material.getValidDate();
-            String validateDateStr = Utility.transDateToString("yyyy-MM-dd", validateDate.getTime());
+            String validateDateStr = Utility.transDateToString(mDateFormat, validateDate.getTime());
 
             if (validateDate.getTimeInMillis() < todayTimeInMillis) {
                 sNotificationOutput.outNotif(NotificationOutput.NOTIF_CAT_COMMON, material.hashCode(), mContext.getString(R.string.format_expired_msg, material.getName(), validateDateStr), mNotifType, createNotificationBundle(material));
