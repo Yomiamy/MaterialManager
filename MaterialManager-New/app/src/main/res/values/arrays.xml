@@ -14,6 +14,25 @@
  limitations under the License.
  -->
 <resources>
+    <!-- LoginMaterialFragment -->
+    <string-array name="default_material_type">
+        <item>Food</item>
+        <item>Beverage</item>
+        <item>coupon</item>
+        <item>paint</item>
+    </string-array>
+
+    <!-- LoginGroceryListFragment -->
+    <string-array name="weekTitle">
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
+        <item>SUN</item>
+    </string-array>
+
     <string-array name="country_codes">
         <item>-</item>
         <item>AR</item>
@@ -73,6 +92,53 @@
         <item>Buy 1 get x free</item>
     </string-array>
 
+    <!-- LoginGroceryItemActivity -->
+    <string-array name="title_grocery_item_units">
+        <item>Ounce</item>
+        <item>Pair</item>
+        <item>Packet</item>
+        <item>Package</item>
+        <item>Can</item>
+        <item>Bunch</item>
+        <item>Box</item>
+        <item>Barrel</item>
+        <item>Bar</item>
+        <item>Bag</item>
+        <item>Meter</item>
+        <item>Liter</item>
+        <item>Kilogram</item>
+        <item>Jar</item>
+        <item>Ton</item>
+        <item>Tub</item>
+        <item>Tube</item>
+        <item>Unit Square</item>
+        <item>Yard</item>
+        <item>Teaspoon</item>
+        <item>Tablespoon</item>
+        <item>Square</item>
+        <item>Slice</item>
+        <item>Serving</item>
+        <item>Roll</item>
+        <item>Pound</item>
+        <item>Pint</item>
+        <item>Pinch</item>
+        <item>Piece</item>
+        <item>Millimeter</item>
+        <item>Milliliter</item>
+        <item>Milligram</item>
+        <item>Inch</item>
+        <item>Handful</item>
+        <item>Grain</item>
+        <item>Gallon</item>
+        <item>Foot</item>
+        <item>Drop</item>
+        <item>Dozen</item>
+        <item>Cup</item>
+        <item>Centimeter</item>
+        <item>Centiliter</item>
+        <item>Case</item>
+    </string-array>
+
     <!-- GlobalSearchActivity -->
     <integer-array name="top_backgrounds">
         <item>@drawable/pic01</item>
@@ -85,7 +151,6 @@
         <item>@drawable/pic08</item>
         <item>@drawable/pic09</item>
     </integer-array>
-
 
     <!--SettingsFragment-->
     <!-- Notification frequency unit after the material is expired : hr. -->
@@ -107,5 +172,11 @@
         <item>1.4</item>
         <item>1.2</item>
         <item>1.0</item>
+    </string-array>
+
+    <string-array name="date_format_ary">
+        <item>yyyy-MM-dd::YYYY-MM-DD(Ex.: 2017-04-01)</item>
+        <item>MM-dd-yyyy::MM-DD-YYYY(Ex.: 04-01-2017)</item>
+        <item>dd-MM-yyyy::DD-MM-YYYY(Ex.: 01-04-2017)</item>
     </string-array>
 </resources>

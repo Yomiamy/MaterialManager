@@ -136,9 +136,11 @@
     <string name="title_tv_notification_frequnecy_label">Notification frequency</string>
     <string name="title_tv_font_size_label">Font size adjustment</string>
     <string name="title_tv_currency_label">Currency</string>
+    <string name="title_tv_date_format_label">Date format</string>
     <string name="title_change_currency_dialog_title">Change the currency symbol</string>
     <string name="title_change_currency_dialog_body">Enter the new currency symbol</string>
     <string name="title_tv_current_currency_title_label">Currency symbol</string>
+    <string name="title_tv_current_date_format_title_label">Date format</string>
     <string name="title_tv_font_size_scale_first_label">Adjust the font size as</string>
     <string name="title_tv_font_size_scale_sec_label">font size</string>
     <string name="title_tv_database_manage">Database operations</string>
@@ -170,6 +172,7 @@
     <string name="title_progress_restore_photo_successfully">Restore photo:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_adjust_drive_space_successfully">Adjust the google drive space...\n(%1$s/100)</string>
     <string name="title_default_currency_symbol">$</string>
+    <string name="title_choose_date_format_dialog">Select a date format</string>
 
     <string name="title_progress_notif_backup_restore_successfully">Backup/Restore is successful</string>
     <string name="title_progress_notif_backup_restore_fail">Backup/Restore is failed</string>
@@ -206,52 +209,6 @@
     <string name="title_grocery_item_barcode">ITEM BARCODE</string>
     <string name="priority">No Priority</string>
     <string name="coupon_type">Coupon Type</string>
-
-    <string-array name="title_grocery_item_units">
-        <item>Ounce</item>
-        <item>Pair</item>
-        <item>Packet</item>
-        <item>Package</item>
-        <item>Can</item>
-        <item>Bunch</item>
-        <item>Box</item>
-        <item>Barrel</item>
-        <item>Bar</item>
-        <item>Bag</item>
-        <item>Meter</item>
-        <item>Liter</item>
-        <item>Kilogram</item>
-        <item>Jar</item>
-        <item>Ton</item>
-        <item>Tub</item>
-        <item>Tube</item>
-        <item>Unit Square</item>
-        <item>Yard</item>
-        <item>Teaspoon</item>
-        <item>Tablespoon</item>
-        <item>Square</item>
-        <item>Slice</item>
-        <item>Serving</item>
-        <item>Roll</item>
-        <item>Pound</item>
-        <item>Pint</item>
-        <item>Pinch</item>
-        <item>Piece</item>
-        <item>Millimeter</item>
-        <item>Milliliter</item>
-        <item>Milligram</item>
-        <item>Inch</item>
-        <item>Handful</item>
-        <item>Grain</item>
-        <item>Gallon</item>
-        <item>Foot</item>
-        <item>Drop</item>
-        <item>Dozen</item>
-        <item>Cup</item>
-        <item>Centimeter</item>
-        <item>Centiliter</item>
-        <item>Case</item>
-    </string-array>
 
     <string name="msg_grocery_item_login_error_head">You violate the following rules:\n</string>
     <string name="msg_no_grocery_name">"    -No item name\n"</string>
@@ -298,13 +255,6 @@
     <string name="title_select_photo_from_album">Album</string>
     <string name="defalut_date">N/A</string>
 
-
-    <string-array name="default_material_type">
-        <item>Food</item>
-        <item>Beverage</item>
-        <item>coupon</item>
-        <item>paint</item>
-    </string-array>
 
     <!-- MaterialManagerFragment -->
     <string name="title_material_search">Input a string</string>
@@ -379,15 +329,6 @@
     <string name="grocery_receipt_barcode_err_dialog_msg">Receipt barcode is incorrect, please confirm it and try again</string>
     <string name="grocery_login_err_receipt_code_format_incorrect">The format of barcode/qrcode is incorrect</string>
 
-    <string-array name="weekTitle">
-        <item>MON</item>
-        <item>TUE</item>
-        <item>WED</item>
-        <item>THU</item>
-        <item>FRI</item>
-        <item>SAT</item>
-        <item>SUN</item>
-    </string-array>
 
     <!-- GroceryListFragment -->
     <string name="title_checkout_total">TOTAL</string>

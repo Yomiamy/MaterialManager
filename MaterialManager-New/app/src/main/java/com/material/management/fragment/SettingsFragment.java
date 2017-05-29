@@ -41,6 +41,7 @@ import com.material.management.broadcast.BroadCastEvent;
 import com.material.management.data.BackupRestoreInfo;
 import com.material.management.dialog.InputDialog;
 import com.material.management.dialog.LightProgressDialog;
+import com.material.management.dialog.SpinnerChoiceDialog;
 import com.material.management.monitor.MonitorService;
 import com.material.management.service.DropboxCloudService;
 import com.material.management.service.GoogleDriveCloudService;
@@ -52,7 +53,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener, DialogInterface.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SettingsFragment extends MMFragment implements Observer, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener, DialogInterface.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemClickListener {
     private static final int CLOUD_SERVICE_TYPE_DROPBOX = 0;
     private static final int CLOUD_SERVICE_TYPE_GOOGLE_DRIVER = 1;
 
@@ -63,6 +64,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private TextView mTvDbRestore;
     private TextView mTvDbBackup;
     private TextView mTvEnterCurrencySymbol;
+    private TextView mTvDateFormatSymbol;
     private RadioGroup mRgNotifVibrateOrSound;
     private Spinner mSpinNotifFrequency;
     private Spinner mSpinFontSizeChange;
@@ -71,6 +73,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private ImageView mIvBtnGoogleDrive;
     private ImageView mIvGoogleDriveEnableStatus;
 
+    private Dialog mDateFormatChoiceDialog = null;
     private LightProgressDialog mProgressDialog = null;
     private IBackupRestore mDropboxService;
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -126,6 +129,7 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     private InputDialog mInputDialog;
     private String[] mFontSizeScaleTitles;
     private String[] mFontSizeScaleLeves;
+    private String[] mComposedDateFormats;
     private int mIsNotifVibrateOrSound;
     private int mNotifFreq;
     private int mCurReqCloudService = -1;
@@ -206,19 +210,21 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mTvDbBackup = (TextView) mLayout.findViewById(R.id.tv_database_backup);
         mTvDbRestore = (TextView) mLayout.findViewById(R.id.tv_database_restore);
         mTvEnterCurrencySymbol = (TextView) mLayout.findViewById(R.id.tv_enter_currency_symbol);
+        mTvDateFormatSymbol = (TextView) mLayout.findViewById(R.id.tv_date_format_symbol);
         /* default is vibrate */
         mIsNotifVibrateOrSound = Utility.getIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND);
         /* default frequency is 1 hour */
         mNotifFreq = Utility.getIntValueForKey(Utility.NOTIF_FREQUENCY);
         String notifFreqStr = (mNotifFreq == mResources.getInteger(R.integer.max_notif_freq)) ? mResources.getString(R.string.title_notif_silent_mode) : Integer.toString(mNotifFreq);
         ArrayAdapter<String> notifSpinAdapter = new SpinnerSettingsAdapter<String>(Utility.getContext(), R.layout.view_spinner_item_layout,
-                getResources().getStringArray(R.array.default_notification_frequency));
+                mResources.getStringArray(R.array.default_notification_frequency));
         ArrayAdapter<String> fontSizeSpinAdapter = new SpinnerSettingsAdapter<String>(Utility.getContext(), R.layout.view_spinner_item_layout,
-                getResources().getStringArray(R.array.font_size_scale_level_title));
+                mResources.getStringArray(R.array.font_size_scale_level_title));
         notifSpinAdapter.setDropDownViewResource(R.layout.view_spinner_item_layout);
         fontSizeSpinAdapter.setDropDownViewResource(R.layout.view_spinner_item_layout);
-        mFontSizeScaleTitles = getResources().getStringArray(R.array.font_size_scale_level_title);
-        mFontSizeScaleLeves = getResources().getStringArray(R.array.font_size_scale_level);
+        mFontSizeScaleTitles = mResources.getStringArray(R.array.font_size_scale_level_title);
+        mFontSizeScaleLeves = mResources.getStringArray(R.array.font_size_scale_level);
+        mComposedDateFormats = mResources.getStringArray(R.array.date_format_ary);
         String defaultScaleFact = Utility.getStringValueForKey(Utility.FONT_SIZE_SCALE_FACTOR);
 
         if (mIsNotifVibrateOrSound == 0) {
@@ -243,12 +249,15 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
         mTvDbBackup.setOnClickListener(this);
         mTvDbRestore.setOnClickListener(this);
         mTvEnterCurrencySymbol.setOnClickListener(this);
+        mTvDateFormatSymbol.setOnClickListener(this);
     }
 
     private void init() {
         mCurReqCloudService = CLOUD_SERVICE_TYPE_DROPBOX;
+        String composedFormat = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL);
 
         mTvEnterCurrencySymbol.setText(Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL));
+        mTvDateFormatSymbol.setText(composedFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[1]);
         EventBus.getDefault().register(this);
         mOwnerActivity.bindService(new Intent(mOwnerActivity, DropboxCloudService.class), mConnection, Context.BIND_AUTO_CREATE);
     }
@@ -316,9 +325,18 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
     }
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String selectedComposedFormat = mComposedDateFormats[position];
+
+        mTvDateFormatSymbol.setText(selectedComposedFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[1]);
+        Utility.setStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL, selectedComposedFormat);
+        mDateFormatChoiceDialog.dismiss();
+    }
+
+    @Override
     public void onClick(DialogInterface dialog, int which) {
-        if(which < 0) {
-            if(Dialog.BUTTON_POSITIVE == which) {
+        if (which < 0) {
+            if (Dialog.BUTTON_POSITIVE == which) {
                 if (mInputDialog != null && mInputDialog.isDialogShowing()) {
                     String newSymbol = mInputDialog.getInputString();
 
@@ -329,7 +347,8 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                         showToast(mResources.getString(R.string.msg_error_empty_currency_symbol));
                     }
                 }
-            } else if(Dialog.BUTTON_NEGATIVE == which) {}
+            } else if (Dialog.BUTTON_NEGATIVE == which) {
+            }
         }
 
         mInputDialog.setShowState(false);
@@ -429,6 +448,18 @@ public class SettingsFragment extends MMFragment implements Observer, RadioGroup
                     , this);
 
             mInputDialog.show();
+        } else if (id == R.id.tv_date_format_symbol) {
+            String title = mResources.getString(R.string.title_choose_date_format_dialog);
+            String[] nDisplayDateFormats = new String[mComposedDateFormats.length];
+
+            for (int i = 0, len = mComposedDateFormats.length; i < len; i++) {
+                nDisplayDateFormats[i] = mComposedDateFormats[i].split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[1];
+            }
+
+            if (mDateFormatChoiceDialog != null && mDateFormatChoiceDialog.isShowing()) {
+                mDateFormatChoiceDialog.dismiss();
+            }
+            mDateFormatChoiceDialog = new SpinnerChoiceDialog(mOwnerActivity, title, nDisplayDateFormats, SettingsFragment.this).show();
         }
     }
 

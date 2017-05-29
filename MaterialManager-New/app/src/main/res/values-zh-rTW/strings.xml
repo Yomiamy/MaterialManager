@@ -108,9 +108,11 @@
     <string name="title_tv_notification_frequnecy_label">過期後通知頻率</string>
     <string name="title_tv_font_size_label">字體調整</string>
     <string name="title_tv_currency_label">幣值符號</string>
+    <string name="title_tv_date_format_label">日期格式</string>
     <string name="title_change_currency_dialog_title">更動幣值符號</string>
     <string name="title_change_currency_dialog_body">輸入新的幣值符號</string>
-    <string name="title_tv_current_currency_title_label">目前幣值符號</string>
+    <string name="title_tv_current_currency_title_label">幣值符號</string>
+    <string name="title_tv_current_date_format_title_label">日期格式</string>
     <string name="title_tv_font_size_scale_first_label">調整為</string>
     <string name="title_tv_font_size_scale_sec_label">字體</string>
     <string name="title_tv_database_manage">資料庫備份/還原</string>
@@ -142,6 +144,7 @@
     <string name="title_progress_restore_photo_successfully">回復圖片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_adjust_drive_space_successfully">調整GoogleDrive空間...\n(%1$s/100)</string>
     <string name="title_default_currency_symbol">$</string>
+    <string name="title_choose_date_format_dialog">選擇一種日期格式</string>
     <string name="title_progress_notif_backup_restore_successfully">[備份/回復]資料庫成功</string>
     <string name="title_progress_notif_backup_restore_fail">[備份/回復]資料庫失敗</string>
     <string name="title_progress_waiting_connect">雲端服務連接中，請稍候...</string>
@@ -177,52 +180,6 @@
     <string name="title_grocery_item_barcode">物品條碼</string>
     <string name="priority">無優先權</string>
     <string name="coupon_type">優惠卷種類</string>
-
-    <string-array name="title_grocery_item_units">
-        <item>個</item>
-        <item>雙</item>
-        <item>捆</item>
-        <item>件</item>
-        <item>盒</item>
-        <item>罐</item>
-        <item>串</item>
-        <item>箱</item>
-        <item>條</item>
-        <item>袋</item>
-        <item>包</item>
-        <item>公尺</item>
-        <item>公升</item>
-        <item>公斤</item>
-        <item>瓶</item>
-        <item>噸</item>
-        <item>桶</item>
-        <item>支</item>
-        <item>平方單元</item>
-        <item>碼</item>
-        <item>匙</item>
-        <item>湯匙</item>
-        <item>平方</item>
-        <item>片</item>
-        <item>份</item>
-        <item>卷</item>
-        <item>英鎊</item>
-        <item>品脫</item>
-        <item>撮</item>
-        <item>盎司</item>
-        <item>毫米</item>
-        <item>毫升</item>
-        <item>毫克</item>
-        <item>英寸</item>
-        <item>把</item>
-        <item>粒</item>
-        <item>加侖</item>
-        <item>英呎</item>
-        <item>滴</item>
-        <item>打</item>
-        <item>杯</item>
-        <item>釐米</item>
-        <item>厘升</item>
-    </string-array>
 
     <string name="msg_grocery_item_login_error_head">你/妳違反了:\n</string>
     <string name="msg_no_grocery_name">"    -名稱尚未輸入\n"</string>
@@ -268,13 +225,6 @@
     <string name="title_select_photo_from_camera">拍照</string>
     <string name="title_select_photo_from_album">相簿</string>
     <string name="defalut_date">N/A</string>
-
-    <string-array name="default_material_type">
-        <item>食物</item>
-        <item>飲料</item>
-        <item>優惠卷</item>
-        <item>化妝品</item>
-    </string-array>
 
     <!-- MaterialManagerFragment -->
     <string name="title_material_search">請輸入搜尋字串</string>
@@ -348,15 +298,7 @@
     <string name="grocery_receipt_barcode_err_dialog_msg">發票資料碼有誤，請確認後再試一次</string>
     <string name="grocery_login_err_dialog_msg">暫無相關資料，請稍後再試</string>
     <string name="grocery_login_err_receipt_code_format_incorrect">條碼或QR碼資料不正確無法識別</string>
-    <string-array name="weekTitle">
-        <item>星期一</item>
-        <item>星期二</item>
-        <item>星期三</item>
-        <item>星期四</item>
-        <item>星期五</item>
-        <item>星期六</item>
-        <item>星期日</item>
-    </string-array>
+
 
     <!-- GroceryListFragment -->
     <string name="title_checkout_total">總額</string>

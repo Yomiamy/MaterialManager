@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -39,7 +38,7 @@ import com.material.management.MaterialModifyActivity;
 import com.material.management.Observer;
 import com.material.management.R;
 import com.material.management.dialog.BarcodeDialog;
-import com.material.management.dialog.MaterialMenuDialog;
+import com.material.management.dialog.SpinnerChoiceDialog;
 import com.material.management.component.RoundedImageView;
 import com.material.management.data.BundleInfo;
 import com.material.management.data.Material;
@@ -54,6 +53,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class MaterialManagerFragment extends MMFragment implements Observer, SearchView.OnQueryTextListener,
         OnItemClickListener, DialogInterface.OnClickListener, DatePickerDialog.OnDateSetListener {
+
     private static final String DATEPICKER_TAG = "datepicker";
 
     public enum MaterialSortMode {
@@ -68,7 +68,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
     private ImageView mIvClosePreivew;
 
     private Locale mLocale = null;
-    private MaterialMenuDialog mMaterialMenu = null;
+    private SpinnerChoiceDialog mMaterialMenu = null;
     private AlertDialog mMaterialMenuDialog = null;
     private DatePickerDialog mDatePickerDialog = null;
     private BarcodeDialog mBarcodeDialog;
@@ -77,6 +77,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
     private Object mData = null;
     private Material mSelectedMaterial = null;
     private String mSearchString = null;
+    private String mDateFormat;
     private int mSelectedPosition;
     private int mMaterialTypGridNum = -1;
     private boolean mIsNeedResumeRefresh = false;
@@ -92,6 +93,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
         mOptions.inInputShareable = true;
         mOptions.inScaled = false;
         mOptions.inDensity = Utility.getDisplayMetrics().densityDpi;
+        String composedDateFormat = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL);
+        mDateFormat = composedDateFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[0];
 
         initView();
         update(mData);
@@ -183,7 +186,7 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                 items.add(getString(R.string.title_menu_item_set_up_valid_date));
             }
         }
-        mMaterialMenu = new MaterialMenuDialog(mOwnerActivity, getString(R.string.title_menu_head),
+        mMaterialMenu = new SpinnerChoiceDialog(mOwnerActivity, getString(R.string.title_menu_head),
                 items.toArray(new String[0]), this);
 
         mMaterialMenuDialog = mMaterialMenu.show();
@@ -819,10 +822,10 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             viewHolder.materialType.setText(Utility.formatMatchedString(item.getMaterialType(), mSearchStr));
             viewHolder.materialType.setSelected(true);
 
-            viewHolder.purchaceDate.setText(Utility.formatMatchedString(Utility.transDateToString(item.getPurchaceDate().getTime()), mSearchStr));
+            viewHolder.purchaceDate.setText(Utility.formatMatchedString(Utility.transDateToString(mDateFormat, item.getPurchaceDate().getTime()), mSearchStr));
             viewHolder.purchaceDate.setSelected(true);
 
-            viewHolder.validDate.setText(Utility.formatMatchedString(Utility.transDateToString(item.getValidDate().getTime()), mSearchStr));
+            viewHolder.validDate.setText(Utility.formatMatchedString(Utility.transDateToString(mDateFormat, item.getValidDate().getTime()), mSearchStr));
             viewHolder.validDate.setSelected(true);
 
             viewHolder.place.setText(Utility.formatMatchedString(item.getMaterialPlace(), mSearchStr));
@@ -925,8 +928,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                     type = item.getMaterialType();
                     comment = item.getComment();
                     place = item.getMaterialPlace();
-                    purchDate = Utility.transDateToString(item.getPurchaceDate().getTime());
-                    validDate = Utility.transDateToString(item.getValidDate().getTime());
+                    purchDate = Utility.transDateToString(mDateFormat, item.getPurchaceDate().getTime());
+                    validDate = Utility.transDateToString(mDateFormat, item.getValidDate().getTime());
 
                     /* To update the material information after modifying material info */
                     Calendar c1 = Calendar.getInstance();

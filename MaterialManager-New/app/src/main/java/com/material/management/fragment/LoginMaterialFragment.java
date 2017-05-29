@@ -109,6 +109,7 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
     private ArrayAdapter<String> mCategoryAdapter = null;
     private LinkedHashSet<String> mMaterialTypes = null;
     private ArrayList<String> mTextHistoryList;
+    private String mDateFormat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,6 +118,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         mImm = (InputMethodManager) mOwnerActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         mLayout = inflater.inflate(R.layout.fragment_login_material_layout, container, false);
         boolean isInitialized = Utility.getBooleanValueForKey(Utility.CATEGORY_IS_INITIALIZED);
+        String composedDateFormat = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL);
+        mDateFormat = composedDateFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[0];
         mOptions = new Options();
         mOptions.inDensity = Utility.getDisplayMetrics().densityDpi;
         mOptions.inScaled = false;
@@ -381,8 +384,8 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         mBarcodeFormat = "";
 
         /* set the default time */
-        mTvPurchaceDate.setText(Utility.transDateToString(mPurchaceDate.getTime()));
-        mTvValidDate.setText(Utility.transDateToString(mValidDate.getTime()));
+        mTvPurchaceDate.setText(Utility.transDateToString(mDateFormat, mPurchaceDate.getTime()));
+        mTvValidDate.setText(Utility.transDateToString(mDateFormat, mValidDate.getTime()));
         mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
         mActMaterialName.setText("");
         mActMaterialPlace.setText("");
@@ -683,10 +686,10 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         if (mCurPressDateBtnId >= 0) {
             if (mCurPressDateBtnId == R.id.rl_purchace_date_layout) {
                 mPurchaceDate = cal;
-                mTvPurchaceDate.setText(Utility.transDateToString(cal.getTime()));
+                mTvPurchaceDate.setText(Utility.transDateToString(mDateFormat, cal.getTime()));
             } else if (mCurPressDateBtnId == R.id.rl_validate_date_layout) {
                 mValidDate = cal;
-                mTvValidDate.setText(Utility.transDateToString(cal.getTime()));
+                mTvValidDate.setText(Utility.transDateToString(mDateFormat, cal.getTime()));
             }
             mDatePickerDialog = null;
             mCurPressDateBtnId = -1;

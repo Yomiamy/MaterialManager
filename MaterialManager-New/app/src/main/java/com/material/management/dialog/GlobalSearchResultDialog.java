@@ -109,6 +109,8 @@ public class GlobalSearchResultDialog extends AlertDialog.Builder implements Vie
     private void init() {
         Resources res = mCtx.getResources();
         TypedArray topBackgroundsAry = res.obtainTypedArray(R.array.top_backgrounds);
+        String composedDateFormat = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL);
+        String dateFormat = composedDateFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[0];
         int topBackgroundIndex = (int) (Math.random() * topBackgroundsAry.length());
 
         mIvTopBackground.setImageDrawable(topBackgroundsAry.getDrawable(topBackgroundIndex));
@@ -146,7 +148,7 @@ public class GlobalSearchResultDialog extends AlertDialog.Builder implements Vie
                 mTvGroceryName.setText(groceryItem.getName());
                 mTvGroceryCategory.setText(groceryItem.getGroceryType());
                 mTvGroceryShopListName.setText(res.getString(R.string.global_search_shop_place, groceryListData.getGroceryListName()));
-                mTvGroceryShopDate.setText((checkoutTime != null) ? res.getString(R.string.global_search_checkout_date, Utility.transDateToString("yyyy-MM-dd HH:mm:ss", checkoutTime)) : res.getString(R.string.global_search_not_checkout));
+                mTvGroceryShopDate.setText((checkoutTime != null) ? res.getString(R.string.global_search_checkout_date, Utility.transDateToString(dateFormat + " HH:mm:ss", checkoutTime)) : res.getString(R.string.global_search_not_checkout));
                 mTvGroceryCount.setText(res.getString(R.string.global_search_qty, groceryItem.getQty()));
                 mTvGroceryShopCost.setText(res.getString(R.string.global_search_price, currencySymbol, groceryItem.getPrice()));
                 setBarcode(mTvGroceryBarcode, barcodeFormat, barcode);

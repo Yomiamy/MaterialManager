@@ -14,6 +14,25 @@
  limitations under the License.
  -->
 <resources>
+    <!-- LoginMaterialFragment -->
+    <string-array name="default_material_type">
+        <item>食物</item>
+        <item>饮料</item>
+        <item>优惠卷</item>
+        <item>化妆品</item>
+    </string-array>
+
+    <!-- LoginGroceryListFragment -->
+    <string-array name="weekTitle">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+
     <string-array name="country_codes">
         <item>-</item>
         <item>AR</item>
@@ -71,6 +90,53 @@
         <item>Discount Per Unit ($1.50)</item>
         <item>Sale Price</item>
         <item>Buy 1 get x free</item>
+    </string-array>
+
+    <!-- LoginGroceryItemActivity -->
+    <string-array name="title_grocery_item_units">
+        <item>个</item>
+        <item>双</item>
+        <item>捆</item>
+        <item>件</item>
+        <item>盒</item>
+        <item>罐</item>
+        <item>串</item>
+        <item>箱</item>
+        <item>条</item>
+        <item>袋</item>
+        <item>包</item>
+        <item>公尺</item>
+        <item>公升</item>
+        <item>公斤</item>
+        <item>瓶</item>
+        <item>吨</item>
+        <item>桶</item>
+        <item>支</item>
+        <item>平方单元</item>
+        <item>码</item>
+        <item>匙</item>
+        <item>汤匙</item>
+        <item>平方</item>
+        <item>片</item>
+        <item>份</item>
+        <item>卷</item>
+        <item>英镑</item>
+        <item>品脱</item>
+        <item>撮</item>
+        <item>盎司</item>
+        <item>毫米</item>
+        <item>毫升</item>
+        <item>毫克</item>
+        <item>英寸</item>
+        <item>把</item>
+        <item>粒</item>
+        <item>加仑</item>
+        <item>英呎</item>
+        <item>滴</item>
+        <item>打</item>
+        <item>杯</item>
+        <item>厘米</item>
+        <item>厘升</item>
     </string-array>
 
     <!--SettingsFragment-->

@@ -55,6 +55,8 @@ public class ReceiptDialog extends AlertDialog.Builder {
 
     private void initView() {
         Calendar nowDate = Calendar.getInstance();
+        String composedDateFormat = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL);
+        String dateFormat = composedDateFormat.split(Utility.SYMBOL_COMPOSED_DATE_FORMAT)[0];
 
         if (mSpecificDate != null)
             nowDate.setTime(mSpecificDate);
@@ -73,7 +75,7 @@ public class ReceiptDialog extends AlertDialog.Builder {
         String currencySymbol = Utility.getStringValueForKey(Utility.SHARE_PREF_KEY_CURRENCY_SYMBOL);
 
         tvReceiptTitle.setText(mTitle);
-        tvDate.setText(Utility.transDateToString("yyyy - MM - dd", nowDate.getTime()));
+        tvDate.setText(Utility.transDateToString(dateFormat, nowDate.getTime()));
         tvTime.setText(Utility.transDateToString("hh:mm a", nowDate.getTime()));
         for (GroceryItem item : mGroceryItemList) {
             totalValue += Double.parseDouble(item.getQty()) * Double.parseDouble(item.getPrice());

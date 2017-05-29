@@ -65,6 +65,8 @@ public class Utility {
     public static final String NOTIF_FREQUENCY = "notif_freq";
     public static final String SHARE_PREF_KEY_MATERIAL_SORT_MODE = "share_pref_key_material_sort_mode";
     public static final String SHARE_PREF_KEY_CURRENCY_SYMBOL = "share_pref_key_currency_symbol";
+    public static final String SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL = "share_pref_key_composed_date_format_symbol";
+    public static final String SYMBOL_COMPOSED_DATE_FORMAT = "::";
 
     private static Context sApplicationContext;
     private static Activity sActivity;
@@ -427,15 +429,13 @@ public class Utility {
         if (key.equals(FONT_SIZE_SCALE_FACTOR)) {
             return sSpSettings.getString(key, "1.0");
         } else if (key.equals(SHARE_PREF_KEY_CURRENCY_SYMBOL)) {
-            String currencySymbol = sSpSettings.getString(key, "");
-
-            if (TextUtils.isEmpty(currencySymbol)) {
-                currencySymbol = sActivity.getString(R.string.title_default_currency_symbol);
-
-                setStringValueForKey(key, currencySymbol);
-            }
+            String currencySymbol = sSpSettings.getString(key, sActivity.getString(R.string.title_default_currency_symbol));
 
             return currencySymbol;
+        } else if(key.equals(SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL)) {
+            String composedFormat = sSpSettings.getString(key, sActivity.getResources().getStringArray(R.array.date_format_ary)[0]);
+
+            return composedFormat;
         }
         return sSpSettings.getString(key, "");
     }

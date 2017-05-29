@@ -91,9 +91,11 @@
     <string name="title_tv_notification_frequnecy_label">过期后通知频率</string>
     <string name="title_tv_font_size_label">字体调整</string>
     <string name="title_tv_currency_label">币值符号</string>
+    <string name="title_tv_date_format_label">日期格式</string>
     <string name="title_change_currency_dialog_title">更动币值符号</string>
     <string name="title_change_currency_dialog_body">输入新的币值符号</string>
-    <string name="title_tv_current_currency_title_label">目前币值符号</string>
+    <string name="title_tv_current_currency_title_label">币值符号</string>
+    <string name="title_tv_current_date_format_title_label">日期格式</string>
     <string name="title_tv_font_size_scale_first_label">调整为</string>
     <string name="title_tv_font_size_scale_sec_label">字体</string>
     <string name="title_tv_database_manage">数据库备份/还原</string>
@@ -125,6 +127,7 @@
     <string name="title_progress_restore_photo_successfully">回复图片:\n%1$s\n(%2$s/100)</string>
     <string name="title_progress_adjust_drive_space_successfully">调整GoogleDrive空间...\n(%1$s/100)</string>
     <string name="title_default_currency_symbol">$</string>
+    <string name="title_choose_date_format_dialog">选择一种日期格式</string>
     <string name="title_progress_notif_backup_restore_successfully">[备份/回复]数据库成功</string>
     <string name="title_progress_notif_backup_restore_fail">[备份/回复]数据库失败</string>
     <string name="title_progress_waiting_connect">云端服务连接中，请稍候...</string>
@@ -153,51 +156,6 @@
     <string name="title_grocery_item_barcode">物品条形码</string>
     <string name="priority">无优先权</string>
     <string name="coupon_type">优惠卷种类</string>
-    <string-array name="title_grocery_item_units">
-        <item>个</item>
-        <item>双</item>
-        <item>捆</item>
-        <item>件</item>
-        <item>盒</item>
-        <item>罐</item>
-        <item>串</item>
-        <item>箱</item>
-        <item>条</item>
-        <item>袋</item>
-        <item>包</item>
-        <item>公尺</item>
-        <item>公升</item>
-        <item>公斤</item>
-        <item>瓶</item>
-        <item>吨</item>
-        <item>桶</item>
-        <item>支</item>
-        <item>平方单元</item>
-        <item>码</item>
-        <item>匙</item>
-        <item>汤匙</item>
-        <item>平方</item>
-        <item>片</item>
-        <item>份</item>
-        <item>卷</item>
-        <item>英镑</item>
-        <item>品脱</item>
-        <item>撮</item>
-        <item>盎司</item>
-        <item>毫米</item>
-        <item>毫升</item>
-        <item>毫克</item>
-        <item>英寸</item>
-        <item>把</item>
-        <item>粒</item>
-        <item>加仑</item>
-        <item>英呎</item>
-        <item>滴</item>
-        <item>打</item>
-        <item>杯</item>
-        <item>厘米</item>
-        <item>厘升</item>
-    </string-array>
     <string name="msg_grocery_item_login_error_head">你/妳违反了:\n</string>
     <string name="msg_no_grocery_name">"    -名称尚未输入\n"</string>
     <string name="msg_error_no_spercify_grocery_type">"    -未指定物品种类\n"</string>
@@ -237,12 +195,6 @@
     <string name="title_select_photo_from_camera">拍照</string>
     <string name="title_select_photo_from_album">相簿</string>
     <string name="defalut_date">N/A</string>
-    <string-array name="default_material_type">
-        <item>食物</item>
-        <item>饮料</item>
-        <item>优惠卷</item>
-        <item>化妆品</item>
-    </string-array>
     <string name="title_material_search">请输入搜寻字符串</string>
     <string name="title_menu_head">请选择要执行的动作</string>
     <string name="title_menu_item_add">新增</string>
@@ -308,15 +260,6 @@
     <string name="grocery_login_err_dialog_msg">暂无相关资料，请稍后再试</string>
     <string name="grocery_receipt_barcode_err_dialog_msg">发票资料码有误，请确认后再试一次</string>
     <string name="grocery_login_err_receipt_code_format_incorrect">条码或QR码资料不正确无法识別</string>
-    <string-array name="weekTitle">
-        <item>星期一</item>
-        <item>星期二</item>
-        <item>星期三</item>
-        <item>星期四</item>
-        <item>星期五</item>
-        <item>星期六</item>
-        <item>星期日</item>
-    </string-array>
     <string name="title_checkout_total">总额</string>
     <string name="title_layout_bottom_checkout_total">总额 %1$s %2$s</string>
     <string name="title_item_total">项物品</string>

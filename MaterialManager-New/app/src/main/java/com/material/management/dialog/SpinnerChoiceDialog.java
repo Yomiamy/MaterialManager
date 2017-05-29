@@ -10,14 +10,14 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class MaterialMenuDialog extends AlertDialog.Builder {
+public class SpinnerChoiceDialog extends AlertDialog.Builder {
     private String mTitle;
     private String[] mItems;
     private OnItemClickListener mListener;
     private boolean mIsShown;
     private ListView mListView;
 
-    public MaterialMenuDialog(Context context, String title, String[] items, OnItemClickListener listener) {
+    public SpinnerChoiceDialog(Context context, String title, String[] items, OnItemClickListener listener) {
         super(context, R.style.AlertDialogTheme);
 
         this.mTitle = title;

@@ -163,6 +163,44 @@
 
         <TextView
             style="@style/profile_about_section_title"
+            android:text="@string/title_tv_date_format_label" />
+
+        <LinearLayout
+            style="@style/common_setting_layout_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ll_setting_common_item_layout_margin_left"
+            android:layout_marginRight="@dimen/ll_setting_common_item_layout_margin_right"
+            android:background="@drawable/card_bg"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_date_format_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/title_tv_current_date_format_title_label"
+                android:textColor="@color/settings_title_black"
+                android:textSize="@dimen/font_size_medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_date_format_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/tv_enter_currency_symbol_min_w"
+                android:minHeight="@dimen/tv_enter_currency_symbol_min_h"
+                android:layout_marginLeft="@dimen/tv_enter_currency_symbol_margin_left"
+                android:maxLines="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:textColor="@color/settings_title_black"
+                android:textSize="@dimen/font_size_medium"
+                android:text="yyyy/MM/dd (ex: 2017/01/17)"/>
+        </LinearLayout>
+
+        <TextView
+            style="@style/profile_about_section_title"
             android:text="@string/title_cloud_backup_restore" />
 
         <RelativeLayout
