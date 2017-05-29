@@ -321,7 +321,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
                 mStartDate.set(Calendar.HOUR_OF_DAY, 00);
                 mStartDate.set(Calendar.MINUTE, 00);
                 mStartDate.set(Calendar.SECOND, 00);
-                mBtnStartMonth.setText(Utility.transDateToString(cal.getTime()));
+                mBtnStartMonth.setText(Utility.transDateToString("yyyy-MM-dd", cal.getTime()));
             } else if (mCurPressDateBtnId == R.id.btn_end_month) {
                 /* Set the start date is yyyy-MM-dd 23:59:59 */
                 mEndDate = cal;
@@ -329,7 +329,7 @@ public class GroceryHistoryFragment extends MMFragment implements Observer, OnCh
                 mEndDate.set(Calendar.HOUR_OF_DAY, 23);
                 mEndDate.set(Calendar.MINUTE, 59);
                 mEndDate.set(Calendar.SECOND, 59);
-                mBtnEndMonth.setText(Utility.transDateToString(cal.getTime()));
+                mBtnEndMonth.setText(Utility.transDateToString("yyyy-MM-dd", cal.getTime()));
             }
             mDatePickerDialog = null;
             mCurPressDateBtnId = -1;

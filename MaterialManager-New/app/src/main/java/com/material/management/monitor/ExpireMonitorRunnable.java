@@ -33,7 +33,7 @@ public class ExpireMonitorRunnable implements Runnable {
         for (Material material : materialList) {
             int notificationDays = material.getNotificationDays();
             Calendar validateDate = material.getValidDate();
-            String validateDateStr = Utility.transDateToString(validateDate.getTime());
+            String validateDateStr = Utility.transDateToString("yyyy-MM-dd", validateDate.getTime());
 
             if (validateDate.getTimeInMillis() < todayTimeInMillis) {
                 sNotificationOutput.outNotif(NotificationOutput.NOTIF_CAT_COMMON, material.hashCode(), mContext.getString(R.string.format_expired_msg, material.getName(), validateDateStr), mNotifType, createNotificationBundle(material));

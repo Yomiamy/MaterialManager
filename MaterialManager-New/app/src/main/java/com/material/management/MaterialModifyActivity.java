@@ -176,8 +176,8 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
     private void initOldData() {
         mActMaterialName.setText(mOldMaterial.getName());
         mSpinMaterialCategory.setSelection(((ArrayAdapter<String>) mSpinMaterialCategory.getAdapter()).getPosition(mOldMaterial.getMaterialType()));
-        mTvValidDate.setText(Utility.transDateToString(mValidDate.getTime()));
-        mTvPurchaceDate.setText(Utility.transDateToString(mPurchaceDate.getTime()));
+        mTvValidDate.setText(Utility.transDateToString("yyyy-MM-dd", mValidDate.getTime()));
+        mTvPurchaceDate.setText(Utility.transDateToString("yyyy-MM-dd", mPurchaceDate.getTime()));
         mEtNotificationDays.setText(Integer.toString(mOldMaterial.getNotificationDays()));
         mActMaterialPlace.setText(mOldMaterial.getMaterialPlace());
         mActComment.setText(mOldMaterial.getComment());
@@ -489,8 +489,8 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         defaultBarcodeImg.setBounds(0, 0, defaultBarcodeImg.getIntrinsicWidth(), defaultBarcodeImg.getIntrinsicHeight());
 
         /* set the default time */
-        mTvPurchaceDate.setText(Utility.transDateToString(mPurchaceDate.getTime()));
-        mTvValidDate.setText(Utility.transDateToString(mValidDate.getTime()));
+        mTvPurchaceDate.setText(Utility.transDateToString("yyyy-MM-dd", mPurchaceDate.getTime()));
+        mTvValidDate.setText(Utility.transDateToString("yyyy-MM-dd", mValidDate.getTime()));
         mIvAddPhoto.setImageResource(R.drawable.selector_add_photo_status);
         mActMaterialName.setText("");
         mActMaterialPlace.setText("");
@@ -713,10 +713,10 @@ public class MaterialModifyActivity extends MMActivity implements AdapterView.On
         if (mCurPressDateBtnId >= 0) {
             if (mCurPressDateBtnId == R.id.rl_purchace_date_layout) {
                 mPurchaceDate = cal;
-                mTvPurchaceDate.setText(Utility.transDateToString(cal.getTime()));
+                mTvPurchaceDate.setText(Utility.transDateToString("yyyy-MM-dd", cal.getTime()));
             } else if (mCurPressDateBtnId == R.id.rl_validate_date_layout) {
                 mValidDate = cal;
-                mTvValidDate.setText(Utility.transDateToString(cal.getTime()));
+                mTvValidDate.setText(Utility.transDateToString("yyyy-MM-dd", cal.getTime()));
             }
             mDatePickerDialog = null;
             mCurPressDateBtnId = -1;

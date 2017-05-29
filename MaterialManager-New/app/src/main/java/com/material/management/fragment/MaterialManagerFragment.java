@@ -818,10 +818,10 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
             viewHolder.materialType.setText(Utility.formatMatchedString(item.getMaterialType(), mSearchStr));
             viewHolder.materialType.setSelected(true);
 
-            viewHolder.purchaceDate.setText(Utility.formatMatchedString(Utility.transDateToString(item.getPurchaceDate().getTime()), mSearchStr));
+            viewHolder.purchaceDate.setText(Utility.formatMatchedString(Utility.transDateToString("yyyy-MM-dd", item.getPurchaceDate().getTime()), mSearchStr));
             viewHolder.purchaceDate.setSelected(true);
 
-            viewHolder.validDate.setText(Utility.formatMatchedString(Utility.transDateToString(item.getValidDate().getTime()), mSearchStr));
+            viewHolder.validDate.setText(Utility.formatMatchedString(Utility.transDateToString("yyyy-MM-dd", item.getValidDate().getTime()), mSearchStr));
             viewHolder.validDate.setSelected(true);
 
             viewHolder.place.setText(Utility.formatMatchedString(item.getMaterialPlace(), mSearchStr));
@@ -924,8 +924,8 @@ public class MaterialManagerFragment extends MMFragment implements Observer, Sea
                     type = item.getMaterialType();
                     comment = item.getComment();
                     place = item.getMaterialPlace();
-                    purchDate = Utility.transDateToString(item.getPurchaceDate().getTime());
-                    validDate = Utility.transDateToString(item.getValidDate().getTime());
+                    purchDate = Utility.transDateToString("yyyy-MM-dd", item.getPurchaceDate().getTime());
+                    validDate = Utility.transDateToString("yyyy-MM-dd", item.getValidDate().getTime());
 
                     /* To update the material information after modifying material info */
                     Calendar c1 = Calendar.getInstance();

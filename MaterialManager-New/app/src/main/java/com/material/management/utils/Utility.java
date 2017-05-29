@@ -433,7 +433,7 @@ public class Utility {
 
             return currencySymbol;
         } else if(key.equals(SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL)) {
-            String composedFormat = sSpSettings.getString(key, sActivity.getResources().getStringArray(R.array.date_format_ary)[3]);
+            String composedFormat = sSpSettings.getString(key, sActivity.getResources().getStringArray(R.array.date_format_ary)[0]);
 
             return composedFormat;
         }
