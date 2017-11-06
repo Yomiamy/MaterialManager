@@ -58,9 +58,8 @@ public class LocationTrackService extends Service implements SensorEventListener
             mHandlerThread = new HandlerThread(HANDLER_THREAD_NAME);
 
             mHandlerThread.start();
-
-            mHandler = new Handler(mHandlerThread.getLooper());
         }
+        mHandler = new Handler(mHandlerThread.getLooper());
 
         mLocationManager = (mLocationManager == null) ? (LocationManager) getSystemService(Context.LOCATION_SERVICE) : mLocationManager;
         /* Default we track the location */
@@ -86,7 +85,9 @@ public class LocationTrackService extends Service implements SensorEventListener
     @Override
     public void onDestroy() {
         Utility.release();
-        mHandler.removeCallbacksAndMessages(null);
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     // ACCELEROMETER METHODS
