@@ -28,6 +28,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -62,7 +67,8 @@ dependencies {
         exclude module: 'support-v4'
     }
     compile ('com.github.PhilJay:MPAndroidChart:v2.1.6')
-    compile ('com.google.android.gms:play-services:8.4.0'){
+    compile 'com.google.android.gms:play-services-location:11.0.0'
+    compile ('com.google.android.gms:play-services:11.0.0'){
         exclude module: 'support-v4'
     }
     compile 'com.github.hotchemi:android-rate:1.0.1'
