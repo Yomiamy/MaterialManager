@@ -5,15 +5,19 @@ import com.material.management.R;
 import com.material.management.data.BundleInfo;
 import com.material.management.utils.Utility;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,22 +25,29 @@ import android.text.TextUtils;
 public class NotificationOutput {
     public  static final int NOTIF_CAT_COMMON = 0;
     public  static final int NOTIF_CAT_WITH_GROCERY_LIST_ACTIONS = 1;
+    public static final String CHANNEL_ID = "com.material.management";
+    public static final String CHANNEL_NAME = "com.material.management_channel_name";
 
     private static final int PROGRESS_NOTIFICATION_ID = 0;
     private static final Uri SOUND = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     private static final long[] VIBRATE = {0, 100, 200, 300};
     private static NotificationOutput sNotOutput = null;
 
-    private NotificationManager mNotMgr = null;
     private Context mContext;
     private Resources mRes;
+    private NotificationManager mNotMgr = null;
     private Notification.Builder mProgressNotif = null;
+    private NotificationChannel mNotifChannel;
 
     private NotificationOutput(Context context) {
         mNotMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mContext = context;
         mRes = context.getResources();
         mProgressNotif = new Notification.Builder(mContext);
+
+        if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotifChannel();
+        }
     }
 
     public static void initInstance(Context context) {
@@ -46,6 +57,15 @@ public class NotificationOutput {
 
     public static NotificationOutput getInstance() {
         return sNotOutput;
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    public void createNotifChannel() {
+        mNotifChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_HIGH);
+        mNotifChannel.enableLights(true);
+        mNotifChannel.setLightColor(Color.RED);
+        mNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        mNotMgr.createNotificationChannel(mNotifChannel);
     }
 
     public void outProgress(String msg, int progress, int max) {
@@ -69,7 +89,7 @@ public class NotificationOutput {
         outNotif(notifCat, objId, actionIntent, msg, notifType);
     }
 
-    public void outNotif(int notifCat, int objId, Intent actionIntent, String msg, int notifType) {
+    private void outNotif(int notifCat, int objId, Intent actionIntent, String msg, int notifType) {
         // Clear exist task and create the new one.
         actionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -102,8 +122,8 @@ public class NotificationOutput {
                 .setTicker(msg)
                 .setAutoCancel(true);
 
-        if (VERSION.SDK_INT >= 16) {
-            notifBuilder.setPriority(Notification.PRIORITY_HIGH);
+        if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notifBuilder.setChannelId(CHANNEL_ID);
         }
 
         /*
@@ -117,7 +137,8 @@ public class NotificationOutput {
 
         /* use wake lock to wake up devie */
         Utility.acquire();
-        if (VERSION.SDK_INT >= 16) {
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            notifBuilder.setPriority(Notification.PRIORITY_HIGH);
             mNotMgr.notify(objId, notifBuilder.build());
         } else {
             mNotMgr.notify(objId, notifBuilder.getNotification());

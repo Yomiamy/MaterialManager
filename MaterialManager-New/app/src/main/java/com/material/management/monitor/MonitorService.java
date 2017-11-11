@@ -2,18 +2,27 @@ package com.material.management.monitor;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 
+import com.material.management.service.location.LocationTrackJob;
 import com.material.management.service.location.LocationTrackService;
 import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
+
 import java.util.Calendar;
 
 public class MonitorService extends BroadcastReceiver {
     private static final String DEBUG = "MonitorService";
+
     public enum MonitorType {
         MONITOR_TYPE_EXPIRE_NOITFICATION(0), MONITOR_TYPE_LOCATION_TRACK(1), MONITOR_TYPE_ALL(2);
 
@@ -71,23 +80,23 @@ public class MonitorService extends BroadcastReceiver {
     }
 
     private void doGroceryListNearbyCheck(Context context, Intent intent) {
-        Intent locationTrackIntent = new Intent(context, LocationTrackService.class);
-//        Intent i = new Intent(context, MonitorService.class);
-//        Calendar cal = Calendar.getInstance();
-//        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ComponentName componentName = new ComponentName(context, LocationTrackJob.class);
+            JobInfo.Builder builder = new JobInfo.Builder(1, componentName);
+            JobScheduler tm = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            PersistableBundle bundle = new PersistableBundle();
 
-        locationTrackIntent.putExtra("is_location_track_on", true);
-        context.startService(locationTrackIntent);
-
-//        if (sLocationTrackRepeatIntent != null) {
-//            am.cancel(sLocationTrackRepeatIntent);
-//        }
-//
-//        i.putExtra("monitor_type", MonitorType.MONITOR_TYPE_LOCATION_TRACK.value());
-//        sLocationTrackRepeatIntent = PendingIntent.getBroadcast(Utility.getContext(), MonitorType.MONITOR_TYPE_LOCATION_TRACK.value(), i, PendingIntent.FLAG_CANCEL_CURRENT);
-//
-//        cal.add(Calendar.SECOND, 30);
-//        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sLocationTrackRepeatIntent);
+            tm.cancel(1);
+            bundle.putInt("is_location_track_on", 1);
+            builder.setExtras(bundle);
+            builder.setPersisted(false);
+            builder.setMinimumLatency(0);
+            tm.schedule(builder.build());
+        } else {
+            Intent locationTrackIntent = new Intent(context, LocationTrackService.class);
+            locationTrackIntent.putExtra("is_location_track_on", true);
+            context.startService(locationTrackIntent);
+        }
     }
 
     private void doExpireCheck(Context context, Intent intent) {
