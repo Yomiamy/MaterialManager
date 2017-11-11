@@ -88,7 +88,7 @@ public class Utility {
     public static void setMainActivity(Activity activity) {
         sActivity = activity;
 
-        BitmapUtility.init(sActivity);
+//      BitmapUtility.init(sActivity);
 //      LocationUtility.init(sActivity);
         sLocUtility = LocationUtility.getsInstance();
         sDeviceInfo.setDevice(Build.MANUFACTURER + " " + Build.MODEL);
@@ -106,10 +106,6 @@ public class Utility {
      */
     public static boolean isApplicationInitialized() {
         return sActivity != null && sLocUtility != null && sDeviceInfo != null;
-    }
-
-    public static MainActivity getMainActivity() {
-        return (MainActivity) sActivity;
     }
 
     public static Context getContext() {
@@ -433,7 +429,7 @@ public class Utility {
 
             return currencySymbol;
         } else if(key.equals(SHARE_PREF_KEY_COMPOSED_DATE_FORMAT_SYMBOL)) {
-            String composedFormat = sSpSettings.getString(key, sActivity.getResources().getStringArray(R.array.date_format_ary)[0]);
+            String composedFormat = sSpSettings.getString(key, sApplicationContext.getResources().getStringArray(R.array.date_format_ary)[0]);
 
             return composedFormat;
         }

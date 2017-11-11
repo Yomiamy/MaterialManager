@@ -100,13 +100,13 @@ public class MonitorService extends BroadcastReceiver {
     }
 
     private void doExpireCheck(Context context, Intent intent) {
-     /*
+          /*
            * 0:vibrate
            * 1:sound
            * 0 is default
            *
            * default is notificated per 1 hr.
-            * */
+           * */
         int notifType = Utility.getIntValueForKey(Utility.NOTIF_IS_VIBRATE_SOUND);
         int notifFreq = Utility.getIntValueForKey(Utility.NOTIF_FREQUENCY);
         boolean isImmeditlyTrigger = false;

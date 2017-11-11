@@ -50,42 +50,42 @@ public class BitmapUtility {
         return sInstance;
     }
 
-    public void applyBitmapFromUrl(String url, ImageView imgView, int scaledWidth, int scaledHeight, boolean isKeepOrigin, BitmapCallBack bmpCallBack, BitmapFactory.Options customOptions) {
-        if (url == null || url.isEmpty()) {
-            return;
-        }
-
-        Bitmap bmp = mMemBitmapCache.get(url);
-
-        if (bmp != null && imgView != null) {
-            imgView.setImageBitmap(bmp);
-            if (bmpCallBack != null) {
-                bmpCallBack.postDecodeBmpCallBack(imgView);
-            }
-        } else {
-            BitmapWorkerTask task = new BitmapWorkerTask(url, imgView, scaledWidth, scaledHeight, isKeepOrigin, bmpCallBack, customOptions);
-
-            cancelPotentialWork(url);
-            mUrlTaskMap.put(url, task);
-            if (Build.VERSION.SDK_INT >= 11) {
-                task.executeOnExecutor(Executors.newCachedThreadPool());
-            } else {
-                task.execute();
-            }
-        }
-    }
-
-    public void applyBitmapFromUri(Uri uri, ImageView imgView, int scaledWidth, int scaledHeight, boolean isKeepOrigin, BitmapCallBack bmpCallBack, BitmapFactory.Options customOptions) {
-        try {
-            URI netURI = new URI(uri.toString());
-
-            applyBitmapFromUrl(netURI.toURL().toString(), imgView, scaledWidth, scaledHeight, isKeepOrigin, bmpCallBack, customOptions);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void applyBitmapFromUrl(String url, ImageView imgView, int scaledWidth, int scaledHeight, boolean isKeepOrigin, BitmapCallBack bmpCallBack, BitmapFactory.Options customOptions) {
+//        if (url == null || url.isEmpty()) {
+//            return;
+//        }
+//
+//        Bitmap bmp = mMemBitmapCache.get(url);
+//
+//        if (bmp != null && imgView != null) {
+//            imgView.setImageBitmap(bmp);
+//            if (bmpCallBack != null) {
+//                bmpCallBack.postDecodeBmpCallBack(imgView);
+//            }
+//        } else {
+//            BitmapWorkerTask task = new BitmapWorkerTask(url, imgView, scaledWidth, scaledHeight, isKeepOrigin, bmpCallBack, customOptions);
+//
+//            cancelPotentialWork(url);
+//            mUrlTaskMap.put(url, task);
+//            if (Build.VERSION.SDK_INT >= 11) {
+//                task.executeOnExecutor(Executors.newCachedThreadPool());
+//            } else {
+//                task.execute();
+//            }
+//        }
+//    }
+//
+//    public void applyBitmapFromUri(Uri uri, ImageView imgView, int scaledWidth, int scaledHeight, boolean isKeepOrigin, BitmapCallBack bmpCallBack, BitmapFactory.Options customOptions) {
+//        try {
+//            URI netURI = new URI(uri.toString());
+//
+//            applyBitmapFromUrl(netURI.toURL().toString(), imgView, scaledWidth, scaledHeight, isKeepOrigin, bmpCallBack, customOptions);
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /* It decode the bitmap retrieved from url and apply it to the imageview
     *
@@ -94,9 +94,9 @@ public class BitmapUtility {
     * isKeepOrigin: whether or not scale the width and height to original.
     *
     * */
-    public void applyBitmapFromUrl(String url, ImageView imgView, boolean isKeepOrigin) {
-        applyBitmapFromUrl(url, imgView, -1, -1, isKeepOrigin, null, null);
-    }
+//    public void applyBitmapFromUrl(String url, ImageView imgView, boolean isKeepOrigin) {
+//        applyBitmapFromUrl(url, imgView, -1, -1, isKeepOrigin, null, null);
+//    }
 
     /* It decode the bitmap retrieved from url and apply it to the imageview
     *
@@ -104,30 +104,9 @@ public class BitmapUtility {
     * imgView: the ImageView that you want to set up bitmap asynchronously.
     *
     * */
-    public void applyBitmapFromUrl(String url, ImageView imgView) {
-        applyBitmapFromUrl(url, imgView, -1, -1, false, null, null);
-    }
-
-    /* It decode the bitmap retrieved from url and apply it to the imageview
-    *
-    * url: the imgView want to apply, it's got from server and as a cache key
-    * imgView: the ImageView that you want to set up bitmap asynchronously.
-    * scaledWidth: the bitmap's width that you want to apply. .
-    * scaledHeight: the bitmap's height that you want to apply.
-    * */
-    public void applyBitmapFromUrl(String url, ImageView imgView, int scaledWidth, int scaledHeight) {
-        applyBitmapFromUrl(url, imgView, scaledWidth, scaledHeight, false, null, null);
-    }
-
-    /* It decode the bitmap retrieved from url and apply it to the imageview
-    *
-    * url: the imgView want to apply, it's got from server and as a cache key
-    * imgView: the ImageView that you want to set up bitmap asynchronously.
-    *
-    * */
-    public void applyBitmapFromUri(Uri uri, ImageView imgView) {
-        applyBitmapFromUri(uri, imgView, -1, -1, false, null, null);
-    }
+//    public void applyBitmapFromUrl(String url, ImageView imgView) {
+//        applyBitmapFromUrl(url, imgView, -1, -1, false, null, null);
+//    }
 
     /* It decode the bitmap retrieved from url and apply it to the imageview
     *
@@ -136,9 +115,30 @@ public class BitmapUtility {
     * scaledWidth: the bitmap's width that you want to apply. .
     * scaledHeight: the bitmap's height that you want to apply.
     * */
-    public void applyBitmapFromUri(Uri uri, ImageView imgView, int scaledWidth, int scaledHeight) {
-        applyBitmapFromUri(uri, imgView, scaledWidth, scaledHeight, false, null, null);
-    }
+//    public void applyBitmapFromUrl(String url, ImageView imgView, int scaledWidth, int scaledHeight) {
+//        applyBitmapFromUrl(url, imgView, scaledWidth, scaledHeight, false, null, null);
+//    }
+
+    /* It decode the bitmap retrieved from url and apply it to the imageview
+    *
+    * url: the imgView want to apply, it's got from server and as a cache key
+    * imgView: the ImageView that you want to set up bitmap asynchronously.
+    *
+    * */
+//    public void applyBitmapFromUri(Uri uri, ImageView imgView) {
+//        applyBitmapFromUri(uri, imgView, -1, -1, false, null, null);
+//    }
+
+    /* It decode the bitmap retrieved from url and apply it to the imageview
+    *
+    * url: the imgView want to apply, it's got from server and as a cache key
+    * imgView: the ImageView that you want to set up bitmap asynchronously.
+    * scaledWidth: the bitmap's width that you want to apply. .
+    * scaledHeight: the bitmap's height that you want to apply.
+    * */
+//    public void applyBitmapFromUri(Uri uri, ImageView imgView, int scaledWidth, int scaledHeight) {
+//        applyBitmapFromUri(uri, imgView, scaledWidth, scaledHeight, false, null, null);
+//    }
 
     private void cancelPotentialWork(String url) {
         BitmapWorkerTask task = mUrlTaskMap.get(url);
