@@ -26,10 +26,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -45,12 +47,14 @@ import com.material.management.utils.LogUtility;
 import com.material.management.utils.Utility;
 import com.picasso.Callback;
 import com.picasso.Picasso;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +62,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 
-public class StoreMapActivity extends MMActivity implements FragmentManager.OnBackStackChangedListener {
+public class StoreMapActivity extends MMActivity implements FragmentManager.OnBackStackChangedListener, OnMapReadyCallback {
     // if zoom level is bigger than DEFAULT_ZOOM_LEVEL, modify google map camera zoom level to DEFAULT_ZOOM_LEVEL
     private final static int DEFAULT_ZOOM_LEVEL = 16;
     private final static int CAMERA_BOUNDS_PADDING = 80;
@@ -142,8 +146,8 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         Utility.changeHomeAsUp(this, R.drawable.ic_ab_back_holo_dark_am);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(title);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
         }
 
         EventBus.getDefault().register(this);
@@ -304,10 +308,10 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BroadCastEvent event) {
-        if(event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_LOC_UPDATE) {
+        if (event.getEventType() == BroadCastEvent.BROADCAST_EVENT_TYPE_LOC_UPDATE) {
             Location loc = (Location) event.getData();
 
-            if(loc != null) {
+            if (loc != null) {
                 doSearch(mCurSearchWord, loc);
             } else {
                 closeProgressDialog();
@@ -344,7 +348,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
         mRlOnLoading.setVisibility(View.VISIBLE);
         mCurLocation = (loc == null) ? LocationUtility.getsInstance().getLocation() : loc;
 
-        if(mCurLocation == null) {
+        if (mCurLocation == null) {
             closeProgressDialog();
             showAlertDialog(null, getString(R.string.store_map_msg_err_location_useless), getString(R.string.title_positive_btn_label), null, null, null, null);
             return;
@@ -362,8 +366,12 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
     }
 
     private void initMapMarker() {
-        mGoogleMap = mMapFragment.getMap();
+        mMapFragment.getMapAsync(this);
+    }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
         mGoogleMap.clear();
 
         LatLng curLatLng = new LatLng(mCurLocation.getLatitude(), mCurLocation.getLongitude());
@@ -641,7 +649,7 @@ public class StoreMapActivity extends MMActivity implements FragmentManager.OnBa
                                 JSONObject openJsonObj = dayJsonObj.has("open") ? dayJsonObj.getJSONObject("open") : null;
                                 JSONObject closeJsonObj = dayJsonObj.has("close") ? dayJsonObj.getJSONObject("close") : null;
                                 String openTime = (openJsonObj == null) ? Integer.toString(-1) : openJsonObj.getString("time");
-                                String closeTime = (closeJsonObj == null) ? Integer.toString(-1): closeJsonObj.getString("time");
+                                String closeTime = (closeJsonObj == null) ? Integer.toString(-1) : closeJsonObj.getString("time");
 
                                 /* FORMAT : [DAY1]#[open-time],[close-time]|[DAY2]#[open-time],[close-time]...*/
                                 String day = openJsonObj.getString("day") + "#";
