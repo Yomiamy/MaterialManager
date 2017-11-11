@@ -300,12 +300,18 @@
         <service
             android:name=".service.location.LocationTrackService"
             android:exported="false"
-            android:process=":remote"></service>
+            android:process=":remote"/>
 
+        <service
+            android:name=".service.location.LocationTrackJob"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"
+            android:process=":remote"/>
+        
         <service
             android:name=".service.DropboxCloudService"
             android:exported="false"
-            android:process=":remote"></service>
+            android:process=":remote"/>
 
         <service
             android:name=".utils.openudid.OpenUDID_service"
