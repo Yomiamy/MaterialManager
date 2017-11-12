@@ -105,7 +105,6 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
             return;
         }
 
-        Log.d("randy", "onSensorChanged");
         mAccelReadings++;
         double x = event.values[0];
         double y = event.values[1];
@@ -145,7 +144,6 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
         /*
         /* So always store network/cell location, but only the first since accuracy will be quite low
          */
-        Log.d("randy", "onLocationChanged");
         /*
          * What's our accuracy cutoff?
          * Keep polling if our accuracy is worse than 30 meter
@@ -254,11 +252,9 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
                 mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
                         .addOnSuccessListener(locationSettingsResponse -> {
                             //noinspection MissingPermission
-                            Log.d("randy", "Location settings success");
                             mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, LocationTrackTask.this, mHandlerThread.getLooper());
                         })
                         .addOnFailureListener(e -> {
-                            Log.d("randy", "Location settings failure");
                             e.printStackTrace();
                         });
             }
