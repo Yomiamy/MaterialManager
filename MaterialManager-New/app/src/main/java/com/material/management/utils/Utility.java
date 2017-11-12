@@ -88,8 +88,8 @@ public class Utility {
     public static void setMainActivity(Activity activity) {
         sActivity = activity;
 
-//      BitmapUtility.init(sActivity);
 //      LocationUtility.init(sActivity);
+        BitmapUtility.init(sApplicationContext);
         sLocUtility = LocationUtility.getsInstance();
         sDeviceInfo.setDevice(Build.MANUFACTURER + " " + Build.MODEL);
         sDeviceInfo.setPlatformVersion("Android " + Build.VERSION.RELEASE);
