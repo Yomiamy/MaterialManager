@@ -5,18 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.material.management.utils.BitmapUtility;
-import com.material.management.utils.FileUtility;
+import com.material.management.presenter.CameraCapturePresenter;
 import com.otaliastudios.cameraview.CameraListener;
-import com.otaliastudios.cameraview.CameraUtils;
 import com.otaliastudios.cameraview.CameraView;
 
 public class CameraActivity extends MMActivity {
 
-    private static final int DECODED_BITMAP_MAX_H = 1000;
-    private static final int DECODED_BITMAP_MAX_W = 1000;
-
     private CameraView mCvCameraView;
+    private CameraCapturePresenter mPresenter = new CameraCapturePresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,27 +25,18 @@ public class CameraActivity extends MMActivity {
         initListener();
     }
 
+    private void initView() {
+        mCvCameraView = findViewById(R.id.cv_camera_view);
+    }
+
     private void initListener() {
         mCvCameraView.addCameraListener(new CameraListener() {
             @Override
             public void onPictureTaken(byte[] jpeg) {
                 super.onPictureTaken(jpeg);
-                CameraUtils.decodeBitmap(jpeg, DECODED_BITMAP_MAX_W, DECODED_BITMAP_MAX_H, bitmap -> {
-                    showProgressDialog(null, mResources.getString(R.string.title_photo_write_progress));
-                    new Thread(() -> {
-                        BitmapUtility.getInstance().writeBitmapToFile(bitmap, FileUtility.TEMP_PHOTO_FILE, "jpg");
-                        closeProgressDialog();
-                        setResult(RESULT_OK);
-                        finish();
-                    }).start();
-                });
+                mPresenter.onPictureTakened(jpeg);
             }
         });
-    }
-
-
-    private void initView() {
-        mCvCameraView = findViewById(R.id.cv_camera_view);
     }
 
     public void onCapturePhotoClick(View view) {
@@ -58,6 +45,11 @@ public class CameraActivity extends MMActivity {
 
     public void onToggleCameraClick(View view) {
         mCvCameraView.toggleFacing();
+    }
+
+    public void onPictureTakenFinish() {
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
