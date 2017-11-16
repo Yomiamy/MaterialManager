@@ -15,3 +15,36 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# picasso
+-dontwarn com.squareup.picasso.**
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.** { *; }
+-keep interface com.squareup.** { *; }
+
+# apache
+-dontwarn org.apache.**
+-keep class org.apache.** { *; }
+-keep interface org.apache.** { *; }
+-keep enum org.apache.** { *; }
+
+# ok
+-dontwarn okio.**
+
+# eventbus
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+# Fabric configuration
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
