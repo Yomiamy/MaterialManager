@@ -36,9 +36,9 @@
             android:id="@+id/ib_capture_photo"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:padding="15dp"
             android:background="@drawable/background"
-            android:src="@drawable/ic_photo"
+            android:padding="@dimen/iv_camera_op_btn_padding"
+            android:src="@drawable/selector_camera_capture_photo"
             android:onClick="onCapturePhotoClick"/>
 
         <View
@@ -49,9 +49,9 @@
             android:id="@+id/ib_toggle_camera"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:padding="15dp"
             android:background="@drawable/background"
-            android:src="@drawable/ic_switch"
+            android:padding="@dimen/iv_camera_op_btn_padding"
+            android:src="@drawable/selector_camera_switch"
             android:onClick="onToggleCameraClick"/>
     </LinearLayout>
 

@@ -213,7 +213,7 @@
     <!-- activity_camera_layout -->
     <dimen name="iv_camera_op_btn_h">40dp</dimen>
     <dimen name="iv_camera_op_btn_margin">10dp</dimen>
-    <dimen name="iv_camera_op_btn_padding">5dp</dimen>
+    <dimen name="iv_camera_op_btn_padding">15dp</dimen>
 
     <!-- view_search_info_dialog -->
     <dimen name="dialog_userinfo_main_width">300dp</dimen>
