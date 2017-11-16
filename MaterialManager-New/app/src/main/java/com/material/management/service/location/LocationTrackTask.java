@@ -70,10 +70,13 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
             Utility.release();
             sleepAndRestart();
         };
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(mCtx);
-        mSettingsClient = LocationServices.getSettingsClient(mCtx);
-        createLocationRequest();
-        buildLocationSettingsRequest();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(mCtx);
+            mSettingsClient = LocationServices.getSettingsClient(mCtx);
+            createLocationRequest();
+            buildLocationSettingsRequest();
+        }
 
         stopGPS();
         startAccelerometer();
@@ -83,8 +86,10 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
         Utility.release();
         mHandler.removeCallbacksAndMessages(null);
         mLocationManager.removeUpdates(this);
-        mFusedLocationProviderClient.removeLocationUpdates(this);
         mSensorManager.unregisterListener(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mFusedLocationProviderClient.removeLocationUpdates(this);
+        }
     }
 
     // ACCELEROMETER METHODS
@@ -173,10 +178,10 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
         // inexact. You may not receive updates at all if no location sources are available, or
         // you may receive them slower than requested. You may also receive updates faster than
         // requested if other applications are requesting location at a faster interval.
-        mLocationRequest.setInterval(10000);
+        mLocationRequest.setInterval(20000);
         // Sets the fastest rate for active location updates. This interval is exact, and your
         // application will never receive updates faster than this value.
-        mLocationRequest.setFastestInterval(10000);
+        mLocationRequest.setFastestInterval(15000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -214,10 +219,10 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
 
         // If it's a provider we care about, and we're listening, listen!
         if (provider == LocationManager.GPS_PROVIDER) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
         }
         if (provider == LocationManager.NETWORK_PROVIDER) {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0, this);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, this);
         }
     }
 
@@ -234,10 +239,10 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
 
         // If it's a provider we care about, and we're listening, listen!
         if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
         }
         if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0, this);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, this);
         }
     }
 
@@ -264,11 +269,11 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
                     || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && mCtx.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
                 // Make sure at least one provider is available
                 if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
                     iProviders++;
                 }
                 if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, this);
                     iProviders++;
                 }
             }
@@ -286,7 +291,9 @@ public class LocationTrackTask extends LocationCallback implements SensorEventLi
     }
 
     public void stopGPS() {
-        mFusedLocationProviderClient.removeLocationUpdates(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mFusedLocationProviderClient.removeLocationUpdates(this);
+        }
         mHandler.removeCallbacks(mReasonTimeoutRunnable);
         mLocationManager.removeUpdates(this);
     }
