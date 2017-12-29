@@ -93,7 +93,7 @@ public class MMFragment extends Fragment implements ViewCallbackListener, View.O
     }
 
     public void closeProgressDialog() {
-        if (mProgressDialog != null) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
