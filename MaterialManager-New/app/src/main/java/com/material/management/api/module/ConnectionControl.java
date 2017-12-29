@@ -24,7 +24,7 @@ public class ConnectionControl {
     public static final String PLACE_NEARBY_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
     public static final String PLACE_DETAIL_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/details/json?";
     public static final String PLACE_PHOTO_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/photo?";
-    public static final String TW_RECEIPT_INFO_URL = "https://www.einvoice.nat.gov.tw/PB2CAPIVAN/invapp/InvApp";
+    public static final String TW_RECEIPT_INFO_URL = "https://api.einvoice.nat.gov.tw//PB2CAPIVAN/invapp/InvApp";
 
     private static final int REQUEST_TIME_OUT = 30000;
 
