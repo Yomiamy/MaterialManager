@@ -25,7 +25,8 @@ import android.text.TextUtils;
 public class NotificationOutput {
     public  static final int NOTIF_CAT_COMMON = 0;
     public  static final int NOTIF_CAT_WITH_GROCERY_LIST_ACTIONS = 1;
-    public static final String CHANNEL_ID = "com.material.management";
+    public static final String GENERIC_CHANNEL_ID = "com.material.management";
+    public static final String PROGRESS_CHANNEL_ID = "com.material.management-progress";
     public static final String CHANNEL_NAME = "com.material.management_channel_name";
 
     private static final int PROGRESS_NOTIFICATION_ID = 0;
@@ -37,7 +38,6 @@ public class NotificationOutput {
     private Resources mRes;
     private NotificationManager mNotMgr = null;
     private Notification.Builder mProgressNotif = null;
-    private NotificationChannel mNotifChannel;
 
     private NotificationOutput(Context context) {
         mNotMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -61,11 +61,17 @@ public class NotificationOutput {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void createNotifChannel() {
-        mNotifChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_HIGH);
-        mNotifChannel.enableLights(true);
-        mNotifChannel.setLightColor(Color.RED);
-        mNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        mNotMgr.createNotificationChannel(mNotifChannel);
+        NotificationChannel genericNotifChannel = new NotificationChannel(GENERIC_CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_HIGH);
+        genericNotifChannel.enableLights(true);
+        genericNotifChannel.setLightColor(Color.RED);
+        genericNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        mNotMgr.createNotificationChannel(genericNotifChannel);
+
+        NotificationChannel progressNotifChannel = new NotificationChannel(PROGRESS_CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_DEFAULT);
+        progressNotifChannel.enableLights(true);
+        progressNotifChannel.setLightColor(Color.RED);
+        progressNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        mNotMgr.createNotificationChannel(progressNotifChannel);
     }
 
     public void outProgress(String msg, int progress, int max) {
@@ -73,6 +79,10 @@ public class NotificationOutput {
         mProgressNotif.setContentTitle(Utility.getContext().getString(R.string.app_name));
         mProgressNotif.setContentText(msg);
         mProgressNotif.setProgress(max, progress, false);
+
+        if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mProgressNotif.setChannelId(PROGRESS_CHANNEL_ID);
+        }
 
         if (VERSION.SDK_INT >= 16) {
             mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotif.build());
@@ -123,7 +133,7 @@ public class NotificationOutput {
                 .setAutoCancel(true);
 
         if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notifBuilder.setChannelId(CHANNEL_ID);
+            notifBuilder.setChannelId(GENERIC_CHANNEL_ID);
         }
 
         /*
