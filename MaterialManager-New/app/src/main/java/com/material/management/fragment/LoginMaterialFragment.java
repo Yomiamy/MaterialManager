@@ -400,22 +400,22 @@ public class LoginMaterialFragment extends MMFragment implements Observer, OnIte
         boolean isAllow = true;
 
         if (materialType.isEmpty()
-                || materialType.equals(this.getResources().getString(R.string.item_spinner_del))) {
-            msg.append(mOwnerActivity.getString(R.string.msg_error_no_spercify_material_type));
+                || materialType.equals(mResources.getString(R.string.item_spinner_del))) {
+            msg.append(mResources.getString(R.string.msg_error_no_spercify_material_type));
             isAllow = isAllow && false;
         }
         if (material.getPurchaceDate().after(material.getValidDate())) {
-            msg.append(mOwnerActivity.getString(R.string.msg_error_no_correct_valid_date));
+            msg.append(mResources.getString(R.string.msg_error_no_correct_valid_date));
             isAllow = isAllow && false;
         }
 
         if (materialName.isEmpty()) {
-            msg.append(mOwnerActivity.getString(R.string.msg_error_no_material_name));
+            msg.append(mResources.getString(R.string.msg_error_no_material_name));
             isAllow = isAllow && false;
         }
 
         if (sMaterialNameErrorPattern.matcher(materialName).matches()) {
-            msg.append(mOwnerActivity.getString(R.string.msg_error_special_material_naming));
+            msg.append(mResources.getString(R.string.msg_error_special_material_naming));
             isAllow = isAllow && false;
         }
 
