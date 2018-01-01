@@ -37,14 +37,15 @@ public class NotificationOutput {
     private Context mContext;
     private Resources mRes;
     private NotificationManager mNotMgr = null;
-    private Notification.Builder mProgressNotif = null;
+    private Notification.Builder mProgressNotifBuilder = null;
 
     private NotificationOutput(Context context) {
         mNotMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mContext = context;
         mRes = context.getResources();
-        mProgressNotif = new Notification.Builder(mContext);
+        mProgressNotifBuilder = new Notification.Builder(mContext);
 
+        mProgressNotifBuilder.setOnlyAlertOnce(true);
         if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotifChannel();
         }
@@ -72,22 +73,19 @@ public class NotificationOutput {
         progressNotifChannel.setLightColor(Color.RED);
         progressNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         mNotMgr.createNotificationChannel(progressNotifChannel);
+        mProgressNotifBuilder.setChannelId(PROGRESS_CHANNEL_ID);
     }
 
     public void outProgress(String msg, int progress, int max) {
-        mProgressNotif.setSmallIcon(R.drawable.ic_launcher);
-        mProgressNotif.setContentTitle(Utility.getContext().getString(R.string.app_name));
-        mProgressNotif.setContentText(msg);
-        mProgressNotif.setProgress(max, progress, false);
-
-        if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mProgressNotif.setChannelId(PROGRESS_CHANNEL_ID);
-        }
+        mProgressNotifBuilder.setSmallIcon(R.drawable.ic_launcher);
+        mProgressNotifBuilder.setContentTitle(Utility.getContext().getString(R.string.app_name));
+        mProgressNotifBuilder.setContentText(msg);
+        mProgressNotifBuilder.setProgress(max, progress, false);
 
         if (VERSION.SDK_INT >= 16) {
-            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotif.build());
+            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotifBuilder.build());
         } else {
-            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotif.getNotification());
+            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotifBuilder.getNotification());
         }
     }
 
