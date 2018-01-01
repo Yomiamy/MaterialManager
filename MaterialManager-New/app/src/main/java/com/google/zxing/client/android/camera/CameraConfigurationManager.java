@@ -96,6 +96,8 @@ final class CameraConfigurationManager {
 
     setBestPreviewFPS(parameters);
 
+    camera.setDisplayOrientation(90);
+
     String focusMode = null;
     if (prefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true)) {
       if (safeMode || prefs.getBoolean(PreferencesActivity.KEY_DISABLE_CONTINUOUS_FOCUS, true)) {

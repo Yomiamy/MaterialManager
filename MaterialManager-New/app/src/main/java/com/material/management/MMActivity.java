@@ -108,7 +108,7 @@ public class MMActivity extends Activity implements ViewCallbackListener, View.O
     }
 
     public void closeProgressDialog() {
-        if (mProgressDialog != null) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mHandler.post(() -> mProgressDialog.dismiss());
         }
     }
