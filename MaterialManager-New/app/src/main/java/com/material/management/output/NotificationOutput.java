@@ -25,7 +25,8 @@ import android.text.TextUtils;
 public class NotificationOutput {
     public  static final int NOTIF_CAT_COMMON = 0;
     public  static final int NOTIF_CAT_WITH_GROCERY_LIST_ACTIONS = 1;
-    public static final String CHANNEL_ID = "com.material.management";
+    public static final String GENERIC_CHANNEL_ID = "com.material.management";
+    public static final String PROGRESS_CHANNEL_ID = "com.material.management-progress";
     public static final String CHANNEL_NAME = "com.material.management_channel_name";
 
     private static final int PROGRESS_NOTIFICATION_ID = 0;
@@ -36,15 +37,15 @@ public class NotificationOutput {
     private Context mContext;
     private Resources mRes;
     private NotificationManager mNotMgr = null;
-    private Notification.Builder mProgressNotif = null;
-    private NotificationChannel mNotifChannel;
+    private Notification.Builder mProgressNotifBuilder = null;
 
     private NotificationOutput(Context context) {
         mNotMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mContext = context;
         mRes = context.getResources();
-        mProgressNotif = new Notification.Builder(mContext);
+        mProgressNotifBuilder = new Notification.Builder(mContext);
 
+        mProgressNotifBuilder.setOnlyAlertOnce(true);
         if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotifChannel();
         }
@@ -61,23 +62,30 @@ public class NotificationOutput {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void createNotifChannel() {
-        mNotifChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_HIGH);
-        mNotifChannel.enableLights(true);
-        mNotifChannel.setLightColor(Color.RED);
-        mNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        mNotMgr.createNotificationChannel(mNotifChannel);
+        NotificationChannel genericNotifChannel = new NotificationChannel(GENERIC_CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_HIGH);
+        genericNotifChannel.enableLights(true);
+        genericNotifChannel.setLightColor(Color.RED);
+        genericNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        mNotMgr.createNotificationChannel(genericNotifChannel);
+
+        NotificationChannel progressNotifChannel = new NotificationChannel(PROGRESS_CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_DEFAULT);
+        progressNotifChannel.enableLights(true);
+        progressNotifChannel.setLightColor(Color.RED);
+        progressNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        mNotMgr.createNotificationChannel(progressNotifChannel);
+        mProgressNotifBuilder.setChannelId(PROGRESS_CHANNEL_ID);
     }
 
     public void outProgress(String msg, int progress, int max) {
-        mProgressNotif.setSmallIcon(R.drawable.ic_launcher);
-        mProgressNotif.setContentTitle(Utility.getContext().getString(R.string.app_name));
-        mProgressNotif.setContentText(msg);
-        mProgressNotif.setProgress(max, progress, false);
+        mProgressNotifBuilder.setSmallIcon(R.drawable.ic_launcher);
+        mProgressNotifBuilder.setContentTitle(Utility.getContext().getString(R.string.app_name));
+        mProgressNotifBuilder.setContentText(msg);
+        mProgressNotifBuilder.setProgress(max, progress, false);
 
         if (VERSION.SDK_INT >= 16) {
-            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotif.build());
+            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotifBuilder.build());
         } else {
-            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotif.getNotification());
+            mNotMgr.notify(PROGRESS_NOTIFICATION_ID, mProgressNotifBuilder.getNotification());
         }
     }
 
@@ -123,7 +131,7 @@ public class NotificationOutput {
                 .setAutoCancel(true);
 
         if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notifBuilder.setChannelId(CHANNEL_ID);
+            notifBuilder.setChannelId(GENERIC_CHANNEL_ID);
         }
 
         /*
