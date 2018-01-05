@@ -23,6 +23,7 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import static android.os.VibrationEffect.DEFAULT_AMPLITUDE;
@@ -137,6 +138,7 @@ public class NotificationOutput {
                 .setLargeIcon(BitmapFactory.decodeResource(mRes, R.drawable.ic_launcher))
                 .setContentIntent(contentIntent)
                 .setTicker(msg)
+                .setColor(ContextCompat.getColor(mContext, R.color.yellow))
                 .setDefaults(notifType == 0 ? Notification.DEFAULT_VIBRATE : Notification.DEFAULT_SOUND)
                 .setAutoCancel(true);
         Ringtone r = null;
