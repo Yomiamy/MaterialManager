@@ -119,6 +119,10 @@ public class FileUtility {
     }
 
     public static void clearAppDriveData(GoogleApiClient apiClient, Observer observ) {
+        if (apiClient == null || !apiClient.isConnected()) {
+            return;
+        }
+
         DriveFolder appFolder = Drive.DriveApi.getAppFolder(apiClient);
         /* Clear all app data for avoiding the duplicate when uploading files.*/
         DriveApi.MetadataBufferResult mbr = appFolder.listChildren(apiClient).await();
