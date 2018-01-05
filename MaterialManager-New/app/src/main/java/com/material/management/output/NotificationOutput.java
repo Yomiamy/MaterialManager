@@ -13,6 +13,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -20,14 +21,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.TextUtils;
+
+import static android.os.VibrationEffect.DEFAULT_AMPLITUDE;
 
 public class NotificationOutput {
     public  static final int NOTIF_CAT_COMMON = 0;
     public  static final int NOTIF_CAT_WITH_GROCERY_LIST_ACTIONS = 1;
     public static final String GENERIC_CHANNEL_ID = "com.material.management";
     public static final String PROGRESS_CHANNEL_ID = "com.material.management-progress";
-    public static final String CHANNEL_NAME = "com.material.management_channel_name";
 
     private static final int PROGRESS_NOTIFICATION_ID = 0;
     private static final Uri SOUND = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -38,6 +42,7 @@ public class NotificationOutput {
     private Resources mRes;
     private NotificationManager mNotMgr = null;
     private Notification.Builder mProgressNotifBuilder = null;
+    private NotificationChannel mGenericNotifChannel;
 
     private NotificationOutput(Context context) {
         mNotMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -62,13 +67,14 @@ public class NotificationOutput {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void createNotifChannel() {
-        NotificationChannel genericNotifChannel = new NotificationChannel(GENERIC_CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_HIGH);
-        genericNotifChannel.enableLights(true);
-        genericNotifChannel.setLightColor(Color.RED);
-        genericNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        mNotMgr.createNotificationChannel(genericNotifChannel);
+        mGenericNotifChannel = new NotificationChannel(GENERIC_CHANNEL_ID, GENERIC_CHANNEL_ID, mNotMgr.IMPORTANCE_HIGH);
+        mGenericNotifChannel.enableLights(true);
+        mGenericNotifChannel.setLightColor(Color.RED);
+        mGenericNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        mGenericNotifChannel.setImportance(NotificationManager.IMPORTANCE_LOW);
+        mNotMgr.createNotificationChannel(mGenericNotifChannel);
 
-        NotificationChannel progressNotifChannel = new NotificationChannel(PROGRESS_CHANNEL_ID, CHANNEL_NAME, mNotMgr.IMPORTANCE_DEFAULT);
+        NotificationChannel progressNotifChannel = new NotificationChannel(PROGRESS_CHANNEL_ID, PROGRESS_CHANNEL_ID, mNotMgr.IMPORTANCE_DEFAULT);
         progressNotifChannel.enableLights(true);
         progressNotifChannel.setLightColor(Color.RED);
         progressNotifChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
@@ -78,7 +84,7 @@ public class NotificationOutput {
 
     public void outProgress(String msg, int progress, int max) {
         mProgressNotifBuilder.setSmallIcon(R.drawable.ic_launcher);
-        mProgressNotifBuilder.setContentTitle(Utility.getContext().getString(R.string.app_name));
+        mProgressNotifBuilder.setContentTitle(mRes.getString(R.string.app_name));
         mProgressNotifBuilder.setContentText(msg);
         mProgressNotifBuilder.setProgress(max, progress, false);
 
@@ -104,7 +110,6 @@ public class NotificationOutput {
         // Start initialize the PendingIntent for notificaiton.
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, objId, actionIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        Ringtone r = null;
         Notification.Builder notifBuilder = new Notification.Builder(mContext);
 
         if (notifCat == NOTIF_CAT_WITH_GROCERY_LIST_ACTIONS && VERSION.SDK_INT >= 16) {
@@ -123,37 +128,51 @@ public class NotificationOutput {
             }
         }
 
-        notifBuilder.setContentTitle(mContext.getString(R.string.app_name))
-                .setContentText(msg)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(contentIntent)
-                .setTicker(msg)
-                .setAutoCancel(true);
-
-        if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notifBuilder.setChannelId(GENERIC_CHANNEL_ID);
-        }
-
         /*
          * 0: Vibrate 1: Sound
          */
-        if (notifType == 0) {
-            notifBuilder.setVibrate(VIBRATE);
-        } else {
-            r = RingtoneManager.getRingtone(Utility.getContext(), SOUND);
+        notifBuilder.setContentTitle(mRes.getString(R.string.app_name))
+                .setContentText(msg)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(mRes, R.drawable.ic_launcher))
+                .setContentIntent(contentIntent)
+                .setTicker(msg)
+                .setDefaults(notifType == 0 ? Notification.DEFAULT_VIBRATE : Notification.DEFAULT_SOUND)
+                .setAutoCancel(true);
+        Ringtone r = null;
+        Vibrator v = null;
+
+        /* Set heads-up settings */
+        if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            r = (notifType == 1) ? RingtoneManager.getRingtone(Utility.getContext(), SOUND) : null;
+            v = (notifType == 0) ? (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE) : null;
+
+            notifBuilder.setChannelId(GENERIC_CHANNEL_ID);
+        }
+
+        /* Set heads-up settings */
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            notifBuilder.setPriority(Notification.PRIORITY_HIGH);
         }
 
         /* use wake lock to wake up devie */
         Utility.acquire();
+
         if (VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             notifBuilder.setPriority(Notification.PRIORITY_HIGH);
             mNotMgr.notify(objId, notifBuilder.build());
         } else {
             mNotMgr.notify(objId, notifBuilder.getNotification());
         }
-        if (r != null && notifType == 1) {
+
+        if (r != null) {
             r.play();
         }
+
+        if (v != null) {
+            v.vibrate(VibrationEffect.createWaveform(VIBRATE, -1));
+        }
+
         /* release wake lock to wake up devie */
         Utility.release();
     }
