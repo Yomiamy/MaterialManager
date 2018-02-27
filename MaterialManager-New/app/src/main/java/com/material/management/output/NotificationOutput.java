@@ -156,10 +156,6 @@ public class NotificationOutput {
             notifBuilder.setChannelId(GENERIC_CHANNEL_ID);
         }
 
-        /* Set heads-up settings */
-        if (VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            notifBuilder.setPriority(Notification.PRIORITY_HIGH);
-        }
 
         /* use wake lock to wake up devie */
         Utility.acquire();
