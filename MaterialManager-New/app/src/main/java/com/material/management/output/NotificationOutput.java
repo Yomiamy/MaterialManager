@@ -138,12 +138,16 @@ public class NotificationOutput {
                 .setLargeIcon(BitmapFactory.decodeResource(mRes, R.drawable.ic_launcher))
                 .setContentIntent(contentIntent)
                 .setTicker(msg)
-                .setColor(ContextCompat.getColor(mContext, R.color.yellow))
                 .setDefaults(notifType == 0 ? Notification.DEFAULT_VIBRATE : Notification.DEFAULT_SOUND)
                 .setAutoCancel(true);
         Ringtone r = null;
         Vibrator v = null;
 
+        if(VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notifBuilder.setColor(ContextCompat.getColor(mContext, R.color.yellow));
+        }
+
+        
         /* Set heads-up settings */
         if(VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             r = (notifType == 1) ? RingtoneManager.getRingtone(Utility.getContext(), SOUND) : null;
